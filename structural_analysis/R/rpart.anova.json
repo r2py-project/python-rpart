@@ -1,0 +1,7 @@
+{
+  "rpart.anova": {
+    "language_dependencies": ["is.null", "list", "paste0"],
+    "internal_dependencies": ["formatg"],
+    "external_dependencies": []
+  }
+}

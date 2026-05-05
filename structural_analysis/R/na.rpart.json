@@ -1,0 +1,7 @@
+{
+  "na.rpart": {
+    "language_dependencies": ["attr", "is.null", "is.na", "ncol", "rep", "is.matrix", "all", "seq", "names", "row.names", "class", "structure", "c"],
+    "internal_dependencies": [],
+    "external_dependencies": []
+  }
+}

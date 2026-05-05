@@ -1,0 +1,7 @@
+{
+  "rpart.class": {
+    "language_dependencies": ["is.null", "stop", "as.factor", "as.integer", "max", "is.na", "tapply", "factor", "sum", "ifelse", "missing", "is.list", "names", "pmatch", "any", "gettextf", "diag", "matrix", "rowSums", "levels", "list", "ncol", "format", "is.matrix", "paste0", "paste", "apply"],
+    "internal_dependencies": ["formatg"],
+    "external_dependencies": []
+  }
+}

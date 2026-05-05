@@ -1,0 +1,7 @@
+{
+  "snip.rpart": {
+    "language_dependencies": ["inherits", "stop", "missing", "length", "return", "as.integer", "row.names", "unique", "match", "any", "warning", "gettext", "rep", "sort", "c", "is.matrix", "nrow"],
+    "internal_dependencies": ["snip.rpart.mouse"],
+    "external_dependencies": []
+  }
+}

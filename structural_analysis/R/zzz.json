@@ -1,0 +1,27 @@
+{
+  ".onUnload": {
+    "language_dependencies": ["library.dynam.unload"],
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "tree.depth": {
+    "language_dependencies": ["floor", "log", "min"],
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "string.bounding.box": {
+    "language_dependencies": ["strsplit", "sapply", "length", "max", "nchar", "list"],
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "node.match": {
+    "language_dependencies": ["match", "length", "warning", "gettextf", "paste", "missing", "any"],
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "descendants": {
+    "language_dependencies": ["length", "matrix", "return", "diag", "match", "floor", "log", "max", "cbind"],
+    "internal_dependencies": [],
+    "external_dependencies": []
+  }
+}

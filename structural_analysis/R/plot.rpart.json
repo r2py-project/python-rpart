@@ -1,0 +1,7 @@
+{
+  "plot.rpart": {
+    "language_dependencies": ["inherits", "stop", "nrow", "missing", "list", "range", "diff", "plot", "assign", "paste0", "dev.cur", "as.numeric", "row.names", "text", "lines", "c", "invisible"],
+    "internal_dependencies": ["rpartco", "rpart.branch"],
+    "external_dependencies": []
+  }
+}

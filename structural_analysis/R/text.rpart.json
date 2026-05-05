@@ -1,0 +1,17 @@
+{
+  "text.rpart": {
+    "language_dependencies": ["inherits", "stop", "nrow", "missing", "warning", "names", "attr", "is.null", "par", "list", "as.numeric", "row.names", "match", "labels", "seq", "cos", "sin", "polygon", "c", "max", "sqrt", "col2rgb", "rep", "invisible"],
+    "internal_dependencies": ["rpartco", "labels.rpart", "rpart.branch", "string.bounding.box", "oval", "rectangle"],
+    "external_dependencies": []
+  },
+  "oval": {
+    "language_dependencies": ["seq", "cos", "sin", "polygon"],
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "rectangle": {
+    "language_dependencies": ["polygon", "c"],
+    "internal_dependencies": [],
+    "external_dependencies": []
+  }
+}

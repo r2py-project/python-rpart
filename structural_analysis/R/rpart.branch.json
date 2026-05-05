@@ -1,0 +1,7 @@
+{
+  "rpart.branch": {
+    "language_dependencies": ["missing", "paste0", "dev.cur", "exists", "stop", "get", "match", "rbind", "list"],
+    "internal_dependencies": [],
+    "external_dependencies": []
+  }
+}

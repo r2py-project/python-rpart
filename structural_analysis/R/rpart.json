@@ -1,0 +1,7 @@
+{
+  "rpart": {
+    "language_dependencies": ["match.call", "is.data.frame", "match", "names", "eval.parent", "attr", "stop", "model.response", "model.weights", "any", "length", "rep", "nrow", "model.offset", "ncol", "missing", "is.factor", "is.character", "inherits", "is.matrix", "is.list", "pmatch", "is.na", "get", "paste", "asNamespace", "is.null", "environment", ".getXlevels", "unlist", "lapply", "list", "formals", "do.call", "sample", "unique", "as.integer", "sub", "is.ordered", "as.double", "c", "sum", "matrix", "dimnames", "data.frame", "ifelse", "cbind", "rbind", "pmax", "floor", "class"],
+    "internal_dependencies": ["rpart.matrix", "rpartcallback", "rpart.control", "importance", "rpart.anova", "rpart.poisson", "rpart.class", "rpart.exp"],
+    "external_dependencies": [".Call(\"C_rpart\")"]
+  }
+}

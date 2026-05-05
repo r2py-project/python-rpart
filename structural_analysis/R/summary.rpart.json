@@ -1,0 +1,7 @@
+{
+  "summary.rpart": {
+    "language_dependencies": ["inherits", "stop", "missing", "sink", "on.exit", "is.null", "cat", "dput", "length", "print", "round", "sum", "any", "attr", "as.integer", "row.names", "ifelse", "match", "seq_along", "cumsum", "c", "character", "nrow", "rownames", "format", "signif", "paste", "paste0", "nchar", "all", "naprint", "seq"],
+    "internal_dependencies": [],
+    "external_dependencies": []
+  }
+}

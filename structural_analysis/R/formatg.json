@@ -1,0 +1,7 @@
+{
+  "formatg": {
+    "language_dependencies": ["getOption", "paste0", "is.numeric", "stop", "sprintf", "is.matrix", "matrix", "nrow"],
+    "internal_dependencies": [],
+    "external_dependencies": []
+  }
+}

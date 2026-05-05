@@ -1,0 +1,47 @@
+r_file,function,level,parents,children
+meanvar.rpart.R,meanvar,0 (leaf),,
+meanvar.rpart.R,meanvar.rpart,0 (leaf),,
+path.rpart.R,path.rpart,0,,descendants; labels.rpart; node.match; rpartco
+plot.rpart.R,plot.rpart,0,,rpart.branch; rpartco
+plotcp.R,plotcp,0 (leaf),,
+post.R,post,0 (leaf),,
+post.rpart.R,post.rpart,0 (leaf),,
+predict.rpart.R,predict.rpart,0,,pred.rpart; rpart.matrix
+print.rpart.R,print.rpart,0,,labels.rpart; prune.rpart; tree.depth
+prune.R,prune,0 (leaf),,
+residuals.rpart.R,residuals.rpart,0,,model.frame.rpart
+roc.rpart.R,roc.rpart,0,,ss.compare
+rpart.R,rpart,0,,importance; rpart.anova; rpart.class; rpart.control; rpart.exp; rpart.matrix; rpart.poisson; rpartcallback
+rsq.rpart.R,rsq.rpart,0,,printcp
+summary.rpart.R,summary.rpart,0 (leaf),,
+text.rpart.R,text.rpart,0,,labels.rpart; oval; rectangle; rpart.branch; rpartco; string.bounding.box
+xpred.rpart.R,xpred.rpart,0,,na.rpart; rpart.anova; rpart.class; rpart.exp; rpart.matrix; rpart.poisson; rpartcallback
+zzz.R,.onUnload,0 (leaf),,
+labels.rpart.R,labels.rpart,1,path.rpart; print.rpart; text.rpart,formatg
+model.frame.rpart.R,model.frame.rpart,1,residuals.rpart,na.rpart
+pred.rpart.R,pred.rpart,1 (leaf),predict.rpart,
+printcp.R,printcp,1 (leaf),rsq.rpart,
+prune.rpart.R,prune.rpart,1,print.rpart,importance; snip.rpart
+roc.rpart.R,ss.compare,1 (leaf),roc.rpart,
+rpart.anova.R,rpart.anova,1,rpart; xpred.rpart,formatg
+rpart.class.R,rpart.class,1,rpart; xpred.rpart,formatg
+rpart.control.R,rpart.control,1 (leaf),rpart,
+rpart.exp.R,rpart.exp,1,rpart; xpred.rpart,drate2; formatg
+rpart.matrix.R,rpart.matrix,1 (leaf),predict.rpart; rpart; xpred.rpart,
+rpart.poisson.R,rpart.poisson,1,rpart; xpred.rpart,formatg
+rpartcallback.R,rpartcallback,1 (leaf),rpart; xpred.rpart,
+text.rpart.R,oval,1 (leaf),text.rpart,
+text.rpart.R,rectangle,1 (leaf),text.rpart,
+zzz.R,descendants,1 (leaf),path.rpart,
+zzz.R,node.match,1 (leaf),path.rpart,
+zzz.R,string.bounding.box,1 (leaf),text.rpart,
+formatg.R,formatg,2 (leaf),labels.rpart; rpart.anova; rpart.class; rpart.exp; rpart.poisson,
+importance.R,importance,2 (leaf),prune.rpart; rpart,
+na.rpart.R,na.rpart,2 (leaf),model.frame.rpart; xpred.rpart,
+rpart.exp.R,drate2,2 (leaf),rpart.exp,
+snip.rpart.R,snip.rpart,2,prune.rpart,snip.rpart.mouse
+snip.rpart.mouse.R,snip.rpart.mouse,3,snip.rpart,rpart.branch; rpartco
+rpart.branch.R,rpart.branch,4 (leaf),plot.rpart; snip.rpart.mouse; text.rpart,
+rpartco.R,rpartco,4,path.rpart; plot.rpart; snip.rpart.mouse; text.rpart,compress; tree.depth
+rpartco.R,compress,5 (leaf),rpartco,
+zzz.R,tree.depth,5 (leaf),print.rpart; rpartco,

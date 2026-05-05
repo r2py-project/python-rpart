@@ -1,0 +1,7 @@
+{
+  "rpart.matrix": {
+    "language_dependencies": ["inherits", "is.null", "attr", "as.matrix", "return", "lapply", "is.character", "as.numeric", "factor", "is.numeric", "model.matrix", "colnames", "sub", "class", "c"],
+    "internal_dependencies": [],
+    "external_dependencies": []
+  }
+}

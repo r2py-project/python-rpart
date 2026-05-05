@@ -1,0 +1,12 @@
+{
+  "meanvar.rpart": {
+    "language_dependencies": ["inherits", "stop", "row.names", "plot", "text", "invisible", "list"],
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "meanvar": {
+    "language_dependencies": ["UseMethod"],
+    "internal_dependencies": [],
+    "external_dependencies": []
+  }
+}

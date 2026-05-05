@@ -1,0 +1,7 @@
+{
+  "rpartcallback": {
+    "language_dependencies": ["length", "stop", "is.function", "quote", "unique", "matrix", "as.numeric", "as.vector", "c", "integer", "double", "new.env", "assign", "as.integer", "list"],
+    "internal_dependencies": [],
+    "external_dependencies": [".Call(\"C_init_rpcallback\")"]
+  }
+}

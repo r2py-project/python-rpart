@@ -1,0 +1,7 @@
+{
+  "print.rpart": {
+    "language_dependencies": ["inherits", "stop", "missing", "as.numeric", "row.names", "paste", "rep", "length", "paste0", "format", "substring", "is.null", "signif", "labels", "naprint", "cat", "invisible", "attr", "seq"],
+    "internal_dependencies": ["prune.rpart", "tree.depth", "labels.rpart"],
+    "external_dependencies": []
+  }
+}

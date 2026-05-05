@@ -1,0 +1,7 @@
+{
+  "residuals.rpart": {
+    "language_dependencies": ["inherits", "stop", "is.null", "model.extract", "model.frame", "match.arg", "is.na", "attr", "length", "switch", "ifelse", "log", "sqrt", "sign", "names", "naresid", "cbind"],
+    "internal_dependencies": ["model.frame.rpart"],
+    "external_dependencies": []
+  }
+}

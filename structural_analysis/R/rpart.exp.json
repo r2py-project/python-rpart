@@ -1,0 +1,12 @@
+{
+  "rpart.exp": {
+    "language_dependencies": ["inherits", "stop", "ncol", "nrow", "any", "all", "sort", "unique", "length", "quantile", "max", "c", "diff", "cumsum", "approx", "cbind", "list", "missing", "is.null", "as.list", "names", "pmatch", "is.numeric", "paste0", "exp"],
+    "internal_dependencies": ["drate2", "formatg"],
+    "external_dependencies": [".Call(\"C_rpartexp2\")"]
+  },
+  "drate2": {
+    "language_dependencies": ["diff", "length", "unclass", "cut", "table", "rev", "cumsum", "sum", "tapply"],
+    "internal_dependencies": [],
+    "external_dependencies": []
+  }
+}

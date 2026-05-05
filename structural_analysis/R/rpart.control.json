@@ -1,0 +1,7 @@
+{
+  "rpart.control": {
+    "language_dependencies": ["warning", "stop", "missing", "list", "round", "any"],
+    "internal_dependencies": [],
+    "external_dependencies": []
+  }
+}

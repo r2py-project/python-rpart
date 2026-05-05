@@ -1,0 +1,7 @@
+{
+  "post": {
+    "language_dependencies": ["UseMethod"],
+    "internal_dependencies": [],
+    "external_dependencies": []
+  }
+}

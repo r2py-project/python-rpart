@@ -1,0 +1,7 @@
+{
+  "prune.rpart": {
+    "language_dependencies": ["as.integer", "row.names", "length", "return", "pmax", "match", "unique"],
+    "internal_dependencies": ["snip.rpart", "importance"],
+    "external_dependencies": []
+  }
+}
