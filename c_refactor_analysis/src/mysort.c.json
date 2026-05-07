@@ -1,0 +1,6 @@
+{
+  "mysort": {
+    "internal_dependencies": ["mysort"],
+    "external_dependencies": []
+  }
+}

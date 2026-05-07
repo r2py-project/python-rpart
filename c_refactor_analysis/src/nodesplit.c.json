@@ -1,0 +1,6 @@
+{
+  "nodesplit": {
+    "internal_dependencies": [],
+    "external_dependencies": ["R_FINITE"]
+  }
+}

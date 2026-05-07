@@ -1,0 +1,10 @@
+{
+  "free_split": {
+    "internal_dependencies": ["free_split"],
+    "external_dependencies": ["R_Free"]
+  },
+  "free_tree": {
+    "internal_dependencies": ["free_tree", "free_split"],
+    "external_dependencies": ["R_Free"]
+  }
+}

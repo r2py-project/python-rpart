@@ -1,0 +1,61 @@
+c_file,function,level,parents,children
+anova.c,anova,0,,graycode; graycode_init2
+anova.c,anovainit,0,,ALLOC; graycode_init0
+anova.c,anovass,0 (leaf),,
+anovapred.c,anovapred,0 (leaf),,
+gini.c,gini,0,,gini_impure1; gini_impure2; graycode; graycode_init1; graycode_init2
+gini.c,ginidev,0 (leaf),,
+gini.c,giniinit,0,,ALLOC; graycode_init0
+gini.c,ginipred,0 (leaf),,
+init.c,R_init_rpart,0 (leaf),,
+poisson.c,poisson,0 (leaf),,
+poisson.c,poissondev,0 (leaf),,
+poisson.c,poissoninit,0,,ALLOC; _
+poisson.c,poissonpred,0 (leaf),,
+pred_rpart.c,pred_rpart,0,,pred_rpart0
+rpart.c,rpart,0,,ALLOC; free_tree; make_cp_list; make_cp_table; mysort; partition; rpcountup; rpmatrix; xval
+rpart.h,RPARTNA,0 (leaf),,
+rpart_callback.c,compat_getVar,0 (leaf),,
+rpart_callback.c,init_rpcallback,0 (leaf),,
+rpartexp.c,rpartexp,0 (leaf),,
+rpartexp2.c,rpartexp2,0,,Rpartexp2
+usersplit.c,usersplit,0,,rpart_callback2
+usersplit.c,usersplit_eval,0,,rpart_callback1
+usersplit.c,usersplit_init,0,,ALLOC; rpart_callback0
+usersplit.c,usersplit_pred,0 (leaf),,
+xpred.c,xpred,0,,ALLOC; fix_cp; free_tree; mysort; partition; rundown2
+gini.c,gini_impure1,1 (leaf),gini,
+gini.c,gini_impure2,1 (leaf),gini,
+graycode.c,graycode,1 (leaf),anova; gini,
+graycode.c,graycode_init0,1,anovainit; giniinit,ALLOC
+graycode.c,graycode_init1,1 (leaf),gini,
+graycode.c,graycode_init2,1 (leaf),anova; gini,
+make_cp_list.c,make_cp_list,1,rpart,ALLOC
+make_cp_table.c,make_cp_table,1 (leaf),rpart,
+mysort.c,mysort,1 (leaf),rpart; xpred,
+pred_rpart.c,pred_rpart0,1,pred_rpart,ALLOC
+rpart.h,_,1 (leaf),poissoninit,
+rpart_callback.c,rpart_callback0,1 (leaf),usersplit_init,
+rpart_callback.c,rpart_callback1,1 (leaf),usersplit_eval,
+rpart_callback.c,rpart_callback2,1 (leaf),usersplit,
+rpartexp2.c,Rpartexp2,1 (leaf),rpartexp2,
+rpcountup.c,rpcountup,1 (leaf),rpart,
+rpmatrix.c,rpmatrix,1 (leaf),rpart,
+rundown2.c,rundown2,1,xpred,branch
+xval.c,xval,1,rpart,CALLOC; fix_cp; free_tree; partition; rundown
+fix_cp.c,fix_cp,2 (leaf),xpred; xval,
+partition.c,partition,2,rpart; xpred; xval,CALLOC; bsplit; free_tree; nodesplit; print_tree; surrogate
+rpart.h,ALLOC,2 (leaf),anovainit; giniinit; graycode_init0; make_cp_list; poissoninit; pred_rpart0; rpart; usersplit_init; xpred,
+rundown.c,rundown,2,xval,branch
+branch.c,branch,3 (leaf),rundown; rundown2,
+bsplit.c,bsplit,3,partition,insert_split
+free_tree.c,free_tree,3,partition; rpart; xpred; xval,free_split
+nodesplit.c,nodesplit,3 (leaf),partition,
+print_tree.c,print_tree,3,partition,print_tree2; printme
+surrogate.c,surrogate,3,partition,choose_surg; insert_split
+choose_surg.c,choose_surg,4 (leaf),surrogate,
+free_tree.c,free_split,4 (leaf),free_tree,
+insert_split.c,insert_split,4,bsplit; surrogate,CALLOC
+print_tree.c,print_tree2,4,print_tree,printme
+print_tree.c,printme,5 (leaf),print_tree; print_tree2,
+rpart.h,CALLOC,5 (leaf),insert_split; partition; xval,

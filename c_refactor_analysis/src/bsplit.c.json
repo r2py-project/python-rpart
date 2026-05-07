@@ -1,0 +1,6 @@
+{
+  "bsplit": {
+    "internal_dependencies": ["rp_choose", "insert_split"],
+    "external_dependencies": []
+  }
+}

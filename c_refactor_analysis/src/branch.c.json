@@ -1,0 +1,6 @@
+{
+  "branch": {
+    "internal_dependencies": [],
+    "external_dependencies": ["R_FINITE"]
+  }
+}

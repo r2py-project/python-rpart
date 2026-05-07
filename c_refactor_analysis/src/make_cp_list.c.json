@@ -1,0 +1,6 @@
+{
+  "make_cp_list": {
+    "internal_dependencies": ["make_cp_list", "ALLOC"],
+    "external_dependencies": []
+  }
+}

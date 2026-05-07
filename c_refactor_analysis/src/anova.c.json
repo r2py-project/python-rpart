@@ -1,0 +1,14 @@
+{
+  "anovainit": {
+    "internal_dependencies": ["graycode_init0", "ALLOC"],
+    "external_dependencies": []
+  },
+  "anovass": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "anova": {
+    "internal_dependencies": ["graycode_init2", "graycode"],
+    "external_dependencies": []
+  }
+}

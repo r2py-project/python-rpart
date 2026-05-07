@@ -1,0 +1,6 @@
+{
+  "surrogate": {
+    "internal_dependencies": ["choose_surg", "insert_split"],
+    "external_dependencies": []
+  }
+}

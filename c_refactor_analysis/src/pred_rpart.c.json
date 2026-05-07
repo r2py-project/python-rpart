@@ -1,0 +1,10 @@
+{
+  "pred_rpart0": {
+    "internal_dependencies": ["ALLOC"],
+    "external_dependencies": []
+  },
+  "pred_rpart": {
+    "internal_dependencies": ["pred_rpart0"],
+    "external_dependencies": ["asInteger", "PROTECT", "allocVector", "INTEGER", "REAL", "UNPROTECT"]
+  }
+}

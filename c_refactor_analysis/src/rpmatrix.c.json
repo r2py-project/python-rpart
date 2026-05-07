@@ -1,0 +1,6 @@
+{
+  "rpmatrix": {
+    "internal_dependencies": ["rpmatrix"],
+    "external_dependencies": []
+  }
+}

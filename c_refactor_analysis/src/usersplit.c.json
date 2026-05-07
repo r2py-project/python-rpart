@@ -1,0 +1,18 @@
+{
+  "usersplit_init": {
+    "internal_dependencies": ["rpart_callback0", "ALLOC"],
+    "external_dependencies": []
+  },
+  "usersplit_eval": {
+    "internal_dependencies": ["rpart_callback1"],
+    "external_dependencies": []
+  },
+  "usersplit": {
+    "internal_dependencies": ["rpart_callback2"],
+    "external_dependencies": []
+  },
+  "usersplit_pred": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  }
+}

@@ -1,0 +1,258 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 900px;
+                 background-color: #F5F5F5;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 900px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#4472C4", "font": {"color": "#333333"}, "id": "anova.c", "label": "anova.c", "shape": "dot", "size": 28, "title": "type: file\nid: anova.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "anovainit", "label": "anovainit", "shape": "dot", "size": 18, "title": "type: function\nid: anovainit"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "graycode_init0", "label": "graycode_init0", "shape": "dot", "size": 18, "title": "type: function\nid: graycode_init0"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "ALLOC", "label": "ALLOC", "shape": "dot", "size": 18, "title": "type: function\nid: ALLOC"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "anovass", "label": "anovass", "shape": "dot", "size": 18, "title": "type: function\nid: anovass"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "anova", "label": "anova", "shape": "dot", "size": 18, "title": "type: function\nid: anova"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "graycode_init2", "label": "graycode_init2", "shape": "dot", "size": 18, "title": "type: function\nid: graycode_init2"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "graycode", "label": "graycode", "shape": "dot", "size": 18, "title": "type: function\nid: graycode"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "anovapred.c", "label": "anovapred.c", "shape": "dot", "size": 28, "title": "type: file\nid: anovapred.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "anovapred", "label": "anovapred", "shape": "dot", "size": 18, "title": "type: function\nid: anovapred"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "branch.c", "label": "branch.c", "shape": "dot", "size": 28, "title": "type: file\nid: branch.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "branch", "label": "branch", "shape": "dot", "size": 18, "title": "type: function\nid: branch"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__R_FINITE", "label": "R_FINITE", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__R_FINITE"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "bsplit.c", "label": "bsplit.c", "shape": "dot", "size": 28, "title": "type: file\nid: bsplit.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "bsplit", "label": "bsplit", "shape": "dot", "size": 18, "title": "type: function\nid: bsplit"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "rp_choose", "label": "rp_choose", "shape": "dot", "size": 18, "title": "type: function\nid: rp_choose"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "insert_split", "label": "insert_split", "shape": "dot", "size": 18, "title": "type: function\nid: insert_split"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "choose_surg.c", "label": "choose_surg.c", "shape": "dot", "size": 28, "title": "type: file\nid: choose_surg.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "choose_surg", "label": "choose_surg", "shape": "dot", "size": 18, "title": "type: function\nid: choose_surg"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "fix_cp.c", "label": "fix_cp.c", "shape": "dot", "size": 28, "title": "type: file\nid: fix_cp.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "fix_cp", "label": "fix_cp", "shape": "dot", "size": 18, "title": "type: function\nid: fix_cp"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "free_tree.c", "label": "free_tree.c", "shape": "dot", "size": 28, "title": "type: file\nid: free_tree.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "free_split", "label": "free_split", "shape": "dot", "size": 18, "title": "type: function\nid: free_split"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__R_Free", "label": "R_Free", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__R_Free"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "free_tree", "label": "free_tree", "shape": "dot", "size": 18, "title": "type: function\nid: free_tree"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "func_table.h", "label": "func_table.h", "shape": "dot", "size": 28, "title": "type: file\nid: func_table.h"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "gini.c", "label": "gini.c", "shape": "dot", "size": 28, "title": "type: file\nid: gini.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "gini_impure1", "label": "gini_impure1", "shape": "dot", "size": 18, "title": "type: function\nid: gini_impure1"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "gini_impure2", "label": "gini_impure2", "shape": "dot", "size": 18, "title": "type: function\nid: gini_impure2"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "giniinit", "label": "giniinit", "shape": "dot", "size": 18, "title": "type: function\nid: giniinit"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "ginidev", "label": "ginidev", "shape": "dot", "size": 18, "title": "type: function\nid: ginidev"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "ginipred", "label": "ginipred", "shape": "dot", "size": 18, "title": "type: function\nid: ginipred"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "gini", "label": "gini", "shape": "dot", "size": 18, "title": "type: function\nid: gini"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "graycode_init1", "label": "graycode_init1", "shape": "dot", "size": 18, "title": "type: function\nid: graycode_init1"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "graycode.c", "label": "graycode.c", "shape": "dot", "size": 28, "title": "type: file\nid: graycode.c"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "init.c", "label": "init.c", "shape": "dot", "size": 28, "title": "type: file\nid: init.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "R_init_rpart", "label": "R_init_rpart", "shape": "dot", "size": 18, "title": "type: function\nid: R_init_rpart"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__R_registerRoutines", "label": "R_registerRoutines", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__R_registerRoutines"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__R_useDynamicSymbols", "label": "R_useDynamicSymbols", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__R_useDynamicSymbols"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__R_forceSymbols", "label": "R_forceSymbols", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__R_forceSymbols"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "insert_split.c", "label": "insert_split.c", "shape": "dot", "size": 28, "title": "type: file\nid: insert_split.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "CALLOC", "label": "CALLOC", "shape": "dot", "size": 18, "title": "type: function\nid: CALLOC"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "make_cp_list.c", "label": "make_cp_list.c", "shape": "dot", "size": 28, "title": "type: file\nid: make_cp_list.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "make_cp_list", "label": "make_cp_list", "shape": "dot", "size": 18, "title": "type: function\nid: make_cp_list"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "make_cp_table.c", "label": "make_cp_table.c", "shape": "dot", "size": 28, "title": "type: file\nid: make_cp_table.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "make_cp_table", "label": "make_cp_table", "shape": "dot", "size": 18, "title": "type: function\nid: make_cp_table"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "mysort.c", "label": "mysort.c", "shape": "dot", "size": 28, "title": "type: file\nid: mysort.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "mysort", "label": "mysort", "shape": "dot", "size": 18, "title": "type: function\nid: mysort"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "node.h", "label": "node.h", "shape": "dot", "size": 28, "title": "type: file\nid: node.h"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "nodesplit.c", "label": "nodesplit.c", "shape": "dot", "size": 28, "title": "type: file\nid: nodesplit.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "nodesplit", "label": "nodesplit", "shape": "dot", "size": 18, "title": "type: function\nid: nodesplit"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "partition.c", "label": "partition.c", "shape": "dot", "size": 28, "title": "type: file\nid: partition.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "partition", "label": "partition", "shape": "dot", "size": 18, "title": "type: function\nid: partition"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "rp_eval", "label": "rp_eval", "shape": "dot", "size": 18, "title": "type: function\nid: rp_eval"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "print_tree", "label": "print_tree", "shape": "dot", "size": 18, "title": "type: function\nid: print_tree"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "surrogate", "label": "surrogate", "shape": "dot", "size": 18, "title": "type: function\nid: surrogate"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "poisson.c", "label": "poisson.c", "shape": "dot", "size": 28, "title": "type: file\nid: poisson.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "poissoninit", "label": "poissoninit", "shape": "dot", "size": 18, "title": "type: function\nid: poissoninit"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "_", "label": "_", "shape": "dot", "size": 18, "title": "type: function\nid: _"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "poissonpred", "label": "poissonpred", "shape": "dot", "size": 18, "title": "type: function\nid: poissonpred"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "poissondev", "label": "poissondev", "shape": "dot", "size": 18, "title": "type: function\nid: poissondev"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "poisson", "label": "poisson", "shape": "dot", "size": 18, "title": "type: function\nid: poisson"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "pred_rpart.c", "label": "pred_rpart.c", "shape": "dot", "size": 28, "title": "type: file\nid: pred_rpart.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "pred_rpart0", "label": "pred_rpart0", "shape": "dot", "size": 18, "title": "type: function\nid: pred_rpart0"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "pred_rpart", "label": "pred_rpart", "shape": "dot", "size": 18, "title": "type: function\nid: pred_rpart"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__asInteger", "label": "asInteger", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__asInteger"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__PROTECT", "label": "PROTECT", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__PROTECT"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__allocVector", "label": "allocVector", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__allocVector"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__INTEGER", "label": "INTEGER", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__INTEGER"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__REAL", "label": "REAL", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__REAL"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__UNPROTECT", "label": "UNPROTECT", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__UNPROTECT"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "print_tree.c", "label": "print_tree.c", "shape": "dot", "size": 28, "title": "type: file\nid: print_tree.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "printme", "label": "printme", "shape": "dot", "size": 18, "title": "type: function\nid: printme"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "print_tree2", "label": "print_tree2", "shape": "dot", "size": 18, "title": "type: function\nid: print_tree2"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__Rprintf", "label": "Rprintf", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__Rprintf"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "rpart.c", "label": "rpart.c", "shape": "dot", "size": 28, "title": "type: file\nid: rpart.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "rpart", "label": "rpart", "shape": "dot", "size": 18, "title": "type: function\nid: rpart"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__error", "label": "error", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__error"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__nrows", "label": "nrows", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__nrows"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__ncols", "label": "ncols", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__ncols"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__allocMatrix", "label": "allocMatrix", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__allocMatrix"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__setAttrib", "label": "setAttrib", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__setAttrib"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__SET_VECTOR_ELT", "label": "SET_VECTOR_ELT", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__SET_VECTOR_ELT"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__SET_STRING_ELT", "label": "SET_STRING_ELT", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__SET_STRING_ELT"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__mkChar", "label": "mkChar", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__mkChar"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "xval", "label": "xval", "shape": "dot", "size": 18, "title": "type: function\nid: xval"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "rpcountup", "label": "rpcountup", "shape": "dot", "size": 18, "title": "type: function\nid: rpcountup"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "rpmatrix", "label": "rpmatrix", "shape": "dot", "size": 18, "title": "type: function\nid: rpmatrix"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "rp_init", "label": "rp_init", "shape": "dot", "size": 18, "title": "type: function\nid: rp_init"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "rpart.h", "label": "rpart.h", "shape": "dot", "size": 28, "title": "type: file\nid: rpart.h"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__R_alloc", "label": "R_alloc", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__R_alloc"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__R_chk_calloc", "label": "R_chk_calloc", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__R_chk_calloc"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "RPARTNA", "label": "RPARTNA", "shape": "dot", "size": 18, "title": "type: function\nid: RPARTNA"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__ISNAN", "label": "ISNAN", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__ISNAN"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__dgettext", "label": "dgettext", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__dgettext"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "rpart_callback.c", "label": "rpart_callback.c", "shape": "dot", "size": 28, "title": "type: file\nid: rpart_callback.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "compat_getVar", "label": "compat_getVar", "shape": "dot", "size": 18, "title": "type: function\nid: compat_getVar"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__findVar", "label": "findVar", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__findVar"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__findVarInFrame", "label": "findVarInFrame", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__findVarInFrame"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__CHAR", "label": "CHAR", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__CHAR"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__PRINTNAME", "label": "PRINTNAME", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__PRINTNAME"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "init_rpcallback", "label": "init_rpcallback", "shape": "dot", "size": 18, "title": "type: function\nid: init_rpcallback"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__install", "label": "install", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__install"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "R_getVar", "label": "R_getVar", "shape": "dot", "size": 18, "title": "type: function\nid: R_getVar"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "rpart_callback0", "label": "rpart_callback0", "shape": "dot", "size": 18, "title": "type: function\nid: rpart_callback0"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "rpart_callback1", "label": "rpart_callback1", "shape": "dot", "size": 18, "title": "type: function\nid: rpart_callback1"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__eval", "label": "eval", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__eval"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__isReal", "label": "isReal", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__isReal"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__LENGTH", "label": "LENGTH", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__LENGTH"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "rpart_callback2", "label": "rpart_callback2", "shape": "dot", "size": 18, "title": "type: function\nid: rpart_callback2"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "rpartexp.c", "label": "rpartexp.c", "shape": "dot", "size": 28, "title": "type: file\nid: rpartexp.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "rpartexp", "label": "rpartexp", "shape": "dot", "size": 18, "title": "type: function\nid: rpartexp"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "rpartexp2.c", "label": "rpartexp2.c", "shape": "dot", "size": 28, "title": "type: file\nid: rpartexp2.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "Rpartexp2", "label": "Rpartexp2", "shape": "dot", "size": 18, "title": "type: function\nid: Rpartexp2"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "rpartexp2", "label": "rpartexp2", "shape": "dot", "size": 18, "title": "type: function\nid: rpartexp2"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__asReal", "label": "asReal", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__asReal"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "rpartproto.h", "label": "rpartproto.h", "shape": "dot", "size": 28, "title": "type: file\nid: rpartproto.h"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "rpcountup.c", "label": "rpcountup.c", "shape": "dot", "size": 28, "title": "type: file\nid: rpcountup.c"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "rpmatrix.c", "label": "rpmatrix.c", "shape": "dot", "size": 28, "title": "type: file\nid: rpmatrix.c"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "rundown.c", "label": "rundown.c", "shape": "dot", "size": 28, "title": "type: file\nid: rundown.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "rundown", "label": "rundown", "shape": "dot", "size": 18, "title": "type: function\nid: rundown"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__warning", "label": "warning", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__warning"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "rp_error", "label": "rp_error", "shape": "dot", "size": 18, "title": "type: function\nid: rp_error"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "rundown2.c", "label": "rundown2.c", "shape": "dot", "size": 28, "title": "type: file\nid: rundown2.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "rundown2", "label": "rundown2", "shape": "dot", "size": 18, "title": "type: function\nid: rundown2"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "surrogate.c", "label": "surrogate.c", "shape": "dot", "size": 28, "title": "type: file\nid: surrogate.c"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "usersplit.c", "label": "usersplit.c", "shape": "dot", "size": 28, "title": "type: file\nid: usersplit.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "usersplit_init", "label": "usersplit_init", "shape": "dot", "size": 18, "title": "type: function\nid: usersplit_init"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "usersplit_eval", "label": "usersplit_eval", "shape": "dot", "size": 18, "title": "type: function\nid: usersplit_eval"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "usersplit", "label": "usersplit", "shape": "dot", "size": 18, "title": "type: function\nid: usersplit"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "usersplit_pred", "label": "usersplit_pred", "shape": "dot", "size": 18, "title": "type: function\nid: usersplit_pred"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "xpred.c", "label": "xpred.c", "shape": "dot", "size": 28, "title": "type: file\nid: xpred.c"}, {"color": "#70AD47", "font": {"color": "#333333"}, "id": "xpred", "label": "xpred", "shape": "dot", "size": 18, "title": "type: function\nid: xpred"}, {"color": "#E74C3C", "font": {"color": "#333333"}, "id": "__ext__R_CheckUserInterrupt", "label": "R_CheckUserInterrupt", "shape": "dot", "size": 22, "title": "type: external\nid: __ext__R_CheckUserInterrupt"}, {"color": "#4472C4", "font": {"color": "#333333"}, "id": "xval.c", "label": "xval.c", "shape": "dot", "size": 28, "title": "type: file\nid: xval.c"}]);
+                  edges = new vis.DataSet([{"arrows": "", "color": "#2C5FA8", "from": "anova.c", "to": "anovainit", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "anova.c", "to": "anovass", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "anova.c", "to": "anova", "width": 0.8}, {"arrows": "to", "color": "#2E7D32", "from": "anovainit", "to": "graycode_init0", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "anovainit", "to": "ALLOC", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "graycode_init0", "to": "ALLOC", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "ALLOC", "to": "__ext__R_alloc", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "anova", "to": "graycode_init2", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "anova", "to": "graycode", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "anovapred.c", "to": "anovapred", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "branch.c", "to": "branch", "width": 0.8}, {"arrows": "to", "color": "#C0392B", "from": "branch", "to": "__ext__R_FINITE", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "bsplit.c", "to": "bsplit", "width": 0.8}, {"arrows": "to", "color": "#2E7D32", "from": "bsplit", "to": "rp_choose", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "bsplit", "to": "insert_split", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "insert_split", "to": "__ext__R_Free", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "insert_split", "to": "CALLOC", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "choose_surg.c", "to": "choose_surg", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "fix_cp.c", "to": "fix_cp", "width": 0.8}, {"arrows": "to", "color": "#2E7D32", "from": "fix_cp", "to": "fix_cp", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "free_tree.c", "to": "free_split", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "free_tree.c", "to": "free_tree", "width": 0.8}, {"arrows": "to", "color": "#C0392B", "from": "free_split", "to": "__ext__R_Free", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "free_split", "to": "free_split", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "free_tree", "to": "__ext__R_Free", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "free_tree", "to": "free_tree", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "free_tree", "to": "free_split", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "gini.c", "to": "gini_impure1", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "gini.c", "to": "gini_impure2", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "gini.c", "to": "giniinit", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "gini.c", "to": "ginidev", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "gini.c", "to": "ginipred", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "gini.c", "to": "gini", "width": 0.8}, {"arrows": "to", "color": "#2E7D32", "from": "giniinit", "to": "ALLOC", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "giniinit", "to": "graycode_init0", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "gini", "to": "graycode_init2", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "gini", "to": "graycode_init1", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "gini", "to": "graycode", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "gini", "to": "gini_impure1", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "gini", "to": "gini_impure2", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "graycode.c", "to": "graycode_init0", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "graycode.c", "to": "graycode_init1", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "graycode.c", "to": "graycode_init2", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "graycode.c", "to": "graycode", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "init.c", "to": "R_init_rpart", "width": 0.8}, {"arrows": "to", "color": "#C0392B", "from": "R_init_rpart", "to": "__ext__R_registerRoutines", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "R_init_rpart", "to": "__ext__R_useDynamicSymbols", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "R_init_rpart", "to": "__ext__R_forceSymbols", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "insert_split.c", "to": "insert_split", "width": 0.8}, {"arrows": "to", "color": "#C0392B", "from": "CALLOC", "to": "__ext__R_chk_calloc", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "make_cp_list.c", "to": "make_cp_list", "width": 0.8}, {"arrows": "to", "color": "#2E7D32", "from": "make_cp_list", "to": "make_cp_list", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "make_cp_list", "to": "ALLOC", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "make_cp_table.c", "to": "make_cp_table", "width": 0.8}, {"arrows": "to", "color": "#2E7D32", "from": "make_cp_table", "to": "make_cp_table", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "mysort.c", "to": "mysort", "width": 0.8}, {"arrows": "to", "color": "#2E7D32", "from": "mysort", "to": "mysort", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "nodesplit.c", "to": "nodesplit", "width": 0.8}, {"arrows": "to", "color": "#C0392B", "from": "nodesplit", "to": "__ext__R_FINITE", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "partition.c", "to": "partition", "width": 0.8}, {"arrows": "to", "color": "#2E7D32", "from": "partition", "to": "rp_eval", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "partition", "to": "bsplit", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "partition", "to": "print_tree", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "partition", "to": "surrogate", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "partition", "to": "nodesplit", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "partition", "to": "CALLOC", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "partition", "to": "free_tree", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "print_tree", "to": "printme", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "print_tree", "to": "print_tree2", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "surrogate", "to": "choose_surg", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "surrogate", "to": "insert_split", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "poisson.c", "to": "poissoninit", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "poisson.c", "to": "poissonpred", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "poisson.c", "to": "poissondev", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "poisson.c", "to": "poisson", "width": 0.8}, {"arrows": "to", "color": "#2E7D32", "from": "poissoninit", "to": "ALLOC", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "poissoninit", "to": "_", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "_", "to": "__ext__dgettext", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "pred_rpart.c", "to": "pred_rpart0", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "pred_rpart.c", "to": "pred_rpart", "width": 0.8}, {"arrows": "to", "color": "#2E7D32", "from": "pred_rpart0", "to": "ALLOC", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "pred_rpart", "to": "__ext__asInteger", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "pred_rpart", "to": "__ext__PROTECT", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "pred_rpart", "to": "__ext__allocVector", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "pred_rpart", "to": "__ext__INTEGER", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "pred_rpart", "to": "__ext__REAL", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "pred_rpart", "to": "__ext__UNPROTECT", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "pred_rpart", "to": "pred_rpart0", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "print_tree.c", "to": "print_tree", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "print_tree.c", "to": "print_tree2", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "print_tree.c", "to": "printme", "width": 0.8}, {"arrows": "to", "color": "#C0392B", "from": "printme", "to": "__ext__Rprintf", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "print_tree2", "to": "printme", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "print_tree2", "to": "print_tree2", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "rpart.c", "to": "rpart", "width": 0.8}, {"arrows": "to", "color": "#C0392B", "from": "rpart", "to": "__ext__INTEGER", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart", "to": "__ext__asInteger", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart", "to": "__ext__REAL", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart", "to": "__ext__error", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart", "to": "__ext__nrows", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart", "to": "__ext__ncols", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart", "to": "__ext__R_FINITE", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart", "to": "__ext__PROTECT", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart", "to": "__ext__allocVector", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart", "to": "__ext__allocMatrix", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart", "to": "__ext__UNPROTECT", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart", "to": "__ext__setAttrib", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart", "to": "__ext__SET_VECTOR_ELT", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart", "to": "__ext__SET_STRING_ELT", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart", "to": "__ext__mkChar", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "rpart", "to": "mysort", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "rpart", "to": "partition", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "rpart", "to": "make_cp_list", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "rpart", "to": "make_cp_table", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "rpart", "to": "xval", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "rpart", "to": "rpcountup", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "rpart", "to": "rpmatrix", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "rpart", "to": "free_tree", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "rpart", "to": "rp_init", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "rpart", "to": "rp_eval", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "rpart", "to": "ALLOC", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "xval", "to": "__ext__R_CheckUserInterrupt", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "xval", "to": "__ext__Rprintf", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "xval", "to": "__ext__R_Free", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "xval", "to": "CALLOC", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "xval", "to": "rp_init", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "xval", "to": "rp_eval", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "xval", "to": "partition", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "xval", "to": "fix_cp", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "xval", "to": "rundown", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "xval", "to": "free_tree", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "rpcountup", "to": "rpcountup", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "rpmatrix", "to": "rpmatrix", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "rpart.h", "to": "ALLOC", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "rpart.h", "to": "CALLOC", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "rpart.h", "to": "RPARTNA", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "rpart.h", "to": "_", "width": 0.8}, {"arrows": "to", "color": "#C0392B", "from": "RPARTNA", "to": "__ext__ISNAN", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "rpart_callback.c", "to": "compat_getVar", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "rpart_callback.c", "to": "init_rpcallback", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "rpart_callback.c", "to": "rpart_callback0", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "rpart_callback.c", "to": "rpart_callback1", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "rpart_callback.c", "to": "rpart_callback2", "width": 0.8}, {"arrows": "to", "color": "#C0392B", "from": "compat_getVar", "to": "__ext__findVar", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "compat_getVar", "to": "__ext__findVarInFrame", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "compat_getVar", "to": "__ext__error", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "compat_getVar", "to": "__ext__CHAR", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "compat_getVar", "to": "__ext__PRINTNAME", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "init_rpcallback", "to": "__ext__asInteger", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "init_rpcallback", "to": "__ext__install", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "init_rpcallback", "to": "__ext__REAL", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "init_rpcallback", "to": "__ext__INTEGER", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "init_rpcallback", "to": "R_getVar", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart_callback1", "to": "__ext__eval", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart_callback1", "to": "__ext__isReal", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart_callback1", "to": "__ext__error", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart_callback1", "to": "__ext__LENGTH", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart_callback1", "to": "__ext__REAL", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart_callback2", "to": "__ext__eval", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart_callback2", "to": "__ext__isReal", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart_callback2", "to": "__ext__error", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart_callback2", "to": "__ext__LENGTH", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpart_callback2", "to": "__ext__REAL", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "rpartexp.c", "to": "rpartexp", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "rpartexp2.c", "to": "Rpartexp2", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "rpartexp2.c", "to": "rpartexp2", "width": 0.8}, {"arrows": "to", "color": "#C0392B", "from": "rpartexp2", "to": "__ext__LENGTH", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpartexp2", "to": "__ext__PROTECT", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpartexp2", "to": "__ext__allocVector", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpartexp2", "to": "__ext__REAL", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpartexp2", "to": "__ext__asReal", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpartexp2", "to": "__ext__INTEGER", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "rpartexp2", "to": "__ext__UNPROTECT", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "rpartexp2", "to": "Rpartexp2", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "rpcountup.c", "to": "rpcountup", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "rpmatrix.c", "to": "rpmatrix", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "rundown.c", "to": "rundown", "width": 0.8}, {"arrows": "to", "color": "#C0392B", "from": "rundown", "to": "__ext__warning", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "rundown", "to": "branch", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "rundown", "to": "rp_error", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "rundown2.c", "to": "rundown2", "width": 0.8}, {"arrows": "to", "color": "#C0392B", "from": "rundown2", "to": "__ext__warning", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "rundown2", "to": "branch", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "surrogate.c", "to": "surrogate", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "usersplit.c", "to": "usersplit_init", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "usersplit.c", "to": "usersplit_eval", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "usersplit.c", "to": "usersplit", "width": 0.8}, {"arrows": "", "color": "#2C5FA8", "from": "usersplit.c", "to": "usersplit_pred", "width": 0.8}, {"arrows": "to", "color": "#2E7D32", "from": "usersplit_init", "to": "rpart_callback0", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "usersplit_init", "to": "ALLOC", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "usersplit_eval", "to": "rpart_callback1", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "usersplit", "to": "rpart_callback2", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "xpred.c", "to": "xpred", "width": 0.8}, {"arrows": "to", "color": "#C0392B", "from": "xpred", "to": "__ext__INTEGER", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "xpred", "to": "__ext__asInteger", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "xpred", "to": "__ext__REAL", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "xpred", "to": "__ext__LENGTH", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "xpred", "to": "__ext__asReal", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "xpred", "to": "__ext__error", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "xpred", "to": "__ext__nrows", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "xpred", "to": "__ext__ncols", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "xpred", "to": "__ext__R_FINITE", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "xpred", "to": "__ext__PROTECT", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "xpred", "to": "__ext__allocVector", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "xpred", "to": "__ext__R_CheckUserInterrupt", "width": 2}, {"arrows": "to", "color": "#C0392B", "from": "xpred", "to": "__ext__UNPROTECT", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "xpred", "to": "ALLOC", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "xpred", "to": "mysort", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "xpred", "to": "rp_init", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "xpred", "to": "rp_eval", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "xpred", "to": "partition", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "xpred", "to": "fix_cp", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "xpred", "to": "rundown2", "width": 2}, {"arrows": "to", "color": "#2E7D32", "from": "xpred", "to": "free_tree", "width": 2}, {"arrows": "", "color": "#2C5FA8", "from": "xval.c", "to": "xval", "width": 0.8}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.3,
+            "damping": 0.09,
+            "gravitationalConstant": -8000,
+            "springConstant": 0.05,
+            "springLength": 120
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

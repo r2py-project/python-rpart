@@ -1,0 +1,22 @@
+{
+  "compat_getVar": {
+    "internal_dependencies": [],
+    "external_dependencies": ["findVar", "findVarInFrame", "error", "CHAR", "PRINTNAME"]
+  },
+  "init_rpcallback": {
+    "internal_dependencies": ["R_getVar"],
+    "external_dependencies": ["asInteger", "install", "REAL", "INTEGER"]
+  },
+  "rpart_callback0": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "rpart_callback1": {
+    "internal_dependencies": [],
+    "external_dependencies": ["eval", "isReal", "error", "LENGTH", "REAL"]
+  },
+  "rpart_callback2": {
+    "internal_dependencies": [],
+    "external_dependencies": ["eval", "isReal", "error", "LENGTH", "REAL"]
+  }
+}

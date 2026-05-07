@@ -1,0 +1,18 @@
+{
+  "graycode_init0": {
+    "internal_dependencies": ["ALLOC"],
+    "external_dependencies": []
+  },
+  "graycode_init1": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "graycode_init2": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "graycode": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  }
+}

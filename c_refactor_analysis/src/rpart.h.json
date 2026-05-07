@@ -1,0 +1,18 @@
+{
+  "ALLOC": {
+    "internal_dependencies": [],
+    "external_dependencies": ["R_alloc"]
+  },
+  "CALLOC": {
+    "internal_dependencies": [],
+    "external_dependencies": ["R_chk_calloc"]
+  },
+  "RPARTNA": {
+    "internal_dependencies": [],
+    "external_dependencies": ["ISNAN"]
+  },
+  "_": {
+    "internal_dependencies": [],
+    "external_dependencies": ["dgettext"]
+  }
+}

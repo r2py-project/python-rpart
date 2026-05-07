@@ -1,0 +1,29 @@
+{
+  "xpred": {
+    "internal_dependencies": [
+      "ALLOC",
+      "mysort",
+      "rp_init",
+      "rp_eval",
+      "partition",
+      "fix_cp",
+      "rundown2",
+      "free_tree"
+    ],
+    "external_dependencies": [
+      "INTEGER",
+      "asInteger",
+      "REAL",
+      "LENGTH",
+      "asReal",
+      "error",
+      "nrows",
+      "ncols",
+      "R_FINITE",
+      "PROTECT",
+      "allocVector",
+      "R_CheckUserInterrupt",
+      "UNPROTECT"
+    ]
+  }
+}

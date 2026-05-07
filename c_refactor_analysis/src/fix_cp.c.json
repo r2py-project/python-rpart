@@ -1,0 +1,6 @@
+{
+  "fix_cp": {
+    "internal_dependencies": ["fix_cp"],
+    "external_dependencies": []
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "print_tree": {
+    "internal_dependencies": ["printme", "print_tree2"],
+    "external_dependencies": []
+  },
+  "print_tree2": {
+    "internal_dependencies": ["printme", "print_tree2"],
+    "external_dependencies": []
+  },
+  "printme": {
+    "internal_dependencies": [],
+    "external_dependencies": ["Rprintf"]
+  }
+}

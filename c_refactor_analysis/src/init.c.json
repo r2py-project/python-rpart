@@ -1,0 +1,6 @@
+{
+  "R_init_rpart": {
+    "internal_dependencies": [],
+    "external_dependencies": ["R_registerRoutines", "R_useDynamicSymbols", "R_forceSymbols"]
+  }
+}

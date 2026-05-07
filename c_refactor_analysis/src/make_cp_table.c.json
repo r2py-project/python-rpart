@@ -1,0 +1,6 @@
+{
+  "make_cp_table": {
+    "internal_dependencies": ["make_cp_table"],
+    "external_dependencies": []
+  }
+}

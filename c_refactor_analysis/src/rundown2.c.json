@@ -1,0 +1,6 @@
+{
+  "rundown2": {
+    "internal_dependencies": ["branch"],
+    "external_dependencies": ["warning"]
+  }
+}

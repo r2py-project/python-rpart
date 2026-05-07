@@ -1,0 +1,18 @@
+{
+  "poissoninit": {
+    "internal_dependencies": ["ALLOC", "_"],
+    "external_dependencies": []
+  },
+  "poissonpred": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "poissondev": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "poisson": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  }
+}

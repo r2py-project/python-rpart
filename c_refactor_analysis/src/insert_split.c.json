@@ -1,0 +1,6 @@
+{
+  "insert_split": {
+    "internal_dependencies": ["CALLOC"],
+    "external_dependencies": ["R_Free"]
+  }
+}

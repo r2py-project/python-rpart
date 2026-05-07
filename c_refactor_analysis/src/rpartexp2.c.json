@@ -1,0 +1,10 @@
+{
+  "Rpartexp2": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "rpartexp2": {
+    "internal_dependencies": ["Rpartexp2"],
+    "external_dependencies": ["LENGTH", "PROTECT", "allocVector", "REAL", "asReal", "INTEGER", "UNPROTECT"]
+  }
+}

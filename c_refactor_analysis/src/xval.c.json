@@ -1,0 +1,6 @@
+{
+  "xval": {
+    "internal_dependencies": ["CALLOC", "rp_init", "rp_eval", "partition", "fix_cp", "rundown", "free_tree"],
+    "external_dependencies": ["R_CheckUserInterrupt", "Rprintf", "R_Free"]
+  }
+}

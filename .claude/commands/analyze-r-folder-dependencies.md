@@ -6,7 +6,7 @@ description: Analyzes all R scripts in a folder to extract structural dependency
 # Analyze an R Folder for Dependencies
 
 ## Description
-When provided with a target folder, your task is to recursively scan for all R scripts, execute the `/analyze-r-file-dependencies` command on each file individually, and save the results as structured JSON files.
+When provided with a target folder, your task is to recursively scan for all R scripts, use the `@analyze-r-file-dependencies` agent on each file individually, and save the results as structured JSON files.
 
 ## Execution Steps
 
@@ -15,7 +15,7 @@ Recursively scan the provided target folder and all of its subdirectories for fi
 
 ### Step 2: Process and Analyze
 Iterate through the list of identified R files sequentially. For each file:
-1. Run the `/analyze-r-file-dependencies` command against the file.
+1. Invoke the `@analyze-r-file-dependencies` agent against the file and record its final JSON output.
 2. If the command fails or throws an error for a specific file, log the error to the console and immediately continue to the next file in your list. Do not halt the entire operation.
 
 ### Step 3: Save Output

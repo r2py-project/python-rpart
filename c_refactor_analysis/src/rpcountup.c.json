@@ -1,0 +1,6 @@
+{
+  "rpcountup": {
+    "internal_dependencies": ["rpcountup"],
+    "external_dependencies": []
+  }
+}

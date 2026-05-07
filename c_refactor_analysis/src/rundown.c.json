@@ -1,0 +1,6 @@
+{
+  "rundown": {
+    "internal_dependencies": ["branch", "rp_error"],
+    "external_dependencies": ["warning"]
+  }
+}
