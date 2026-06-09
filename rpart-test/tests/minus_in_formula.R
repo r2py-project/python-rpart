@@ -1,6 +1,7 @@
 ## https://github.com/bethatkinson/rpart/issues/7
 
 library(rpart)
+library(rpart.test)
 mtcars2 <- mtcars
 
 mtcars2$gear <- factor(mtcars2$gear)

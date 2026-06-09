@@ -3,6 +3,7 @@
 
 set.seed(10)
 library(rpart)
+library(rpart.test)
 Iris <- iris
 names(Iris) <- sub(".", " ", names(iris), fixed=TRUE)
 rpart(Species ~ `Sepal Length`, data = Iris)

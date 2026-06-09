@@ -1,6 +1,6 @@
 {
   "partition": {
-    "internal_dependencies": ["rp_eval", "bsplit", "print_tree", "surrogate", "nodesplit", "CALLOC", "free_tree"],
+    "internal_dependencies": ["rp_eval", "bsplit", "print_tree", "surrogate", "nodesplit", "CALLOC", "partition", "free_tree"],
     "external_dependencies": []
   }
 }

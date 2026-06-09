@@ -1,29 +1,6 @@
 {
   "xpred": {
-    "internal_dependencies": [
-      "ALLOC",
-      "mysort",
-      "rp_init",
-      "rp_eval",
-      "partition",
-      "fix_cp",
-      "rundown2",
-      "free_tree"
-    ],
-    "external_dependencies": [
-      "INTEGER",
-      "asInteger",
-      "REAL",
-      "LENGTH",
-      "asReal",
-      "error",
-      "nrows",
-      "ncols",
-      "R_FINITE",
-      "PROTECT",
-      "allocVector",
-      "R_CheckUserInterrupt",
-      "UNPROTECT"
-    ]
+    "internal_dependencies": ["ALLOC", "_", "rp_init", "rp_eval", "mysort", "partition", "fix_cp", "free_tree", "rundown2"],
+    "external_dependencies": ["INTEGER", "asInteger", "REAL", "LENGTH", "asReal", "nrows", "ncols", "R_FINITE", "PROTECT", "allocVector", "UNPROTECT", "R_CheckUserInterrupt", "error"]
   }
 }

@@ -2,6 +2,7 @@
 # Test weights in a regression problem
 #
 library(rpart)
+library(rpart.test)
 set.seed(10)
 
 mystate <- data.frame(state.x77, region=factor(state.region))

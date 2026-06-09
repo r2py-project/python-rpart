@@ -1,0 +1,1 @@
+PKG_LIBS = -Wl,--defsym=R_init_rpart_test=R_init_rpart

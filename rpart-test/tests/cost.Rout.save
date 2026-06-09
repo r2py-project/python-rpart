@@ -16,6 +16,7 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 Type 'q()' to quit R.
 
 > library(rpart)
+library(rpart.test)
 > require(survival)
 Loading required package: survival
 > aeq <- function(x,y, ...) all.equal(as.vector(x), as.vector(y), ...)

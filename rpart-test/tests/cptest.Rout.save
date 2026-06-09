@@ -16,6 +16,7 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 Type 'q()' to quit R.
 
 > library(rpart)
+library(rpart.test)
 > mystate <- data.frame(state.x77, region=factor(state.region))
 > names(mystate) <- c("population","income" , "illiteracy","life" ,
 +        "murder", "hs.grad", "frost",     "area",      "region")

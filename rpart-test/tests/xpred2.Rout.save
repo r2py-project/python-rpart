@@ -20,6 +20,7 @@ Type 'q()' to quit R.
 > #  The data set has the virtue of continuous, categorical, and missings
 > #
 > library(rpart)
+library(rpart.test)
 > require(survival)
 Loading required package: survival
 > set.seed(10)

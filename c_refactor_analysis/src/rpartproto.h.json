@@ -1,1 +1,110 @@
-{}
+{
+  "branch": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "bsplit": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "choose_surg": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "fix_cp": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "free_tree": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "graycode_init0": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "graycode_init1": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "graycode_init2": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "graycode": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "insert_split": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "make_cp_list": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "make_cp_table": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "mysort": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "nodesplit": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "partition": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "print_tree": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "rpart": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "rpart_callback0": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "rpart_callback1": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "rpart_callback2": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "rpcountup": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "rpmatrix": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "rundown": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "rundown2": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "surrogate": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "xpred": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "xval": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  }
+}

@@ -1,4 +1,5 @@
 library(rpart)
+library(rpart.test)
 mystate <- data.frame(state.x77, region=factor(state.region))
 names(mystate) <- c("population","income" , "illiteracy","life" ,
        "murder", "hs.grad", "frost",     "area",      "region")

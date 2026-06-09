@@ -3,6 +3,7 @@
 #  The data set has the virtue of continuous, categorical, and missings
 #
 library(rpart)
+library(rpart.test)
 require(survival)
 set.seed(10)
 

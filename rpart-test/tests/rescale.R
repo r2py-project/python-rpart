@@ -2,6 +2,7 @@
 # Test out the rescaling done for Surv objects
 #
 library(rpart)
+library(rpart.test)
 require(survival)
 set.seed(10)
 

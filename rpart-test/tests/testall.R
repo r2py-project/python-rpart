@@ -7,6 +7,7 @@
 #  to avoid any changes in random number allocation of the groups.
 
 library(rpart)
+library(rpart.test)
 require(survival)
 options(digits=4)  #avoid trivial rounding changes across R versions
 set.seed(10)

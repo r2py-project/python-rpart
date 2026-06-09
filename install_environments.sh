@@ -8,5 +8,7 @@ conda install -c conda-forge meson-python numpy pandas scipy scikit-learn matplo
 conda install -c conda-forge r-cardata -y
 conda install -c conda-forge rpy2 -y
 conda install -c conda-forge radian -y
+conda install -c conda-forge r-rpart -y
+conda install conda-forge::pyvis -y
 R
 install.packages("vscDebugger", repos = c("https://manuelhentschel.r-universe.dev", "https://cloud.r-project.org"))

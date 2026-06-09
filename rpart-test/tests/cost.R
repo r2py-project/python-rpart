@@ -1,4 +1,5 @@
 library(rpart)
+library(rpart.test)
 require(survival)
 aeq <- function(x,y, ...) all.equal(as.vector(x), as.vector(y), ...)
 

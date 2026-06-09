@@ -8,7 +8,7 @@
     "external_dependencies": []
   },
   "giniinit": {
-    "internal_dependencies": ["ALLOC", "graycode_init0"],
+    "internal_dependencies": ["graycode_init0", "ALLOC"],
     "external_dependencies": []
   },
   "ginidev": {
@@ -20,7 +20,11 @@
     "external_dependencies": []
   },
   "gini": {
-    "internal_dependencies": ["graycode_init2", "graycode_init1", "graycode", "gini_impure1", "gini_impure2"],
+    "internal_dependencies": ["graycode_init2", "graycode_init1", "graycode", "impurity", "ALLOC"],
+    "external_dependencies": []
+  },
+  "impurity": {
+    "internal_dependencies": [],
     "external_dependencies": []
   }
 }

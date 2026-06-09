@@ -7,6 +7,7 @@
 # The improvement is the splits matrix, column 3, rows with n>0.  Other
 #   rows are surrogate splits.
 library(rpart)
+library(rpart.test)
 require(survival)
 set.seed(10)
 

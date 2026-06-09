@@ -24,6 +24,7 @@ Type 'q()' to quit R.
 > #  to avoid any changes in random number allocation of the groups.
 > 
 > library(rpart)
+library(rpart.test)
 > require(survival)
 Loading required package: survival
 > options(digits=4)  #avoid trivial rounding changes across R versions

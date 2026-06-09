@@ -1,17 +1,18 @@
 {
   "rpart": {
     "internal_dependencies": [
+      "_",
+      "ALLOC",
       "mysort",
+      "rp_init",
+      "rp_eval",
       "partition",
       "make_cp_list",
       "make_cp_table",
       "xval",
       "rpcountup",
       "rpmatrix",
-      "free_tree",
-      "rp_init",
-      "rp_eval",
-      "ALLOC"
+      "free_tree"
     ],
     "external_dependencies": [
       "INTEGER",
@@ -24,11 +25,11 @@
       "PROTECT",
       "allocVector",
       "allocMatrix",
-      "UNPROTECT",
       "setAttrib",
       "SET_VECTOR_ELT",
       "SET_STRING_ELT",
-      "mkChar"
+      "mkChar",
+      "UNPROTECT"
     ]
   }
 }

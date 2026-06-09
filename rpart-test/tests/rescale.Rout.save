@@ -19,6 +19,7 @@ Type 'q()' to quit R.
 > # Test out the rescaling done for Surv objects
 > #
 > library(rpart)
+library(rpart.test)
 > require(survival)
 Loading required package: survival
 > set.seed(10)

@@ -1,4 +1,8 @@
 {
+  "_": {
+    "internal_dependencies": [],
+    "external_dependencies": ["dgettext"]
+  },
   "ALLOC": {
     "internal_dependencies": [],
     "external_dependencies": ["R_alloc"]
@@ -11,8 +15,20 @@
     "internal_dependencies": [],
     "external_dependencies": ["ISNAN"]
   },
-  "_": {
+  "rp_init": {
     "internal_dependencies": [],
-    "external_dependencies": ["dgettext"]
+    "external_dependencies": []
+  },
+  "rp_choose": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "rp_eval": {
+    "internal_dependencies": [],
+    "external_dependencies": []
+  },
+  "rp_error": {
+    "internal_dependencies": [],
+    "external_dependencies": []
   }
 }

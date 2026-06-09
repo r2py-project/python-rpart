@@ -3,6 +3,7 @@
 #  Simple data set where I know what the answers must be
 #
 library(rpart)
+library(rpart.test)
 aeq <- function(x,y, ...) all.equal(as.vector(x), as.vector(y), ...)
 
 dummy <- c(3,1,4,1,5,9,2,6,5,3,5,8,9,7,9)/5
