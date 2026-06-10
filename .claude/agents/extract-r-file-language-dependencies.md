@@ -12,9 +12,11 @@ When provided with an R source file (`.R`) and its corresponding structural anal
 ## Execution Steps
 
 ### Step 1: Ingest Inputs
+
 Parse the provided structural analysis JSON to identify the `language_dependencies` associated with each user-defined function (the JSON keys). 
 
 ### Step 2: Locate and Extract Invocations
+
 Scan the raw text of the `.R` file. For every function listed in the JSON, find its declaration in the R file and scan its body for the specific `language_dependencies` listed in its JSON array. 
 
 For every individual call to these dependencies, extract the following data points:
@@ -24,6 +26,7 @@ For every individual call to these dependencies, extract the following data poin
 * **`call_body`**: The exact code snippet of the invocation, including its arguments (e.g., `dplyr::filter(df, column == "value")`). If the call spans multiple lines, capture the entire complete statement.
 
 ### Step 3: Format and Sort Output
+
 Compile the extracted data points into a CSV format with a header row.
 
 ## Output Format Schema

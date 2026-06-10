@@ -1,0 +1,6 @@
+external_item,header_file,category,file_name,line_number,context_statement
+Rprintf,R_ext/Print.h,function,xval.c,151,"Rprintf(""\nObs %d, y=%f \n"", jj, rp.ydata[j][0]);"
+Rprintf,R_ext/Print.h,function,xval.c,161,"Rprintf(""  cp=%f, pred=%f, xtemp=%f\n"", cp[jj] / old_wt, xpred[jj], xtemp[jj]);"
+R_CheckUserInterrupt,R_ext/Utils.h,function,xval.c,168,"R_CheckUserInterrupt();"
+R_Free,R_ext/RS.h,function,xval.c,178,"R_Free(savew);"
+R_Free,R_ext/RS.h,function,xval.c,179,"R_Free(xtemp);"

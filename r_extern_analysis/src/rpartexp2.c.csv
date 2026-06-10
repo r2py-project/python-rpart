@@ -1,0 +1,11 @@
+external_item,header_file,category,file_name,line_number,context_statement
+SEXP,Rinternals.h,type,rpartexp2.c,43,"SEXP rpartexp2(SEXP dtimes, SEXP eps)"
+LENGTH,Rinternals.h,function,rpartexp2.c,46,"int n = LENGTH(dtimes);"
+SEXP,Rinternals.h,type,rpartexp2.c,47,"SEXP keep = PROTECT(allocVector(INTSXP, n));"
+PROTECT,Rinternals.h,function,rpartexp2.c,47,"SEXP keep = PROTECT(allocVector(INTSXP, n));"
+allocVector,Rinternals.h,function,rpartexp2.c,47,"SEXP keep = PROTECT(allocVector(INTSXP, n));"
+INTSXP,Rinternals.h,type,rpartexp2.c,47,"SEXP keep = PROTECT(allocVector(INTSXP, n));"
+REAL,Rinternals.h,function,rpartexp2.c,48,"Rpartexp2(n, REAL(dtimes), asReal(eps), INTEGER(keep));"
+asReal,Rinternals.h,function,rpartexp2.c,48,"Rpartexp2(n, REAL(dtimes), asReal(eps), INTEGER(keep));"
+INTEGER,Rinternals.h,function,rpartexp2.c,48,"Rpartexp2(n, REAL(dtimes), asReal(eps), INTEGER(keep));"
+UNPROTECT,Rinternals.h,function,rpartexp2.c,49,"UNPROTECT(1);"

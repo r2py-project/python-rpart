@@ -1,0 +1,3 @@
+external_item,header_file,category,file_name,line_number,context_statement
+R_Free,R_ext/RS.h,function,free_tree.c,13,"R_Free(spl);"
+R_Free,R_ext/RS.h,function,free_tree.c,29,"R_Free(node);"

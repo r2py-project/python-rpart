@@ -1,0 +1,3 @@
+external_item,header_file,category,file_name,line_number,context_statement
+R_Free,R_ext/RS.h,function,insert_split.c,36,"R_Free(s3);"
+R_Free,R_ext/RS.h,function,insert_split.c,63,"R_Free(s4);"

@@ -1,0 +1,2 @@
+external_item,header_file,category,file_name,line_number,context_statement
+R_FINITE,R_ext/Arith.h,function,nodesplit.c,107,"if (!R_FINITE(xdata[var][j]))"

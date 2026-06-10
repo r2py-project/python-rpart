@@ -1,0 +1,236 @@
+external_item,header_file,category,file_name,line_number,context_statement
+DL_FUNC,R_ext/Rdynload.h,type,init.c,12,"static const R_CallMethodDef CallEntries[] = { {""init_rpcallback"", (DL_FUNC) &init_rpcallback, 5}, {""rpart"", (DL_FUNC) &rpart, 11}, {""xpred"", (DL_FUNC) &xpred, 15}, {""rpartexp2"", (DL_FUNC) &rpartexp2, 2}, {""pred_rpart"", (DL_FUNC) &pred_rpart, 12}, {NULL, NULL, 0} };"
+DllInfo,R_ext/Rdynload.h,type,init.c,23,R_init_rpart(DllInfo * dll)
+INTSXP,Rinternals.h,type,pred_rpart.c,139,"SEXP where = PROTECT(allocVector(INTSXP, n));"
+INTSXP,Rinternals.h,type,rpart.c,194,"which3 = PROTECT(allocVector(INTSXP, n));"
+INTSXP,Rinternals.h,type,rpart.c,278,"inode3 = PROTECT(allocMatrix(INTSXP, nodecount, 6));"
+INTSXP,Rinternals.h,type,rpart.c,285,"isplit3 = PROTECT(allocMatrix(INTSXP, splitcount, 3));"
+INTSXP,Rinternals.h,type,rpart.c,293,"csplit3 = PROTECT(allocMatrix(INTSXP, catcount, maxcat));"
+INTSXP,Rinternals.h,type,rpartexp2.c,47,"SEXP keep = PROTECT(allocVector(INTSXP, n));"
+REALSXP,Rinternals.h,type,rpart.c,241,"cptable3 = PROTECT(allocMatrix(REALSXP, xvals > 1 ? 5 : 3, rp.num_unique_cp));"
+REALSXP,Rinternals.h,type,rpart.c,261,"dnode3 = PROTECT(allocMatrix(REALSXP, nodecount, (3 + rp.num_resp)));"
+REALSXP,Rinternals.h,type,rpart.c,269,"dsplit3 = PROTECT(allocMatrix(REALSXP, splitcount, 3));"
+REALSXP,Rinternals.h,type,xpred.c,209,"predict2 = PROTECT(allocVector(REALSXP, n * ncp * nresp));"
+R_CallMethodDef,R_ext/Rdynload.h,type,init.c,12,"static const R_CallMethodDef CallEntries[] = { {""init_rpcallback"", (DL_FUNC) &init_rpcallback, 5}, {""rpart"", (DL_FUNC) &rpart, 11}, {""xpred"", (DL_FUNC) &xpred, 15}, {""rpartexp2"", (DL_FUNC) &rpartexp2, 2}, {""pred_rpart"", (DL_FUNC) &pred_rpart, 12}, {NULL, NULL, 0} };"
+Rboolean,R_ext/Boolean.h,type,rpart_callback.c,20,"static SEXP compat_getVar(SEXP sym, SEXP rho, Rboolean inherits)"
+SEXP,Rinternals.h,type,init.c,6,"SEXP init_rpcallback(SEXP rhox, SEXP ny, SEXP nr, SEXP expr1x, SEXP expr2x);"
+SEXP,Rinternals.h,type,init.c,7,"SEXP rpartexp2(SEXP dtimes, SEXP seps);"
+SEXP,Rinternals.h,type,init.c,8,"SEXP pred_rpart(SEXP dimx, SEXP nnode, SEXP nsplit, SEXP dimc, SEXP nnum, SEXP nodes2, SEXP vnum, SEXP split2, SEXP csplit2, SEXP usesur, SEXP xdata2, SEXP xmiss2);"
+SEXP,Rinternals.h,type,pred_rpart.c,133,"SEXP pred_rpart(SEXP dimx, SEXP nnode, SEXP nsplit, SEXP dimc, SEXP nnum, SEXP nodes2, SEXP vnum, SEXP split2, SEXP csplit2, SEXP usesur, SEXP xdata2, SEXP xmiss2)"
+SEXP,Rinternals.h,type,pred_rpart.c,139,"SEXP where = PROTECT(allocVector(INTSXP, n));"
+SEXP,Rinternals.h,type,rpart.c,40,"SEXP rpart(SEXP ncat2, SEXP method2, SEXP opt2, SEXP parms2, SEXP xvals2, SEXP xgrp2, SEXP ymat2, SEXP xmat2, SEXP wt2, SEXP ny2, SEXP cost2)"
+SEXP,Rinternals.h,type,rpart.c,64,"SEXP which3, cptable3, dsplit3, isplit3, csplit3 = R_NilValue, /* -Wall */ dnode3, inode3;"
+SEXP,Rinternals.h,type,rpart.c,327,"SEXP rlist = PROTECT(allocVector(VECSXP, nout));"
+SEXP,Rinternals.h,type,rpart.c,328,"SEXP rname = allocVector(STRSXP, nout);"
+SEXP,Rinternals.h,type,rpart_callback.c,20,"static SEXP compat_getVar(SEXP sym, SEXP rho, Rboolean inherits)"
+SEXP,Rinternals.h,type,rpart_callback.c,33,static SEXP expr1;
+SEXP,Rinternals.h,type,rpart_callback.c,34,static SEXP expr2;
+SEXP,Rinternals.h,type,rpart_callback.c,35,static SEXP rho;
+SEXP,Rinternals.h,type,rpart_callback.c,47,"SEXP init_rpcallback(SEXP rhox, SEXP ny, SEXP nr, SEXP expr1x, SEXP expr2x)"
+SEXP,Rinternals.h,type,rpart_callback.c,51,SEXP stemp;
+SEXP,Rinternals.h,type,rpart_callback.c,92,SEXP value;
+SEXP,Rinternals.h,type,rpart_callback.c,131,SEXP goodness;
+SEXP,Rinternals.h,type,rpartexp2.c,43,"SEXP rpartexp2(SEXP dtimes, SEXP eps)"
+SEXP,Rinternals.h,type,rpartexp2.c,47,"SEXP keep = PROTECT(allocVector(INTSXP, n));"
+SEXP,Rinternals.h,type,rpartproto.h,39,"SEXP rpart(SEXP ncat2, SEXP method2, SEXP opt2, SEXP parms2, SEXP ymat2, SEXP xmat2, SEXP xvals2, SEXP xgrp2, SEXP wt2, SEXP ny2, SEXP cost2);"
+SEXP,Rinternals.h,type,rpartproto.h,57,"SEXP xpred(SEXP ncat2, SEXP method2, SEXP opt2, SEXP parms2, SEXP xvals2, SEXP xgrp2, SEXP ymat2, SEXP xmat2, SEXP wt2, SEXP ny2, SEXP cost2, SEXP all2, SEXP cp2, SEXP toprisk2, SEXP nresp2);"
+SEXP,Rinternals.h,type,xpred.c,33,"SEXP xpred(SEXP ncat2, SEXP method2, SEXP opt2, SEXP parms2, SEXP xvals2, SEXP xgrp2, SEXP ymat2, SEXP xmat2, SEXP wt2, SEXP ny2, SEXP cost2, SEXP all2, SEXP cp2, SEXP toprisk2, SEXP nresp2)"
+SEXP,Rinternals.h,type,xpred.c,63,SEXP predict2;
+STRSXP,Rinternals.h,type,rpart.c,328,"SEXP rname = allocVector(STRSXP, nout);"
+VECSXP,Rinternals.h,type,rpart.c,327,"SEXP rlist = PROTECT(allocVector(VECSXP, nout));"
+FALSE,R_ext/Boolean.h,variable,init.c,26,"R_useDynamicSymbols(dll, FALSE);"
+FALSE,R_ext/Boolean.h,variable,rpart_callback.c,59,"stemp = R_getVar(install(""yback""), rho, FALSE);"
+FALSE,R_ext/Boolean.h,variable,rpart_callback.c,62,"stemp = R_getVar(install(""wback""), rho, FALSE);"
+FALSE,R_ext/Boolean.h,variable,rpart_callback.c,65,"stemp = R_getVar(install(""xback""), rho, FALSE);"
+FALSE,R_ext/Boolean.h,variable,rpart_callback.c,68,"stemp = R_getVar(install(""nback""), rho, FALSE);"
+R_NamesSymbol,Rinternals.h,variable,rpart.c,329,"setAttrib(rlist, R_NamesSymbol, rname);"
+R_NilValue,Rinternals.h,variable,rpart.c,64,"SEXP which3, cptable3, dsplit3, isplit3, csplit3 = R_NilValue, /* -Wall */ dnode3, inode3;"
+R_NilValue,Rinternals.h,variable,rpart_callback.c,71,return R_NilValue;
+R_UnboundValue,Rinternals.h,variable,rpart_callback.c,23,if (val == R_UnboundValue)
+R_VERSION,Rversion.h,variable,init.c,27,"#if defined(R_VERSION) && R_VERSION >= R_Version(2, 16, 0)"
+R_VERSION,Rversion.h,variable,rpart_callback.c,19,"#if R_VERSION < R_Version(4, 5, 0)"
+TRUE,R_ext/Boolean.h,variable,init.c,28,"R_forceSymbols(dll, TRUE);"
+CHAR,Rinternals.h,function,rpart_callback.c,24,"error(_(""variable '%s' not found""), CHAR(PRINTNAME(sym)));"
+INTEGER,Rinternals.h,function,pred_rpart.c,140,"pred_rpart0(INTEGER(dimx), asInteger(nnode), asInteger(nsplit), INTEGER(dimc), INTEGER(nnum), INTEGER(nodes2), INTEGER(vnum), REAL(split2), INTEGER(csplit2), INTEGER(usesur), REAL(xdata2), INTEGER(xmiss2), INTEGER(where));"
+INTEGER,Rinternals.h,function,rpart.c,75,ncat = INTEGER(ncat2);
+INTEGER,Rinternals.h,function,rpart.c,76,xgrp = INTEGER(xgrp2);
+INTEGER,Rinternals.h,function,rpart.c,112,rp.numcat = INTEGER(ncat2);
+INTEGER,Rinternals.h,function,rpart.c,195,rp.which = INTEGER(which3);
+INTEGER,Rinternals.h,function,rpart.c,279,iptr = INTEGER(inode3);
+INTEGER,Rinternals.h,function,rpart.c,286,iptr = INTEGER(isplit3);
+INTEGER,Rinternals.h,function,rpart.c,295,iptr = INTEGER(csplit3);
+INTEGER,Rinternals.h,function,rpart_callback.c,69,ndata = INTEGER(stemp);
+INTEGER,Rinternals.h,function,rpartexp2.c,48,"Rpartexp2(n, REAL(dtimes), asReal(eps), INTEGER(keep));"
+INTEGER,Rinternals.h,function,xpred.c,69,ncat = INTEGER(ncat2);
+INTEGER,Rinternals.h,function,xpred.c,70,xgrp = INTEGER(xgrp2);
+INTEGER,Rinternals.h,function,xpred.c,110,rp.numcat = INTEGER(ncat2);
+ISNAN,R.h,function,rpart.h,27,#define RPARTNA(a) ISNAN(a)
+LENGTH,Rinternals.h,function,rpart_callback.c,115,if (LENGTH(value) != (1 + rsave))
+LENGTH,Rinternals.h,function,rpart_callback.c,149,j = LENGTH(goodness);
+LENGTH,Rinternals.h,function,rpartexp2.c,46,int n = LENGTH(dtimes);
+LENGTH,Rinternals.h,function,xpred.c,74,ncp = LENGTH(cp2);
+PRINTNAME,Rinternals.h,function,rpart_callback.c,24,"error(_(""variable '%s' not found""), CHAR(PRINTNAME(sym)));"
+PROTECT,Rinternals.h,function,pred_rpart.c,139,"SEXP where = PROTECT(allocVector(INTSXP, n));"
+PROTECT,Rinternals.h,function,rpart.c,194,"which3 = PROTECT(allocVector(INTSXP, n));"
+PROTECT,Rinternals.h,function,rpart.c,241,"cptable3 = PROTECT(allocMatrix(REALSXP, xvals > 1 ? 5 : 3, rp.num_unique_cp));"
+PROTECT,Rinternals.h,function,rpart.c,261,"dnode3 = PROTECT(allocMatrix(REALSXP, nodecount, (3 + rp.num_resp)));"
+PROTECT,Rinternals.h,function,rpart.c,269,"dsplit3 = PROTECT(allocMatrix(REALSXP, splitcount, 3));"
+PROTECT,Rinternals.h,function,rpart.c,278,"inode3 = PROTECT(allocMatrix(INTSXP, nodecount, 6));"
+PROTECT,Rinternals.h,function,rpart.c,285,"isplit3 = PROTECT(allocMatrix(INTSXP, splitcount, 3));"
+PROTECT,Rinternals.h,function,rpart.c,293,"csplit3 = PROTECT(allocMatrix(INTSXP, catcount, maxcat));"
+PROTECT,Rinternals.h,function,rpart.c,327,"SEXP rlist = PROTECT(allocVector(VECSXP, nout));"
+PROTECT,Rinternals.h,function,rpartexp2.c,47,"SEXP keep = PROTECT(allocVector(INTSXP, n));"
+PROTECT,Rinternals.h,function,xpred.c,209,"predict2 = PROTECT(allocVector(REALSXP, n * ncp * nresp));"
+REAL,Rinternals.h,function,pred_rpart.c,140,"pred_rpart0(INTEGER(dimx), asInteger(nnode), asInteger(nsplit), INTEGER(dimc), INTEGER(nnum), INTEGER(nodes2), INTEGER(vnum), REAL(split2), INTEGER(csplit2), INTEGER(usesur), REAL(xdata2), INTEGER(xmiss2), INTEGER(where));"
+REAL,Rinternals.h,function,rpart.c,78,wt = REAL(wt2);
+REAL,Rinternals.h,function,rpart.c,79,parms = REAL(parms2);
+REAL,Rinternals.h,function,rpart.c,96,dptr = REAL(opt2);
+REAL,Rinternals.h,function,rpart.c,115,rp.vcost = REAL(cost2);
+REAL,Rinternals.h,function,rpart.c,122,dptr = REAL(xmat2);
+REAL,Rinternals.h,function,rpart.c,130,dptr = REAL(ymat2);
+REAL,Rinternals.h,function,rpart.c,243,dptr = REAL(cptable3);
+REAL,Rinternals.h,function,rpart.c,263,dptr = REAL(dnode3);
+REAL,Rinternals.h,function,rpart.c,270,dptr = REAL(dsplit3);
+REAL,Rinternals.h,function,rpart_callback.c,60,ydata = REAL(stemp);
+REAL,Rinternals.h,function,rpart_callback.c,63,wdata = REAL(stemp);
+REAL,Rinternals.h,function,rpart_callback.c,66,xdata = REAL(stemp);
+REAL,Rinternals.h,function,rpart_callback.c,117,dptr = REAL(value);
+REAL,Rinternals.h,function,rpart_callback.c,150,dptr = REAL(goodness);
+REAL,Rinternals.h,function,rpartexp2.c,48,"Rpartexp2(n, REAL(dtimes), asReal(eps), INTEGER(keep));"
+REAL,Rinternals.h,function,xpred.c,72,wt = REAL(wt2);
+REAL,Rinternals.h,function,xpred.c,73,parms = REAL(parms2);
+REAL,Rinternals.h,function,xpred.c,75,cp = REAL(cp2);
+REAL,Rinternals.h,function,xpred.c,94,dptr = REAL(opt2);
+REAL,Rinternals.h,function,xpred.c,113,rp.vcost = REAL(cost2);
+REAL,Rinternals.h,function,xpred.c,121,dptr = REAL(xmat2);
+REAL,Rinternals.h,function,xpred.c,129,dptr = REAL(ymat2);
+REAL,Rinternals.h,function,xpred.c,210,predict = REAL(predict2);
+R_CheckUserInterrupt,R_ext/Utils.h,function,xpred.c,291,R_CheckUserInterrupt();
+R_CheckUserInterrupt,R_ext/Utils.h,function,xval.c,168,R_CheckUserInterrupt();
+R_FINITE,R_ext/Arith.h,function,branch.c,39,if (R_FINITE(xdata[j][obs])) {
+R_FINITE,R_ext/Arith.h,function,branch.c,59,if (R_FINITE(xdata[j][obs])) {  /* not missing */
+R_FINITE,R_ext/Arith.h,function,nodesplit.c,107,if (!R_FINITE(xdata[var][j]))
+R_FINITE,R_ext/Arith.h,function,rpart.c,154,if (!R_FINITE(rp.xdata[i][k])) {
+R_FINITE,R_ext/Arith.h,function,xpred.c,153,if (!R_FINITE(rp.xdata[i][k])) {
+R_Free,R_ext/RS.h,function,free_tree.c,13,R_Free(spl);
+R_Free,R_ext/RS.h,function,free_tree.c,29,R_Free(node);
+R_Free,R_ext/RS.h,function,insert_split.c,36,R_Free(s3);
+R_Free,R_ext/RS.h,function,insert_split.c,63,R_Free(s4);
+R_Free,R_ext/RS.h,function,xval.c,178,R_Free(savew);
+R_Free,R_ext/RS.h,function,xval.c,179,R_Free(xtemp);
+R_Version,Rversion.h,function,init.c,27,"#if defined(R_VERSION) && R_VERSION >= R_Version(2, 16, 0)"
+R_Version,Rversion.h,function,rpart_callback.c,19,"#if R_VERSION < R_Version(4, 5, 0)"
+R_alloc,R.h,function,rpart.h,25,"#define ALLOC(a,b)  R_alloc(a,b)"
+R_chk_calloc,R.h,function,rpart.h,26,"#define CALLOC(a,b) R_chk_calloc((size_t)(a), b)"
+R_forceSymbols,R_ext/Rdynload.h,function,init.c,28,"R_forceSymbols(dll, TRUE);"
+R_getVar,Rinternals.h,function,rpart_callback.c,59,"stemp = R_getVar(install(""yback""), rho, FALSE);"
+R_getVar,Rinternals.h,function,rpart_callback.c,62,"stemp = R_getVar(install(""wback""), rho, FALSE);"
+R_getVar,Rinternals.h,function,rpart_callback.c,65,"stemp = R_getVar(install(""xback""), rho, FALSE);"
+R_getVar,Rinternals.h,function,rpart_callback.c,68,"stemp = R_getVar(install(""nback""), rho, FALSE);"
+R_registerRoutines,R_ext/Rdynload.h,function,init.c,25,"R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);"
+R_useDynamicSymbols,R_ext/Rdynload.h,function,init.c,26,"R_useDynamicSymbols(dll, FALSE);"
+Rprintf,R_ext/Print.h,function,print_tree.c,59,"Rprintf(""\n\nNode number %d: %d observations"", id, me->num_obs);"
+Rprintf,R_ext/Print.h,function,print_tree.c,60,"Rprintf(""\t   Complexity param= %f\n"", me->complexity);"
+Rprintf,R_ext/Print.h,function,print_tree.c,61,"Rprintf(""  response estimate=%f,  risk/n= %f\n"", *(me->response_est), me->risk / me->num_obs);"
+Rprintf,R_ext/Print.h,function,print_tree.c,65,"Rprintf(""  left son=%d (%d obs)"", 2 * id, (me->leftson)->num_obs);"
+Rprintf,R_ext/Print.h,function,print_tree.c,67,"Rprintf("" right son=%d (%d obs)"", 2 * id + 1, (me->rightson)->num_obs);"
+Rprintf,R_ext/Print.h,function,print_tree.c,71,"Rprintf(""\n"");"
+Rprintf,R_ext/Print.h,function,print_tree.c,73,"Rprintf("", %d obs do not split\n"", i);"
+Rprintf,R_ext/Print.h,function,print_tree.c,75,"Rprintf(""\n"");"
+Rprintf,R_ext/Print.h,function,print_tree.c,77,"Rprintf(""  Primary splits:\n"");"
+Rprintf,R_ext/Print.h,function,print_tree.c,82,"Rprintf(""\tvar%d < %5g to the left, improve=%5.3f,  (%d missing)\n"", j, ss->spoint, ss->improve, me->num_obs - ss->count);"
+Rprintf,R_ext/Print.h,function,print_tree.c,86,"Rprintf(""\tvar%d > %5g to the left, improve=%5.3f, (%d missing)\n"", j, ss->spoint, ss->improve, me->num_obs - ss->count);"
+Rprintf,R_ext/Print.h,function,print_tree.c,90,"Rprintf(""\tvar%d splits as "", j);"
+Rprintf,R_ext/Print.h,function,print_tree.c,94,"Rprintf(""L"");"
+Rprintf,R_ext/Print.h,function,print_tree.c,97,"Rprintf(""R"");"
+Rprintf,R_ext/Print.h,function,print_tree.c,100,"Rprintf(""-"");"
+Rprintf,R_ext/Print.h,function,print_tree.c,104,"Rprintf("",\timprove=%5.3f, (%d missing)\n"", ss->improve, (me->num_obs - ss->count));"
+Rprintf,R_ext/Print.h,function,print_tree.c,107,"Rprintf("", improve=%5.3f, (%d missing)\n"", ss->improve, (me->num_obs - ss->count));"
+Rprintf,R_ext/Print.h,function,print_tree.c,116,"Rprintf(""  Surrogate splits:\n"");"
+Rprintf,R_ext/Print.h,function,print_tree.c,121,"Rprintf(""\tvar%d < %5g to the left, agree=%5.3f, (%d split)\n"", j, ss->spoint, ss->improve, ss->count);"
+Rprintf,R_ext/Print.h,function,print_tree.c,125,"Rprintf(""\tvar%d > %5g to the left, agree=%5.3f, (%d split)\n"", j, ss->spoint, ss->improve, ss->count);"
+Rprintf,R_ext/Print.h,function,print_tree.c,129,"Rprintf(""\tvar%d splits as "", j);"
+Rprintf,R_ext/Print.h,function,print_tree.c,133,"Rprintf(""L"");"
+Rprintf,R_ext/Print.h,function,print_tree.c,136,"Rprintf(""R"");"
+Rprintf,R_ext/Print.h,function,print_tree.c,139,"Rprintf(""-"");"
+Rprintf,R_ext/Print.h,function,print_tree.c,143,"Rprintf("",\tagree=%5.3f, (%d split)\n"", ss->improve, ss->count);"
+Rprintf,R_ext/Print.h,function,print_tree.c,146,"Rprintf("", agree=%5.3f, (%d split)\n"", ss->improve, ss->count);"
+Rprintf,R_ext/Print.h,function,xval.c,151,"Rprintf(""\nObs %d, y=%f \n"", jj, rp.ydata[j][0]);"
+Rprintf,R_ext/Print.h,function,xval.c,161,"Rprintf(""  cp=%f, pred=%f, xtemp=%f\n"", cp[jj] / old_wt, xpred[jj], xtemp[jj]);"
+SET_STRING_ELT,Rinternals.h,function,rpart.c,331,"SET_STRING_ELT(rname, 0, mkChar(""which""));"
+SET_STRING_ELT,Rinternals.h,function,rpart.c,333,"SET_STRING_ELT(rname, 1, mkChar(""cptable""));"
+SET_STRING_ELT,Rinternals.h,function,rpart.c,335,"SET_STRING_ELT(rname, 2, mkChar(""dsplit""));"
+SET_STRING_ELT,Rinternals.h,function,rpart.c,337,"SET_STRING_ELT(rname, 3, mkChar(""isplit""));"
+SET_STRING_ELT,Rinternals.h,function,rpart.c,339,"SET_STRING_ELT(rname, 4, mkChar(""dnode""));"
+SET_STRING_ELT,Rinternals.h,function,rpart.c,341,"SET_STRING_ELT(rname, 5, mkChar(""inode""));"
+SET_STRING_ELT,Rinternals.h,function,rpart.c,344,"SET_STRING_ELT(rname, 6, mkChar(""csplit""));"
+SET_VECTOR_ELT,Rinternals.h,function,rpart.c,330,"SET_VECTOR_ELT(rlist, 0, which3);"
+SET_VECTOR_ELT,Rinternals.h,function,rpart.c,332,"SET_VECTOR_ELT(rlist, 1, cptable3);"
+SET_VECTOR_ELT,Rinternals.h,function,rpart.c,334,"SET_VECTOR_ELT(rlist, 2, dsplit3);"
+SET_VECTOR_ELT,Rinternals.h,function,rpart.c,336,"SET_VECTOR_ELT(rlist, 3, isplit3);"
+SET_VECTOR_ELT,Rinternals.h,function,rpart.c,338,"SET_VECTOR_ELT(rlist, 4, dnode3);"
+SET_VECTOR_ELT,Rinternals.h,function,rpart.c,340,"SET_VECTOR_ELT(rlist, 5, inode3);"
+SET_VECTOR_ELT,Rinternals.h,function,rpart.c,343,"SET_VECTOR_ELT(rlist, 6, csplit3);"
+UNPROTECT,Rinternals.h,function,pred_rpart.c,145,UNPROTECT(1);
+UNPROTECT,Rinternals.h,function,rpart.c,347,UNPROTECT(1 + nout);
+UNPROTECT,Rinternals.h,function,rpartexp2.c,49,UNPROTECT(1);
+UNPROTECT,Rinternals.h,function,xpred.c,294,UNPROTECT(1);
+allocMatrix,Rinternals.h,function,rpart.c,241,"cptable3 = PROTECT(allocMatrix(REALSXP, xvals > 1 ? 5 : 3, rp.num_unique_cp));"
+allocMatrix,Rinternals.h,function,rpart.c,261,"dnode3 = PROTECT(allocMatrix(REALSXP, nodecount, (3 + rp.num_resp)));"
+allocMatrix,Rinternals.h,function,rpart.c,269,"dsplit3 = PROTECT(allocMatrix(REALSXP, splitcount, 3));"
+allocMatrix,Rinternals.h,function,rpart.c,278,"inode3 = PROTECT(allocMatrix(INTSXP, nodecount, 6));"
+allocMatrix,Rinternals.h,function,rpart.c,285,"isplit3 = PROTECT(allocMatrix(INTSXP, splitcount, 3));"
+allocMatrix,Rinternals.h,function,rpart.c,293,"csplit3 = PROTECT(allocMatrix(INTSXP, catcount, maxcat));"
+allocVector,Rinternals.h,function,pred_rpart.c,139,"SEXP where = PROTECT(allocVector(INTSXP, n));"
+allocVector,Rinternals.h,function,rpart.c,194,"which3 = PROTECT(allocVector(INTSXP, n));"
+allocVector,Rinternals.h,function,rpart.c,327,"SEXP rlist = PROTECT(allocVector(VECSXP, nout));"
+allocVector,Rinternals.h,function,rpart.c,328,"SEXP rname = allocVector(STRSXP, nout);"
+allocVector,Rinternals.h,function,rpartexp2.c,47,"SEXP keep = PROTECT(allocVector(INTSXP, n));"
+allocVector,Rinternals.h,function,xpred.c,209,"predict2 = PROTECT(allocVector(REALSXP, n * ncp * nresp));"
+asInteger,Rinternals.h,function,pred_rpart.c,138,int n = asInteger(dimx);
+asInteger,Rinternals.h,function,pred_rpart.c,140,"pred_rpart0(INTEGER(dimx), asInteger(nnode), asInteger(nsplit), INTEGER(dimc), INTEGER(nnum), INTEGER(nodes2), INTEGER(vnum), REAL(split2), INTEGER(csplit2), INTEGER(usesur), REAL(xdata2), INTEGER(xmiss2), INTEGER(where));"
+asInteger,Rinternals.h,function,rpart.c,77,xvals = asInteger(xvals2);
+asInteger,Rinternals.h,function,rpart.c,83,if (asInteger(method2) <= NUM_METHODS) {
+asInteger,Rinternals.h,function,rpart.c,84,i = asInteger(method2) - 1;
+asInteger,Rinternals.h,function,rpart.c,89,rp.num_y = asInteger(ny2);
+asInteger,Rinternals.h,function,rpart_callback.c,54,ysave = asInteger(ny);
+asInteger,Rinternals.h,function,rpart_callback.c,55,rsave = asInteger(nr);
+asInteger,Rinternals.h,function,xpred.c,71,xvals = asInteger(xvals2);
+asInteger,Rinternals.h,function,xpred.c,81,if (asInteger(method2) <= NUM_METHODS) {
+asInteger,Rinternals.h,function,xpred.c,82,i = asInteger(method2) - 1;
+asInteger,Rinternals.h,function,xpred.c,87,rp.num_y = asInteger(ny2);
+asInteger,Rinternals.h,function,xpred.c,114,rp.num_resp = asInteger(nresp2);
+asInteger,Rinternals.h,function,xpred.c,205,if (asInteger(all2) == 1)
+asReal,Rinternals.h,function,rpartexp2.c,48,"Rpartexp2(n, REAL(dtimes), asReal(eps), INTEGER(keep));"
+asReal,Rinternals.h,function,xpred.c,76,toprisk = asReal(toprisk2);
+error,R_ext/Error.h,function,rpart.c,91,"error(_(""Invalid value for 'method'""));"
+error,R_ext/Error.h,function,rpart.c,203,"error(""%s"",errmsg);"
+error,R_ext/Error.h,function,rpart_callback.c,24,"error(_(""variable '%s' not found""), CHAR(PRINTNAME(sym)));"
+error,R_ext/Error.h,function,rpart_callback.c,114,"error(_(""return value not a vector""));"
+error,R_ext/Error.h,function,rpart_callback.c,116,"error(_(""returned value is the wrong length""));"
+error,R_ext/Error.h,function,rpart_callback.c,148,"error(_(""the expression expr1 did not return a vector!""));"
+error,R_ext/Error.h,function,xpred.c,89,"error(_(""Invalid value for 'method'""));"
+eval,Rinternals.h,function,rpart_callback.c,112,"value = eval(expr2, rho);"
+eval,Rinternals.h,function,rpart_callback.c,146,"goodness = eval(expr1, rho);"
+findVar,Rinternals.h,function,rpart_callback.c,22,"SEXP val = inherits ? findVar(sym, rho) : findVarInFrame(rho, sym);"
+findVarInFrame,Rinternals.h,function,rpart_callback.c,22,"SEXP val = inherits ? findVar(sym, rho) : findVarInFrame(rho, sym);"
+install,Rinternals.h,function,rpart_callback.c,59,"stemp = R_getVar(install(""yback""), rho, FALSE);"
+install,Rinternals.h,function,rpart_callback.c,62,"stemp = R_getVar(install(""wback""), rho, FALSE);"
+install,Rinternals.h,function,rpart_callback.c,65,"stemp = R_getVar(install(""xback""), rho, FALSE);"
+install,Rinternals.h,function,rpart_callback.c,68,"stemp = R_getVar(install(""nback""), rho, FALSE);"
+isReal,Rinternals.h,function,rpart_callback.c,113,if (!isReal(value))
+isReal,Rinternals.h,function,rpart_callback.c,147,if (!isReal(goodness))
+mkChar,Rinternals.h,function,rpart.c,331,"SET_STRING_ELT(rname, 0, mkChar(""which""));"
+mkChar,Rinternals.h,function,rpart.c,333,"SET_STRING_ELT(rname, 1, mkChar(""cptable""));"
+mkChar,Rinternals.h,function,rpart.c,335,"SET_STRING_ELT(rname, 2, mkChar(""dsplit""));"
+mkChar,Rinternals.h,function,rpart.c,337,"SET_STRING_ELT(rname, 3, mkChar(""isplit""));"
+mkChar,Rinternals.h,function,rpart.c,339,"SET_STRING_ELT(rname, 4, mkChar(""dnode""));"
+mkChar,Rinternals.h,function,rpart.c,341,"SET_STRING_ELT(rname, 5, mkChar(""inode""));"
+mkChar,Rinternals.h,function,rpart.c,344,"SET_STRING_ELT(rname, 6, mkChar(""csplit""));"
+ncols,Rinternals.h,function,rpart.c,111,rp.nvar = ncols(xmat2);
+ncols,Rinternals.h,function,xpred.c,109,rp.nvar = ncols(xmat2);
+nrows,Rinternals.h,function,rpart.c,108,rp.n = nrows(xmat2);
+nrows,Rinternals.h,function,xpred.c,106,rp.n = nrows(xmat2);
+setAttrib,Rinternals.h,function,rpart.c,329,"setAttrib(rlist, R_NamesSymbol, rname);"
+warning,R_ext/Error.h,function,rundown.c,48,"warning(""Warning message--see rundown.c"");"
+warning,R_ext/Error.h,function,rundown2.c,48,"warning(""Warning message--see rundown2.c"");"

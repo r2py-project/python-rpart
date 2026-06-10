@@ -1,0 +1,3 @@
+external_item,header_file,category,file_name,line_number,context_statement
+R_FINITE,R_ext/Arith.h,function,branch.c,39,"if (R_FINITE(xdata[j][obs])) {"
+R_FINITE,R_ext/Arith.h,function,branch.c,59,"if (R_FINITE(xdata[j][obs])) {  /* not missing */"

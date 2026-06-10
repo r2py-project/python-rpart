@@ -1,0 +1,3 @@
+external_item,header_file,category,file_name,line_number,context_statement
+SEXP,Rinternals.h,type,rpartproto.h,39,"SEXP rpart(SEXP ncat2, SEXP method2, SEXP opt2, SEXP parms2, SEXP ymat2, SEXP xmat2, SEXP xvals2, SEXP xgrp2, SEXP wt2, SEXP ny2, SEXP cost2);"
+SEXP,Rinternals.h,type,rpartproto.h,57,"SEXP xpred(SEXP ncat2, SEXP method2, SEXP opt2, SEXP parms2, SEXP xvals2, SEXP xgrp2, SEXP ymat2, SEXP xmat2, SEXP wt2, SEXP ny2, SEXP cost2, SEXP all2, SEXP cp2, SEXP toprisk2, SEXP nresp2);"

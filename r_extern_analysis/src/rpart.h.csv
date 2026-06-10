@@ -1,0 +1,4 @@
+external_item,header_file,category,file_name,line_number,context_statement
+R_alloc,R.h,function,rpart.h,25,"#define ALLOC(a,b)  R_alloc(a,b)"
+R_chk_calloc,R.h,function,rpart.h,26,"#define CALLOC(a,b) R_chk_calloc((size_t)(a), b)"
+ISNAN,R.h,function,rpart.h,27,"#define RPARTNA(a) ISNAN(a)"

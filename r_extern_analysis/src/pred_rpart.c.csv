@@ -1,0 +1,11 @@
+external_item,header_file,category,file_name,line_number,context_statement
+SEXP,Rinternals.h,type,pred_rpart.c,133,"SEXP pred_rpart(SEXP dimx, SEXP nnode, SEXP nsplit, SEXP dimc, SEXP nnum, SEXP nodes2, SEXP vnum, SEXP split2, SEXP csplit2, SEXP usesur, SEXP xdata2, SEXP xmiss2)"
+asInteger,Rinternals.h,function,pred_rpart.c,138,"int n = asInteger(dimx);"
+INTSXP,Rinternals.h,type,pred_rpart.c,139,"SEXP where = PROTECT(allocVector(INTSXP, n));"
+PROTECT,Rinternals.h,function,pred_rpart.c,139,"SEXP where = PROTECT(allocVector(INTSXP, n));"
+SEXP,Rinternals.h,type,pred_rpart.c,139,"SEXP where = PROTECT(allocVector(INTSXP, n));"
+allocVector,Rinternals.h,function,pred_rpart.c,139,"SEXP where = PROTECT(allocVector(INTSXP, n));"
+INTEGER,Rinternals.h,function,pred_rpart.c,140,"pred_rpart0(INTEGER(dimx), asInteger(nnode), asInteger(nsplit), INTEGER(dimc), INTEGER(nnum), INTEGER(nodes2), INTEGER(vnum), REAL(split2), INTEGER(csplit2), INTEGER(usesur), REAL(xdata2), INTEGER(xmiss2), INTEGER(where));"
+REAL,Rinternals.h,function,pred_rpart.c,140,"pred_rpart0(INTEGER(dimx), asInteger(nnode), asInteger(nsplit), INTEGER(dimc), INTEGER(nnum), INTEGER(nodes2), INTEGER(vnum), REAL(split2), INTEGER(csplit2), INTEGER(usesur), REAL(xdata2), INTEGER(xmiss2), INTEGER(where));"
+asInteger,Rinternals.h,function,pred_rpart.c,140,"pred_rpart0(INTEGER(dimx), asInteger(nnode), asInteger(nsplit), INTEGER(dimc), INTEGER(nnum), INTEGER(nodes2), INTEGER(vnum), REAL(split2), INTEGER(csplit2), INTEGER(usesur), REAL(xdata2), INTEGER(xmiss2), INTEGER(where));"
+UNPROTECT,Rinternals.h,function,pred_rpart.c,145,"UNPROTECT(1);"
