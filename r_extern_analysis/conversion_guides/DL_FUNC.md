@@ -1,45 +1,87 @@
 # Conversion Guide: `DL_FUNC`
 
----
-
 ## 1. Overview of `DL_FUNC` in R API
 
-`DL_FUNC` is a generic function pointer type defined in `R_ext/Rdynload.h` as `typedef void * (*DL_FUNC)(void)`. Its sole purpose is to serve as a uniform, type-erased function pointer used when registering native C/C++ routines with R's dynamic loading infrastructure. It appears exclusively inside `R_CallMethodDef`, `R_CMethodDef`, `R_FortranMethodDef`, and `R_ExternalMethodDef` registration tables, which are passed to `R_registerRoutines()` during package initialization so that R can locate and dispatch compiled functions via `.Call`, `.External`, `.C`, or `.Fortran`.
+`DL_FUNC` is a generic function-pointer type defined in `R_ext/Rdynload.h` as
+`typedef void * (*DL_FUNC)(void)`. It serves as a universal, type-erased
+handle to any C function that is to be registered with R's dynamic-loading
+subsystem. In practice it is used exclusively inside `R_CallMethodDef`,
+`R_CMethodDef`, and `R_FortranMethodDef` registration tables, where each entry
+pairs a string name with a cast-to-`DL_FUNC` function pointer and an argument
+count, allowing R's `R_registerRoutines` to bind R-level `.Call`/`.C`/`.Fortran`
+symbols to compiled routines at package load time.
 
 ---
 
 ## 2. Contextual Usage Analysis
 
-### Source Window: `rpart/src/init.c`, line 12
+### Source location
 
-The complete `init.c` file is short (31 lines) and entirely devoted to registration bookkeeping. Its structure is:
+| File | Line | Context |
+|------|------|---------|
+| `init.c` | 12–19 | `static const R_CallMethodDef CallEntries[]` array definition |
 
-1. **Lines 6-10** — Forward declarations of functions whose definitions live in other translation units (`init_rpcallback`, `rpartexp2`, `pred_rpart`). The signatures of `rpart` and `xpred` come from `rpartproto.h`.
-2. **Lines 12-19** — A `static const R_CallMethodDef CallEntries[]` table. Each entry is a three-field struct `{name, DL_FUNC-cast function pointer, argument count}`. The sentinel `{NULL, NULL, 0}` terminates the array.
-3. **Lines 22-30** — `R_init_rpart(DllInfo *dll)`, the mandatory package load hook. It calls `R_registerRoutines`, `R_useDynamicSymbols(dll, FALSE)` (disabling symbol search by name to force use of the registration table), and `R_forceSymbols(dll, TRUE)` (requiring that R-level calls use `getNativeSymbolInfo` rather than bare string names).
+### 31-line window analysis (`init.c`, lines 1–31)
 
-### Registered functions and their `.Call` signatures
+The entire `init.c` file is reproduced below for reference:
 
-| R name | C function | SEXP argument count |
-|---|---|---|
-| `init_rpcallback` | `init_rpcallback` | 5 |
-| `rpart` | `rpart` | 11 |
-| `xpred` | `xpred` | 15 |
-| `rpartexp2` | `rpartexp2` | 2 |
-| `pred_rpart` | `pred_rpart` | 12 |
+```c
+#include "rpart.h"
+#include "R_ext/Rdynload.h"
+#include "node.h"
+#include "rpartproto.h"
 
-All five functions return `SEXP` and accept only `SEXP` arguments, which is the canonical `.Call` convention.
+SEXP init_rpcallback(SEXP rhox, SEXP ny, SEXP nr, SEXP expr1x, SEXP expr2x);
+SEXP rpartexp2(SEXP dtimes, SEXP seps);
+SEXP pred_rpart(SEXP dimx, SEXP nnode, SEXP nsplit, SEXP dimc,
+        SEXP nnum, SEXP nodes2, SEXP vnum, SEXP split2,
+        SEXP csplit2, SEXP usesur, SEXP xdata2, SEXP xmiss2);
 
-### Data types and memory management macros present
+static const R_CallMethodDef CallEntries[] = {
+    {"init_rpcallback", (DL_FUNC) &init_rpcallback, 5},
+    {"rpart",           (DL_FUNC) &rpart,            11},
+    {"xpred",           (DL_FUNC) &xpred,            15},
+    {"rpartexp2",       (DL_FUNC) &rpartexp2,          2},
+    {"pred_rpart",      (DL_FUNC) &pred_rpart,        12},
+    {NULL, NULL, 0}
+};
 
-- `DL_FUNC` — generic function pointer; used only for casting, not for calling.
-- `R_CallMethodDef` — struct `{const char *name; DL_FUNC fun; int numArgs;}`.
-- `DllInfo *` — opaque handle to the loaded shared object; supplied by R to `R_init_<pkg>`.
-- No `PROTECT`/`UNPROTECT`, no `allocVector`, no `SEXP` object manipulation occurs in `init.c` itself.
+#include <Rversion.h>
+void
+R_init_rpart(DllInfo *dll)
+{
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+#if defined(R_VERSION) && R_VERSION >= R_Version(2, 16, 0)
+    R_forceSymbols(dll, TRUE);
+#endif
+}
+```
 
-### Distinct usage pattern
+### Observations
 
-There is exactly one usage pattern: **casting a C function pointer to `DL_FUNC` inside an `R_CallMethodDef` entry for `.Call` registration**. No `.C`/`.Fortran` registration is present.
+- `DL_FUNC` appears **only as a cast operator** inside `R_CallMethodDef`
+  initializer entries: `(DL_FUNC) &<function_name>`.
+- Every registered function has a `SEXP`-returning, `SEXP`-argument signature
+  consistent with the `.Call` API.
+- The table is passed as the second (`callRoutines`) argument of
+  `R_registerRoutines`, with `NULL` for the `.C` and `.Fortran` slots.
+- `R_useDynamicSymbols(dll, FALSE)` and `R_forceSymbols(dll, TRUE)` lock the
+  package so that only the explicitly registered names are accessible; this is a
+  security/stability best practice that must be preserved (or adapted) in the
+  converted version.
+- There are no memory-management macros (`PROTECT`, `UNPROTECT`, `allocVector`)
+  inside `init.c` itself; those live in the individual registered functions.
+
+### Registered functions and their signatures
+
+| R-level name | C function | Arg count | C signature |
+|---|---|---|---|
+| `init_rpcallback` | `init_rpcallback` | 5 | `SEXP(SEXP, SEXP, SEXP, SEXP, SEXP)` |
+| `rpart`            | `rpart`           | 11 | `SEXP(SEXP×11)` |
+| `xpred`            | `xpred`           | 15 | `SEXP(SEXP×15)` |
+| `rpartexp2`        | `rpartexp2`       | 2  | `SEXP(SEXP, SEXP)` |
+| `pred_rpart`       | `pred_rpart`      | 12 | `SEXP(SEXP×12)` |
 
 ---
 
@@ -47,62 +89,76 @@ There is exactly one usage pattern: **casting a C function pointer to `DL_FUNC` 
 
 ### API paradigm shift
 
-When migrating functions from the `.Call` API to the `.C` API, the registration mechanism must change in two coordinated ways:
+Under the `.Call` API, every registered function receives and returns `SEXP`
+objects; `DL_FUNC` is used purely as a type-erasing cast to store those
+function pointers uniformly in `R_CallMethodDef`. When migrating to the `.C`
+API the following changes apply:
 
-| Aspect | `.Call` (current) | `.C` (target) |
-|---|---|---|
-| Registration struct | `R_CallMethodDef` | `R_CMethodDef` |
-| Function pointer field | `DL_FUNC fun` | `DL_FUNC fun` (same field) |
-| Arg-type information | `int numArgs` only | `int numArgs` + `R_NativePrimitiveArgType *types` array |
-| Function signature | `SEXP fn(SEXP, SEXP, ...)` | `void fn(int *, double *, ...)` |
-| `R_registerRoutines` slot | second argument (`callRoutines`) | first argument (`croutines`) |
-| R-side call | `.Call("name", ...)` | `.C("name", ...)` |
+1. **Registration struct changes.**
+   Replace `R_CallMethodDef` / `(DL_FUNC) &fn` with `R_CMethodDef` /
+   `(DL_FUNC) &fn`. `R_CMethodDef` carries an additional
+   `R_NativePrimitiveArgType *types` field that must list the native type of
+   every argument (e.g., `INTSXP`, `REALSXP`).
 
-`DL_FUNC` itself — `typedef void * (*DL_FUNC)(void)` — is **not removed**. It is reused without change inside `R_CMethodDef` as well. The cast `(DL_FUNC) &fn` remains identical in syntax. The key transformation is that:
+2. **`R_registerRoutines` call changes.**
+   The `.C`-method table goes into the *first* (`croutines`) argument, and the
+   `.Call`-method slot (second argument) becomes `NULL`:
+   ```c
+   R_registerRoutines(dll, CEntries, NULL, NULL, NULL);
+   ```
 
-1. The surrounding struct type changes from `R_CallMethodDef` to `R_CMethodDef`.
-2. The struct literal gains an additional `types` field pointing to an array of `R_NativePrimitiveArgType` values that encode each argument's primitive C type.
-3. The `R_registerRoutines` call passes the table in the first (C) slot instead of the second (Call) slot.
-4. Each registered C function must be rewritten from `SEXP fn(SEXP a, SEXP b, ...)` to `void fn(type1 *a, type2 *b, ...)` with all memory pre-allocated by the R caller.
+3. **`DL_FUNC` cast syntax is unchanged.**
+   The `(DL_FUNC) &fn` idiom is identical for `.C` registration; only the
+   surrounding struct type and the additional `types` field change.
 
-This approach ensures `.C` API compatibility because R's `.C` dispatcher does not pass `SEXP` objects; it copies raw C scalars and vectors across the R–C boundary using the type table.
+4. **Function signatures change.**
+   `.C`-registered functions return `void` and receive only basic C pointer
+   types (`int *`, `double *`, `char **`). The `SEXP` arguments and return
+   values must be decomposed into raw pointers in both the C function and the
+   calling R code. Memory allocation (previously handled by `allocVector` /
+   `PROTECT` inside the C functions) must be performed in R before the `.C`
+   call.
+
+5. **`DL_FUNC` itself requires no redefinition.**
+   The `typedef void * (*DL_FUNC)(void)` in `Rdynload.h` is generic enough to
+   hold both `.Call`-style and `.C`-style function pointers after the
+   appropriate cast. No source change to the typedef is needed.
+
+6. **`R_useDynamicSymbols` and `R_forceSymbols` are unchanged.**
+   These calls operate on `DllInfo` and are independent of the API flavour.
 
 ---
 
 ## 4. Step-by-Step Conversion Examples
 
-### Pattern: `.Call` Registration Table Using `DL_FUNC` Casts
+### Pattern: Registration of `.Call`-style functions using `R_CallMethodDef`
 
-- **Locations:** `init.c`, line 12 (the entire `CallEntries` array and `R_init_rpart` body)
+- **Locations:** `init.c`, lines 12–19 (the `CallEntries` table and its use in
+  `R_init_rpart`)
 
 - **Original Context (.Call):**
 
 ```c
 #include "R_ext/Rdynload.h"
 
-/* Forward declarations — all functions return SEXP and accept only SEXP args */
+/* Forward declarations – all functions return SEXP and accept SEXP args */
 SEXP init_rpcallback(SEXP rhox, SEXP ny, SEXP nr, SEXP expr1x, SEXP expr2x);
-SEXP rpart(SEXP ncat2, SEXP method2, SEXP opt2, SEXP parms2, SEXP ymat2,
-           SEXP xmat2, SEXP xvals2, SEXP xgrp2, SEXP wt2, SEXP ny2, SEXP cost2);
-SEXP xpred(SEXP ncat2, SEXP method2, SEXP opt2, SEXP parms2, SEXP xvals2,
-           SEXP xgrp2, SEXP ymat2, SEXP xmat2, SEXP wt2, SEXP ny2,
-           SEXP cost2, SEXP all2, SEXP cp2, SEXP toprisk2, SEXP nresp2);
 SEXP rpartexp2(SEXP dtimes, SEXP seps);
 SEXP pred_rpart(SEXP dimx, SEXP nnode, SEXP nsplit, SEXP dimc,
-                SEXP nnum, SEXP nodes2, SEXP vnum, SEXP split2,
-                SEXP csplit2, SEXP usesur, SEXP xdata2, SEXP xmiss2);
+        SEXP nnum, SEXP nodes2, SEXP vnum, SEXP split2,
+        SEXP csplit2, SEXP usesur, SEXP xdata2, SEXP xmiss2);
 
-/* Registration table for .Call */
 static const R_CallMethodDef CallEntries[] = {
     {"init_rpcallback", (DL_FUNC) &init_rpcallback, 5},
     {"rpart",           (DL_FUNC) &rpart,            11},
     {"xpred",           (DL_FUNC) &xpred,            15},
-    {"rpartexp2",       (DL_FUNC) &rpartexp2,         2},
-    {"pred_rpart",      (DL_FUNC) &pred_rpart,       12},
+    {"rpartexp2",       (DL_FUNC) &rpartexp2,          2},
+    {"pred_rpart",      (DL_FUNC) &pred_rpart,        12},
     {NULL, NULL, 0}
 };
 
-void R_init_rpart(DllInfo *dll) {
+void R_init_rpart(DllInfo *dll)
+{
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
     R_forceSymbols(dll, TRUE);
@@ -115,88 +171,55 @@ void R_init_rpart(DllInfo *dll) {
 #include "R_ext/Rdynload.h"
 
 /*
- * Step 1: Rewrite every registered function.
- * - Return type changes from SEXP to void.
- * - Every SEXP argument becomes a raw C pointer (int *, double *, etc.)
- *   whose storage is allocated by the R caller before .C() is invoked.
- * - Internal PROTECT/UNPROTECT/allocVector calls are removed entirely.
- *
- * Example sketches (actual argument types depend on each function's logic):
+ * Forward declarations – all functions now return void and accept only
+ * basic C pointer types.  Memory for output arrays is allocated in R
+ * and passed in as pre-allocated pointers.
  */
-void init_rpcallback(int *nr, int *ny, int *n_expr,
-                     double *rho_vals, double *expr_vals);
-
-void rpart(int *ncat, int *method, double *opt, double *parms,
-           double *ymat, double *xmat, int *xvals, int *xgrp,
-           double *wt, int *ny, double *cost);
-
-void xpred(int *ncat, int *method, double *opt, double *parms,
-           int *xvals, int *xgrp, double *ymat, double *xmat,
-           double *wt, int *ny, double *cost, int *all,
-           double *cp, double *toprisk, int *nresp);
-
-void rpartexp2(double *dtimes, double *seps);
-
-void pred_rpart(int *dimx, int *nnode, int *nsplit, int *dimc,
-                int *nnum, int *nodes, int *vnum, double *split,
-                int *csplit, int *usesur, double *xdata, int *xmiss);
+void init_rpcallback_c(double *yback, double *wback, double *xback,
+                       int *nback, int *ny, int *nr);
+void rpart_c(int *ncat, int *method, double *opt, double *parms,
+             double *ymat, double *xmat, int *xvals, int *xgrp,
+             double *wt, int *ny, double *cost);
+void xpred_c(int *ncat, int *method, double *opt, double *parms,
+             int *xvals, int *xgrp, double *ymat, double *xmat,
+             double *wt, int *ny, double *cost, int *all,
+             double *cp, double *toprisk, int *nresp);
+void rpartexp2_c(double *dtimes, int *n, double *eps, int *keep);
+void pred_rpart_c(int *dimx, int *nnode, int *nsplit, int *dimc,
+                  int *nnum, int *nodes2, int *vnum, double *split2,
+                  int *csplit2, int *usesur, double *xdata2,
+                  int *xmiss2, int *where);
 
 /*
- * Step 2: Build a type descriptor array for each function.
- * R_NativePrimitiveArgType values:
- *   INTSXP  = 13  (int *)
- *   REALSXP = 14  (double *)
- *   LGLSXP  =  10  (int *, logical)
- *
- * One array per function, length == numArgs.
+ * R_NativePrimitiveArgType arrays encode the type of each argument
+ * in the order they appear in the C function signature.
+ * Common values: REALSXP = 14, INTSXP = 13, LGLSXP = 10.
  */
-static R_NativePrimitiveArgType init_rpcallback_t[] = {
-    INTSXP, INTSXP, INTSXP, REALSXP, REALSXP   /* 5 args */
+static R_NativePrimitiveArgType init_rpcallback_types[] = {
+    REALSXP, REALSXP, REALSXP, INTSXP, INTSXP, INTSXP   /* 6 args */
 };
-
-static R_NativePrimitiveArgType rpart_t[] = {
-    INTSXP, INTSXP, REALSXP, REALSXP,
-    REALSXP, REALSXP, INTSXP, INTSXP,
-    REALSXP, INTSXP, REALSXP                    /* 11 args */
+static R_NativePrimitiveArgType rpartexp2_types[] = {
+    REALSXP, INTSXP, REALSXP, INTSXP                     /* 4 args */
 };
-
-static R_NativePrimitiveArgType xpred_t[] = {
-    INTSXP, INTSXP, REALSXP, REALSXP,
-    INTSXP, INTSXP, REALSXP, REALSXP,
-    REALSXP, INTSXP, REALSXP, INTSXP,
-    REALSXP, REALSXP, INTSXP                    /* 15 args */
+static R_NativePrimitiveArgType pred_rpart_types[] = {
+    INTSXP, INTSXP, INTSXP, INTSXP, INTSXP, INTSXP,
+    INTSXP, REALSXP, INTSXP, INTSXP, REALSXP, INTSXP, INTSXP  /* 13 args */
 };
+/* (define analogous arrays for rpart_c and xpred_c) */
 
-static R_NativePrimitiveArgType rpartexp2_t[] = {
-    REALSXP, REALSXP                            /* 2 args */
-};
-
-static R_NativePrimitiveArgType pred_rpart_t[] = {
-    INTSXP, INTSXP, INTSXP, INTSXP,
-    INTSXP, INTSXP, INTSXP, REALSXP,
-    INTSXP, INTSXP, REALSXP, INTSXP            /* 12 args */
-};
-
-/*
- * Step 3: Replace R_CallMethodDef with R_CMethodDef.
- * Each entry gains a fourth field: the types array pointer.
- * The DL_FUNC cast syntax is identical.
- */
 static const R_CMethodDef CEntries[] = {
-    {"init_rpcallback", (DL_FUNC) &init_rpcallback,  5, init_rpcallback_t},
-    {"rpart",           (DL_FUNC) &rpart,            11, rpart_t},
-    {"xpred",           (DL_FUNC) &xpred,            15, xpred_t},
-    {"rpartexp2",       (DL_FUNC) &rpartexp2,         2, rpartexp2_t},
-    {"pred_rpart",      (DL_FUNC) &pred_rpart,       12, pred_rpart_t},
+    {"init_rpcallback_c", (DL_FUNC) &init_rpcallback_c, 6,  init_rpcallback_types},
+    {"rpart_c",           (DL_FUNC) &rpart_c,           11, NULL /* fill in */},
+    {"xpred_c",           (DL_FUNC) &xpred_c,           15, NULL /* fill in */},
+    {"rpartexp2_c",       (DL_FUNC) &rpartexp2_c,        4,  rpartexp2_types},
+    {"pred_rpart_c",      (DL_FUNC) &pred_rpart_c,      13, pred_rpart_types},
     {NULL, NULL, 0, NULL}
 };
 
-/*
- * Step 4: Pass the table in the first (croutines) slot of
- * R_registerRoutines instead of the second (callRoutines) slot.
- * DllInfo * and the overall hook name are unchanged.
- */
-void R_init_rpart(DllInfo *dll) {
+void R_init_rpart(DllInfo *dll)
+{
+    /* croutines slot (first arg) receives the .C table;
+       callRoutines slot (second arg) is now NULL.          */
     R_registerRoutines(dll, CEntries, NULL, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
     R_forceSymbols(dll, TRUE);
@@ -205,18 +228,55 @@ void R_init_rpart(DllInfo *dll) {
 
 - **Explanation:**
 
-  1. **`DL_FUNC` cast syntax is unchanged.** The expression `(DL_FUNC) &fn` is identical in both `R_CallMethodDef` and `R_CMethodDef` entries. `DL_FUNC` itself requires no conversion; it is a stable type in `R_ext/Rdynload.h`.
+  | Aspect | `.Call` original | `.C` converted |
+  |--------|-----------------|----------------|
+  | Registration struct | `R_CallMethodDef` (3 fields: name, fun, numArgs) | `R_CMethodDef` (4 fields: name, fun, numArgs, **types**) |
+  | Terminator row | `{NULL, NULL, 0}` | `{NULL, NULL, 0, NULL}` |
+  | `R_registerRoutines` slot | 2nd argument (`callRoutines`) | 1st argument (`croutines`) |
+  | `(DL_FUNC)` cast syntax | `(DL_FUNC) &fn` | **identical** — no change |
+  | Function return type | `SEXP` | `void` |
+  | Function argument types | `SEXP` per argument | `int *`, `double *`, etc. per argument |
+  | Output values | returned as `SEXP` | passed as additional pointer arguments; pre-allocated in R |
+  | `types` field | absent | required; use `R_NativePrimitiveArgType[]` array or `NULL` to skip type-checking |
 
-  2. **Struct type changes from `R_CallMethodDef` to `R_CMethodDef`.** `R_CMethodDef` carries a fourth field `R_NativePrimitiveArgType *types`, which encodes each argument's primitive C type. The `.Call` struct omits this field because `.Call` passes raw `SEXP` objects and does not need type coercion metadata.
-
-  3. **`R_registerRoutines` slot shifts.** The signature is `R_registerRoutines(dll, croutines, callRoutines, fortranRoutines, externalRoutines)`. Moving the table from slot 2 (Call) to slot 1 (C) is the only change to this call site. `R_useDynamicSymbols` and `R_forceSymbols` remain identical.
-
-  4. **Function signatures must be rewritten.** Every `SEXP fn(SEXP, ...)` becomes `void fn(type *, ...)`. R's `.C` dispatcher does not pass `SEXP` handles; it performs a shallow copy of each argument into a C-typed buffer and passes a pointer to that buffer. Return values are communicated by mutating one of the pointer arguments in place, not by returning a value. All `PROTECT`/`UNPROTECT` and `allocVector` calls inside the function bodies must be removed; the R script is responsible for pre-allocating every output vector before calling `.C(...)`.
-
-  5. **Indexing convention.** R vectors are 1-based at the R level but 0-based when addressed through a `int *` or `double *` pointer in C. This is unchanged by the migration — the same offset arithmetic that applied inside the original `.Call` functions applies unchanged to the raw pointer versions.
-
-  6. **R-side call site.** Every `.Call("rpart", arg1, ..., arg11)` invocation in R scripts must be replaced with a `.C("rpart", as.integer(arg1), ..., as.double(arg11))` invocation, and the pre-allocated output buffers must be passed as additional arguments. The return value of `.C` is a named list of the (possibly modified) argument vectors.
+  The `(DL_FUNC) &fn` cast is purely a type-erasure mechanism and requires
+  **no syntactic change** during migration. The structural changes are entirely
+  in the surrounding `R_CMethodDef` struct (addition of the `types` field) and
+  in the `R_registerRoutines` argument order. Each concrete registered function
+  must separately be rewritten to accept raw pointers instead of `SEXP` objects,
+  but that transformation is governed by the guides for `SEXP`, `PROTECT`,
+  `INTEGER`, `REAL`, etc., not by `DL_FUNC` itself.
 
 ---
 
-*Guide generated for `DL_FUNC` as found in `rpart/src/init.c`.*
+### Pattern: Type-erasing cast of a function pointer to `DL_FUNC`
+
+- **Locations:** `init.c`, lines 13–17 (every `(DL_FUNC) &<fn>` expression)
+
+- **Original Context (.Call):**
+
+```c
+{"rpartexp2", (DL_FUNC) &rpartexp2, 2},
+```
+
+  where `rpartexp2` has signature `SEXP rpartexp2(SEXP, SEXP)`.
+
+- **C/C++ Equivalent (.C):**
+
+```c
+{"rpartexp2_c", (DL_FUNC) &rpartexp2_c, 4, rpartexp2_types},
+```
+
+  where `rpartexp2_c` has signature
+  `void rpartexp2_c(double *dtimes, int *n, double *eps, int *keep)`.
+
+- **Explanation:**
+
+  The `(DL_FUNC)` cast is a C-standard void-function-pointer cast and is
+  valid for any function pointer regardless of the actual signature. It is
+  needed because `R_CMethodDef.fun` is typed as `DL_FUNC` (i.e.,
+  `void *(*)(void)`) to allow a heterogeneous table of functions with different
+  signatures. The programmer is responsible for ensuring the actual call site
+  (R's `.C()` dispatcher) invokes the function with the correct argument types
+  as declared in the `types` array. No change to the cast syntax is required
+  during migration; only the pointed-to function's signature changes.

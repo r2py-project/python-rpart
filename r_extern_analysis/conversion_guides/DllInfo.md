@@ -1,70 +1,139 @@
 # Conversion Guide: `DllInfo`
 
----
-
 ## 1. Overview of `DllInfo` in R API
 
-`DllInfo` is an opaque struct type defined in `R_ext/Rdynload.h` as `typedef struct _DllInfo DllInfo`. Its internal layout is private to R's dynamic loading subsystem; package code never inspects its fields directly. It serves as a handle to a loaded shared object (.so / .dll) and is the mandatory first argument to `R_registerRoutines`, `R_useDynamicSymbols`, and `R_forceSymbols`. R automatically constructs a `DllInfo` instance for each loaded package and passes a pointer to it into the package's `R_init_<pkgname>` hook at load time, making that hook the single entry point for all native symbol registration.
+`DllInfo` is an opaque struct type defined in `R_ext/Rdynload.h` as
+`typedef struct _DllInfo DllInfo`. It represents a handle to a loaded dynamic
+library (shared object / DLL) within R's internal dynamic-loading subsystem.
+Its sole role in package C code is as the argument type of the mandatory
+`R_init_<pkgname>` entry-point function: R passes a `DllInfo *` pointer to
+that function at library load time, and the package code forwards the pointer
+to `R_registerRoutines`, `R_useDynamicSymbols`, and `R_forceSymbols` to
+register its callable routines and configure symbol-lookup policy. `DllInfo`
+carries no publicly accessible fields; its internal layout is entirely opaque
+to package authors.
 
 ---
 
 ## 2. Contextual Usage Analysis
 
-### Source window: `rpart/src/init.c`, lines 8–30
+### Source location
 
-The entire `init.c` file is 31 lines. The `DllInfo *` pointer appears exactly once — as the parameter of `R_init_rpart` — and is then forwarded to three registration calls. No arithmetic, dereferencing, or field access is ever performed on it; it is purely an opaque token passed through.
+| File | Line | Context |
+|------|------|---------|
+| `init.c` | 23 | `R_init_rpart(DllInfo * dll)` — function signature of the package initializer |
 
+### 31-line window analysis (`init.c`, lines 1–31)
+
+The complete `init.c` file is 30 lines; the full listing is the window:
+
+```c
+#include "rpart.h"
+#include "R_ext/Rdynload.h"
+#include "node.h"
+#include "rpartproto.h"
+
+SEXP init_rpcallback(SEXP rhox, SEXP ny, SEXP nr, SEXP expr1x, SEXP expr2x);
+SEXP rpartexp2(SEXP dtimes, SEXP seps);
+SEXP pred_rpart(SEXP dimx, SEXP nnode, SEXP nsplit, SEXP dimc,
+        SEXP nnum, SEXP nodes2, SEXP vnum, SEXP split2,
+        SEXP csplit2, SEXP usesur, SEXP xdata2, SEXP xmiss2);
+
+static const R_CallMethodDef CallEntries[] = {
+    {"init_rpcallback", (DL_FUNC) &init_rpcallback, 5},
+    {"rpart",           (DL_FUNC) &rpart,            11},
+    {"xpred",           (DL_FUNC) &xpred,            15},
+    {"rpartexp2",       (DL_FUNC) &rpartexp2,          2},
+    {"pred_rpart",      (DL_FUNC) &pred_rpart,        12},
+    {NULL, NULL, 0}
+};
+
+#include <Rversion.h>
+void
+R_init_rpart(DllInfo * dll)
+{
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+#if defined(R_VERSION) && R_VERSION >= R_Version(2, 16, 0)
+    R_forceSymbols(dll, TRUE);
+#endif
+}
 ```
-Line 23:  void R_init_rpart(DllInfo * dll)
-Line 25:      R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
-Line 26:      R_useDynamicSymbols(dll, FALSE);
-Line 28:      R_forceSymbols(dll, TRUE);
-```
 
-**Types involved:**
+### Observations
 
-| Item | Role |
-|---|---|
-| `DllInfo *dll` | Opaque handle to the rpart shared library, injected by R |
-| `R_CallMethodDef CallEntries[]` | Table of five `.Call`-registered functions (see `DL_FUNC.md`) |
-| `R_registerRoutines` | Registers all four API tables (C, Call, Fortran, External) with `dll` |
-| `R_useDynamicSymbols(dll, FALSE)` | Disables fallback symbol search by raw name; forces registration |
-| `R_forceSymbols(dll, TRUE)` | Requires R-level calls to use the registered symbol object, not a string |
-
-**Memory management macros present:** none. `init.c` contains no `PROTECT`, `UNPROTECT`, `allocVector`, or `SEXP` manipulation. Its only job is bookkeeping.
-
-**Distinct usage pattern:** There is exactly one pattern — `DllInfo *` appears as the parameter of the mandatory `R_init_<pkgname>` hook and is passed verbatim into R's registration API. The hook exists solely to set up the symbol tables; `DllInfo *` does not appear in any other context.
+- `DllInfo *` appears **only in the signature of `R_init_rpart`** (line 23). The
+  pointer is never dereferenced, cast, or stored; it is passed directly and
+  unchanged to `R_registerRoutines`, `R_useDynamicSymbols`, and
+  `R_forceSymbols`.
+- The three functions that consume `dll` are all part of R's
+  `R_ext/Rdynload.h` API and accept `DllInfo *info` as their first argument.
+  Their signatures are:
+  ```c
+  int      R_registerRoutines(DllInfo *info,
+               const R_CMethodDef    * const croutines,
+               const R_CallMethodDef * const callRoutines,
+               const R_FortranMethodDef * const fortranRoutines,
+               const R_ExternalMethodDef * const externalRoutines);
+  Rboolean R_useDynamicSymbols(DllInfo *info, Rboolean value);
+  Rboolean R_forceSymbols(DllInfo *info, Rboolean value);
+  ```
+- The existing registration table (`CallEntries`) is of type
+  `R_CallMethodDef[]`, meaning all currently registered functions use the
+  `.Call` API.
+- A related conversion guide for `DL_FUNC` (the function-pointer type used
+  inside registration tables) is available at
+  `/groups/jli9/Yufei/python-rpart/r_extern_analysis/conversion_guides/DL_FUNC.md`.
 
 ---
 
 ## 3. Pure C/C++ Conversion Strategy
 
-### API paradigm shift
+### The role of `DllInfo` is unchanged across API flavours
 
-`DllInfo` itself does not need to be removed or replaced. The struct type, the `R_init_<pkgname>` hook signature, `R_registerRoutines`, `R_useDynamicSymbols`, and `R_forceSymbols` are all equally present in both the `.Call` world and the `.C` world — they are part of R's dynamic loading layer, which is orthogonal to which dispatch mechanism (`.Call` vs. `.C`) is used at runtime.
+`DllInfo` is not an R memory-management type and has no equivalent in the
+`.C`/`.Fortran` domain that needs to be replaced. It is an infrastructure type
+owned entirely by R's dynamic loader. The conversion strategy is therefore:
 
-The conversion impact on `init.c` is therefore confined to what is registered inside the hook, not to `DllInfo` or the hook itself:
+1. **Keep `DllInfo *` in `R_init_<pkgname>` unchanged.** The function
+   signature `void R_init_rpart(DllInfo *dll)` must remain identical. R's
+   loader locates this symbol by name and calls it with a valid `DllInfo *`
+   regardless of whether the package uses `.Call` or `.C`.
 
-| Aspect | `.Call` (current) | `.C` (target) |
-|---|---|---|
-| `DllInfo *dll` parameter | Unchanged | Unchanged |
-| `R_init_rpart` hook name | Unchanged | Unchanged |
-| `R_useDynamicSymbols` call | Unchanged | Unchanged |
-| `R_forceSymbols` call | Unchanged | Unchanged |
-| Registration struct type | `R_CallMethodDef` | `R_CMethodDef` |
-| `R_registerRoutines` slot | second argument (`callRoutines`) | first argument (`croutines`) |
+2. **Redirect the registration table slot.** The only change inside
+   `R_init_rpart` is the argument passed to `R_registerRoutines`. When
+   migrating to `.C`, the `.C`-method table (`R_CMethodDef[]`) is placed in
+   the first slot (`croutines`) instead of `NULL`, and the `.Call`-method
+   table slot (second argument) becomes `NULL`:
+   ```c
+   /* Before (.Call): */
+   R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
 
-Because `DllInfo *` is an opaque pass-through, the migration requires no changes to the type, its declaration, its initialization, or any call that uses it. The only edits inside `R_init_rpart` are: (1) replace `R_CallMethodDef CallEntries[]` with `R_CMethodDef CEntries[]`, and (2) move the table pointer from the second to the first argument of `R_registerRoutines`. See the companion guide `DL_FUNC.md` for the full treatment of those changes.
+   /* After (.C): */
+   R_registerRoutines(dll, CEntries, NULL, NULL, NULL);
+   ```
+   The `dll` pointer itself is passed in exactly the same position and manner.
 
-### Why this approach ensures `.C` API compatibility
+3. **`R_useDynamicSymbols` and `R_forceSymbols` calls are preserved
+   verbatim.** Both functions take `DllInfo *` as their first argument and are
+   API-agnostic; they operate on the loaded library handle, not on individual
+   function entries.
 
-R's `.C` dispatcher and `.Call` dispatcher share the same dynamic loading infrastructure. Both rely on `R_registerRoutines` to locate compiled symbols; both respect the `R_useDynamicSymbols` and `R_forceSymbols` flags. `DllInfo *` is the token that binds a symbol table to a specific shared library. Keeping the hook and its parameter unchanged ensures that R can still locate and validate every compiled routine when the package is loaded, regardless of which dispatch API those routines are accessed through.
+4. **No header changes are needed.** `DllInfo` is defined in
+   `R_ext/Rdynload.h`, which must still be included in the converted
+   `init.c`. No additional or replacement header is required.
+
+5. **`DllInfo` has no pure-C equivalent.** Unlike `SEXP`, `PROTECT`, or
+   `INTEGER`, `DllInfo` is not a computation or memory type that needs to be
+   replaced with a standard C construct. It is an R infrastructure type that
+   persists in any package that loads via R's dynamic loader, including
+   `.C`-based packages.
 
 ---
 
 ## 4. Step-by-Step Conversion Examples
 
-### Pattern: Opaque DLL Handle in the Package Load Hook
+### Pattern: `DllInfo *` as the parameter of the package initializer entry point
 
 - **Locations:** `init.c`, line 23
 
@@ -74,23 +143,18 @@ R's `.C` dispatcher and `.Call` dispatcher share the same dynamic loading infras
 #include "R_ext/Rdynload.h"
 #include <Rversion.h>
 
-/* Registration table built with R_CallMethodDef (see DL_FUNC.md) */
 static const R_CallMethodDef CallEntries[] = {
     {"init_rpcallback", (DL_FUNC) &init_rpcallback, 5},
     {"rpart",           (DL_FUNC) &rpart,            11},
     {"xpred",           (DL_FUNC) &xpred,            15},
-    {"rpartexp2",       (DL_FUNC) &rpartexp2,         2},
-    {"pred_rpart",      (DL_FUNC) &pred_rpart,       12},
+    {"rpartexp2",       (DL_FUNC) &rpartexp2,          2},
+    {"pred_rpart",      (DL_FUNC) &pred_rpart,        12},
     {NULL, NULL, 0}
 };
 
-/* R_init_<pkgname> is the mandatory hook called by R when the shared
-   library is loaded.  The DllInfo * is supplied by R; the package
-   never allocates or frees it. */
 void
 R_init_rpart(DllInfo * dll)
 {
-    /* dll passed in the second (callRoutines) slot */
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 #if defined(R_VERSION) && R_VERSION >= R_Version(2, 16, 0)
@@ -106,49 +170,49 @@ R_init_rpart(DllInfo * dll)
 #include <Rversion.h>
 
 /*
- * DllInfo * and R_init_rpart are UNCHANGED.
- * Only the registration table type and the slot index passed to
- * R_registerRoutines differ from the .Call version.
- *
- * For the full construction of CEntries (R_CMethodDef, type arrays,
- * void function signatures) see DL_FUNC.md.
+ * Forward declarations for .C-style routines.
+ * All functions return void; output is passed via pre-allocated pointer
+ * arguments.  Each void* repartitioned from SEXP becomes int* or double*.
  */
+void init_rpcallback_c(double *yback, double *wback, double *xback,
+                       int *nback, int *ny, int *nr);
+void rpart_c(int *ncat, int *method, double *opt, double *parms,
+             double *ymat, double *xmat, int *xvals, int *xgrp,
+             double *wt, int *ny, double *cost);
+void xpred_c(int *ncat, int *method, double *opt, double *parms,
+             int *xvals, int *xgrp, double *ymat, double *xmat,
+             double *wt, int *ny, double *cost, int *all,
+             double *cp, double *toprisk, int *nresp);
+void rpartexp2_c(double *dtimes, int *n, double *eps, int *keep);
+void pred_rpart_c(int *dimx, int *nnode, int *nsplit, int *dimc,
+                  int *nnum, int *nodes2, int *vnum, double *split2,
+                  int *csplit2, int *usesur, double *xdata2,
+                  int *xmiss2, int *where);
 
-static R_NativePrimitiveArgType init_rpcallback_t[] = {
-    INTSXP, INTSXP, INTSXP, REALSXP, REALSXP
-};
-static R_NativePrimitiveArgType rpart_t[] = {
-    INTSXP, INTSXP, REALSXP, REALSXP,
-    REALSXP, REALSXP, INTSXP, INTSXP,
-    REALSXP, INTSXP, REALSXP
-};
-static R_NativePrimitiveArgType xpred_t[] = {
-    INTSXP, INTSXP, REALSXP, REALSXP,
-    INTSXP, INTSXP, REALSXP, REALSXP,
-    REALSXP, INTSXP, REALSXP, INTSXP,
-    REALSXP, REALSXP, INTSXP
-};
-static R_NativePrimitiveArgType rpartexp2_t[]   = { REALSXP, REALSXP };
-static R_NativePrimitiveArgType pred_rpart_t[]  = {
-    INTSXP, INTSXP, INTSXP, INTSXP,
-    INTSXP, INTSXP, INTSXP, REALSXP,
-    INTSXP, INTSXP, REALSXP, INTSXP
-};
-
+/*
+ * R_NativePrimitiveArgType arrays encode the type of each argument
+ * in the order they appear in the C function signature.
+ * Common SEXPTYPE values: INTSXP = 13, REALSXP = 14, LGLSXP = 10.
+ * Supply NULL for the types field to skip argument-type checking.
+ */
 static const R_CMethodDef CEntries[] = {
-    {"init_rpcallback", (DL_FUNC) &init_rpcallback,  5, init_rpcallback_t},
-    {"rpart",           (DL_FUNC) &rpart,            11, rpart_t},
-    {"xpred",           (DL_FUNC) &xpred,            15, xpred_t},
-    {"rpartexp2",       (DL_FUNC) &rpartexp2,         2, rpartexp2_t},
-    {"pred_rpart",      (DL_FUNC) &pred_rpart,       12, pred_rpart_t},
+    {"init_rpcallback_c", (DL_FUNC) &init_rpcallback_c,  6, NULL},
+    {"rpart_c",           (DL_FUNC) &rpart_c,            11, NULL},
+    {"xpred_c",           (DL_FUNC) &xpred_c,            15, NULL},
+    {"rpartexp2_c",       (DL_FUNC) &rpartexp2_c,         4, NULL},
+    {"pred_rpart_c",      (DL_FUNC) &pred_rpart_c,       13, NULL},
     {NULL, NULL, 0, NULL}
 };
 
-/* Hook signature is identical; DllInfo * is not touched */
+/*
+ * The function signature is IDENTICAL to the .Call version.
+ * DllInfo * dll is passed unchanged to R_registerRoutines.
+ * The only structural change is the table type and the slot order.
+ */
 void
 R_init_rpart(DllInfo * dll)
 {
-    /* Table moved to first (croutines) slot; second (callRoutines) is now NULL */
+    /* .C table goes in the first (croutines) slot; .Call slot is now NULL */
     R_registerRoutines(dll, CEntries, NULL, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 #if defined(R_VERSION) && R_VERSION >= R_Version(2, 16, 0)
@@ -159,26 +223,24 @@ R_init_rpart(DllInfo * dll)
 
 - **Explanation:**
 
-  1. **`DllInfo *dll` is not modified.** The parameter declaration `DllInfo * dll` on line 23 of `init.c` is identical before and after migration. `DllInfo` is defined in `R_ext/Rdynload.h` as `typedef struct _DllInfo DllInfo`; the internal layout is private to R and is never accessed by package code. No include change is required.
+  | Aspect | `.Call` original | `.C` converted |
+  |--------|-----------------|----------------|
+  | `DllInfo * dll` parameter | present | **identical — no change** |
+  | `R_registerRoutines` first arg (`croutines`) | `NULL` | `CEntries` (the `R_CMethodDef[]` table) |
+  | `R_registerRoutines` second arg (`callRoutines`) | `CallEntries` | `NULL` |
+  | `R_useDynamicSymbols(dll, FALSE)` | present | **identical — no change** |
+  | `R_forceSymbols(dll, TRUE)` | present | **identical — no change** |
+  | Registration struct type | `R_CallMethodDef` | `R_CMethodDef` (adds `types` field) |
+  | Registered function return type | `SEXP` | `void` |
+  | Registered function argument types | `SEXP` per arg | `int *`, `double *`, etc. |
 
-  2. **`R_init_rpart` hook name is not modified.** R discovers the load hook by constructing the symbol name `R_init_<pkgname>` at runtime. Renaming the function or changing its signature would silently break package loading. The return type (`void`) and the single `DllInfo *` parameter are mandated by R's loading protocol and must be preserved.
-
-  3. **`R_registerRoutines` slot index shifts.** The function signature is:
-     ```c
-     int R_registerRoutines(DllInfo *info,
-                            const R_CMethodDef      * const croutines,
-                            const R_CallMethodDef   * const callRoutines,
-                            const R_FortranMethodDef* const fortranRoutines,
-                            const R_ExternalMethodDef* const externalRoutines);
-     ```
-     In the original `.Call` version `CallEntries` occupies slot 2 (`callRoutines`) and slot 1 (`croutines`) is `NULL`. In the `.C` version `CEntries` occupies slot 1 (`croutines`) and slot 2 is `NULL`. The first argument — `dll` — and all remaining control flags are unchanged.
-
-  4. **`R_useDynamicSymbols` and `R_forceSymbols` are unchanged.** Both functions accept `DllInfo *` as their first argument. Their semantics — disabling dynamic symbol lookup and requiring registered symbol objects at the R level — apply equally to `.Call` and `.C` registrations and require no adjustment.
-
-  5. **`DL_FUNC` cast syntax is unchanged.** As detailed in `DL_FUNC.md`, the expression `(DL_FUNC) &fn` appears identically in both `R_CallMethodDef` and `R_CMethodDef` entries. `DllInfo` has no bearing on this cast.
-
-  6. **No memory management is added or removed.** `init.c` contains no `SEXP`, `PROTECT`, `UNPROTECT`, or `allocVector` in either version. The hook is purely registration bookkeeping and has no interaction with R's garbage collector.
-
----
-
-*Guide generated for `DllInfo` as found in `rpart/src/init.c`.*
+  `DllInfo *` is an opaque handle supplied by R at load time. Package code
+  never constructs, copies, or frees it. Because it is purely a pass-through
+  argument to R's own registration API functions, its declaration, usage, and
+  the surrounding `R_init_rpart` function signature require **zero changes**
+  when migrating from `.Call` to `.C`. All migration effort is in the
+  registration-table type (`R_CallMethodDef` -> `R_CMethodDef`), the
+  `R_registerRoutines` slot order, and the signatures of the individual
+  registered routines (see the `DL_FUNC` conversion guide for the
+  function-pointer casting details, and the `SEXP` / `PROTECT` / `INTEGER` /
+  `REAL` guides for rewriting individual routine bodies).
