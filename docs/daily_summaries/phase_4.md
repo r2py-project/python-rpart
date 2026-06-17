@@ -1,76 +1,94 @@
-# Phase 4 Research Report: R External Item Conversion Guide Generation
+# Phase 4 Research Report: Fake C++ Header Implementation Guides for R C API External Items
 
-**Date:** 2026-06-11
+**Date:** 2026-06-17
 **Working Directory:** `/groups/jli9/Yufei/python-rpart`
 
 ---
 
 ### 1. Abstract
 
-This session executed a systematic batch generation of `.Call`-to-`.C` API conversion guides for all 51 unique R external identifiers catalogued in `r_extern_analysis/combined.csv` (Phase 3 output). The `generate-r-extern-conversion-guide` subagent was invoked sequentially for each item, producing 51 standalone Markdown guides in `r_extern_analysis/conversion_guides/`. These guides constitute a complete reference for migrating `rpart`'s SEXP-based `.Call` C interface to the raw-pointer-based `.C` interface.
+This session executed batch generation of fake C++ header implementation guides for all 51 unique R C API external items identified in the `rpart/src/` directory. Using the `/generate-r-extern-fake-guides` skill against `r_extern_analysis/combined.csv`, the `generate-r-extern-fake-guide` subagent was invoked sequentially for each external item, producing 51 Markdown guide files in `r_extern_analysis/fake_guides/`. These guides collectively specify how to implement a complete set of drop-in C++ fakes that allow the original rpart C source to compile and link without `libR.so`, enabling direct invocation from Python.
 
 ---
 
 ### 2. Methodology & Actions Taken
 
-#### 2.1 Input Preparation
-The 236-row `r_extern_analysis/combined.csv` (schema: `external_item, header_file, category, file_name, line_number, context_statement`) was parsed to extract all 51 unique `external_item` values. The file was confirmed pre-sorted, allowing linear segmentation without reordering. The output directory `r_extern_analysis/conversion_guides/` was verified to exist prior to processing.
+#### 2.1 Input Parsing
 
-#### 2.2 Sequential Agent Invocations
-The `generate-r-extern-conversion-guide` subagent was invoked exactly once per unique `external_item`, strictly sequentially (no parallelism) so that later guides could cross-reference findings from earlier ones. Each invocation received:
-- `base_folder`: `rpart/src/`
-- `output_directory`: `r_extern_analysis/conversion_guides/`
-- A standalone CSV substring containing only the rows for that item, with the full header row prepended.
+The master CSV `r_extern_analysis/combined.csv` (235 data rows, 1 header row) was read and parsed to extract all unique values in the `external_item` column. This yielded 51 unique identifiers drawn from 16 source files (`rpart.c`, `xpred.c`, `pred_rpart.c`, `rpart_callback.c`, `rpartexp2.c`, `init.c`, `branch.c`, `nodesplit.c`, `xval.c`, `print_tree.c`, `free_tree.c`, `insert_split.c`, `rundown.c`, `rundown2.c`, `rpart.h`, `rpartproto.h`) referencing 10 R include headers (`Rinternals.h`, `R_ext/Print.h`, `R_ext/Error.h`, `R_ext/Boolean.h`, `R_ext/RS.h`, `R_ext/Rdynload.h`, `R_ext/Arith.h`, `Rversion.h`, `R.h`, `R_ext/Utils.h`).
 
-All 51 invocations completed without error.
+#### 2.2 Output Directory Creation
 
-#### 2.3 Progress Tracking
-A `TodoWrite` task list of 51 items was maintained throughout, with each item marked `completed` immediately after its agent confirmed the guide was written.
+The target output directory `r_extern_analysis/fake_guides/` did not exist and was created via `mkdir -p` before processing began.
 
-#### 2.4 Files Written
-51 Markdown files created in `r_extern_analysis/conversion_guides/`:
+#### 2.3 Sequential Subagent Invocation
 
-| Category | Items |
-|----------|-------|
-| SEXP types | `SEXP.md`, `INTSXP.md`, `REALSXP.md`, `STRSXP.md`, `VECSXP.md` |
-| Memory allocation | `allocVector.md`, `allocMatrix.md`, `PROTECT.md`, `UNPROTECT.md`, `R_alloc.md`, `R_chk_calloc.md`, `R_Free.md` |
-| Accessor macros | `INTEGER.md`, `REAL.md`, `CHAR.md`, `LENGTH.md`, `ncols.md`, `nrows.md` |
-| Object construction | `SET_VECTOR_ELT.md`, `SET_STRING_ELT.md`, `mkChar.md`, `setAttrib.md`, `R_NamesSymbol.md`, `R_NilValue.md` |
-| Type coercion | `asInteger.md`, `asReal.md`, `isReal.md`, `Rboolean.md`, `TRUE.md`, `FALSE.md` |
-| Arithmetic | `ISNAN.md`, `R_FINITE.md` |
-| I/O & errors | `Rprintf.md`, `error.md`, `warning.md`, `R_CheckUserInterrupt.md` |
-| Symbol/env (callback) | `eval.md`, `findVar.md`, `findVarInFrame.md`, `install.md`, `PRINTNAME.md`, `R_getVar.md`, `R_UnboundValue.md` |
-| DLL registration | `DL_FUNC.md`, `DllInfo.md`, `R_CallMethodDef.md`, `R_registerRoutines.md`, `R_forceSymbols.md`, `R_useDynamicSymbols.md` |
-| Version | `R_Version.md`, `R_VERSION.md` |
+The 51 external items were processed in strict sequential order — the order in which they appear in the pre-sorted CSV — to ensure foundational fake definitions (e.g., `SEXP` struct, `SEXPTYPE` enum, arena allocator) were available as references when later dependent items were generated. For each item:
+
+1. All CSV rows matching the target `external_item` were isolated and prepended with the CSV header to form a standalone subset string.
+2. The `generate-r-extern-fake-guide` subagent was invoked with `base_folder=rpart/src/`, the CSV subset, and `output_directory=r_extern_analysis/fake_guides/`.
+3. The agent read the relevant rpart source files, inspected the R include headers at `~/.conda/envs/r-to-python/lib/R/include/`, and produced a Markdown guide file named `<external_item>.md`.
+
+Progress was tracked in real time using the `TodoWrite` tool across all 51 items. No agent invocations failed or required retries.
+
+#### 2.4 Files Created
+
+- `r_extern_analysis/fake_guides/` — new directory
+- 51 Markdown guide files totaling approximately 1.07 MB (avg. ~21.5 KB/file)
 
 ---
 
 ### 3. Key Findings & Results
 
-#### 3.1 Conversion Strategy Summary
-Guides produced four distinct outcome categories:
+#### 3.1 Classification Distribution
 
-| Strategy | Items | Rationale |
-|----------|-------|-----------|
-| **Retain unchanged** | `Rprintf`, `error`, `warning`, `R_CheckUserInterrupt`, `R_forceSymbols`, `R_useDynamicSymbols`, `R_Version`, `R_VERSION` | Plain C-callable functions with no SEXP dependency; fully legal in `.C` |
-| **Remove entirely from C** | `SEXP`, `PROTECT`, `UNPROTECT`, `allocVector`, `allocMatrix`, `REAL`, `INTEGER`, `SET_VECTOR_ELT`, `SET_STRING_ELT`, `mkChar`, `setAttrib`, `R_NamesSymbol`, `REALSXP`, `INTSXP`, `STRSXP`, `VECSXP` | SEXP-bound; replaced by R-side pre-allocation passed via `.C` pointer arguments |
-| **Direct substitution** | `ISNAN` → `isnan()`, `R_FINITE` → `isfinite()`, `asInteger(x)` → `x[0]`, `asReal(x)` → `x[0]`, `LENGTH(v)` → explicit `int *n` parameter | Standard C equivalents exist; no SEXP involvement at call site |
-| **Remove (`.C`-incompatible)** | `eval`, `findVar`, `findVarInFrame`, `install`, `PRINTNAME`, `R_getVar`, `R_UnboundValue`, `CHAR`, `isReal` (in callback context) | Require live R interpreter or SEXP handles; entire `rpart_callback.c` usage block must remain as `.Call` or be restructured |
+The 51 guides were categorized according to the fake implementation strategy required:
 
-#### 3.2 Registration Change
-The DLL registration in `init.c` requires a single structural change: `R_CallMethodDef CallEntries[]` → `R_CMethodDef CallEntries[]`, and the slot 2 (`.Call`) argument to `R_registerRoutines` → slot 1 (`.C`). The `DL_FUNC` cast syntax and `R_forceSymbols`/`R_useDynamicSymbols` calls are retained unchanged.
+| Category | Description | Count | Items |
+|---|---|---|---|
+| A | Type, enum constant, or registration no-op | 19 | `SEXP`, `INTSXP`, `REALSXP`, `STRSXP`, `VECSXP`, `DL_FUNC`, `DllInfo`, `R_CallMethodDef`, `Rboolean`, `TRUE`, `FALSE`, `R_VERSION`, `R_Version`, `R_NilValue`, `R_NamesSymbol`, `R_UnboundValue`, `R_forceSymbols`, `R_registerRoutines`, `R_useDynamicSymbols` |
+| B | Accessor macro or inline function | 16 | `INTEGER`, `REAL`, `CHAR`, `PROTECT`, `UNPROTECT`, `LENGTH`, `PRINTNAME`, `ISNAN`, `R_FINITE`, `asInteger`, `asReal`, `isReal`, `ncols`, `nrows`, `SET_STRING_ELT`, `SET_VECTOR_ELT` |
+| C | Allocation or memory management | 7 | `allocVector`, `allocMatrix`, `R_alloc`, `R_chk_calloc`, `R_Free`, `mkChar`, `setAttrib` |
+| D | Error, warning, or print function | 4 | `error`, `warning`, `Rprintf`, `R_CheckUserInterrupt` |
+| E | R interpreter item (Python function-pointer bridge) | 5 | `eval`, `findVar`, `findVarInFrame`, `install`, `R_getVar` |
 
-#### 3.3 Matrix Shape Discovery
-`nrows(xmat2)` and `ncols(xmat2)` in `rpart.c` and `xpred.c` (lines 108/106 and 109/107 respectively) have no `.C` equivalent, as the flat `double *` buffer carries no embedded shape metadata. Both dimensions must be promoted to explicit `const int *n_obs` and `const int *n_var` parameters, with `nrow(xmat)` and `ncol(xmat)` called on the R side before `.C` dispatch.
+#### 3.2 Key Technical Decisions
 
-#### 3.4 Callback System Constraint
-`rpart_callback.c` uses `eval()`, `findVar`, `findVarInFrame`, `install`, and static `SEXP` globals. These are fundamentally incompatible with `.C` and cannot be ported. The callback-based user-defined split interface must either be preserved as a separate `.Call` entry point or restructured to pass pre-evaluated data across the boundary.
+**Memory model split.** The guides establish a two-tier heap/arena model: `R_alloc`/`ALLOC` scratch allocations delegate to a per-frame `ArenaFrame` (freed automatically at `.Call` exit), while `CALLOC`/`std::malloc`-based allocations for `SEXP` nodes, SEXP data buffers, and `Node`/`Split` structs live on the process heap and are freed explicitly via `R_Free` or `free_sexp()`.
 
-#### 3.5 Output Naming Change
-`R_CallMethodDef.md` and `R_CMethodDef` share a guide: the `.Call` registration struct is replaced by `R_CMethodDef`, and the guide documents the full slot-mapping change.
+**R version pinning.** `R_VERSION` must be faked as `R_Version(4, 4, 0) = 263168`. This value satisfies two conflicting preprocessor guards simultaneously: `R_VERSION >= R_Version(2, 16, 0)` in `init.c:27` (enabling `R_forceSymbols`) and `R_VERSION < R_Version(4, 5, 0)` in `rpart_callback.c:19` (selecting the `compat_getVar` shim, which avoids the native `R_getVar` symbol that would require `libR.so`).
+
+**`R_getVar` is a macro, not a symbol.** For R < 4.5.0, `R_getVar` expands to the local shim `compat_getVar`, meaning no direct function pointer stub is needed for `R_getVar` itself. At runtime, it always resolves to `findVarInFrame` (all four call sites pass `inherits=FALSE`).
+
+**Category E items are `method=4` only.** The five R interpreter items (`eval`, `findVar`, `findVarInFrame`, `install`, `R_getVar`) are only reachable when `rpart()` is called with `method=4` (user-defined splits). All four standard methods (anova, poisson, class, exp) execute without any Python callback registration.
+
+**`PROTECT`/`UNPROTECT` are no-ops.** Without a garbage collector, the entire GC protection protocol reduces to identity functions. SEXP lifetime is managed by the Python caller via explicit `free_sexp()` after the `.Call` boundary returns.
+
+**`install` is self-contained.** Unlike `eval`/`findVar`, `install` can be fully faked in C++ using a `thread_local std::unordered_map<std::string, SEXP>` string-interning cache, with no Python callback bridge required.
+
+#### 3.3 Header Architecture Established
+
+The guides collectively specify a layered fake header hierarchy:
+
+```
+fake_Rversion.hpp       ← R_VERSION, R_Version (must be first)
+fake_Boolean.hpp        ← Rboolean, TRUE, FALSE
+fake_arena.hpp          ← ArenaFrame, arena_alloc
+fake_Arith.hpp          ← ISNAN, R_FINITE, R_NaReal, NA_REAL
+fake_Print.hpp          ← Rprintf, REprintf
+fake_error.hpp          ← RError, Rf_error, Rf_warning
+fake_Rinternals.hpp     ← SEXP/SEXPREC, SEXPTYPE enum, all accessors, sentinels
+fake_Rdynload.hpp       ← DL_FUNC, R_CallMethodDef, DllInfo, registration stubs
+fake_R.hpp              ← R_alloc (ALLOC), R_chk_calloc (CALLOC)
+fake_RS.hpp             ← R_Free, R_chk_free
+fake_Utils.hpp          ← R_CheckUserInterrupt, R_CheckStack
+fake_interpreter.hpp    ← eval, findVar, findVarInFrame, install (function-pointer bridges)
+```
 
 ---
 
 ### 4. Conclusion & Next Steps
 
-All 51 conversion guides are complete and available in `r_extern_analysis/conversion_guides/`. Together they provide item-level instructions sufficient to drive a systematic, file-by-file rewrite of `rpart/src/` from `.Call` to `.C`. The natural next step is to apply these guides to produce the converted C source files, beginning with the simpler utility files (`rundown.c`, `rundown2.c`, `pred_rpart.c`, `rpartexp2.c`) and progressing to the dense output-construction blocks in `rpart.c` and `xpred.c`. The `rpart_callback.c` callback system should be scoped separately as a `.Call`-retained component.
+All 51 fake header implementation guides have been successfully generated in `r_extern_analysis/fake_guides/`. The guides provide a complete, self-consistent blueprint for building `fake_rpart.hpp` — a single master header that replaces `R.h`, `Rinternals.h`, and all transitively included R API headers, enabling the rpart C source files to compile as a standalone shared library without `libR.so`.
+
+The immediate next step is Phase 5: implementing the actual fake header files (`fake_Rinternals.hpp`, `fake_arena.hpp`, etc.) by translating each guide's C++ code specifications into compilable header files, then assembling `fake_rpart.hpp` as the master entry-point header. This will be followed by a build test (`g++ -std=c++17 -shared -fPIC`) to validate that all 16 source files compile cleanly under the fake headers.
