@@ -1,5 +1,6 @@
 #include "rpart.h"
-#include "R_ext/Rdynload.h"
+/* [FAKE_R] #include "R_ext/Rdynload.h" */
+#include "fake_R.h"  /* replaces all R API headers above */
 #include "node.h"
 #include "rpartproto.h"
 
@@ -18,7 +19,7 @@ static const R_CallMethodDef CallEntries[] = {
     {NULL, NULL, 0}
 };
 
-#include <Rversion.h>
+/* [FAKE_R] #include <Rversion.h> */
 void
 R_init_rpart(DllInfo * dll)
 {

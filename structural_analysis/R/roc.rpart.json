@@ -1,11 +1,11 @@
 {
   "roc.rpart": {
-    "language_dependencies": ["inherits", "stop", "attr", "length", "sort", "unique", "c", "outer", "dim", "sum", "rbind", "matrix", "nrow", "ncol", "par", "on.exit", "plot", "format", "round", "data.frame"],
+    "language_dependencies": ["inherits", "length", "attr", "stop", "sort", "unique", "c", "outer", "dim", "sum", "rbind", "matrix", "array", "par", "on.exit", "plot", "data.frame", "format", "round"],
     "internal_dependencies": ["ss.compare"],
     "external_dependencies": []
   },
   "ss.compare": {
-    "language_dependencies": [],
+    "language_dependencies": [">="],
     "internal_dependencies": [],
     "external_dependencies": []
   }

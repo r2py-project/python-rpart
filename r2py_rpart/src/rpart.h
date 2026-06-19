@@ -6,8 +6,9 @@
 
 #include <stddef.h>
 #include <string.h> // for memcpy
-#include <R.h>
-#include <Rinternals.h>
+/* [FAKE_R] #include <R.h> */
+/* [FAKE_R] #include <Rinternals.h> */
+#include "fake_R.h"  /* replaces all R API headers above */
 
 #ifdef ENABLE_NLS
 #include <libintl.h>
@@ -40,7 +41,7 @@
 /* As a sop to S, I need to keep the total number of external symbols
  *  somewhat smaller.  So, pack most of them all into a structure.
  */
-EXTERN struct {
+EXTERN struct rp_globals_t {
     double complexity;
     double alpha;
     double iscale;              /* used to check improvement==0, with error */

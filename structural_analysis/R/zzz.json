@@ -20,7 +20,7 @@
     "external_dependencies": []
   },
   "descendants": {
-    "language_dependencies": ["length", "matrix", "return", "diag", "match", "floor", "log", "max", "cbind"],
+    "language_dependencies": ["length", "return", "matrix", "diag", "match", "floor", "log", "max", "cbind"],
     "internal_dependencies": [],
     "external_dependencies": []
   }

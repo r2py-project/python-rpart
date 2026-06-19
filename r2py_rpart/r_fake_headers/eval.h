@@ -126,7 +126,7 @@ inline eval_fn_t g_eval_fn = nullptr;
 // register_eval_fn — called once from Python (via ctypes) before any
 // invocation of rpart() with method=4.
 // C linkage ensures ctypes can locate the symbol by name in the shared lib.
-extern "C" void register_eval_fn(eval_fn_t fn) {
+extern "C" inline void register_eval_fn(eval_fn_t fn) {
     g_eval_fn = fn;
 }
 

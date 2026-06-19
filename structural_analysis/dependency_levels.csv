@@ -1,24 +1,26 @@
 r_file,function,level,parents,children
 meanvar.rpart.R,meanvar,0 (leaf),,
 meanvar.rpart.R,meanvar.rpart,0 (leaf),,
+model.frame.rpart.R,model.frame.rpart,0,,na.rpart
 path.rpart.R,path.rpart,0,,descendants; labels.rpart; node.match; rpartco
 plot.rpart.R,plot.rpart,0,,rpart.branch; rpartco
 plotcp.R,plotcp,0 (leaf),,
 post.R,post,0 (leaf),,
 post.rpart.R,post.rpart,0 (leaf),,
 predict.rpart.R,predict.rpart,0,,pred.rpart; rpart.matrix
-print.rpart.R,print.rpart,0,,labels.rpart; prune.rpart; tree.depth
+print.rpart.R,print.rpart,0,,prune.rpart; tree.depth
 prune.R,prune,0 (leaf),,
-residuals.rpart.R,residuals.rpart,0,,model.frame.rpart
+residuals.rpart.R,residuals.rpart,0 (leaf),,
 roc.rpart.R,roc.rpart,0,,ss.compare
-rpart.R,rpart,0,,importance; rpart.anova; rpart.class; rpart.control; rpart.exp; rpart.matrix; rpart.poisson; rpartcallback
+rpart.R,rpart,0,,importance; na.rpart; rpart.anova; rpart.class; rpart.control; rpart.exp; rpart.matrix; rpart.poisson; rpartcallback
+rpart.R,tfun,0 (leaf),,
 rsq.rpart.R,rsq.rpart,0,,printcp
 summary.rpart.R,summary.rpart,0 (leaf),,
-text.rpart.R,text.rpart,0,,labels.rpart; oval; rectangle; rpart.branch; rpartco; string.bounding.box
+text.rpart.R,text.rpart,0,,oval; rectangle; rpart.branch; rpartco; string.bounding.box
 xpred.rpart.R,xpred.rpart,0,,na.rpart; rpart.anova; rpart.class; rpart.exp; rpart.matrix; rpart.poisson; rpartcallback
 zzz.R,.onUnload,0 (leaf),,
-labels.rpart.R,labels.rpart,1,path.rpart; print.rpart; text.rpart,formatg
-model.frame.rpart.R,model.frame.rpart,1,residuals.rpart,na.rpart
+labels.rpart.R,labels.rpart,1,path.rpart,formatg
+na.rpart.R,na.rpart,1 (leaf),model.frame.rpart; rpart; xpred.rpart,
 pred.rpart.R,pred.rpart,1 (leaf),predict.rpart,
 printcp.R,printcp,1 (leaf),rsq.rpart,
 prune.rpart.R,prune.rpart,1,print.rpart,importance; snip.rpart
@@ -37,7 +39,6 @@ zzz.R,node.match,1 (leaf),path.rpart,
 zzz.R,string.bounding.box,1 (leaf),text.rpart,
 formatg.R,formatg,2 (leaf),labels.rpart; rpart.anova; rpart.class; rpart.exp; rpart.poisson,
 importance.R,importance,2 (leaf),prune.rpart; rpart,
-na.rpart.R,na.rpart,2 (leaf),model.frame.rpart; xpred.rpart,
 rpart.exp.R,drate2,2 (leaf),rpart.exp,
 snip.rpart.R,snip.rpart,2,prune.rpart,snip.rpart.mouse
 snip.rpart.mouse.R,snip.rpart.mouse,3,snip.rpart,rpart.branch; rpartco

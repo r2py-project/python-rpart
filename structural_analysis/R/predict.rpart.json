@@ -1,7 +1,26 @@
 {
   "predict.rpart": {
-    "language_dependencies": ["inherits", "stop", "missing", "match.arg", "is.null", "attr", "delete.response", "model.frame", ".checkMFClasses", "length", "factor", "names", "naresid", "na.pass"],
-    "internal_dependencies": ["pred.rpart", "rpart.matrix"],
+    "language_dependencies": [
+      "inherits",
+      "stop",
+      "missing",
+      "match.arg",
+      "is.null",
+      "attr",
+      "delete.response",
+      "model.frame",
+      ".checkMFClasses",
+      "length",
+      "names",
+      "dimnames",
+      "factor",
+      "list",
+      "naresid"
+    ],
+    "internal_dependencies": [
+      "pred.rpart",
+      "rpart.matrix"
+    ],
     "external_dependencies": []
   }
 }

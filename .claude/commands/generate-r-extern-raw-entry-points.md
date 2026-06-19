@@ -11,7 +11,7 @@ Given four inputs — an `r_base_folder` containing R source files, a `c_base_fo
 
 1. Recursively scan every `.R` file in `r_base_folder` to locate all `.Call` and `.External` invocations and record the C function name, call type, R call expression, and source location for each one.
 2. Identify all unique C functions that are invoked directly from R, consolidating multiple call sites for the same function.
-3. Sequentially invoke the `@generate-r-extern-entry-point` agent for each unique C function to produce a `{c_function}_c.c` file in `output_folder` containing a plain-C wrapper that exposes the function to Python without SEXP.
+3. Sequentially invoke the `@generate-r-extern-raw-entry-point` agent for each unique C function to produce a `{c_function}_c.c` file in `output_folder` containing a plain-C wrapper that exposes the function to Python without SEXP.
 
 ## Execution Steps
 
@@ -47,7 +47,7 @@ From the call site table built in Step 1, extract the definitive ordered list of
 Iterate through the ordered list of unique C functions from Step 2 one at a time. For each function, strictly execute the following sub-steps:
 
 1. **Prepare the CSV Subset:** Take all rows from the call site table where `c_function` matches the current target. Prepend the exact header row (`c_function,call_type,r_file,r_line,r_call_expression`) to form a valid, standalone CSV-formatted string.
-2. **Invoke the Entry-Point Agent:** Call the `@generate-r-extern-entry-point` agent, passing the `r_base_folder`, `c_base_folder`, `fake_headers_folder`, `output_folder`, and the CSV subset string.
+2. **Invoke the Entry-Point Agent:** Call the `@generate-r-extern-raw-entry-point` agent, passing the `r_base_folder`, `c_base_folder`, `fake_headers_folder`, `output_folder`, and the CSV subset string.
 3. **Non-Blocking Error Handling:** If the agent fails, times out, or produces syntactically invalid C code, you must:
-    - Log the precise error to the console: `ERROR: Failed to generate entry point for {c_function}. Proceeding to next function.`
+    - Log the precise error to the console: `ERROR: Failed to generate raw entry point for {c_function}. Proceeding to next function.`
     - Immediately continue to the next C function in the list. Do not halt the overall batch.

@@ -128,7 +128,8 @@ next:
     }
 }
 
-#include <Rinternals.h>
+/* [FAKE_R] #include <Rinternals.h> */
+#include "fake_R.h"  /* replaces all R API headers above */
 
 SEXP
 pred_rpart(SEXP dimx, SEXP nnode, SEXP nsplit, SEXP dimc,

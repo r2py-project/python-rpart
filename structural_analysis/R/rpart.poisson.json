@@ -1,7 +1,28 @@
 {
   "rpart.poisson": {
-    "language_dependencies": ["is.matrix", "ncol", "stop", "is.null", "cbind", "exp", "any", "missing", "as.list", "names", "pmatch", "gettextf", "is.numeric", "list", "paste0"],
-    "internal_dependencies": ["formatg"],
+    "language_dependencies": [
+      "is.matrix",
+      "ncol",
+      "stop",
+      "is.null",
+      "exp",
+      "cbind",
+      "any",
+      "missing",
+      "c",
+      "as.list",
+      "names",
+      "pmatch",
+      "gettextf",
+      "is.numeric",
+      "list",
+      "paste0",
+      "matrix",
+      "paste"
+    ],
+    "internal_dependencies": [
+      "formatg"
+    ],
     "external_dependencies": []
   }
 }

@@ -1,11 +1,11 @@
 {
   "rpartco": {
-    "language_dependencies": ["missing", "paste0", "dev.cur", "exists", "stop", "get", "as.numeric", "row.names", "length", "max", "split", "match", "diff", "range", "double", "sum", "seq", "rev", "list", "return", "pmax", "pmin"],
+    "language_dependencies": ["missing", "paste0", "dev.cur", "exists", "stop", "get", "as.numeric", "row.names", "length", "max", "split", "match", "ifelse", "diff", "range", "double", "seq", "sum", "rev", "return", "list"],
     "internal_dependencies": ["tree.depth", "compress"],
     "external_dependencies": []
   },
   "compress": {
-    "language_dependencies": ["list", "length", "min", "max", "pmax", "pmin", "c"],
+    "language_dependencies": ["list", "max", "min", "pmax", "pmin", "c"],
     "internal_dependencies": ["compress"],
     "external_dependencies": []
   }

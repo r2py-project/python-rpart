@@ -1,7 +1,28 @@
 {
   "residuals.rpart": {
-    "language_dependencies": ["inherits", "stop", "is.null", "model.extract", "model.frame", "match.arg", "is.na", "attr", "length", "switch", "ifelse", "log", "sqrt", "sign", "names", "naresid", "cbind"],
-    "internal_dependencies": ["model.frame.rpart"],
+    "language_dependencies": [
+      "inherits",
+      "stop",
+      "is.null",
+      "model.extract",
+      "model.frame",
+      "attr",
+      "length",
+      "match.arg",
+      "is.na",
+      "match",
+      "switch",
+      "cbind",
+      "seq",
+      "unclass",
+      "log",
+      "ifelse",
+      "sqrt",
+      "sign",
+      "names",
+      "naresid"
+    ],
+    "internal_dependencies": [],
     "external_dependencies": []
   }
 }

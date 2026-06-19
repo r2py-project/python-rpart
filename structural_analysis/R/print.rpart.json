@@ -1,7 +1,30 @@
 {
   "print.rpart": {
-    "language_dependencies": ["inherits", "stop", "missing", "as.numeric", "row.names", "paste", "rep", "length", "paste0", "format", "substring", "is.null", "signif", "labels", "naprint", "cat", "invisible", "attr", "seq"],
-    "internal_dependencies": ["prune.rpart", "tree.depth", "labels.rpart"],
+    "language_dependencies": [
+      "inherits",
+      "stop",
+      "missing",
+      "attr",
+      "as.numeric",
+      "row.names",
+      "paste",
+      "rep",
+      "length",
+      "substring",
+      "seq",
+      "paste0",
+      "format",
+      "is.null",
+      "signif",
+      "naprint",
+      "cat",
+      "invisible"
+    ],
+    "internal_dependencies": [
+      "prune.rpart",
+      "tree.depth",
+      "labels"
+    ],
     "external_dependencies": []
   }
 }

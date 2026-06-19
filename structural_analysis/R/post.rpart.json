@@ -1,6 +1,23 @@
 {
   "post.rpart": {
-    "language_dependencies": ["postscript", "par", "on.exit", "dev.off", "plot", "text", "missing", "attr", "title", "nzchar"],
+    "language_dependencies": [
+      "attr",
+      "c",
+      "deparse",
+      "dev.off",
+      "getOption",
+      "invisible",
+      "missing",
+      "nzchar",
+      "on.exit",
+      "par",
+      "paste",
+      "plot",
+      "postscript",
+      "substitute",
+      "text",
+      "title"
+    ],
     "internal_dependencies": [],
     "external_dependencies": []
   }

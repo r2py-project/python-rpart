@@ -1,6 +1,6 @@
 {
   "path.rpart": {
-    "language_dependencies": ["inherits", "stop", "row.names", "as.numeric", "list", "missing", "identify", "length", "cat", "paste", "invisible", "return"],
+    "language_dependencies": ["inherits", "stop", "row.names", "as.numeric", "list", "missing", "length", "identify", "invisible", "return", "cat", "paste"],
     "internal_dependencies": ["labels.rpart", "descendants", "rpartco", "node.match"],
     "external_dependencies": []
   }

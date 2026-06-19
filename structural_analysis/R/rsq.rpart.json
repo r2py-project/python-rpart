@@ -1,7 +1,20 @@
 {
   "rsq.rpart": {
-    "language_dependencies": ["inherits", "stop", "plot", "par", "legend", "min", "max", "segments", "invisible"],
-    "internal_dependencies": ["printcp"],
+    "language_dependencies": [
+      "inherits",
+      "stop",
+      "warning",
+      "plot",
+      "par",
+      "legend",
+      "min",
+      "max",
+      "segments",
+      "invisible"
+    ],
+    "internal_dependencies": [
+      "printcp"
+    ],
     "external_dependencies": []
   }
 }

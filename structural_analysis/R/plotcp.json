@@ -1,6 +1,30 @@
 {
   "plotcp": {
-    "language_dependencies": ["list", "inherits", "stop", "match.arg", "ncol", "seq_along", "sqrt", "c", "length", "names", "do.call", "plot", "box", "axis", "segments", "as.character", "signif", "switch", "mtext", "min", "max", "seq", "abline", "invisible"],
+    "language_dependencies": [
+      "list",
+      "inherits",
+      "stop",
+      "match.arg",
+      "ncol",
+      "seq_along",
+      "length",
+      "sqrt",
+      "c",
+      "names",
+      "min",
+      "max",
+      "do.call",
+      "plot",
+      "box",
+      "axis",
+      "segments",
+      "as.character",
+      "signif",
+      "switch",
+      "mtext",
+      "abline",
+      "invisible"
+    ],
     "internal_dependencies": [],
     "external_dependencies": []
   }

@@ -1,7 +1,17 @@
 {
   "model.frame.rpart": {
-    "language_dependencies": ["is.null", "return", "substring", "deparse", "eval", "model.frame", "attr"],
-    "internal_dependencies": ["na.rpart"],
+    "language_dependencies": [
+      "is.null",
+      "return",
+      "substring",
+      "deparse",
+      "eval",
+      "attr",
+      "model.frame"
+    ],
+    "internal_dependencies": [
+      "na.rpart"
+    ],
     "external_dependencies": []
   }
 }

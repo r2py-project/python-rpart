@@ -8,7 +8,8 @@
  *      keep    1=keep this one, 0=don't
  */
 #include "rpart.h"
-#include <Rinternals.h>
+/* [FAKE_R] #include <Rinternals.h> */
+#include "fake_R.h"  /* replaces all R API headers above */
 
 static void
 Rpartexp2(int n, double *y, double eps, int *keep)

@@ -3,9 +3,10 @@
  */
 
 #include <stddef.h>
-#include <R.h>
-#include <Rinternals.h>
-#include <Rversion.h>
+/* [FAKE_R] #include <R.h> */
+/* [FAKE_R] #include <Rinternals.h> */
+/* [FAKE_R] #include <Rversion.h> */
+#include "fake_R.h"  /* replaces all R API headers above */
 /* don't include rpart.h: it conflicts */
 
 #ifdef ENABLE_NLS
@@ -49,7 +50,7 @@ init_rpcallback(SEXP rhox, SEXP ny, SEXP nr, SEXP expr1x, SEXP expr2x)
 {
 
       SEXP stemp;
-      
+
     rho = rhox;
     ysave = asInteger(ny);
     rsave = asInteger(nr);
@@ -58,13 +59,13 @@ init_rpcallback(SEXP rhox, SEXP ny, SEXP nr, SEXP expr1x, SEXP expr2x)
 
     stemp = R_getVar(install("yback"), rho, FALSE);
     ydata = REAL(stemp);
-    
+
     stemp = R_getVar(install("wback"), rho, FALSE);
     wdata = REAL(stemp);
-    
+
     stemp = R_getVar(install("xback"), rho, FALSE);
     xdata = REAL(stemp);
-    
+
     stemp = R_getVar(install("nback"), rho, FALSE);
     ndata = INTEGER(stemp);
 

@@ -1,6 +1,25 @@
 {
   "pred.rpart": {
-    "language_dependencies": ["nrow", "structure", "rep", "rownames", "cumsum", "c", "match", "is.na", "any", "stop", "as.integer", "dim", "row.names", "unlist", "as.double", "is.null", "names"],
+    "language_dependencies": [
+      "nrow",
+      "structure",
+      "rep",
+      "rownames",
+      "c",
+      "cumsum",
+      "match",
+      "colnames",
+      "any",
+      "is.na",
+      "stop",
+      "as.integer",
+      "dim",
+      "is.null",
+      "row.names",
+      "unlist",
+      "as.double",
+      "names"
+    ],
     "internal_dependencies": [],
     "external_dependencies": [".Call(\"C_pred_rpart\")"]
   }

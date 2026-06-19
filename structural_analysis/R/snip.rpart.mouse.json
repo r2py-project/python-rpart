@@ -1,7 +1,29 @@
 {
   "snip.rpart.mouse": {
-    "language_dependencies": ["missing", "paste0", "dev.cur", "exists", "stop", "get", "length", "as.integer", "row.names", "identify", "cat", "format", "is.null", "is.matrix", "match", "any", "lines", "c"],
-    "internal_dependencies": ["rpartco", "rpart.branch"],
+    "language_dependencies": [
+      "missing",
+      "paste0",
+      "dev.cur",
+      "exists",
+      "stop",
+      "get",
+      "length",
+      "as.integer",
+      "row.names",
+      "identify",
+      "cat",
+      "is.null",
+      "is.matrix",
+      "format",
+      "any",
+      "match",
+      "lines",
+      "c"
+    ],
+    "internal_dependencies": [
+      "rpartco",
+      "rpart.branch"
+    ],
     "external_dependencies": []
   }
 }

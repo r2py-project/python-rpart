@@ -1,5 +1,5 @@
 ---
-name: generate-r-extern-entry-point
+name: generate-r-extern-raw-entry-point
 description: Writes a pure C entry-point wrapper for a single R-callable C function, replacing its SEXP-based parameters and return value with plain int/double array arguments so the function can be called directly from Python without libR.so.
 ---
 
@@ -269,4 +269,4 @@ void {c_function}_c(
 
 ## Output Saving Instructions
 - **File Naming:** Save the generated source file as `{c_function}_c.c` (e.g., `rpart_c.c`, `pred_rpart_c.c`, `rpartexp2_c.c`).
-- **Output Directory:** Save the file to the user-specified `output_folder`. If the user did not explicitly provide one, create and use the default directory `r2py_rpart/entry_points/`.
+- **Output Directory:** Save the file to the user-specified `output_folder`. If the user did not explicitly provide one, create and use the default directory `r2py_rpart/c_entry_points/`.

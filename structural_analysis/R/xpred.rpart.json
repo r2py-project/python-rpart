@@ -1,7 +1,53 @@
 {
   "xpred.rpart": {
-    "language_dependencies": ["inherits", "stop", "pmatch", "is.null", "is.matrix", "ncol", "nrow", "length", "match", "names", "attr", "get", "paste", "model.extract", "unique", "sqrt", "sample", "rep", "unlist", "lapply", "as.double", "as.integer", "aperm", "matrix", "array", "format", "rownames"],
-    "internal_dependencies": ["rpart.matrix", "na.rpart", "rpartcallback", "rpart.anova", "rpart.poisson", "rpart.class", "rpart.exp"],
-    "external_dependencies": [".Call(\"C_xpred\")"]
+    "language_dependencies": [
+      "inherits",
+      "stop",
+      "pmatch",
+      "is.null",
+      "match",
+      "names",
+      "quote",
+      "eval.parent",
+      "model.extract",
+      "attr",
+      "get",
+      "paste",
+      "is.matrix",
+      "ncol",
+      "nrow",
+      "length",
+      "rep",
+      "colnames",
+      "unlist",
+      "lapply",
+      "missing",
+      "sqrt",
+      "c",
+      "sample",
+      "unique",
+      "as.integer",
+      "as.double",
+      "storage.mode<-",
+      "list",
+      "array",
+      "format",
+      "rownames",
+      "aperm",
+      "matrix",
+      "stats::model.frame"
+    ],
+    "internal_dependencies": [
+      "na.rpart",
+      "rpart.matrix",
+      "rpartcallback",
+      "rpart.anova",
+      "rpart.class",
+      "rpart.poisson",
+      "rpart.exp"
+    ],
+    "external_dependencies": [
+      ".Call(\"C_xpred\")"
+    ]
   }
 }

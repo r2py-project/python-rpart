@@ -1,7 +1,36 @@
 {
   "labels.rpart": {
-    "language_dependencies": ["missing", "is.null", "is.logical", "nrow", "return", "cumsum", "c", "character", "any", "ifelse", "paste0", "attr", "seq_along", "match", "lapply", "letters", "LETTERS", "pmin", "abbreviate", "warning", "paste", "cbind", "as.character", "as.numeric", "row.names", "as.logical", "substring"],
-    "internal_dependencies": ["formatg"],
+    "language_dependencies": [
+      "missing",
+      "is.null",
+      "is.logical",
+      "nrow",
+      "return",
+      "cumsum",
+      "c",
+      "character",
+      "length",
+      "any",
+      "ifelse",
+      "paste0",
+      "attr",
+      "seq_along",
+      "match",
+      "warning",
+      "lapply",
+      "pmin",
+      "abbreviate",
+      "paste",
+      "rep",
+      "cbind",
+      "as.character",
+      "as.numeric",
+      "row.names",
+      "as.logical"
+    ],
+    "internal_dependencies": [
+      "formatg"
+    ],
     "external_dependencies": []
   }
 }

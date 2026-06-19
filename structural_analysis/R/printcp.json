@@ -1,6 +1,21 @@
 {
   "printcp": {
-    "language_dependencies": ["inherits", "stop", "cat", "switch", "is.null", "dput", "unique", "sort", "as.character", "print", "format", "length", "naprint"],
+    "language_dependencies": [
+      "inherits",
+      "stop",
+      "cat",
+      "switch",
+      "is.null",
+      "dput",
+      "unique",
+      "print",
+      "sort",
+      "as.character",
+      "format",
+      "length",
+      "naprint",
+      "invisible"
+    ],
     "internal_dependencies": [],
     "external_dependencies": []
   }

@@ -1,6 +1,17 @@
 {
   "importance": {
-    "language_dependencies": ["which", "cumsum", "c", "seq_along", "vector", "rownames", "tapply", "as.character", "unlist", "sort"],
+    "language_dependencies": [
+      "which",
+      "cumsum",
+      "c",
+      "seq_along",
+      "vector",
+      "seq_len",
+      "tapply",
+      "unlist",
+      "as.character",
+      "sort"
+    ],
     "internal_dependencies": [],
     "external_dependencies": []
   }
