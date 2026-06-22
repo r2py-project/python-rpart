@@ -1,0 +1,9 @@
+language_dependency,file_path,function_name,line_number,call_body
+pmatch,rpart.R,rpart,58,"pmatch(method, c(""anova"", ""poisson"", ""class"", ""exp""))"
+pmatch,rpart.class.R,rpart.class,18,"pmatch(names(parms), c(""prior"", ""loss"", ""split""), 0L)"
+pmatch,rpart.class.R,rpart.class,48,"pmatch(parms$split, c(""gini"", ""information""))"
+pmatch,rpart.exp.R,rpart.exp,114,"pmatch(names(parms), parmsNames, 0L)"
+pmatch,rpart.exp.R,rpart.exp,121,"pmatch(parms$method, c(""deviance"", ""sqrt""))"
+pmatch,rpart.poisson.R,rpart.poisson,19,"pmatch(names(parms), parmsNames, 0L)"
+pmatch,rpart.poisson.R,rpart.poisson,26,"pmatch(parms$method, c(""deviance"", ""sqrt""))"
+pmatch,xpred.rpart.R,xpred.rpart,10,"pmatch(method, c(""anova"", ""poisson"", ""class"", ""user"", ""exp""))"

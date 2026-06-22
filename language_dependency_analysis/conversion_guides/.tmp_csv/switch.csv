@@ -1,0 +1,25 @@
+language_dependency,file_path,function_name,line_number,call_body
+switch,plotcp.R,plotcp,26,"switch(upper,
+           size = {
+               axis(3L, at = ns, labels = as.character(nsplit + 1), ...)
+               mtext(""size of tree"", side = 3, line = 3)
+           },
+           splits = {
+               axis(3L, at = ns, labels = as.character(nsplit), ...)
+               mtext(""number of splits"", side = 3, line = 3)
+           })"
+switch,printcp.R,printcp,5,"switch(x$method,
+               anova = ""\nRegression tree:\n"" ,
+               class = ""\nClassification tree:\n"" ,
+               poisson = ""\nRates regression tree:\n"",
+               exp = ""\nSurvival regression tree:\n"")"
+switch,residuals.rpart.R,residuals.rpart,25,"switch(type,
+               usual = loss[cbind(y, yhat)],
+               pearson = (1 - yhat)/yhat,
+               deviance = -2 * log(yhat))"
+switch,residuals.rpart.R,residuals.rpart,36,"switch(type,
+               usual = events - expect,
+               pearson = (events - expect)/sqrt(temp),
+               deviance = sign(events- expect) *
+                   sqrt(2 * (events * log(events/temp) - (events - expect)))
+               )"

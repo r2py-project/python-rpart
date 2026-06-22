@@ -1,0 +1,2 @@
+language_dependency,file_path,function_name,line_number,call_body
+.checkMFClasses,predict.rpart.R,predict.rpart,16,".checkMFClasses(cl, newdata, TRUE)"

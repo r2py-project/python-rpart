@@ -1,0 +1,3 @@
+language_dependency,file_path,function_name,line_number,call_body
+naresid,predict.rpart.R,predict.rpart,43,"naresid(object$na.action, pred)"
+naresid,residuals.rpart.R,residuals.rpart,47,"naresid(object$na.action, resid)"

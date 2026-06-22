@@ -1,0 +1,2 @@
+language_dependency,file_path,function_name,line_number,call_body
+abbreviate,labels.rpart.R,labels.rpart,70,"lapply(xlevels, abbreviate, minlength, ...)"

@@ -1,0 +1,3 @@
+language_dependency,file_path,function_name,line_number,call_body
+table,rpart.exp.R,drate2,81,table(index)
+table,rpart.exp.R,drate2,86,"table(index2, levels = 1:ngrp)"

@@ -1,0 +1,4 @@
+language_dependency,file_path,function_name,line_number,call_body
+exists,rpart.branch.R,rpart.branch,9,"exists(pn, envir = rpart_env, inherits = FALSE)"
+exists,rpartco.R,rpartco,6,"exists(pn, envir = rpart_env, inherits = FALSE)"
+exists,snip.rpart.mouse.R,snip.rpart.mouse,8,"exists(pn, envir = rpart_env, inherits = FALSE)"

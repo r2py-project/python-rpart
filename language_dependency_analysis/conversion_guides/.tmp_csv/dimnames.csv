@@ -1,0 +1,4 @@
+language_dependency,file_path,function_name,line_number,call_body
+dimnames,predict.rpart.R,predict.rpart,29,"dimnames(pred) <- list(names(where), NULL)"
+dimnames,predict.rpart.R,predict.rpart,37,"dimnames(pred) <- list(names(where), ylevels)"
+dimnames,rpart.R,rpart,182,"dimnames(rpfit$cptable) <- list(temp, 1L:numcp)"

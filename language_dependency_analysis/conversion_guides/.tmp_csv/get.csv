@@ -1,0 +1,9 @@
+language_dependency,file_path,function_name,line_number,call_body
+get,rpart.R,rpart,68,"get(paste(""rpart"", method, sep = "".""),
+            envir = environment())(Y, offset, , wt)"
+get,rpart.R,rpart,71,"get(paste(""rpart"", method, sep = "".""),
+            envir = environment())(Y, offset, parms, wt)"
+get,rpart.branch.R,rpart.branch,11,"get(pn, envir = rpart_env, inherits = FALSE)"
+get,rpartco.R,rpartco,8,"get(pn, envir = rpart_env, inherits = FALSE)"
+get,snip.rpart.mouse.R,snip.rpart.mouse,10,"get(pn, envir = rpart_env, inherits = FALSE)"
+get,xpred.rpart.R,xpred.rpart,34,"get(paste(""rpart"", method, sep = "".""))"

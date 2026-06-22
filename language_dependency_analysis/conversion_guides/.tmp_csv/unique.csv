@@ -1,0 +1,12 @@
+language_dependency,file_path,function_name,line_number,call_body
+unique,printcp.R,printcp,18,unique(frame$var[!leaves])
+unique,prune.rpart.R,prune.rpart,10,unique(temp)
+unique,roc.rpart.R,roc.rpart,12,"unique(c(0, 1, object$frame$yprob[endnodes, 2L]))"
+unique,rpart.R,rpart,122,unique(xgroups)
+unique,rpart.R,rpart,131,unique(xgroups)
+unique,rpart.exp.R,rpart.exp,32,unique(time[status == 1])
+unique,rpartcallback.R,rpartcallback,46,unique(xback[1L:n2])
+unique,rpartcallback.R,rpartcallback,76,unique(xback[1L:n2])
+unique,snip.rpart.R,snip.rpart,16,unique(toss)
+unique,xpred.rpart.R,xpred.rpart,73,unique(xgroups)
+unique,xpred.rpart.R,xpred.rpart,82,unique(xgroups)

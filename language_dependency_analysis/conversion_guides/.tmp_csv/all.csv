@@ -1,0 +1,6 @@
+language_dependency,file_path,function_name,line_number,call_body
+all,na.rpart.R,na.rpart,16,all(keep)
+all,rpart.exp.R,rpart.exp,22,all(status == 0)
+all,summary.rpart.R,summary.rpart,42,all(is.leaf)
+all,summary.rpart.R,summary.rpart,88,"all(nchar(cuts[j], ""w"") < 25L)"
+all,summary.rpart.R,summary.rpart,100,"all(nchar(cuts[j], ""w"") < 25L)"

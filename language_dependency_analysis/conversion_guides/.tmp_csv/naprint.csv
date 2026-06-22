@@ -1,0 +1,3 @@
+language_dependency,file_path,function_name,line_number,call_body
+naprint,print.rpart.R,print.rpart,30,naprint(omit)
+naprint,printcp.R,printcp,35,naprint(omit)

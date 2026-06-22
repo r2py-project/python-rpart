@@ -1,0 +1,3 @@
+language_dependency,file_path,function_name,line_number,call_body
+mtext,plotcp.R,plotcp,29,"mtext(""size of tree"", side = 3, line = 3)"
+mtext,plotcp.R,plotcp,33,"mtext(""number of splits"", side = 3, line = 3)"

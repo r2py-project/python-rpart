@@ -1,0 +1,15 @@
+language_dependency,file_path,function_name,line_number,call_body
+as.double,pred.rpart.R,pred.rpart,24,as.double(fit$splits)
+as.double,pred.rpart.R,pred.rpart,27,as.double(x)
+as.double,rpart.R,rpart,158,as.double(unlist(init$parms))
+as.double,rpart.R,rpart,163,as.double(unlist(controls))
+as.double,rpart.R,rpart,167,as.double(t(init$y))
+as.double,rpart.R,rpart,171,as.double(cost)
+as.double,rpart.exp.R,rpart.exp,33,as.double(dtimes)
+as.double,rpart.exp.R,rpart.exp,33,as.double(.Machine$double.eps)
+as.double,xpred.rpart.R,xpred.rpart,114,as.double(t(Y))
+as.double,xpred.rpart.R,xpred.rpart,117,as.double(unlist(parms))
+as.double,xpred.rpart.R,xpred.rpart,122,as.double(unlist(controls))
+as.double,xpred.rpart.R,xpred.rpart,130,as.double(costs)
+as.double,xpred.rpart.R,xpred.rpart,132,as.double(cp)
+as.double,xpred.rpart.R,xpred.rpart,133,"as.double(fit$frame[1L, ""dev""])"

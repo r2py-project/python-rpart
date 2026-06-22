@@ -1,0 +1,4 @@
+language_dependency,file_path,function_name,line_number,call_body
+UseMethod,meanvar.rpart.R,meanvar,18,"UseMethod(""meanvar"")"
+UseMethod,post.R,post,1,"UseMethod(""post"")"
+UseMethod,prune.R,prune,2,"UseMethod(""prune"")"

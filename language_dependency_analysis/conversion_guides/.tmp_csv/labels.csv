@@ -1,0 +1,3 @@
+language_dependency,file_path,function_name,line_number,call_body
+labels,text.rpart.R,text.rpart,33,"labels(x, pretty = pretty)"
+labels,text.rpart.R,text.rpart,33,"labels(x, minlength = minlength)"

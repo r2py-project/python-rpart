@@ -1,0 +1,36 @@
+language_dependency,function_name,line_number,call_body
+as.character,printcp,22,"as.character(used)"
+cat,printcp,5,"cat(switch(x$method,
+               anova = ""\nRegression tree:\n"" ,
+               class = ""\nClassification tree:\n"" ,
+               poisson = ""\nRates regression tree:\n"",
+               exp = ""\nSurvival regression tree:\n"")
+        )"
+cat,printcp,14,"cat(""\n"")"
+cat,printcp,21,"cat(""Variables actually used in tree construction:\n"")"
+cat,printcp,23,"cat(""\n"")"
+cat,printcp,27,"cat(""Root node error: "", format(frame$dev[1L], digits = digits), ""/"",
+        frame$n[1L], "" = "",
+        format(frame$dev[1L]/frame$n[1L], digits = digits),
+        ""\n\n"", sep = "")"
+cat,printcp,35,"cat(""n="", n[1L], "" ("", naprint(omit), "")\n\n"", sep = """")"
+cat,printcp,36,"cat(""n="", n[1L], ""\n\n"")"
+dput,printcp,13,"dput(cl, control = NULL)"
+format,printcp,27,"format(frame$dev[1L], digits = digits)"
+format,printcp,29,"format(frame$dev[1L]/frame$n[1L], digits = digits)"
+inherits,printcp,4,"inherits(x, ""rpart"")"
+invisible,printcp,38,"invisible(x$cptable)"
+is.null,printcp,12,"is.null(cl <- x$call)"
+is.null,printcp,20,"is.null(used)"
+length,printcp,35,"length(omit)"
+naprint,printcp,35,"naprint(omit)"
+print,printcp,22,"print(sort(as.character(used)), quote = FALSE)"
+print,printcp,37,"print(x$cptable, digits = digits)"
+sort,printcp,22,"sort(as.character(used))"
+stop,printcp,4,"stop (""'x' must be an \""rpart\"" object"")"
+switch,printcp,5,"switch(x$method,
+               anova = ""\nRegression tree:\n"" ,
+               class = ""\nClassification tree:\n"" ,
+               poisson = ""\nRates regression tree:\n"",
+               exp = ""\nSurvival regression tree:\n"")"
+unique,printcp,18,"unique(frame$var[!leaves])"

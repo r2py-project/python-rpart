@@ -1,0 +1,6 @@
+language_dependency,file_path,function_name,line_number,call_body
+environment,rpart.R,rpart,69,environment()
+environment,rpart.R,rpart,72,environment()
+environment,rpart.R,rpart,75,environment(init$print)
+environment,rpart.R,rpart,76,environment(init$summary)
+environment,rpart.R,rpart,77,environment(init$text)

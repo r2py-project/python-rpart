@@ -1,0 +1,5 @@
+language_dependency,file_path,function_name,line_number,call_body
+dev.cur,plot.rpart.R,plot.rpart,23,dev.cur()
+dev.cur,rpart.branch.R,rpart.branch,8,dev.cur()
+dev.cur,rpartco.R,rpartco,5,dev.cur()
+dev.cur,snip.rpart.mouse.R,snip.rpart.mouse,7,dev.cur()

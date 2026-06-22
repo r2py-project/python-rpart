@@ -1,0 +1,28 @@
+language_dependency,file_path,function_name,line_number,call_body
+any,labels.rpart.R,labels.rpart,43,any(ncat < 2L)
+any,labels.rpart.R,labels.rpart,52,any(ncat > 1L)
+any,labels.rpart.R,labels.rpart,65,any(ncat > 52L)
+any,pred.rpart.R,pred.rpart,14,any(is.na(vnum))
+any,rpart.R,rpart,23,"any(attr(Terms, ""order"") > 1L)"
+any,rpart.R,rpart,28,any(wt < 0)
+any,rpart.R,rpart,98,any(indx == 0L)
+any,rpart.R,rpart,143,any(cost <= 0)
+any,rpart.class.R,rpart.class,19,any(temp == 0L)
+any,rpart.class.R,rpart.class,28,any(temp < 0)
+any,rpart.class.R,rpart.class,38,any(diag(temp2) != 0)
+any,rpart.class.R,rpart.class,40,any(temp2 < 0)
+any,rpart.class.R,rpart.class,42,any(rowSums(temp2) == 0)
+any,rpart.control.R,rpart.control,11,any(xval < 0L)
+any,rpart.exp.R,rpart.exp,21,"any(y[, 1L] <= 0)"
+any,rpart.exp.R,rpart.exp,115,any(indx == 0L)
+any,rpart.poisson.R,rpart.poisson,11,"any(y[, 1L] <= 0)"
+any,rpart.poisson.R,rpart.poisson,12,"any(y[, 2L] < 0)"
+any,rpart.poisson.R,rpart.poisson,20,any(indx == 0L)
+any,snip.rpart.R,snip.rpart,18,any(toss.idx == 0L)
+any,snip.rpart.R,snip.rpart,38,any(id2 > 1L)
+any,snip.rpart.R,snip.rpart,55,any(temp)
+any,snip.rpart.R,snip.rpart,73,any(temp == 0L)
+any,snip.rpart.mouse.R,snip.rpart.mouse,46,any(id2 > 1L)
+any,summary.rpart.R,summary.rpart,27,any(temp > 0)
+any,summary.rpart.R,summary.rpart,57,any(temp < 2L)
+any,zzz.R,node.match,28,any(leaves <- leaves[node.index])

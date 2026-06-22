@@ -1,0 +1,5 @@
+language_dependency,file_path,function_name,line_number,call_body
+as.vector,rpartcallback.R,rpartcallback,39,"as.vector(c(temp$deviance, temp$label))"
+as.vector,rpartcallback.R,rpartcallback,58,"as.vector(c(temp$goodness, temp$direction))"
+as.vector,rpartcallback.R,rpartcallback,68,"as.vector(c(temp$deviance, temp$label))"
+as.vector,rpartcallback.R,rpartcallback,89,"as.vector(c(temp$goodness, temp$direction))"

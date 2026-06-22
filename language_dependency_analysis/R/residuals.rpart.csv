@@ -1,0 +1,36 @@
+language_dependency,function_name,line_number,call_body
+attr,residuals.rpart,15,"attr(object, ""ylevels"")"
+cbind,residuals.rpart,23,"cbind(seq(y), unclass(y))"
+cbind,residuals.rpart,26,"cbind(y, yhat)"
+ifelse,residuals.rpart,34,"ifelse(expect == 0, 0.0001, 0)"
+inherits,residuals.rpart,4,"inherits(object, ""rpart"")"
+is.na,residuals.rpart,11,"is.na(match(type, c(""usual"", ""pearson"", ""deviance"")))"
+is.null,residuals.rpart,8,"is.null(y)"
+is.null,residuals.rpart,47,"is.null(object$na.action)"
+length,residuals.rpart,16,"length(ylevels)"
+log,residuals.rpart,28,"log(yhat)"
+log,residuals.rpart,40,"log(events/temp)"
+match,residuals.rpart,11,"match(type, c(""usual"", ""pearson"", ""deviance""))"
+match.arg,residuals.rpart,10,"match.arg(type)"
+model.extract,residuals.rpart,8,"model.extract(model.frame(object), ""response"")"
+model.frame,residuals.rpart,8,"model.frame(object)"
+names,residuals.rpart,45,"names(resid) <- names(y)"
+names,residuals.rpart,45,"names(y)"
+naresid,residuals.rpart,47,"naresid(object$na.action, resid)"
+seq,residuals.rpart,23,"seq(y)"
+sign,residuals.rpart,39,"sign(events- expect)"
+sqrt,residuals.rpart,38,"sqrt(temp)"
+sqrt,residuals.rpart,40,"sqrt(2 * (events * log(events/temp) - (events - expect)))"
+stop,residuals.rpart,5,"stop(""Not a legitimate \""rpart\"" object"")"
+stop,residuals.rpart,12,"stop(""Invalid type of residual"")"
+switch,residuals.rpart,25,"switch(type,
+               usual = loss[cbind(y, yhat)],
+               pearson = (1 - yhat)/yhat,
+               deviance = -2 * log(yhat))"
+switch,residuals.rpart,36,"switch(type,
+               usual = events - expect,
+               pearson = (events - expect)/sqrt(temp),
+               deviance = sign(events- expect) *
+                   sqrt(2 * (events * log(events/temp) - (events - expect)))
+               )"
+unclass,residuals.rpart,23,"unclass(y)"

@@ -1,0 +1,5 @@
+language_dependency,file_path,function_name,line_number,call_body
+log,residuals.rpart.R,residuals.rpart,28,log(yhat)
+log,residuals.rpart.R,residuals.rpart,40,log(events/temp)
+log,zzz.R,descendants,43,"log(nodes, base = 2)"
+log,zzz.R,tree.depth,7,"log(nodes, base = 2)"

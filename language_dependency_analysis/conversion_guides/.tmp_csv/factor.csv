@@ -1,0 +1,4 @@
+language_dependency,file_path,function_name,line_number,call_body
+factor,predict.rpart.R,predict.rpart,33,"factor(ylevels[frame$yval[where]], levels = ylevels)"
+factor,rpart.class.R,rpart.class,8,"factor(y, levels = 1:numclass)"
+factor,rpart.matrix.R,rpart.matrix,20,factor(x)

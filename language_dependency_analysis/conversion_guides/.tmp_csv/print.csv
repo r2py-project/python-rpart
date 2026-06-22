@@ -1,0 +1,5 @@
+language_dependency,file_path,function_name,line_number,call_body
+print,printcp.R,printcp,22,"print(sort(as.character(used)), quote = FALSE)"
+print,printcp.R,printcp,37,"print(x$cptable, digits = digits)"
+print,summary.rpart.R,summary.rpart,24,"print(x$cptable, digits = digits)"
+print,summary.rpart.R,summary.rpart,29,print(temp[temp > 0])

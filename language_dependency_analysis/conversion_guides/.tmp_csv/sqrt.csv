@@ -1,0 +1,6 @@
+language_dependency,file_path,function_name,line_number,call_body
+sqrt,plotcp.R,plotcp,17,"sqrt(cp0 * c(Inf, cp0[-length(cp0)]))"
+sqrt,residuals.rpart.R,residuals.rpart,38,sqrt(temp)
+sqrt,residuals.rpart.R,residuals.rpart,40,sqrt(2 * (events * log(events/temp) - (events - expect)))
+sqrt,text.rpart.R,text.rpart,89,sqrt(2)
+sqrt,xpred.rpart.R,xpred.rpart,63,"sqrt(cp * c(10, cp[-length(cp)]))"

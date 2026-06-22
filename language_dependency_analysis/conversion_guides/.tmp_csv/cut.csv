@@ -1,0 +1,3 @@
+language_dependency,file_path,function_name,line_number,call_body
+cut,rpart.exp.R,drate2,64,"cut(time, itable, include.lowest = TRUE)"
+cut,rpart.exp.R,drate2,71,"cut(stime, itable, include.lowest = TRUE)"

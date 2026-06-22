@@ -1,0 +1,9 @@
+language_dependency,file_path,function_name,line_number,call_body
+par,post.rpart.R,post.rpart,9,"par(mar = c(2,2,4,2) + 0.1)"
+par,post.rpart.R,post.rpart,12,"par(mar = c(2,2,4,2) + 0.1)"
+par,post.rpart.R,post.rpart,13,par(oldpar)
+par,roc.rpart.R,roc.rpart,59,"par(pty = ""s"")"
+par,roc.rpart.R,roc.rpart,60,par(o.par)
+par,rsq.rpart.R,rsq.rpart,20,par(new = TRUE)
+par,text.rpart.R,text.rpart,8,"par(""bg"")"
+par,text.rpart.R,text.rpart,19,"par(""cxy"")"

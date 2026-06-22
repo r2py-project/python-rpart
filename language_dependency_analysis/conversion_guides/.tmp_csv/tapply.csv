@@ -1,0 +1,8 @@
+language_dependency,file_path,function_name,line_number,call_body
+tapply,importance.R,importance,37,"tapply(c(scaled.imp, unlist(sval)),
+                     c(as.character(ff$var[fpri]), unlist(sname)),
+                     sum)"
+tapply,rpart.class.R,rpart.class,8,"tapply(wt, factor(y, levels = 1:numclass), sum)"
+tapply,rpart.exp.R,drate2,83,"tapply(itime, index, sum)"
+tapply,rpart.exp.R,drate2,88,"tapply(itime2, index2, sum)"
+tapply,rpart.exp.R,drate2,92,"tapply(status, index, sum)"

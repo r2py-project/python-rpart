@@ -1,0 +1,8 @@
+language_dependency,file_path,function_name,line_number,call_body
+min,plotcp.R,plotcp,19,min(xerror - xstd)
+min,plotcp.R,plotcp,35,min(seq_along(xerror)[xerror == min(xerror)])
+min,plotcp.R,plotcp,35,min(xerror)
+min,rpartco.R,compress,109,"min(left$depth, right$depth)"
+min,rpartco.R,compress,114,min(right$left[1L:mind] - left$right[1L:mind])
+min,rsq.rpart.R,rsq.rpart,24,min(xerror - xstd)
+min,zzz.R,tree.depth,8,min(depth)

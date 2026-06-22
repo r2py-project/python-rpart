@@ -1,0 +1,7 @@
+language_dependency,file_path,function_name,line_number,call_body
+rbind,roc.rpart.R,roc.rpart,18,"rbind(matrix(FALSE, nrow = 1L, ncol = last.c), pred.np)"
+rbind,roc.rpart.R,roc.rpart,24,"rbind(pred.np, matrix(TRUE, nrow = 1L, ncol = last.c))"
+rbind,rpart.R,rpart,214,"rbind(cs, newc)"
+rbind,rpart.branch.R,rpart.branch,22,"rbind(x[is.left], x[is.left] + temp,
+                x[sibling] - temp, x[sibling], NA)"
+rbind,rpart.branch.R,rpart.branch,24,"rbind(y[is.left], y[parent], y[parent], y[sibling], NA)"

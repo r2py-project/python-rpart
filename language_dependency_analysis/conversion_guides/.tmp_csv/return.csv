@@ -1,0 +1,10 @@
+language_dependency,file_path,function_name,line_number,call_body
+return,labels.rpart.R,labels.rpart,28,"return(""root"")"
+return,labels.rpart.R,labels.rpart,90,"return(cbind(ltemp, rtemp))"
+return,model.frame.rpart.R,model.frame.rpart,4,return(m)
+return,model.frame.rpart.R,model.frame.rpart,12,return(m)
+return,path.rpart.R,path.rpart,24,return(invisible())
+return,prune.rpart.R,prune.rpart,6,return(tree)
+return,rpartco.R,rpartco,64,"return(list(x = x, y = y))"
+return,snip.rpart.R,snip.rpart,10,return(x)
+return,zzz.R,descendants,38,"return(matrix(TRUE, 1L, 1L))"

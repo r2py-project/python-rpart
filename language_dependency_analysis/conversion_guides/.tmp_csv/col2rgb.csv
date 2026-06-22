@@ -1,0 +1,2 @@
+language_dependency,file_path,function_name,line_number,call_body
+col2rgb,text.rpart.R,text.rpart,60,"col2rgb(bg, alpha = TRUE)"

@@ -1,0 +1,9 @@
+language_dependency,file_path,function_name,line_number,call_body
+cumsum,importance.R,importance,12,"cumsum(c(0, 1 + ff$ncompete[fpri] + ff$nsurrogate[fpri]))"
+cumsum,labels.rpart.R,labels.rpart,34,"cumsum(c(1, ff$ncompete + ff$nsurrogate + !is.leaf))"
+cumsum,pred.rpart.R,pred.rpart,10,"cumsum((frame$var != ""<leaf>"") +
+                                     nc[[1L]] + nc[[2L]])"
+cumsum,rpart.exp.R,drate2,82,cumsum(rev(tab1))
+cumsum,rpart.exp.R,drate2,87,cumsum(rev(tab2))
+cumsum,rpart.exp.R,rpart.exp,103,"cumsum(c(0, rate * diff(itable)))"
+cumsum,summary.rpart.R,summary.rpart,40,"cumsum(c(1L, ff$ncompete + ff$nsurrogate + !is.leaf))"

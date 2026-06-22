@@ -1,0 +1,3 @@
+language_dependency,file_path,function_name,line_number,call_body
+sapply,zzz.R,string.bounding.box,14,"sapply(s2, length)"
+sapply,zzz.R,string.bounding.box,15,"sapply(s2, function(x) max(nchar(x, ""w"")))"

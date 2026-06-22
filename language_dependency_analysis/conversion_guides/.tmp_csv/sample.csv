@@ -1,0 +1,3 @@
+language_dependency,file_path,function_name,line_number,call_body
+sample,rpart.R,rpart,119,"sample(rep(1L:xval, length.out = nobs), nobs, replace = FALSE)"
+sample,xpred.rpart.R,xpred.rpart,70,"sample(rep(1L:xval, length.out = nobs), nobs, replace = FALSE)"

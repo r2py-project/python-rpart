@@ -1,0 +1,13 @@
+language_dependency,function_name,line_number,call_body
+dev.cur,rpart.branch,8,"dev.cur()"
+exists,rpart.branch,9,"exists(pn, envir = rpart_env, inherits = FALSE)"
+get,rpart.branch,11,"get(pn, envir = rpart_env, inherits = FALSE)"
+list,rpart.branch,25,"list(x = xx, y = yy)"
+match,rpart.branch,19,"match(node.left/2L, node)"
+match,rpart.branch,20,"match(node.left + 1L, node)"
+missing,rpart.branch,7,"missing(branch)"
+paste0,rpart.branch,8,"paste0(""device"", dev.cur())"
+rbind,rpart.branch,22,"rbind(x[is.left], x[is.left] + temp,
+                x[sibling] - temp, x[sibling], NA)"
+rbind,rpart.branch,24,"rbind(y[is.left], y[parent], y[parent], y[sibling], NA)"
+stop,rpart.branch,10,"stop(""no information available on parameters from previous call to plot()"")"

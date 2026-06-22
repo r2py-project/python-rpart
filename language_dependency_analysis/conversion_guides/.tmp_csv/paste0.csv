@@ -1,0 +1,36 @@
+language_dependency,file_path,function_name,line_number,call_body
+paste0,formatg.R,formatg,4,"paste0(""%."", digits, ""g"")"
+paste0,labels.rpart.R,labels.rpart,48,"paste0(temp1, cutpoint)"
+paste0,labels.rpart.R,labels.rpart,49,"paste0(temp2, cutpoint)"
+paste0,labels.rpart.R,labels.rpart,93,"paste0(ifelse(ncat < 2L, """", ""=""), lsplit)"
+paste0,labels.rpart.R,labels.rpart,94,"paste0(ifelse(ncat < 2L, """", ""=""), rsplit)"
+paste0,labels.rpart.R,labels.rpart,105,"paste0(varname[parent[odd]], rsplit[parent[odd]])"
+paste0,labels.rpart.R,labels.rpart,106,"paste0(varname[parent[!odd]], lsplit[parent[!odd]])"
+paste0,plot.rpart.R,plot.rpart,23,"paste0(""device"", dev.cur())"
+paste0,print.rpart.R,print.rpart,15,"paste0(c("""", indent[depth]), format(node), "")"")"
+paste0,print.rpart.R,print.rpart,16,"paste0(format(node), "")"")"
+paste0,rpart.anova.R,rpart.anova,6,"paste0(""  mean="", formatg(yval, digits),
+                    "", MSE="" , formatg(dev/wt, digits))"
+paste0,rpart.anova.R,rpart.anova,10,"paste0(formatg(yval, digits), ""\nn="", n)"
+paste0,rpart.branch.R,rpart.branch,8,"paste0(""device"", dev.cur())"
+paste0,rpart.class.R,rpart.class,69,"paste0(temp, "" ("", yprob[, 1L])"
+paste0,rpart.class.R,rpart.class,71,"paste0(temp, "")"")"
+paste0,rpart.class.R,rpart.class,91,"paste0(""  predicted class="", format(group, justify = ""left""),
+                    ""  expected loss="", formatg(dev, digits),
+                    ""  P(node) ="", formatg(nodeprob, digits), ""\n"",
+                    ""    class counts: "", temp1, ""\n"",
+                    ""   probabilities: "", temp2)"
+paste0,rpart.class.R,rpart.class,107,"paste0(format(group, justify = ""left""), ""\n"", temp1)"
+paste0,rpart.exp.R,rpart.exp,132,"paste0(""  events="", formatg(yval[, 2L]),
+                   "",  estimated rate="" , formatg(yval[, 1L], digits),
+                   "" , mean deviance="", formatg(dev/wt, digits))"
+paste0,rpart.exp.R,rpart.exp,137,"paste0(formatg(yval[, 1L], digits), ""\n"",
+                              formatg(yval[, 2L]) , ""/"", n)"
+paste0,rpart.poisson.R,rpart.poisson,39,"paste0(""  events="", formatg(yval[, 2L]),
+                   "",  estimated rate="" , formatg(yval[, 1L], digits),
+                   "" , mean deviance="", formatg(dev/wt, digits))"
+paste0,rpart.poisson.R,rpart.poisson,47,"paste0(formatg(yval[, 1L], digits), ""\n"",
+                              formatg(yval[, 2L]), ""/"", n)"
+paste0,rpartco.R,rpartco,5,"paste0(""device"", dev.cur())"
+paste0,snip.rpart.mouse.R,snip.rpart.mouse,7,"paste0(""device"", dev.cur())"
+paste0,summary.rpart.R,summary.rpart,59,"paste0(cuts, ifelse(temp >= 2L, "","", ifelse(temp == 1L, "" to the right,"", "" to the left, "")))"

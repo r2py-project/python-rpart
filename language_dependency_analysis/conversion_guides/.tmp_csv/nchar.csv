@@ -1,0 +1,4 @@
+language_dependency,file_path,function_name,line_number,call_body
+nchar,summary.rpart.R,summary.rpart,88,"nchar(cuts[j], ""w"")"
+nchar,summary.rpart.R,summary.rpart,100,"nchar(cuts[j], ""w"")"
+nchar,zzz.R,string.bounding.box,15,"nchar(x, ""w"")"

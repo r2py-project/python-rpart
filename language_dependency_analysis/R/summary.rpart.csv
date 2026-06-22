@@ -1,0 +1,108 @@
+language_dependency,function_name,line_number,call_body
+all,summary.rpart,42,"all(is.leaf)"
+all,summary.rpart,88,"all(nchar(cuts[j], ""w"") < 25L)"
+all,summary.rpart,100,"all(nchar(cuts[j], ""w"") < 25L)"
+any,summary.rpart,27,"any(temp > 0)"
+any,summary.rpart,57,"any(temp < 2L)"
+as.integer,summary.rpart,34,"as.integer(row.names(ff))"
+attr,summary.rpart,33,"attr(x, ""ylevels"")"
+c,summary.rpart,40,"c(1L, ff$ncompete + ff$nsurrogate + !is.leaf)"
+c,summary.rpart,52,"c(""L"", ""-"", ""R"")"
+c,summary.rpart,78,"c(0L, 1L)"
+cat,summary.rpart,15,"cat(""Call:\n"")"
+cat,summary.rpart,21,"cat(""  n="", n[1L], "" ("", naprint(omit), "")\n\n"", sep = """")"
+cat,summary.rpart,22,"cat(""  n="", n[1L], ""\n\n"")"
+cat,summary.rpart,28,"cat(""\nVariable importance\n"")"
+cat,summary.rpart,71,"cat(""\nNode number "", id[i], "": "", nn, "" observations"", sep = """")"
+cat,summary.rpart,72,"cat(""\n"")"
+cat,summary.rpart,73,"cat("",    complexity param="",
+             format(signif(ff$complexity[i], digits)), ""\n"", sep = """")"
+cat,summary.rpart,76,"cat(tprint[ii], ""\n"")"
+cat,summary.rpart,80,"cat(""  left son="", sons[1L], "" ("", sons.n[1L], "" obs)"",
+	"" right son="", sons[2L], "" ("", sons.n[2L], "" obs)"", sep = """")"
+cat,summary.rpart,83,"cat("", "", j, "" observations remain\n"", sep = """")"
+cat,summary.rpart,84,"cat("", 1 observation remains\n"")"
+cat,summary.rpart,85,"cat(""\n"")"
+cat,summary.rpart,86,"cat(""  Primary splits:\n"")"
+cat,summary.rpart,91,"cat(paste(""      "", format(sname[j], justify = ""left""), "" "", temp,
+	      "" improve="", format(signif(x$splits[j, 3L], digits)),
+	      "", ("", nn - x$splits[j, 1L], "" missing)"", sep = """"),
+            sep = ""\n"")"
+cat,summary.rpart,96,"cat(""  Surrogate splits:\n"")"
+cat,summary.rpart,104,"cat(paste(""      "", format(sname[j], justify = ""left""), "" "",
+          temp,
+          "" agree="", format(round(agree, 3L)),
+          "", adj="" , format(round(adj, 3L)),
+          "", ("", x$splits[j, 1L], "" split)"", sep = """"),
+    sep = ""\n"")"
+cat,summary.rpart,113,"cat(""\n"")"
+character,summary.rpart,44,"character(nrow(x$splits))"
+cumsum,summary.rpart,40,"cumsum(c(1L, ff$ncompete + ff$nsurrogate + !is.leaf))"
+dput,summary.rpart,16,"dput(x$call, control = NULL)"
+format,summary.rpart,48,"format(signif(x$splits[i, 4L], digits))"
+format,summary.rpart,50,"format(signif(x$splits[i, 4L], digits))"
+format,summary.rpart,58,"format(cuts[temp < 2L], justify = ""left"")"
+format,summary.rpart,74,"format(signif(ff$complexity[i], digits))"
+format,summary.rpart,89,"format(cuts[j], justify = ""left"")"
+format,summary.rpart,91,"format(sname[j], justify = ""left"")"
+format,summary.rpart,92,"format(signif(x$splits[j, 3L], digits))"
+format,summary.rpart,101,"format(cuts[j], justify = ""left"")"
+format,summary.rpart,104,"format(sname[j], justify = ""left"")"
+format,summary.rpart,106,"format(round(agree, 3L))"
+format,summary.rpart,107,"format(round(adj, 3L))"
+ifelse,summary.rpart,35,"ifelse(id == 1L, 1L, id %/% 2L)"
+ifelse,summary.rpart,59,"ifelse(temp >= 2L, "","", ifelse(temp == 1L, "" to the right,"", "" to the left, ""))"
+ifelse,summary.rpart,60,"ifelse(temp == 1L, "" to the right,"", "" to the left, "")"
+inherits,summary.rpart,4,"inherits(object, ""rpart"")"
+invisible,summary.rpart,114,"invisible(x)"
+is.null,summary.rpart,14,"is.null(x$call)"
+is.null,summary.rpart,25,"is.null(temp <- x$variable.importance)"
+is.null,summary.rpart,63,"is.null(ff$yval2)"
+length,summary.rpart,21,"length(omit)"
+length,summary.rpart,38,"length(rows)"
+match,summary.rpart,36,"match(parent.id, id)"
+match,summary.rpart,79,"match(sons, id)"
+missing,summary.rpart,9,"missing(file)"
+nchar,summary.rpart,88,"nchar(cuts[j], ""w"")"
+nchar,summary.rpart,100,"nchar(cuts[j], ""w"")"
+nrow,summary.rpart,44,"nrow(x$splits)"
+on.exit,summary.rpart,11,"on.exit(sink())"
+order,summary.rpart,38,"order(id[rows])"
+paste,summary.rpart,48,"paste(""<"", format(signif(x$splits[i, 4L], digits)))"
+paste,summary.rpart,50,"paste(""<"", format(signif(x$splits[i, 4L], digits)))"
+paste,summary.rpart,51,"paste(""splits as "",
+           paste(c(""L"", ""-"", ""R"")[x$csplit[x$splits[i, 4L], 1:temp[i]]],
+                 collapse = """", sep = """"),
+           collapse = """")"
+paste,summary.rpart,52,"paste(c(""L"", ""-"", ""R"")[x$csplit[x$splits[i, 4L], 1:temp[i]]],
+             collapse = """", sep = """")"
+paste,summary.rpart,91,"paste(""      "", format(sname[j], justify = ""left""), "" "", temp,
+	      "" improve="", format(signif(x$splits[j, 3L], digits)),
+	      "", ("", nn - x$splits[j, 1L], "" missing)"", sep = """")"
+paste,summary.rpart,104,"paste(""      "", format(sname[j], justify = ""left""), "" "",
+          temp,
+          "" agree="", format(round(agree, 3L)),
+          "", adj="" , format(round(adj, 3L)),
+          "", ("", x$splits[j, 1L], "" split)"", sep = """")"
+paste0,summary.rpart,59,"paste0(cuts, ifelse(temp >= 2L, "","", ifelse(temp == 1L, "" to the right,"", "" to the left, "")))"
+print,summary.rpart,24,"print(x$cptable, digits = digits)"
+print,summary.rpart,29,"print(temp[temp > 0])"
+round,summary.rpart,26,"round(100 * temp/sum(temp))"
+round,summary.rpart,106,"round(agree, 3L)"
+round,summary.rpart,107,"round(adj, 3L)"
+row.names,summary.rpart,34,"row.names(ff)"
+rownames,summary.rpart,43,"rownames(x$splits)"
+seq,summary.rpart,87,"seq(index[i], length.out = 1L + ff$ncompete[i])"
+seq,summary.rpart,97,"seq(1L + index[i] + ff$ncompete[i],
+                     length.out = ff$nsurrogate[i])"
+seq_along,summary.rpart,37,"seq_along(id)"
+seq_along,summary.rpart,46,"seq_along(cuts)"
+seq_along,summary.rpart,68,"seq_along(rows)"
+signif,summary.rpart,48,"signif(x$splits[i, 4L], digits)"
+signif,summary.rpart,50,"signif(x$splits[i, 4L], digits)"
+signif,summary.rpart,74,"signif(ff$complexity[i], digits)"
+signif,summary.rpart,92,"signif(x$splits[j, 3L], digits)"
+sink,summary.rpart,10,"sink(file)"
+sink,summary.rpart,11,"sink()"
+stop,summary.rpart,4,"stop(""Not a legitimate \""rpart\"" object"")"
+sum,summary.rpart,26,"sum(temp)"

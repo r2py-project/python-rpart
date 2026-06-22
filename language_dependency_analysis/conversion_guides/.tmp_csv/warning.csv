@@ -1,0 +1,15 @@
+language_dependency,file_path,function_name,line_number,call_body
+warning,labels.rpart.R,labels.rpart,66,"warning(""more than 52 levels in a predicting factor, truncated for printout"",
+        domain = NA)"
+warning,rpart.control.R,rpart.control,8,"warning(""The value of 'maxcompete' supplied is < 0; the value 0 was used instead"")"
+warning,rpart.control.R,rpart.control,12,"warning(""The value of 'xval' supplied is < 0; the value 0 was used instead"")"
+warning,rpart.control.R,rpart.control,19,"warning(""The value of 'usesurrogate' supplied was out of range, the default value of 2 is used instead."")"
+warning,rpart.control.R,rpart.control,23,"warning(""The value of 'surrogatestyle' supplied was out of range, the default value of 0 is used instead."")"
+warning,rsq.rpart.R,rsq.rpart,17,"warning(""may not be applicable for this method"")"
+warning,snip.rpart.R,snip.rpart,20,"warning(gettext(""Nodes %s are not in this tree"", toss[toss.idx == 0L]),
+        domain = NA)"
+warning,text.rpart.R,text.rpart,15,"warning(""argument 'label' is no longer used"")"
+warning,zzz.R,node.match,25,"warning(gettextf(""supplied nodes %s are not in this tree"",
+                         paste(bad, collapse = "","")), domain = NA)"
+warning,zzz.R,node.match,29,"warning(gettextf(""supplied nodes %s are leaves"",
+                paste(good[leaves], collapse = "","")), domain = NA)"

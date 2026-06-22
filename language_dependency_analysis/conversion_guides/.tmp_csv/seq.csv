@@ -1,0 +1,11 @@
+language_dependency,file_path,function_name,line_number,call_body
+seq,na.rpart.R,na.rpart,18,seq(keep)
+seq,print.rpart.R,print.rpart,14,seq(depth)
+seq,residuals.rpart.R,residuals.rpart,23,seq(y)
+seq,rpartco.R,rpartco,29,seq(node)
+seq,rpartco.R,rpartco,55,seq(sum(is.leaf))
+seq,rpartco.R,rpartco,60,seq(node)
+seq,summary.rpart.R,summary.rpart,87,"seq(index[i], length.out = 1L + ff$ncompete[i])"
+seq,summary.rpart.R,summary.rpart,97,"seq(1L + index[i] + ff$ncompete[i],
+                     length.out = ff$nsurrogate[i])"
+seq,text.rpart.R,oval,63,"seq(0, 2 * pi, pi/30)"

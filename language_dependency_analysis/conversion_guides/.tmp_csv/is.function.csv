@@ -1,0 +1,4 @@
+language_dependency,file_path,function_name,line_number,call_body
+is.function,rpartcallback.R,rpartcallback,8,is.function(mlist$init)
+is.function,rpartcallback.R,rpartcallback,10,is.function(mlist$split)
+is.function,rpartcallback.R,rpartcallback,12,is.function(mlist$eval)

@@ -1,0 +1,36 @@
+language_dependency,file_path,function_name,line_number,call_body
+paste,labels.rpart.R,labels.rpart,80,"paste((xlevels[[cindex[i]]])[splits == 1L], collapse = cl)"
+paste,labels.rpart.R,labels.rpart,82,"paste((xlevels[[cindex[i]]])[splits == 3L], collapse = cl)"
+paste,path.rpart.R,path.rpart,19,"paste(""  "", path.i)"
+paste,path.rpart.R,path.rpart,29,"paste(""  "", path.i)"
+paste,post.rpart.R,post.rpart,3,"paste(deparse(substitute(tree)), "".ps"", sep = """")"
+paste,post.rpart.R,post.rpart,22,"paste(""Endpoint ="", temp)"
+paste,print.rpart.R,print.rpart,11,"paste(rep("" "", spaces * 32L), collapse = """")"
+paste,print.rpart.R,print.rpart,27,"paste(indent, z, n, format(signif(frame$dev, digits)), yval, term)"
+paste,rpart.R,rpart,68,"paste(""rpart"", method, sep = ""."")"
+paste,rpart.R,rpart,71,"paste(""rpart"", method, sep = ""."")"
+paste,rpart.class.R,rpart.class,70,"paste(temp, yprob[, i], sep = "" "")"
+paste,rpart.class.R,rpart.class,86,paste
+paste,rpart.class.R,rpart.class,88,paste
+paste,rpart.class.R,rpart.class,106,paste
+paste,rpart.exp.R,rpart.exp,139,"paste(formatg(yval[, 1L], digits))"
+paste,rpart.poisson.R,rpart.poisson,49,"paste(formatg(yval[, 1L], digits))"
+paste,summary.rpart.R,summary.rpart,48,"paste(""<"", format(signif(x$splits[i, 4L], digits)))"
+paste,summary.rpart.R,summary.rpart,50,"paste(""<"", format(signif(x$splits[i, 4L], digits)))"
+paste,summary.rpart.R,summary.rpart,51,"paste(""splits as "",
+           paste(c(""L"", ""-"", ""R"")[x$csplit[x$splits[i, 4L], 1:temp[i]]],
+                 collapse = """", sep = """"),
+           collapse = """")"
+paste,summary.rpart.R,summary.rpart,52,"paste(c(""L"", ""-"", ""R"")[x$csplit[x$splits[i, 4L], 1:temp[i]]],
+             collapse = """", sep = """")"
+paste,summary.rpart.R,summary.rpart,91,"paste(""      "", format(sname[j], justify = ""left""), "" "", temp,
+	      "" improve="", format(signif(x$splits[j, 3L], digits)),
+	      "", ("", nn - x$splits[j, 1L], "" missing)"", sep = """")"
+paste,summary.rpart.R,summary.rpart,104,"paste(""      "", format(sname[j], justify = ""left""), "" "",
+          temp,
+          "" agree="", format(round(agree, 3L)),
+          "", adj="" , format(round(adj, 3L)),
+          "", ("", x$splits[j, 1L], "" split)"", sep = """")"
+paste,xpred.rpart.R,xpred.rpart,34,"paste(""rpart"", method, sep = ""."")"
+paste,zzz.R,node.match,26,"paste(bad, collapse = "","")"
+paste,zzz.R,node.match,30,"paste(good[leaves], collapse = "","")"

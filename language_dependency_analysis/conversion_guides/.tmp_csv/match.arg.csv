@@ -1,0 +1,4 @@
+language_dependency,file_path,function_name,line_number,call_body
+match.arg,plotcp.R,plotcp,8,match.arg(upper)
+match.arg,predict.rpart.R,predict.rpart,8,match.arg(type)
+match.arg,residuals.rpart.R,residuals.rpart,10,match.arg(type)

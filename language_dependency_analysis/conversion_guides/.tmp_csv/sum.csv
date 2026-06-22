@@ -1,0 +1,18 @@
+language_dependency,file_path,function_name,line_number,call_body
+sum,roc.rpart.R,roc.rpart,17,"sum(pred.np[1L, ])"
+sum,roc.rpart.R,roc.rpart,23,"sum(pred.np[last.r, ])"
+sum,roc.rpart.R,roc.rpart,43,"sum(truth[pred.np[i, ], 1L])"
+sum,roc.rpart.R,roc.rpart,44,"sum(truth[!pred.np[i, ], 1L])"
+sum,roc.rpart.R,roc.rpart,45,"sum(truth[pred.np[i, ], 2L])"
+sum,roc.rpart.R,roc.rpart,46,"sum(truth[!pred.np[i, ], 2L])"
+sum,rpart.R,rpart,191,"sum(isord[rpfit$isplit[, 1L]])"
+sum,rpart.R,rpart,252,sum(wt)
+sum,rpart.class.R,rpart.class,8,sum
+sum,rpart.class.R,rpart.class,12,sum(counts)
+sum,rpart.class.R,rpart.class,24,sum(counts)
+sum,rpart.class.R,rpart.class,27,sum(temp)
+sum,rpart.exp.R,drate2,83,sum
+sum,rpart.exp.R,drate2,88,sum
+sum,rpart.exp.R,drate2,92,sum
+sum,rpartco.R,rpartco,55,sum(is.leaf)
+sum,summary.rpart.R,summary.rpart,26,sum(temp)

@@ -1,0 +1,6 @@
+language_dependency,file_path,function_name,line_number,call_body
+diag,rpart.R,rpart,254,diag(init$parms$prior/temp)
+diag,rpart.class.R,rpart.class,13,diag(numclass)
+diag,rpart.class.R,rpart.class,32,diag(numclass)
+diag,rpart.class.R,rpart.class,38,diag(temp2)
+diag,zzz.R,descendants,41,diag(desc) <- TRUE

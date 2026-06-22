@@ -1,0 +1,118 @@
+language_dependency,function_name,line_number,call_body
+as.integer,rpartcallback,109,"as.integer(numy)"
+as.integer,rpartcallback,109,"as.integer(numresp)"
+as.numeric,rpartcallback,39,"as.numeric(as.vector(c(temp$deviance, temp$label)))"
+as.numeric,rpartcallback,58,"as.numeric(as.vector(c(temp$goodness, temp$direction)))"
+as.numeric,rpartcallback,68,"as.numeric(as.vector(c(temp$deviance, temp$label)))"
+as.numeric,rpartcallback,89,"as.numeric(as.vector(c(temp$goodness, temp$direction)))"
+as.vector,rpartcallback,39,"as.vector(c(temp$deviance, temp$label))"
+as.vector,rpartcallback,58,"as.vector(c(temp$goodness, temp$direction))"
+as.vector,rpartcallback,68,"as.vector(c(temp$deviance, temp$label))"
+as.vector,rpartcallback,89,"as.vector(c(temp$goodness, temp$direction))"
+assign,rpartcallback,100,"assign(""nback"", integer(1L), envir = rho)"
+assign,rpartcallback,101,"assign(""wback"", double(nobs), envir = rho)"
+assign,rpartcallback,102,"assign(""xback"", double(nobs), envir = rho)"
+assign,rpartcallback,103,"assign(""yback"", double(nobs * numy), envir = rho)"
+assign,rpartcallback,104,"assign(""user.eval"", user.eval, envir = rho)"
+assign,rpartcallback,105,"assign(""user.split"", user.split, envir = rho)"
+assign,rpartcallback,106,"assign(""numy"", numy, envir = rho)"
+assign,rpartcallback,107,"assign(""numresp"", numresp, envir = rho)"
+assign,rpartcallback,108,"assign(""parms"", parms, envir = rho)"
+c,rpartcallback,39,"c(temp$deviance, temp$label)"
+c,rpartcallback,58,"c(temp$goodness, temp$direction)"
+c,rpartcallback,68,"c(temp$deviance, temp$label)"
+c,rpartcallback,89,"c(temp$goodness, temp$direction)"
+is.function,rpartcallback,8,"is.function(mlist$init)"
+is.function,rpartcallback,10,"is.function(mlist$split)"
+is.function,rpartcallback,12,"is.function(mlist$eval)"
+length,rpartcallback,6,"length(mlist)"
+length,rpartcallback,35,"length(temp$label)"
+length,rpartcallback,37,"length(temp$deviance)"
+length,rpartcallback,47,"length(temp$goodness)"
+length,rpartcallback,48,"length(temp$direction)"
+length,rpartcallback,53,"length(temp$goodness)"
+length,rpartcallback,55,"length(temp$direction)"
+length,rpartcallback,64,"length(temp$label)"
+length,rpartcallback,66,"length(temp$deviance)"
+length,rpartcallback,77,"length(temp$goodness)"
+length,rpartcallback,78,"length(temp$direction)"
+length,rpartcallback,84,"length(temp$goodness)"
+length,rpartcallback,86,"length(temp$direction)"
+list,rpartcallback,111,"list(expr1 = expr1, expr2 = expr2, rho = rho)"
+matrix,rpartcallback,62,"matrix(yback[1L:(nback * numy)], ncol = numy)"
+matrix,rpartcallback,73,"matrix(yback[1L:(n2 * numy)], ncol = numy)"
+matrix,rpartcallback,81,"matrix(yback[1L:(nback * numy)], ncol = numy)"
+new.env,rpartcallback,99,"new.env()"
+quote,rpartcallback,33,"quote({
+    temp <- user.eval(yback[1:nback], wback[1:nback], parms)
+    if (length(temp$label) != numresp)
+        stop(""User 'eval' function returned invalid label"")
+    if (length(temp$deviance) != 1L)
+        stop(""User 'eval' function returned invalid deviance"")
+    as.numeric(as.vector(c(temp$deviance, temp$label)))
+})"
+quote,rpartcallback,41,"quote({
+    if (nback < 0L) { #categorical variable
+        n2 <- -nback
+        temp <- user.split(yback[1L:n2], wback[1L:n2],
+                           xback[1L:n2], parms, FALSE)
+        ncat <- length(unique(xback[1L:n2]))
+        if (length(temp$goodness) != ncat - 1L ||
+            length(temp$direction) != ncat)
+            stop(""Invalid return from categorical 'split' function"")
+    } else {
+        temp <- user.split(yback[1L:nback], wback[1L:nback],
+                           xback[1L:nback], parms, TRUE)
+        if (length(temp$goodness) != (nback - 1L))
+            stop(""User 'split' function returned invalid goodness"")
+        if (length(temp$direction) != (nback - 1L))
+            stop(""User 'split' function returned invalid direction"")
+    }
+    as.numeric(as.vector(c(temp$goodness, temp$direction)))
+})"
+quote,rpartcallback,61,"quote({
+    tempy <- matrix(yback[1L:(nback * numy)], ncol = numy)
+    temp <- user.eval(tempy, wback[1L:nback], parms)
+    if (length(temp$label) != numresp)
+        stop(""User 'eval' function returned invalid label"")
+    if (length(temp$deviance) != 1L)
+        stop(""User 'eval' function returned invalid deviance"")
+    as.numeric(as.vector(c(temp$deviance, temp$label)))
+})"
+quote,rpartcallback,70,"quote({
+    if (nback < 0L) { #categorical variable
+        n2 <- -nback
+        tempy <- matrix(yback[1L:(n2 * numy)], ncol = numy)
+        temp <- user.split(tempy, wback[1L:n2], xback[1L:n2],
+                           parms, FALSE)
+        ncat <- length(unique(xback[1L:n2]))
+        if (length(temp$goodness) != ncat - 1L ||
+            length(temp$direction) != ncat)
+            stop(""Invalid return from categorical 'split' function"")
+    } else {
+        tempy <- matrix(yback[1L:(nback * numy)], ncol = numy)
+        temp <- user.split(tempy, wback[1:nback], xback[1L:nback],
+                           parms, TRUE)
+        if (length(temp$goodness) != (nback - 1L))
+            stop(""User 'split' function returned invalid goodness"")
+        if (length(temp$direction) != (nback - 1L))
+            stop(""User 'split' function returned invalid direction"")
+    }
+    as.numeric(as.vector(c(temp$goodness, temp$direction)))
+})"
+stop,rpartcallback,7,"stop(""User written methods must have 3 functions"")"
+stop,rpartcallback,9,"stop(""User written method does not contain an 'init' function"")"
+stop,rpartcallback,11,"stop(""User written method does not contain a 'split' function"")"
+stop,rpartcallback,13,"stop(""User written method does not contain an 'eval' function"")"
+stop,rpartcallback,36,"stop(""User 'eval' function returned invalid label"")"
+stop,rpartcallback,38,"stop(""User 'eval' function returned invalid deviance"")"
+stop,rpartcallback,49,"stop(""Invalid return from categorical 'split' function"")"
+stop,rpartcallback,54,"stop(""User 'split' function returned invalid goodness"")"
+stop,rpartcallback,56,"stop(""User 'split' function returned invalid direction"")"
+stop,rpartcallback,65,"stop(""User 'eval' function returned invalid label"")"
+stop,rpartcallback,67,"stop(""User 'eval' function returned invalid deviance"")"
+stop,rpartcallback,79,"stop(""Invalid return from categorical 'split' function"")"
+stop,rpartcallback,85,"stop(""User 'split' function returned invalid goodness"")"
+stop,rpartcallback,87,"stop(""User 'split' function returned invalid direction"")"
+unique,rpartcallback,46,"unique(xback[1L:n2])"
+unique,rpartcallback,76,"unique(xback[1L:n2])"

@@ -1,0 +1,12 @@
+language_dependency,file_path,function_name,line_number,call_body
+is.na,na.rpart.R,na.rpart,6,is.na(x)
+is.na,na.rpart.R,na.rpart,9,is.na(x[-yvar])
+is.na,na.rpart.R,na.rpart,10,is.na(x[[yvar]])
+is.na,pred.rpart.R,pred.rpart,14,is.na(vnum)
+is.na,pred.rpart.R,pred.rpart,28,is.na(x)
+is.na,residuals.rpart.R,residuals.rpart,11,"is.na(match(type, c(""usual"", ""pearson"", ""deviance"")))"
+is.na,rpart.R,rpart,59,is.na(method.int)
+is.na,rpart.class.R,rpart.class,7,is.na(y)
+is.na,rpart.class.R,rpart.class,9,is.na(counts)
+is.na,rpart.exp.R,rpart.exp,122,is.na(method)
+is.na,snip.rpart.R,snip.rpart,48,"is.na(match(id, toss))"

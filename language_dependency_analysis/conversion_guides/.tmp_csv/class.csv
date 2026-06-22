@@ -1,0 +1,4 @@
+language_dependency,file_path,function_name,line_number,call_body
+class,rpart.R,rpart,296,"class(ans) <- ""rpart"""
+class,rpart.matrix.R,rpart.matrix,30,"class(X) <- c(""rpart.matrix"", class(X))"
+class,rpart.matrix.R,rpart.matrix,30,class(X)

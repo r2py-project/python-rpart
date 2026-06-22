@@ -1,0 +1,5 @@
+language_dependency,file_path,function_name,line_number,call_body
+eval,model.frame.rpart.R,model.frame.rpart,7,eval(oc$newdata)
+eval,model.frame.rpart.R,model.frame.rpart,9,eval(oc$object)
+eval,model.frame.rpart.R,model.frame.rpart,15,eval(oc[[2L]])
+eval,model.frame.rpart.R,model.frame.rpart,18,eval(oc)

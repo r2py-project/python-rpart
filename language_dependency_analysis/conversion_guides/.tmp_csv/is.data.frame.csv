@@ -1,0 +1,2 @@
+language_dependency,file_path,function_name,line_number,call_body
+is.data.frame,rpart.R,rpart,9,is.data.frame(model)

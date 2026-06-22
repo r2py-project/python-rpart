@@ -1,0 +1,2 @@
+language_dependency,file_path,function_name,line_number,call_body
+legend,rsq.rpart.R,rsq.rpart,23,"legend(0, 1, c(""Apparent"", ""X Relative""), lty = 1:2)"

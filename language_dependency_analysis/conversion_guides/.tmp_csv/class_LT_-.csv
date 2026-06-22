@@ -1,0 +1,2 @@
+language_dependency,file_path,function_name,line_number,call_body
+class<-,na.rpart.R,na.rpart,21,"class(temp) <- c(""na.rpart"", ""omit"")"

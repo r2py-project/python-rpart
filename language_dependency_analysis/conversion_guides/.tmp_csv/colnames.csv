@@ -1,0 +1,8 @@
+language_dependency,file_path,function_name,line_number,call_body
+colnames,pred.rpart.R,pred.rpart,13,colnames(x)
+colnames,rpart.R,rpart,87,colnames(X)
+colnames,rpart.R,rpart,184,colnames(X)
+colnames,rpart.matrix.R,rpart.matrix,29,"colnames(X) <- sub(""^`(.*)`"", ""\\1"", colnames(X))"
+colnames,rpart.matrix.R,rpart.matrix,29,colnames(X)
+colnames,xpred.rpart.R,xpred.rpart,55,colnames(X)
+colnames,xpred.rpart.R,xpred.rpart,56,colnames(X)

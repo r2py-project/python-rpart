@@ -1,0 +1,5 @@
+language_dependency,file_path,function_name,line_number,call_body
+on.exit,post.rpart.R,post.rpart,10,on.exit(dev.off())
+on.exit,post.rpart.R,post.rpart,13,on.exit(invisible(par(oldpar)))
+on.exit,roc.rpart.R,roc.rpart,60,on.exit(par(o.par))
+on.exit,summary.rpart.R,summary.rpart,11,on.exit(sink())

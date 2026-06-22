@@ -1,0 +1,47 @@
+language_dependency,function_name,line_number,call_body
+abline,plotcp,36,"abline(h = (xerror + xstd)[minpos], lty = lty, col = col)"
+as.character,plotcp,25,"as.character(signif(cp, 2L))"
+as.character,plotcp,28,"as.character(nsplit + 1)"
+as.character,plotcp,32,"as.character(nsplit)"
+axis,plotcp,23,"axis(2, ...)"
+axis,plotcp,25,"axis(1L, at = ns, labels = as.character(signif(cp, 2L)), ...)"
+axis,plotcp,28,"axis(3L, at = ns, labels = as.character(nsplit + 1), ...)"
+axis,plotcp,32,"axis(3L, at = ns, labels = as.character(nsplit), ...)"
+box,plotcp,22,"box()"
+c,plotcp,17,"c(Inf, cp0[-length(cp0)])"
+c,plotcp,19,"c(min(xerror - xstd) - 0.1, max(xerror + xstd) + 0.1)"
+c,plotcp,20,"c(list(ns, xerror, axes = FALSE, xlab = ""cp"",
+                         ylab = ""X-val Relative Error"", type = ""o""), dots)"
+do.call,plotcp,20,"do.call(plot, c(list(ns, xerror, axes = FALSE, xlab = ""cp"",
+                         ylab = ""X-val Relative Error"", type = ""o""), dots))"
+inherits,plotcp,7,"inherits(x, ""rpart"")"
+invisible,plotcp,37,"invisible()"
+length,plotcp,17,"length(cp0)"
+list,plotcp,6,"list(...)"
+list,plotcp,20,"list(ns, xerror, axes = FALSE, xlab = ""cp"",
+                         ylab = ""X-val Relative Error"", type = ""o"")"
+match.arg,plotcp,8,"match.arg(upper)"
+max,plotcp,19,"max(xerror + xstd)"
+min,plotcp,19,"min(xerror - xstd)"
+min,plotcp,35,"min(seq_along(xerror)[xerror == min(xerror)])"
+min,plotcp,35,"min(xerror)"
+mtext,plotcp,29,"mtext(""size of tree"", side = 3, line = 3)"
+mtext,plotcp,33,"mtext(""number of splits"", side = 3, line = 3)"
+names,plotcp,18,"names(dots)"
+ncol,plotcp,10,"ncol(p.rpart)"
+plot,plotcp,20,"plot"
+segments,plotcp,24,"segments(ns, xerror - xstd, ns, xerror + xstd)"
+seq_along,plotcp,15,"seq_along(nsplit)"
+seq_along,plotcp,35,"seq_along(xerror)"
+signif,plotcp,25,"signif(cp, 2L)"
+sqrt,plotcp,17,"sqrt(cp0 * c(Inf, cp0[-length(cp0)]))"
+stop,plotcp,7,"stop(""Not a legitimate \""rpart\"" object"")"
+switch,plotcp,26,"switch(upper,
+           size = {
+               axis(3L, at = ns, labels = as.character(nsplit + 1), ...)
+               mtext(""size of tree"", side = 3, line = 3)
+           },
+           splits = {
+               axis(3L, at = ns, labels = as.character(nsplit), ...)
+               mtext(""number of splits"", side = 3, line = 3)
+           })"

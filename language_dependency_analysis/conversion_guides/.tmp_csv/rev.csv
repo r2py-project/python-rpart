@@ -1,0 +1,7 @@
+language_dependency,file_path,function_name,line_number,call_body
+rev,rpart.exp.R,drate2,82,rev(cumsum(rev(tab1)))
+rev,rpart.exp.R,drate2,82,rev(tab1)
+rev,rpart.exp.R,drate2,87,rev(cumsum(rev(tab2)))
+rev,rpart.exp.R,drate2,87,rev(tab2)
+rev,rpartco.R,rpartco,61,rev(temp)
+rev,text.rpart.R,text.rpart,20,rev(cxy)

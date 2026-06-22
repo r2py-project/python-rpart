@@ -1,0 +1,2 @@
+language_dependency,file_path,function_name,line_number,call_body
+library.dynam.unload,zzz.R,.onUnload,1,"library.dynam.unload(""rpart"", libpath)"

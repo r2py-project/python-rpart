@@ -1,0 +1,11 @@
+language_dependency,file_path,function_name,line_number,call_body
+assign,plot.rpart.R,plot.rpart,23,"assign(paste0(""device"", dev.cur()), parms, envir = rpart_env)"
+assign,rpartcallback.R,rpartcallback,100,"assign(""nback"", integer(1L), envir = rho)"
+assign,rpartcallback.R,rpartcallback,101,"assign(""wback"", double(nobs), envir = rho)"
+assign,rpartcallback.R,rpartcallback,102,"assign(""xback"", double(nobs), envir = rho)"
+assign,rpartcallback.R,rpartcallback,103,"assign(""yback"", double(nobs * numy), envir = rho)"
+assign,rpartcallback.R,rpartcallback,104,"assign(""user.eval"", user.eval, envir = rho)"
+assign,rpartcallback.R,rpartcallback,105,"assign(""user.split"", user.split, envir = rho)"
+assign,rpartcallback.R,rpartcallback,106,"assign(""numy"", numy, envir = rho)"
+assign,rpartcallback.R,rpartcallback,107,"assign(""numresp"", numresp, envir = rho)"
+assign,rpartcallback.R,rpartcallback,108,"assign(""parms"", parms, envir = rho)"

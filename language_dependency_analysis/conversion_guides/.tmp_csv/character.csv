@@ -1,0 +1,4 @@
+language_dependency,file_path,function_name,line_number,call_body
+character,labels.rpart.R,labels.rpart,41,character(length(irow))
+character,labels.rpart.R,labels.rpart,104,character(n)
+character,summary.rpart.R,summary.rpart,44,character(nrow(x$splits))

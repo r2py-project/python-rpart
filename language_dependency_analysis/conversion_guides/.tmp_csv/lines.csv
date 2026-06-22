@@ -1,0 +1,4 @@
+language_dependency,file_path,function_name,line_number,call_body
+lines,plot.rpart.R,plot.rpart,31,"lines(c(temp$x), c(temp$y), col = branch.col, lty = branch.lty,
+          lwd = branch.lwd)"
+lines,snip.rpart.mouse.R,snip.rpart.mouse,53,"lines(c(draw$x[, temp]), c(draw$y[, temp]), col = 0L)"

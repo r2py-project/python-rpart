@@ -1,0 +1,7 @@
+language_dependency,file_path,function_name,line_number,call_body
+rownames,pred.rpart.R,pred.rpart,7,rownames(x)
+rownames,pred.rpart.R,pred.rpart,13,rownames(fit$splits)
+rownames,pred.rpart.R,pred.rpart,29,rownames(x)
+rownames,summary.rpart.R,summary.rpart,43,rownames(x$splits)
+rownames,xpred.rpart.R,xpred.rpart,138,rownames(X)
+rownames,xpred.rpart.R,xpred.rpart,142,rownames(X)

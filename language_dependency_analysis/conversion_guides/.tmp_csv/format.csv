@@ -1,0 +1,34 @@
+language_dependency,file_path,function_name,line_number,call_body
+format,print.rpart.R,print.rpart,15,format(node)
+format,print.rpart.R,print.rpart,16,format(node)
+format,print.rpart.R,print.rpart,22,"format(signif(frame$yval, digits))"
+format,print.rpart.R,print.rpart,27,"format(signif(frame$dev, digits))"
+format,printcp.R,printcp,27,"format(frame$dev[1L], digits = digits)"
+format,printcp.R,printcp,29,"format(frame$dev[1L]/frame$n[1L], digits = digits)"
+format,roc.rpart.R,roc.rpart,71,"format(round(cutoffs, 3L))"
+format,roc.rpart.R,roc.rpart,72,"format(round(sensitivity, 2L))"
+format,roc.rpart.R,roc.rpart,73,"format(round(specificity, 2L))"
+format,roc.rpart.R,roc.rpart,74,"format(round(pospred, 2L))"
+format,roc.rpart.R,roc.rpart,75,"format(round(negpred, 2L))"
+format,rpart.class.R,rpart.class,63,"format(yval[, 1L + nclass + 1L:nclass],
+                        digits = digits, nsmall = nsmall)"
+format,rpart.class.R,rpart.class,91,"format(group, justify = ""left"")"
+format,rpart.class.R,rpart.class,107,"format(group, justify = ""left"")"
+format,rpart.class.R,rpart.class,108,"format(group, justify = ""left"")"
+format,snip.rpart.mouse.R,snip.rpart.mouse,34,format(ff$yval[choose])
+format,snip.rpart.mouse.R,snip.rpart.mouse,37,"format(ff$yval2[choose, ])"
+format,snip.rpart.mouse.R,snip.rpart.mouse,38,format(ff$yval2[choose])
+format,snip.rpart.mouse.R,snip.rpart.mouse,39,format(ff$dev[choose])
+format,summary.rpart.R,summary.rpart,48,"format(signif(x$splits[i, 4L], digits))"
+format,summary.rpart.R,summary.rpart,50,"format(signif(x$splits[i, 4L], digits))"
+format,summary.rpart.R,summary.rpart,58,"format(cuts[temp < 2L], justify = ""left"")"
+format,summary.rpart.R,summary.rpart,74,"format(signif(ff$complexity[i], digits))"
+format,summary.rpart.R,summary.rpart,89,"format(cuts[j], justify = ""left"")"
+format,summary.rpart.R,summary.rpart,91,"format(sname[j], justify = ""left"")"
+format,summary.rpart.R,summary.rpart,92,"format(signif(x$splits[j, 3L], digits))"
+format,summary.rpart.R,summary.rpart,101,"format(cuts[j], justify = ""left"")"
+format,summary.rpart.R,summary.rpart,104,"format(sname[j], justify = ""left"")"
+format,summary.rpart.R,summary.rpart,106,"format(round(agree, 3L))"
+format,summary.rpart.R,summary.rpart,107,"format(round(adj, 3L))"
+format,xpred.rpart.R,xpred.rpart,138,format(cp)
+format,xpred.rpart.R,xpred.rpart,142,format(cp)

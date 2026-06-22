@@ -1,0 +1,3 @@
+language_dependency,file_path,function_name,line_number,call_body
+substring,model.frame.rpart.R,model.frame.rpart,6,"substring(deparse(oc[[1L]]), 1L, 7L)"
+substring,print.rpart.R,print.rpart,14,"substring(indent, 1L, spaces * seq(depth))"

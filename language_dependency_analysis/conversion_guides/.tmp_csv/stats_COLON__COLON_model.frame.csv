@@ -1,0 +1,3 @@
+language_dependency,file_path,function_name,line_number,call_body
+stats::model.frame,rpart.R,rpart,18,quote(stats::model.frame)
+stats::model.frame,xpred.rpart.R,xpred.rpart,24,quote(stats::model.frame)

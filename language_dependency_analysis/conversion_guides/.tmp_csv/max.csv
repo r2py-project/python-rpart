@@ -1,0 +1,13 @@
+language_dependency,file_path,function_name,line_number,call_body
+max,plotcp.R,plotcp,19,max(xerror + xstd)
+max,rpart.class.R,rpart.class,7,max(y[!is.na(y)])
+max,rpart.exp.R,rpart.exp,42,max(time)
+max,rpartco.R,compress,108,"max(left$depth, right$depth)"
+max,rpartco.R,rpartco,26,max(depth)
+max,rpartco.R,rpartco,26,"max(depth, 4L)"
+max,rpartco.R,rpartco,43,max(depth)
+max,rsq.rpart.R,rsq.rpart,24,max(xerror + xstd)
+max,text.rpart.R,text.rpart,78,max(string.bounding.box(stat)$columns)
+max,text.rpart.R,text.rpart,79,max(string.bounding.box(stat)$rows)
+max,zzz.R,descendants,45,max(lev)
+max,zzz.R,string.bounding.box,15,"max(nchar(x, ""w""))"

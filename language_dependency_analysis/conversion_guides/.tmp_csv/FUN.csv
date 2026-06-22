@@ -1,0 +1,8 @@
+language_dependency,file_path,function_name,line_number,call_body
+FUN,text.rpart.R,text.rpart,42,"FUN(leftptx, leftpty + 0.52 * cxy[2L],
+                rows[left.child[!is.na(left.child)]], ...)"
+FUN,text.rpart.R,text.rpart,44,"FUN(rightptx, rightpty - 0.52 * cxy[2L],
+                rows[right.child[!is.na(right.child)]], ...)"
+FUN,text.rpart.R,text.rpart,47,"FUN(xy$x, xy$y + 0.5 * cxy[2L], rows[left.child], ...)"
+FUN,text.rpart.R,text.rpart,100,"FUN(xy$x[leaves], xy$y[leaves] + 0.5 * cxy[2L], stat, ...)"
+FUN,text.rpart.R,text.rpart,101,"FUN(xy$x[leaves], xy$y[leaves] - 0.5 * cxy[2L], stat, adj = 0.5, ...)"

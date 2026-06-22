@@ -1,0 +1,2 @@
+language_dependency,file_path,function_name,line_number,call_body
+is.factor,rpart.R,rpart,36,is.factor(Y)

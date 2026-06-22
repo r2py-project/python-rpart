@@ -1,0 +1,6 @@
+language_dependency,file_path,function_name,line_number,call_body
+x$functions$text,text.rpart.R,text.rpart,53,"x$functions$text(yval = if (is.null(frame$yval2)) frame$yval[leaves]
+                                else frame$yval2[leaves, ],
+                         dev = frame$dev[leaves], wt = frame$wt[leaves],
+                         ylevel = ylevels, digits = digits,
+                         n = frame$n[leaves], use.n = use.n)"

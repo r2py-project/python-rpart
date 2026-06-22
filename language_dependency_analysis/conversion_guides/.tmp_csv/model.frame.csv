@@ -1,0 +1,5 @@
+language_dependency,file_path,function_name,line_number,call_body
+model.frame,model.frame.rpart.R,model.frame.rpart,10,"model.frame(object$terms, m, na.rpart)"
+model.frame,predict.rpart.R,predict.rpart,13,"model.frame(Terms, newdata, na.action = na.action,
+                                   xlev = attr(object, ""xlevels""))"
+model.frame,residuals.rpart.R,residuals.rpart,8,model.frame(object)

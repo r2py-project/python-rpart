@@ -1,0 +1,10 @@
+language_dependency,file_path,function_name,line_number,call_body
+cbind,labels.rpart.R,labels.rpart,90,"cbind(ltemp, rtemp)"
+cbind,residuals.rpart.R,residuals.rpart,23,"cbind(seq(y), unclass(y))"
+cbind,residuals.rpart.R,residuals.rpart,26,"cbind(y, yhat)"
+cbind,rpart.R,rpart,213,"cbind(cs, matrix(0L, nrow(cs), ncc - ncs))"
+cbind,rpart.R,rpart,257,"cbind(yval2, yprob, nodeprob)"
+cbind,rpart.exp.R,rpart.exp,130,"cbind(newy, y[, 2L])"
+cbind,rpart.poisson.R,rpart.poisson,8,"cbind(1, y)"
+cbind,rpart.poisson.R,rpart.poisson,9,"cbind( exp(offset), y)"
+cbind,zzz.R,descendants,46,"cbind(ind[parents[lev == i]], ind[lev == i])"

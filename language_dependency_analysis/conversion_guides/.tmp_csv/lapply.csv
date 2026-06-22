@@ -1,0 +1,13 @@
+language_dependency,file_path,function_name,line_number,call_body
+lapply,labels.rpart.R,labels.rpart,68,"lapply(xlevels, function(z) c(letters, LETTERS)[pmin(seq_along(z), 52L)])"
+lapply,labels.rpart.R,labels.rpart,70,"lapply(xlevels, abbreviate, minlength, ...)"
+lapply,rpart.R,rpart,88,"lapply(xlevels, length)"
+lapply,rpart.R,rpart,154,"lapply(m[labs], tfun)"
+lapply,rpart.matrix.R,rpart.matrix,18,"lapply(frame,
+                      function(x) {
+                          if (is.character(x)) as.numeric(factor(x))
+                          else if(!is.numeric(x))  as.numeric(x)
+                          else x
+                          }
+                      )"
+lapply,xpred.rpart.R,xpred.rpart,57,"lapply(xlevels, length)"

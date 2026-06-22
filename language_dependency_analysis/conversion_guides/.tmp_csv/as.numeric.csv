@@ -1,0 +1,13 @@
+language_dependency,file_path,function_name,line_number,call_body
+as.numeric,labels.rpart.R,labels.rpart,100,as.numeric(row.names(ff))
+as.numeric,path.rpart.R,path.rpart,10,as.numeric(n)
+as.numeric,plot.rpart.R,plot.rpart,27,as.numeric(row.names(x$frame))
+as.numeric,print.rpart.R,print.rpart,9,as.numeric(row.names(frame))
+as.numeric,rpart.matrix.R,rpart.matrix,20,as.numeric(factor(x))
+as.numeric,rpart.matrix.R,rpart.matrix,21,as.numeric(x)
+as.numeric,rpartcallback.R,rpartcallback,39,"as.numeric(as.vector(c(temp$deviance, temp$label)))"
+as.numeric,rpartcallback.R,rpartcallback,58,"as.numeric(as.vector(c(temp$goodness, temp$direction)))"
+as.numeric,rpartcallback.R,rpartcallback,68,"as.numeric(as.vector(c(temp$deviance, temp$label)))"
+as.numeric,rpartcallback.R,rpartcallback,89,"as.numeric(as.vector(c(temp$goodness, temp$direction)))"
+as.numeric,rpartco.R,rpartco,12,as.numeric(row.names(frame))
+as.numeric,text.rpart.R,text.rpart,23,as.numeric(row.names(frame))

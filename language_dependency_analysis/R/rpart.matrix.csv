@@ -1,0 +1,24 @@
+language_dependency,function_name,line_number,call_body
+as.matrix,rpart.matrix,12,"as.matrix(frame)"
+as.numeric,rpart.matrix,20,"as.numeric(factor(x))"
+as.numeric,rpart.matrix,21,"as.numeric(x)"
+attr,rpart.matrix,12,"attr(frame, ""terms"")"
+attr,rpart.matrix,27,"attr(frame, ""terms"")"
+class,rpart.matrix,30,"class(X) <- c(""rpart.matrix"", class(X))"
+class,rpart.matrix,30,"class(X)"
+colnames,rpart.matrix,29,"colnames(X) <- sub(""^`(.*)`"", ""\\1"", colnames(X))"
+colnames,rpart.matrix,29,"colnames(X)"
+factor,rpart.matrix,20,"factor(x)"
+inherits,rpart.matrix,11,"inherits(frame, ""data.frame"")"
+is.character,rpart.matrix,20,"is.character(x)"
+is.null,rpart.matrix,12,"is.null(attr(frame, ""terms""))"
+is.numeric,rpart.matrix,21,"is.numeric(x)"
+lapply,rpart.matrix,18,"lapply(frame,
+                      function(x) {
+                          if (is.character(x)) as.numeric(factor(x))
+                          else if(!is.numeric(x))  as.numeric(x)
+                          else x
+                          }
+                      )"
+model.matrix,rpart.matrix,27,"model.matrix(attr(frame, ""terms""), frame)[, -1L, drop = FALSE]"
+sub,rpart.matrix,29,"sub(""^`(.*)`"", ""\\1"", colnames(X))"

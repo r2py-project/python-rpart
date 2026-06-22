@@ -1,0 +1,3 @@
+language_dependency,file_path,function_name,line_number,call_body
+identify,path.rpart.R,path.rpart,15,"identify(xy, n = 1L, plot = FALSE)"
+identify,snip.rpart.mouse.R,snip.rpart.mouse,25,"identify(xy, n = 1L, plot = FALSE)"

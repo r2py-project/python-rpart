@@ -1,0 +1,1541 @@
+language_dependency,file_path,function_name,line_number,call_body
+%*%,na.rpart.R,na.rpart,7,"xmiss %*% rep(1, ncol(xmiss))"
+%*%,na.rpart.R,na.rpart,12,"xmiss %*% rep(1, ncol(xmiss))"
+%*%,na.rpart.R,na.rpart,13,"ymiss %*% rep(1, ncol(ymiss))"
+%*%,na.rpart.R,na.rpart,14,"xmiss %*% rep(1, ncol(xmiss))"
+.checkMFClasses,predict.rpart.R,predict.rpart,16,".checkMFClasses(cl, newdata, TRUE)"
+.getXlevels,rpart.R,rpart,82,".getXlevels(Terms, m)"
+>=,roc.rpart.R,ss.compare,8,a >= b
+FUN,text.rpart.R,text.rpart,42,"FUN(leftptx, leftpty + 0.52 * cxy[2L],
+                rows[left.child[!is.na(left.child)]], ...)"
+FUN,text.rpart.R,text.rpart,44,"FUN(rightptx, rightpty - 0.52 * cxy[2L],
+                rows[right.child[!is.na(right.child)]], ...)"
+FUN,text.rpart.R,text.rpart,47,"FUN(xy$x, xy$y + 0.5 * cxy[2L], rows[left.child], ...)"
+FUN,text.rpart.R,text.rpart,100,"FUN(xy$x[leaves], xy$y[leaves] + 0.5 * cxy[2L], stat, ...)"
+FUN,text.rpart.R,text.rpart,101,"FUN(xy$x[leaves], xy$y[leaves] - 0.5 * cxy[2L], stat, adj = 0.5, ...)"
+UseMethod,meanvar.rpart.R,meanvar,18,"UseMethod(""meanvar"")"
+UseMethod,post.R,post,1,"UseMethod(""post"")"
+UseMethod,prune.R,prune,2,"UseMethod(""prune"")"
+abbreviate,labels.rpart.R,labels.rpart,70,"lapply(xlevels, abbreviate, minlength, ...)"
+abline,plotcp.R,plotcp,36,"abline(h = (xerror + xstd)[minpos], lty = lty, col = col)"
+all,na.rpart.R,na.rpart,16,all(keep)
+all,rpart.exp.R,rpart.exp,22,all(status == 0)
+all,summary.rpart.R,summary.rpart,42,all(is.leaf)
+all,summary.rpart.R,summary.rpart,88,"all(nchar(cuts[j], ""w"") < 25L)"
+all,summary.rpart.R,summary.rpart,100,"all(nchar(cuts[j], ""w"") < 25L)"
+any,labels.rpart.R,labels.rpart,43,any(ncat < 2L)
+any,labels.rpart.R,labels.rpart,52,any(ncat > 1L)
+any,labels.rpart.R,labels.rpart,65,any(ncat > 52L)
+any,pred.rpart.R,pred.rpart,14,any(is.na(vnum))
+any,rpart.R,rpart,23,"any(attr(Terms, ""order"") > 1L)"
+any,rpart.R,rpart,28,any(wt < 0)
+any,rpart.R,rpart,98,any(indx == 0L)
+any,rpart.R,rpart,143,any(cost <= 0)
+any,rpart.class.R,rpart.class,19,any(temp == 0L)
+any,rpart.class.R,rpart.class,28,any(temp < 0)
+any,rpart.class.R,rpart.class,38,any(diag(temp2) != 0)
+any,rpart.class.R,rpart.class,40,any(temp2 < 0)
+any,rpart.class.R,rpart.class,42,any(rowSums(temp2) == 0)
+any,rpart.control.R,rpart.control,11,any(xval < 0L)
+any,rpart.exp.R,rpart.exp,21,"any(y[, 1L] <= 0)"
+any,rpart.exp.R,rpart.exp,115,any(indx == 0L)
+any,rpart.poisson.R,rpart.poisson,11,"any(y[, 1L] <= 0)"
+any,rpart.poisson.R,rpart.poisson,12,"any(y[, 2L] < 0)"
+any,rpart.poisson.R,rpart.poisson,20,any(indx == 0L)
+any,snip.rpart.R,snip.rpart,18,any(toss.idx == 0L)
+any,snip.rpart.R,snip.rpart,38,any(id2 > 1L)
+any,snip.rpart.R,snip.rpart,55,any(temp)
+any,snip.rpart.R,snip.rpart,73,any(temp == 0L)
+any,snip.rpart.mouse.R,snip.rpart.mouse,46,any(id2 > 1L)
+any,summary.rpart.R,summary.rpart,27,any(temp > 0)
+any,summary.rpart.R,summary.rpart,57,any(temp < 2L)
+any,zzz.R,node.match,28,any(leaves <- leaves[node.index])
+aperm,xpred.rpart.R,xpred.rpart,139,aperm(temp)
+apply,rpart.class.R,rpart.class,85,"apply(matrix(temp1, ncol = nclass), 1L,
+                                paste, collapse = "" "")"
+apply,rpart.class.R,rpart.class,87,"apply(matrix(temp2, ncol = nclass), 1L,
+                                paste, collapse = "" "")"
+apply,rpart.class.R,rpart.class,105,"apply(matrix(temp1, ncol = nclass), 1L,
+                                paste, collapse = ""/"")"
+approx,rpart.exp.R,rpart.exp,104,"approx(itable, cumhaz, time)$y"
+approx,rpart.exp.R,rpart.exp,105,"approx(itable, cumhaz, y[, 1L])$y"
+array,roc.rpart.R,roc.rpart,38,"array(0, c(cutoff.n, 2L, 2L))"
+array,xpred.rpart.R,xpred.rpart,137,"array(pred, dim = c(numresp, length(cp), nrow(X)),
+                      dimnames = list(NULL, format(cp), rownames(X)))"
+as.character,importance.R,importance,38,as.character(ff$var[fpri])
+as.character,labels.rpart.R,labels.rpart,99,as.character(vnames)
+as.character,plotcp.R,plotcp,25,"as.character(signif(cp, 2L))"
+as.character,plotcp.R,plotcp,28,as.character(nsplit + 1)
+as.character,plotcp.R,plotcp,32,as.character(nsplit)
+as.character,printcp.R,printcp,22,as.character(used)
+as.character,rpart.class.R,rpart.class,58,"as.character(yval[, 1L])"
+as.double,pred.rpart.R,pred.rpart,24,as.double(fit$splits)
+as.double,pred.rpart.R,pred.rpart,27,as.double(x)
+as.double,rpart.R,rpart,158,as.double(unlist(init$parms))
+as.double,rpart.R,rpart,163,as.double(unlist(controls))
+as.double,rpart.R,rpart,167,as.double(t(init$y))
+as.double,rpart.R,rpart,171,as.double(cost)
+as.double,rpart.exp.R,rpart.exp,33,as.double(dtimes)
+as.double,rpart.exp.R,rpart.exp,33,as.double(.Machine$double.eps)
+as.double,xpred.rpart.R,xpred.rpart,114,as.double(t(Y))
+as.double,xpred.rpart.R,xpred.rpart,117,as.double(unlist(parms))
+as.double,xpred.rpart.R,xpred.rpart,122,as.double(unlist(controls))
+as.double,xpred.rpart.R,xpred.rpart,130,as.double(costs)
+as.double,xpred.rpart.R,xpred.rpart,132,as.double(cp)
+as.double,xpred.rpart.R,xpred.rpart,133,"as.double(fit$frame[1L, ""dev""])"
+as.factor,rpart.class.R,rpart.class,5,as.factor(y)
+as.integer,pred.rpart.R,pred.rpart,17,as.integer(dim(x))
+as.integer,pred.rpart.R,pred.rpart,18,as.integer(dim(frame)[1L])
+as.integer,pred.rpart.R,pred.rpart,19,as.integer(dim(fit$splits))
+as.integer,pred.rpart.R,pred.rpart,20,"as.integer(if (is.null(fit$csplit)) rep(0L, 2L) else dim(fit$csplit))"
+as.integer,pred.rpart.R,pred.rpart,21,as.integer(row.names(frame))
+as.integer,pred.rpart.R,pred.rpart,22,"as.integer(unlist(frame[, c(""n"", ""ncompete"", ""nsurrogate"", ""index"")]))"
+as.integer,pred.rpart.R,pred.rpart,23,as.integer(vnum)
+as.integer,pred.rpart.R,pred.rpart,25,as.integer(fit$csplit - 2L)
+as.integer,pred.rpart.R,pred.rpart,26,as.integer((fit$control)$usesurrogate)
+as.integer,pred.rpart.R,pred.rpart,28,as.integer(is.na(x))
+as.integer,prune.rpart.R,prune.rpart,4,as.integer(row.names(ff))
+as.integer,rpart.R,rpart,127,"as.integer(attr(m, ""na.action""))"
+as.integer,rpart.R,rpart,161,as.integer(cats * !isord)
+as.integer,rpart.R,rpart,162,as.integer(method.int)
+as.integer,rpart.R,rpart,165,as.integer(xval)
+as.integer,rpart.R,rpart,166,as.integer(xgroups)
+as.integer,rpart.R,rpart,170,as.integer(init$numy)
+as.integer,rpart.R,rpart,203,as.integer(cdir[i])
+as.integer,rpart.R,rpart,204,as.integer(cdir[i])
+as.integer,rpart.class.R,rpart.class,6,as.integer(fy)
+as.integer,rpartcallback.R,rpartcallback,109,as.integer(numy)
+as.integer,rpartcallback.R,rpartcallback,109,as.integer(numresp)
+as.integer,snip.rpart.R,snip.rpart,14,as.integer(row.names(ff))
+as.integer,snip.rpart.mouse.R,snip.rpart.mouse,21,as.integer(row.names(tree$frame))
+as.integer,summary.rpart.R,summary.rpart,34,as.integer(row.names(ff))
+as.integer,xpred.rpart.R,xpred.rpart,78,as.integer(fit$na.action)
+as.integer,xpred.rpart.R,xpred.rpart,120,as.integer(cats * !fit$ordered)
+as.integer,xpred.rpart.R,xpred.rpart,121,as.integer(method.int)
+as.integer,xpred.rpart.R,xpred.rpart,124,as.integer(xval)
+as.integer,xpred.rpart.R,xpred.rpart,125,as.integer(xgroups)
+as.integer,xpred.rpart.R,xpred.rpart,129,as.integer(numy)
+as.integer,xpred.rpart.R,xpred.rpart,131,as.integer(return.all)
+as.integer,xpred.rpart.R,xpred.rpart,134,as.integer(numresp)
+as.list,rpart.exp.R,rpart.exp,111,as.list(parms)
+as.list,rpart.poisson.R,rpart.poisson,16,as.list(parms)
+as.logical,labels.rpart.R,labels.rpart,102,as.logical(node %% 2L)
+as.matrix,rpart.matrix.R,rpart.matrix,12,as.matrix(frame)
+as.numeric,labels.rpart.R,labels.rpart,100,as.numeric(row.names(ff))
+as.numeric,path.rpart.R,path.rpart,10,as.numeric(n)
+as.numeric,plot.rpart.R,plot.rpart,27,as.numeric(row.names(x$frame))
+as.numeric,print.rpart.R,print.rpart,9,as.numeric(row.names(frame))
+as.numeric,rpart.matrix.R,rpart.matrix,20,as.numeric(factor(x))
+as.numeric,rpart.matrix.R,rpart.matrix,21,as.numeric(x)
+as.numeric,rpartcallback.R,rpartcallback,39,"as.numeric(as.vector(c(temp$deviance, temp$label)))"
+as.numeric,rpartcallback.R,rpartcallback,58,"as.numeric(as.vector(c(temp$goodness, temp$direction)))"
+as.numeric,rpartcallback.R,rpartcallback,68,"as.numeric(as.vector(c(temp$deviance, temp$label)))"
+as.numeric,rpartcallback.R,rpartcallback,89,"as.numeric(as.vector(c(temp$goodness, temp$direction)))"
+as.numeric,rpartco.R,rpartco,12,as.numeric(row.names(frame))
+as.numeric,text.rpart.R,text.rpart,23,as.numeric(row.names(frame))
+as.vector,rpartcallback.R,rpartcallback,39,"as.vector(c(temp$deviance, temp$label))"
+as.vector,rpartcallback.R,rpartcallback,58,"as.vector(c(temp$goodness, temp$direction))"
+as.vector,rpartcallback.R,rpartcallback,68,"as.vector(c(temp$deviance, temp$label))"
+as.vector,rpartcallback.R,rpartcallback,89,"as.vector(c(temp$goodness, temp$direction))"
+asNamespace,rpart.R,rpart,74,"asNamespace(""rpart"")"
+assign,plot.rpart.R,plot.rpart,23,"assign(paste0(""device"", dev.cur()), parms, envir = rpart_env)"
+assign,rpartcallback.R,rpartcallback,100,"assign(""nback"", integer(1L), envir = rho)"
+assign,rpartcallback.R,rpartcallback,101,"assign(""wback"", double(nobs), envir = rho)"
+assign,rpartcallback.R,rpartcallback,102,"assign(""xback"", double(nobs), envir = rho)"
+assign,rpartcallback.R,rpartcallback,103,"assign(""yback"", double(nobs * numy), envir = rho)"
+assign,rpartcallback.R,rpartcallback,104,"assign(""user.eval"", user.eval, envir = rho)"
+assign,rpartcallback.R,rpartcallback,105,"assign(""user.split"", user.split, envir = rho)"
+assign,rpartcallback.R,rpartcallback,106,"assign(""numy"", numy, envir = rho)"
+assign,rpartcallback.R,rpartcallback,107,"assign(""numresp"", numresp, envir = rho)"
+assign,rpartcallback.R,rpartcallback,108,"assign(""parms"", parms, envir = rho)"
+attr,labels.rpart.R,labels.rpart,53,"attr(object, ""xlevels"")"
+attr,model.frame.rpart.R,model.frame.rpart,8,"attr(m, ""terms"")"
+attr,na.rpart.R,na.rpart,3,"attr(x, ""terms"")"
+attr,na.rpart.R,na.rpart,4,"attr(Terms, ""response"")"
+attr,post.rpart.R,post.rpart,21,"attr(tree$terms, ""variables"")"
+attr,predict.rpart.R,predict.rpart,11,"attr(newdata, ""terms"")"
+attr,predict.rpart.R,predict.rpart,14,"attr(object, ""xlevels"")"
+attr,predict.rpart.R,predict.rpart,15,"attr(Terms, ""dataClasses"")"
+attr,predict.rpart.R,predict.rpart,21,"attr(object, ""ylevels"")"
+attr,print.rpart.R,print.rpart,8,"attr(x, ""ylevels"")"
+attr,residuals.rpart.R,residuals.rpart,15,"attr(object, ""ylevels"")"
+attr,roc.rpart.R,roc.rpart,5,"attr(object, ""ylevels"")"
+attr,rpart.R,rpart,22,"attr(m, ""terms"")"
+attr,rpart.R,rpart,23,"attr(Terms, ""order"")"
+attr,rpart.R,rpart,125,"attr(m, ""na.action"")"
+attr,rpart.R,rpart,127,"attr(m, ""na.action"")"
+attr,rpart.R,rpart,153,"attr(Terms, ""term.labels"")"
+attr,rpart.R,rpart,293,"attr(m, ""na.action"")"
+attr,rpart.R,rpart,294,"attr(ans, ""xlevels"") <- xlevels"
+attr,rpart.R,rpart,295,"attr(ans, ""ylevels"") <- init$ylevels"
+attr,rpart.matrix.R,rpart.matrix,12,"attr(frame, ""terms"")"
+attr,rpart.matrix.R,rpart.matrix,27,"attr(frame, ""terms"")"
+attr,summary.rpart.R,summary.rpart,33,"attr(x, ""ylevels"")"
+attr,text.rpart.R,text.rpart,17,"attr(x, ""ylevels"")"
+attr,text.rpart.R,text.rpart,18,"attr(x, ""ylevels"")"
+attr,xpred.rpart.R,xpred.rpart,32,"attr(Terms, ""offset"")"
+attr,xpred.rpart.R,xpred.rpart,53,"attr(fit, ""xlevels"")"
+axis,plotcp.R,plotcp,23,"axis(2, ...)"
+axis,plotcp.R,plotcp,25,"axis(1L, at = ns, labels = as.character(signif(cp, 2L)), ...)"
+axis,plotcp.R,plotcp,28,"axis(3L, at = ns, labels = as.character(nsplit + 1), ...)"
+axis,plotcp.R,plotcp,32,"axis(3L, at = ns, labels = as.character(nsplit), ...)"
+box,plotcp.R,plotcp,22,box()
+c,importance.R,importance,12,"c(0, 1 + ff$ncompete[fpri] + ff$nsurrogate[fpri])"
+c,importance.R,importance,37,"c(scaled.imp, unlist(sval))"
+c,importance.R,importance,38,"c(as.character(ff$var[fpri]), unlist(sname))"
+c,importance.R,importance,40,c(import)
+c,labels.rpart.R,labels.rpart,34,"c(1, ff$ncompete + ff$nsurrogate + !is.leaf)"
+c,labels.rpart.R,labels.rpart,35,"c(whichrow, FALSE)"
+c,labels.rpart.R,labels.rpart,68,"c(letters, LETTERS)"
+c,plot.rpart.R,plot.rpart,19,"c(-margin, margin)"
+c,plot.rpart.R,plot.rpart,20,"c(-margin, margin)"
+c,plot.rpart.R,plot.rpart,31,c(temp$x)
+c,plot.rpart.R,plot.rpart,31,c(temp$y)
+c,plotcp.R,plotcp,17,"c(Inf, cp0[-length(cp0)])"
+c,plotcp.R,plotcp,19,"c(min(xerror - xstd) - 0.1, max(xerror + xstd) + 0.1)"
+c,plotcp.R,plotcp,20,"c(list(ns, xerror, axes = FALSE, xlab = ""cp"",
+                         ylab = ""X-val Relative Error"", type = ""o""), dots)"
+c,post.rpart.R,post.rpart,9,"c(2,2,4,2)"
+c,post.rpart.R,post.rpart,12,"c(2,2,4,2)"
+c,pred.rpart.R,pred.rpart,9,"c(""ncompete"", ""nsurrogate"")"
+c,pred.rpart.R,pred.rpart,10,"c(0L, cumsum((frame$var != ""<leaf>"") +
+                                     nc[[1L]] + nc[[2L]]))"
+c,pred.rpart.R,pred.rpart,22,"c(""n"", ""ncompete"", ""nsurrogate"", ""index"")"
+c,roc.rpart.R,roc.rpart,12,"c(0, 1, object$frame$yprob[endnodes, 2L])"
+c,roc.rpart.R,roc.rpart,19,"c(NA, cutoffs)"
+c,roc.rpart.R,roc.rpart,25,"c(cutoffs, NA)"
+c,roc.rpart.R,roc.rpart,38,"c(cutoff.n, 2L, 2L)"
+c,rpart.R,rpart,13,"c(""formula"", ""data"", ""weights"", ""subset"")"
+c,rpart.R,rpart,16,"c(1L, indx)"
+c,rpart.R,rpart,58,"c(""anova"", ""poisson"", ""class"", ""exp"")"
+c,rpart.R,rpart,60,"c(""anova"", ""poisson"", ""class"", ""exp"")[method.int]"
+c,rpart.R,rpart,180,"c(""CP"", ""nsplit"", ""rel error"")"
+c,rpart.R,rpart,181,"c(""CP"", ""nsplit"", ""rel error"", ""xerror"", ""xstd"")"
+c,rpart.R,rpart,184,"c(""<leaf>"", colnames(X))"
+c,rpart.R,rpart,185,"c(rpfit$isplit[, 2:3], rpfit$dsplit)"
+c,rpart.R,rpart,187,"c(""count"", ""ncat"", ""improve"", ""index"", ""adj"")"
+c,rpart.R,rpart,265,"c(functions, list(text = init$text))"
+c,rpart.R,rpart,266,"c(functions, mlist)"
+c,rpart.exp.R,drate2,83,"c(temp[-1L], 0)"
+c,rpart.exp.R,drate2,88,"c(0, temp[-ngrp])"
+c,rpart.exp.R,rpart.exp,42,"c(0, dtimes[-length(dtimes)], max(time))"
+c,rpart.exp.R,rpart.exp,103,"c(0, rate * diff(itable))"
+c,rpart.exp.R,rpart.exp,109,"c(shrink = 1L, method = 1L)"
+c,rpart.exp.R,rpart.exp,113,"c(""method"", ""shrink"")"
+c,rpart.exp.R,rpart.exp,121,"c(""deviance"", ""sqrt"")"
+c,rpart.exp.R,rpart.exp,128,"c(shrink = shrink, method = method)"
+c,rpart.poisson.R,rpart.poisson,14,"c(shrink = 1L, method = 1L)"
+c,rpart.poisson.R,rpart.poisson,18,"c(""method"", ""shrink"")"
+c,rpart.poisson.R,rpart.poisson,26,"c(""deviance"", ""sqrt"")"
+c,rpart.poisson.R,rpart.poisson,34,"c(shrink = shrink, method = method)"
+c,rpartcallback.R,rpartcallback,39,"c(temp$deviance, temp$label)"
+c,rpartcallback.R,rpartcallback,58,"c(temp$goodness, temp$direction)"
+c,rpartcallback.R,rpartcallback,68,"c(temp$deviance, temp$label)"
+c,rpartcallback.R,rpartcallback,89,"c(temp$goodness, temp$direction)"
+c,rpartco.R,compress,133,"c(x[me] - nspace * (x[me] - x[lson]), templ)"
+c,rpartco.R,compress,134,"c(x[me] - nspace * (x[me] - x[rson]), tempr)"
+c,rpartco.R,compress,135,"c(me, left$sons, right$sons)"
+c,snip.rpart.R,snip.rpart,41,"c(toss, id[xx])"
+c,snip.rpart.mouse.R,snip.rpart.mouse,49,"c(id, node[temp])"
+c,snip.rpart.mouse.R,snip.rpart.mouse,53,"c(draw$x[, temp])"
+c,snip.rpart.mouse.R,snip.rpart.mouse,53,"c(draw$y[, temp])"
+c,snip.rpart.mouse.R,snip.rpart.mouse,54,"c(toss, node[choose])"
+c,summary.rpart.R,summary.rpart,40,"c(1L, ff$ncompete + ff$nsurrogate + !is.leaf)"
+c,summary.rpart.R,summary.rpart,52,"c(""L"", ""-"", ""R"")"
+c,summary.rpart.R,summary.rpart,78,"c(0L, 1L)"
+c,text.rpart.R,rectangle,72,"c(a, a, -a, -a)"
+c,text.rpart.R,rectangle,73,"c(b, -b, -b, b)"
+c,xpred.rpart.R,xpred.rpart,10,"c(""anova"", ""poisson"", ""class"", ""user"", ""exp"")"
+c,xpred.rpart.R,xpred.rpart,21,"c("""", ""formula"", ""data"", ""weights"", ""subset"",
+                                  ""na.action"")"
+c,xpred.rpart.R,xpred.rpart,63,"c(10, cp[-length(cp)])"
+c,xpred.rpart.R,xpred.rpart,137,"c(numresp, length(cp), nrow(X))"
+cat,path.rpart.R,path.rpart,18,"cat(""\n"", ""node number:"", n[i], ""\n"")"
+cat,path.rpart.R,path.rpart,19,"cat(paste(""  "", path.i), sep = ""\n"")"
+cat,path.rpart.R,path.rpart,27,"cat(""\n"", ""node number:"", n[i], ""\n"")"
+cat,path.rpart.R,path.rpart,29,"cat(paste(""  "", path.i), sep = ""\n"")"
+cat,print.rpart.R,print.rpart,30,"cat(""n="", n[1L], "" ("", naprint(omit), "")\n\n"", sep = """")"
+cat,print.rpart.R,print.rpart,31,"cat(""n="", n[1L], ""\n\n"")"
+cat,print.rpart.R,print.rpart,34,"cat(""node), split, n, loss, yval, (yprob)\n"")"
+cat,print.rpart.R,print.rpart,35,"cat(""node), split, n, deviance, yval\n"")"
+cat,print.rpart.R,print.rpart,36,"cat(""      * denotes terminal node\n\n"")"
+cat,print.rpart.R,print.rpart,38,"cat(z, sep = ""\n"")"
+cat,printcp.R,printcp,5,"cat(switch(x$method,
+               anova = ""\nRegression tree:\n"" ,
+               class = ""\nClassification tree:\n"" ,
+               poisson = ""\nRates regression tree:\n"",
+               exp = ""\nSurvival regression tree:\n"")
+        )"
+cat,printcp.R,printcp,14,"cat(""\n"")"
+cat,printcp.R,printcp,21,"cat(""Variables actually used in tree construction:\n"")"
+cat,printcp.R,printcp,23,"cat(""\n"")"
+cat,printcp.R,printcp,27,"cat(""Root node error: "", format(frame$dev[1L], digits = digits), ""/"",
+        frame$n[1L], "" = "",
+        format(frame$dev[1L]/frame$n[1L], digits = digits),
+        ""\n\n"", sep = "")"
+cat,printcp.R,printcp,35,"cat(""n="", n[1L], "" ("", naprint(omit), "")\n\n"", sep = """")"
+cat,printcp.R,printcp,36,"cat(""n="", n[1L], ""\n\n"")"
+cat,snip.rpart.mouse.R,snip.rpart.mouse,27,"cat(""Terminal node -- try again\n"")"
+cat,snip.rpart.mouse.R,snip.rpart.mouse,33,"cat(""node number:"", node[choose], "" n="", ff$n[choose], ""\n"")"
+cat,snip.rpart.mouse.R,snip.rpart.mouse,34,"cat(""    response="", format(ff$yval[choose]))"
+cat,snip.rpart.mouse.R,snip.rpart.mouse,35,"cat (""\n"")"
+cat,snip.rpart.mouse.R,snip.rpart.mouse,37,"cat("" ("", format(ff$yval2[choose, ]), "")\n"")"
+cat,snip.rpart.mouse.R,snip.rpart.mouse,38,"cat("" ("", format(ff$yval2[choose]), "")\n"")"
+cat,snip.rpart.mouse.R,snip.rpart.mouse,39,"cat(""    Error (dev) = "", format(ff$dev[choose]), ""\n"")"
+cat,summary.rpart.R,summary.rpart,15,"cat(""Call:\n"")"
+cat,summary.rpart.R,summary.rpart,21,"cat(""  n="", n[1L], "" ("", naprint(omit), "")\n\n"", sep = """")"
+cat,summary.rpart.R,summary.rpart,22,"cat(""  n="", n[1L], ""\n\n"")"
+cat,summary.rpart.R,summary.rpart,28,"cat(""\nVariable importance\n"")"
+cat,summary.rpart.R,summary.rpart,71,"cat(""\nNode number "", id[i], "": "", nn, "" observations"", sep = """")"
+cat,summary.rpart.R,summary.rpart,72,"cat(""\n"")"
+cat,summary.rpart.R,summary.rpart,73,"cat("",    complexity param="",
+             format(signif(ff$complexity[i], digits)), ""\n"", sep = """")"
+cat,summary.rpart.R,summary.rpart,76,"cat(tprint[ii], ""\n"")"
+cat,summary.rpart.R,summary.rpart,80,"cat(""  left son="", sons[1L], "" ("", sons.n[1L], "" obs)"",
+	"" right son="", sons[2L], "" ("", sons.n[2L], "" obs)"", sep = """")"
+cat,summary.rpart.R,summary.rpart,83,"cat("", "", j, "" observations remain\n"", sep = """")"
+cat,summary.rpart.R,summary.rpart,84,"cat("", 1 observation remains\n"")"
+cat,summary.rpart.R,summary.rpart,85,"cat(""\n"")"
+cat,summary.rpart.R,summary.rpart,86,"cat(""  Primary splits:\n"")"
+cat,summary.rpart.R,summary.rpart,91,"cat(paste(""      "", format(sname[j], justify = ""left""), "" "", temp,
+	      "" improve="", format(signif(x$splits[j, 3L], digits)),
+	      "", ("", nn - x$splits[j, 1L], "" missing)"", sep = """"),
+            sep = ""\n"")"
+cat,summary.rpart.R,summary.rpart,96,"cat(""  Surrogate splits:\n"")"
+cat,summary.rpart.R,summary.rpart,104,"cat(paste(""      "", format(sname[j], justify = ""left""), "" "",
+          temp,
+          "" agree="", format(round(agree, 3L)),
+          "", adj="" , format(round(adj, 3L)),
+          "", ("", x$splits[j, 1L], "" split)"", sep = """"),
+    sep = ""\n"")"
+cat,summary.rpart.R,summary.rpart,113,"cat(""\n"")"
+cbind,labels.rpart.R,labels.rpart,90,"cbind(ltemp, rtemp)"
+cbind,residuals.rpart.R,residuals.rpart,23,"cbind(seq(y), unclass(y))"
+cbind,residuals.rpart.R,residuals.rpart,26,"cbind(y, yhat)"
+cbind,rpart.R,rpart,213,"cbind(cs, matrix(0L, nrow(cs), ncc - ncs))"
+cbind,rpart.R,rpart,257,"cbind(yval2, yprob, nodeprob)"
+cbind,rpart.exp.R,rpart.exp,130,"cbind(newy, y[, 2L])"
+cbind,rpart.poisson.R,rpart.poisson,8,"cbind(1, y)"
+cbind,rpart.poisson.R,rpart.poisson,9,"cbind( exp(offset), y)"
+cbind,zzz.R,descendants,46,"cbind(ind[parents[lev == i]], ind[lev == i])"
+character,labels.rpart.R,labels.rpart,41,character(length(irow))
+character,labels.rpart.R,labels.rpart,104,character(n)
+character,summary.rpart.R,summary.rpart,44,character(nrow(x$splits))
+class,rpart.R,rpart,296,"class(ans) <- ""rpart"""
+class,rpart.matrix.R,rpart.matrix,30,"class(X) <- c(""rpart.matrix"", class(X))"
+class,rpart.matrix.R,rpart.matrix,30,class(X)
+class<-,na.rpart.R,na.rpart,21,"class(temp) <- c(""na.rpart"", ""omit"")"
+col2rgb,text.rpart.R,text.rpart,60,"col2rgb(bg, alpha = TRUE)"
+colnames,pred.rpart.R,pred.rpart,13,colnames(x)
+colnames,rpart.R,rpart,87,colnames(X)
+colnames,rpart.R,rpart,184,colnames(X)
+colnames,rpart.matrix.R,rpart.matrix,29,"colnames(X) <- sub(""^`(.*)`"", ""\\1"", colnames(X))"
+colnames,rpart.matrix.R,rpart.matrix,29,colnames(X)
+colnames,xpred.rpart.R,xpred.rpart,55,colnames(X)
+colnames,xpred.rpart.R,xpred.rpart,56,colnames(X)
+cos,text.rpart.R,oval,64,cos(theta)
+cumsum,importance.R,importance,12,"cumsum(c(0, 1 + ff$ncompete[fpri] + ff$nsurrogate[fpri]))"
+cumsum,labels.rpart.R,labels.rpart,34,"cumsum(c(1, ff$ncompete + ff$nsurrogate + !is.leaf))"
+cumsum,pred.rpart.R,pred.rpart,10,"cumsum((frame$var != ""<leaf>"") +
+                                     nc[[1L]] + nc[[2L]])"
+cumsum,rpart.exp.R,drate2,82,cumsum(rev(tab1))
+cumsum,rpart.exp.R,drate2,87,cumsum(rev(tab2))
+cumsum,rpart.exp.R,rpart.exp,103,"cumsum(c(0, rate * diff(itable)))"
+cumsum,summary.rpart.R,summary.rpart,40,"cumsum(c(1L, ff$ncompete + ff$nsurrogate + !is.leaf))"
+cut,rpart.exp.R,drate2,64,"cut(time, itable, include.lowest = TRUE)"
+cut,rpart.exp.R,drate2,71,"cut(stime, itable, include.lowest = TRUE)"
+data.frame,roc.rpart.R,roc.rpart,71,"data.frame(cutoffs = format(round(cutoffs, 3L)), tpcp, tncp, tpcn, tncn,
+               sensitivity = format(round(sensitivity, 2L)),
+               specificity = format(round(specificity, 2L)),
+               pospred = format(round(pospred, 2L)),
+               negpred = format(round(negpred, 2L)))"
+data.frame,rpart.R,rpart,221,"data.frame(row.names = 1L,
+			    var = ""<leaf>"",
+			    n = rpfit$inode[, 5L],
+			    wt = rpfit$dnode[, 3L],
+			    dev = rpfit$dnode[, 1L],
+			    yval = rpfit$dnode[, 4L],
+			    complexity = rpfit$dnode[, 2L],
+			    ncompete = 0L,
+			    nsurrogate = 0L)"
+data.frame,rpart.R,rpart,233,"data.frame(row.names = rpfit$inode[, 1L],
+			    var = tname[svar + 1L],
+			    n = rpfit$inode[, 5L],
+			    wt = rpfit$dnode[, 3L],
+			    dev = rpfit$dnode[, 1L],
+			    yval = rpfit$dnode[, 4L],
+			    complexity = rpfit$dnode[, 2L],
+			    ncompete = pmax(0L, rpfit$inode[, 3L] - 1L),
+			    nsurrogate = rpfit$inode[, 4L])"
+delete.response,predict.rpart.R,predict.rpart,12,delete.response(object$terms)
+deparse,model.frame.rpart.R,model.frame.rpart,6,deparse(oc[[1L]])
+deparse,model.frame.rpart.R,model.frame.rpart,14,deparse(oc[[1L]])
+deparse,post.rpart.R,post.rpart,3,deparse(substitute(tree))
+dev.cur,plot.rpart.R,plot.rpart,23,dev.cur()
+dev.cur,rpart.branch.R,rpart.branch,8,dev.cur()
+dev.cur,rpartco.R,rpartco,5,dev.cur()
+dev.cur,snip.rpart.mouse.R,snip.rpart.mouse,7,dev.cur()
+dev.off,post.rpart.R,post.rpart,10,dev.off()
+diag,rpart.R,rpart,254,diag(init$parms$prior/temp)
+diag,rpart.class.R,rpart.class,13,diag(numclass)
+diag,rpart.class.R,rpart.class,32,diag(numclass)
+diag,rpart.class.R,rpart.class,38,diag(temp2)
+diag,zzz.R,descendants,41,diag(desc) <- TRUE
+diff,plot.rpart.R,plot.rpart,19,diff(range(xx))
+diff,plot.rpart.R,plot.rpart,20,diff(range(yy))
+diff,rpart.exp.R,drate2,55,diff(itable)
+diff,rpart.exp.R,rpart.exp,103,diff(itable)
+diff,rpartco.R,rpartco,43,diff(range(y))
+dim,pred.rpart.R,pred.rpart,17,dim(x)
+dim,pred.rpart.R,pred.rpart,18,dim(frame)
+dim,pred.rpart.R,pred.rpart,19,dim(fit$splits)
+dim,pred.rpart.R,pred.rpart,20,dim(fit$csplit)
+dim,roc.rpart.R,roc.rpart,15,dim(pred.np)[1L]
+dim,roc.rpart.R,roc.rpart,16,dim(pred.np)[2L]
+dim,roc.rpart.R,roc.rpart,21,dim(pred.np)[1L]
+dim,roc.rpart.R,roc.rpart,22,dim(pred.np)[2L]
+dimnames,predict.rpart.R,predict.rpart,29,"dimnames(pred) <- list(names(where), NULL)"
+dimnames,predict.rpart.R,predict.rpart,37,"dimnames(pred) <- list(names(where), ylevels)"
+dimnames,rpart.R,rpart,182,"dimnames(rpfit$cptable) <- list(temp, 1L:numcp)"
+do.call,plotcp.R,plotcp,20,"do.call(plot, c(list(ns, xerror, axes = FALSE, xlab = ""cp"",
+                         ylab = ""X-val Relative Error"", type = ""o""), dots))"
+do.call,rpart.R,rpart,110,"do.call(rpart.control, control)"
+double,rpartco.R,rpartco,54,double(length(node))
+dput,printcp.R,printcp,13,"dput(cl, control = NULL)"
+dput,summary.rpart.R,summary.rpart,16,"dput(x$call, control = NULL)"
+environment,rpart.R,rpart,69,environment()
+environment,rpart.R,rpart,72,environment()
+environment,rpart.R,rpart,75,environment(init$print)
+environment,rpart.R,rpart,76,environment(init$summary)
+environment,rpart.R,rpart,77,environment(init$text)
+eval,model.frame.rpart.R,model.frame.rpart,7,eval(oc$newdata)
+eval,model.frame.rpart.R,model.frame.rpart,9,eval(oc$object)
+eval,model.frame.rpart.R,model.frame.rpart,15,eval(oc[[2L]])
+eval,model.frame.rpart.R,model.frame.rpart,18,eval(oc)
+eval.parent,rpart.R,rpart,19,eval.parent(temp)
+eval.parent,xpred.rpart.R,xpred.rpart,25,eval.parent(m)
+exists,rpart.branch.R,rpart.branch,9,"exists(pn, envir = rpart_env, inherits = FALSE)"
+exists,rpartco.R,rpartco,6,"exists(pn, envir = rpart_env, inherits = FALSE)"
+exists,snip.rpart.mouse.R,snip.rpart.mouse,8,"exists(pn, envir = rpart_env, inherits = FALSE)"
+exp,rpart.exp.R,rpart.exp,107,exp(offset)
+exp,rpart.poisson.R,rpart.poisson,6,exp(offset)
+exp,rpart.poisson.R,rpart.poisson,9,exp(offset)
+factor,predict.rpart.R,predict.rpart,33,"factor(ylevels[frame$yval[where]], levels = ylevels)"
+factor,rpart.class.R,rpart.class,8,"factor(y, levels = 1:numclass)"
+factor,rpart.matrix.R,rpart.matrix,20,factor(x)
+floor,rpart.R,rpart,197,"floor(splits[indx, 4L])"
+floor,zzz.R,descendants,43,"floor(log(nodes, base = 2))"
+floor,zzz.R,tree.depth,7,"floor(log(nodes, base = 2) + 1e-7)"
+formals,rpart.R,rpart,96,formals(rpart.control)
+format,print.rpart.R,print.rpart,15,format(node)
+format,print.rpart.R,print.rpart,16,format(node)
+format,print.rpart.R,print.rpart,22,"format(signif(frame$yval, digits))"
+format,print.rpart.R,print.rpart,27,"format(signif(frame$dev, digits))"
+format,printcp.R,printcp,27,"format(frame$dev[1L], digits = digits)"
+format,printcp.R,printcp,29,"format(frame$dev[1L]/frame$n[1L], digits = digits)"
+format,roc.rpart.R,roc.rpart,71,"format(round(cutoffs, 3L))"
+format,roc.rpart.R,roc.rpart,72,"format(round(sensitivity, 2L))"
+format,roc.rpart.R,roc.rpart,73,"format(round(specificity, 2L))"
+format,roc.rpart.R,roc.rpart,74,"format(round(pospred, 2L))"
+format,roc.rpart.R,roc.rpart,75,"format(round(negpred, 2L))"
+format,rpart.class.R,rpart.class,63,"format(yval[, 1L + nclass + 1L:nclass],
+                        digits = digits, nsmall = nsmall)"
+format,rpart.class.R,rpart.class,91,"format(group, justify = ""left"")"
+format,rpart.class.R,rpart.class,107,"format(group, justify = ""left"")"
+format,rpart.class.R,rpart.class,108,"format(group, justify = ""left"")"
+format,snip.rpart.mouse.R,snip.rpart.mouse,34,format(ff$yval[choose])
+format,snip.rpart.mouse.R,snip.rpart.mouse,37,"format(ff$yval2[choose, ])"
+format,snip.rpart.mouse.R,snip.rpart.mouse,38,format(ff$yval2[choose])
+format,snip.rpart.mouse.R,snip.rpart.mouse,39,format(ff$dev[choose])
+format,summary.rpart.R,summary.rpart,48,"format(signif(x$splits[i, 4L], digits))"
+format,summary.rpart.R,summary.rpart,50,"format(signif(x$splits[i, 4L], digits))"
+format,summary.rpart.R,summary.rpart,58,"format(cuts[temp < 2L], justify = ""left"")"
+format,summary.rpart.R,summary.rpart,74,"format(signif(ff$complexity[i], digits))"
+format,summary.rpart.R,summary.rpart,89,"format(cuts[j], justify = ""left"")"
+format,summary.rpart.R,summary.rpart,91,"format(sname[j], justify = ""left"")"
+format,summary.rpart.R,summary.rpart,92,"format(signif(x$splits[j, 3L], digits))"
+format,summary.rpart.R,summary.rpart,101,"format(cuts[j], justify = ""left"")"
+format,summary.rpart.R,summary.rpart,104,"format(sname[j], justify = ""left"")"
+format,summary.rpart.R,summary.rpart,106,"format(round(agree, 3L))"
+format,summary.rpart.R,summary.rpart,107,"format(round(adj, 3L))"
+format,xpred.rpart.R,xpred.rpart,138,format(cp)
+format,xpred.rpart.R,xpred.rpart,142,format(cp)
+get,rpart.R,rpart,68,"get(paste(""rpart"", method, sep = "".""),
+            envir = environment())(Y, offset, , wt)"
+get,rpart.R,rpart,71,"get(paste(""rpart"", method, sep = "".""),
+            envir = environment())(Y, offset, parms, wt)"
+get,rpart.branch.R,rpart.branch,11,"get(pn, envir = rpart_env, inherits = FALSE)"
+get,rpartco.R,rpartco,8,"get(pn, envir = rpart_env, inherits = FALSE)"
+get,snip.rpart.mouse.R,snip.rpart.mouse,10,"get(pn, envir = rpart_env, inherits = FALSE)"
+get,xpred.rpart.R,xpred.rpart,34,"get(paste(""rpart"", method, sep = "".""))"
+getOption,formatg.R,formatg,3,"getOption(""digits"")"
+getOption,post.rpart.R,post.rpart,4,"getOption(""digits"")"
+gettext,snip.rpart.R,snip.rpart,20,"gettext(""Nodes %s are not in this tree"", toss[toss.idx == 0L])"
+gettextf,rpart.R,rpart,99,"gettextf(""Argument %s not matched"",
+                          names(extraArgs)[indx == 0L])"
+gettextf,rpart.class.R,rpart.class,20,"gettextf(""'parms' component not matched: %s"",
+                          names(parms)[temp == 0L])"
+gettextf,rpart.exp.R,rpart.exp,116,"gettextf(""'parms' component not matched: %s"", names(parms)[indx == 0L])"
+gettextf,rpart.poisson.R,rpart.poisson,21,"gettextf(""'parms' component not matched: %s"", names(parms)[indx == 0L])"
+gettextf,zzz.R,node.match,25,"gettextf(""supplied nodes %s are not in this tree"",
+                         paste(bad, collapse = "",""))"
+gettextf,zzz.R,node.match,29,"gettextf(""supplied nodes %s are leaves"",
+                paste(good[leaves], collapse = "",""))"
+identify,path.rpart.R,path.rpart,15,"identify(xy, n = 1L, plot = FALSE)"
+identify,snip.rpart.mouse.R,snip.rpart.mouse,25,"identify(xy, n = 1L, plot = FALSE)"
+ifelse,labels.rpart.R,labels.rpart,46,"ifelse(ncat < 0, ""< "", "">="")"
+ifelse,labels.rpart.R,labels.rpart,47,"ifelse(ncat < 0, "">="", ""< "")"
+ifelse,labels.rpart.R,labels.rpart,93,"ifelse(ncat < 2L, """", ""="")"
+ifelse,labels.rpart.R,labels.rpart,94,"ifelse(ncat < 2L, """", ""="")"
+ifelse,residuals.rpart.R,residuals.rpart,34,"ifelse(expect == 0, 0.0001, 0)"
+ifelse,rpart.R,rpart,231,"ifelse(index == 0L, 1L, index)"
+ifelse,rpart.R,rpart,232,"ifelse(index == 0L, 0L, rpfit$isplit[temp, 1L])"
+ifelse,rpart.class.R,rpart.class,9,"ifelse(is.na(counts), 0, counts)"
+ifelse,rpartco.R,rpartco,31,"ifelse(node %% 2L, node - 1L, node + 1L)"
+ifelse,rpartco.R,rpartco,47,"ifelse(temp2 <= fudge & haskids, fudge, temp2)"
+ifelse,summary.rpart.R,summary.rpart,35,"ifelse(id == 1L, 1L, id %/% 2L)"
+ifelse,summary.rpart.R,summary.rpart,59,"ifelse(temp >= 2L, "","", ifelse(temp == 1L, "" to the right,"", "" to the left, ""))"
+ifelse,summary.rpart.R,summary.rpart,60,"ifelse(temp == 1L, "" to the right,"", "" to the left, "")"
+inherits,meanvar.rpart.R,meanvar.rpart,4,"inherits(tree, ""rpart"")"
+inherits,path.rpart.R,path.rpart,5,"inherits(tree, ""rpart"")"
+inherits,plot.rpart.R,plot.rpart,5,"inherits(x, ""rpart"")"
+inherits,plotcp.R,plotcp,7,"inherits(x, ""rpart"")"
+inherits,predict.rpart.R,predict.rpart,5,"inherits(object, ""rpart"")"
+inherits,print.rpart.R,print.rpart,4,"inherits(x, ""rpart"")"
+inherits,printcp.R,printcp,4,"inherits(x, ""rpart"")"
+inherits,residuals.rpart.R,residuals.rpart,4,"inherits(object, ""rpart"")"
+inherits,roc.rpart.R,roc.rpart,4,"inherits(object, ""rpart"")"
+inherits,rpart.R,rpart,37,"inherits(Y, ""Surv"")"
+inherits,rpart.exp.R,rpart.exp,14,"inherits(y, ""Surv"")"
+inherits,rpart.matrix.R,rpart.matrix,11,"inherits(frame, ""data.frame"")"
+inherits,rsq.rpart.R,rsq.rpart,7,"inherits(x, ""rpart"")"
+inherits,snip.rpart.R,snip.rpart,6,"inherits(x, ""rpart"")"
+inherits,summary.rpart.R,summary.rpart,4,"inherits(object, ""rpart"")"
+inherits,text.rpart.R,text.rpart,11,"inherits(x, ""rpart"")"
+inherits,xpred.rpart.R,xpred.rpart,7,"inherits(fit, ""rpart"")"
+invisible,meanvar.rpart.R,meanvar.rpart,15,"invisible(list(x = x, y = y, label = label))"
+invisible,path.rpart.R,path.rpart,24,invisible()
+invisible,path.rpart.R,path.rpart,33,invisible(path)
+invisible,plot.rpart.R,plot.rpart,33,"invisible(list(x = xx, y = yy))"
+invisible,plotcp.R,plotcp,37,invisible()
+invisible,post.rpart.R,post.rpart,13,invisible(par(oldpar))
+invisible,print.rpart.R,print.rpart,39,invisible(x)
+invisible,printcp.R,printcp,38,invisible(x$cptable)
+invisible,rsq.rpart.R,rsq.rpart,29,invisible()
+invisible,summary.rpart.R,summary.rpart,114,invisible(x)
+invisible,text.rpart.R,text.rpart,103,invisible()
+is.character,rpart.R,rpart,36,is.character(Y)
+is.character,rpart.matrix.R,rpart.matrix,20,is.character(x)
+is.data.frame,rpart.R,rpart,9,is.data.frame(model)
+is.factor,rpart.R,rpart,36,is.factor(Y)
+is.function,rpartcallback.R,rpartcallback,8,is.function(mlist$init)
+is.function,rpartcallback.R,rpartcallback,10,is.function(mlist$split)
+is.function,rpartcallback.R,rpartcallback,12,is.function(mlist$eval)
+is.list,rpart.R,rpart,42,is.list(method)
+is.list,rpart.class.R,rpart.class,16,is.list(parms)
+is.logical,labels.rpart.R,labels.rpart,21,is.logical(pretty)
+is.matrix,formatg.R,formatg,9,is.matrix(x)
+is.matrix,na.rpart.R,na.rpart,11,is.matrix(ymiss)
+is.matrix,rpart.R,rpart,38,is.matrix(Y)
+is.matrix,rpart.R,tfun,152,is.matrix(x)
+is.matrix,rpart.class.R,rpart.class,66,is.matrix(yprob)
+is.matrix,rpart.poisson.R,rpart.poisson,3,is.matrix(y)
+is.matrix,rpart.poisson.R,rpart.poisson,45,is.matrix(yval)
+is.matrix,snip.rpart.R,snip.rpart,58,is.matrix(x$csplit)
+is.matrix,snip.rpart.mouse.R,snip.rpart.mouse,36,is.matrix(ff$yval2)
+is.matrix,xpred.rpart.R,xpred.rpart,36,is.matrix(Y)
+is.matrix,xpred.rpart.R,xpred.rpart,40,is.matrix(Y)
+is.matrix,xpred.rpart.R,xpred.rpart,44,is.matrix(Y)
+is.matrix,xpred.rpart.R,xpred.rpart,105,is.matrix(Y)
+is.matrix,xpred.rpart.R,xpred.rpart,114,is.matrix(Y)
+is.na,na.rpart.R,na.rpart,6,is.na(x)
+is.na,na.rpart.R,na.rpart,9,is.na(x[-yvar])
+is.na,na.rpart.R,na.rpart,10,is.na(x[[yvar]])
+is.na,pred.rpart.R,pred.rpart,14,is.na(vnum)
+is.na,pred.rpart.R,pred.rpart,28,is.na(x)
+is.na,residuals.rpart.R,residuals.rpart,11,"is.na(match(type, c(""usual"", ""pearson"", ""deviance"")))"
+is.na,rpart.R,rpart,59,is.na(method.int)
+is.na,rpart.class.R,rpart.class,7,is.na(y)
+is.na,rpart.class.R,rpart.class,9,is.na(counts)
+is.na,rpart.exp.R,rpart.exp,122,is.na(method)
+is.na,snip.rpart.R,snip.rpart,48,"is.na(match(id, toss))"
+is.null,labels.rpart.R,labels.rpart,20,is.null(pretty)
+is.null,model.frame.rpart.R,model.frame.rpart,4,is.null(m)
+is.null,model.frame.rpart.R,model.frame.rpart,8,"is.null(attr(m, ""terms""))"
+is.null,na.rpart.R,na.rpart,4,is.null(Terms)
+is.null,pred.rpart.R,pred.rpart,20,is.null(fit$csplit)
+is.null,predict.rpart.R,predict.rpart,11,"is.null(attr(newdata, ""terms""))"
+is.null,predict.rpart.R,predict.rpart,15,"is.null(cl <- attr(Terms, ""dataClasses""))"
+is.null,predict.rpart.R,predict.rpart,24,is.null(frame$yval2)
+is.null,predict.rpart.R,predict.rpart,42,is.null(object$na.action)
+is.null,print.rpart.R,print.rpart,19,is.null(tfun)
+is.null,print.rpart.R,print.rpart,20,is.null(frame$yval2)
+is.null,printcp.R,printcp,12,is.null(cl <- x$call)
+is.null,printcp.R,printcp,20,is.null(used)
+is.null,residuals.rpart.R,residuals.rpart,8,is.null(y)
+is.null,residuals.rpart.R,residuals.rpart,47,is.null(object$na.action)
+is.null,rpart.R,rpart,84,is.null(xlevels)
+is.null,rpart.R,rpart,114,is.null(xval)
+is.null,rpart.R,rpart,125,"is.null(attr(m, ""na.action""))"
+is.null,rpart.R,rpart,175,is.null(rpfit$csplit)
+is.null,rpart.R,rpart,261,is.null(init$summary)
+is.null,rpart.R,rpart,263,is.null(init$print)
+is.null,rpart.R,rpart,265,is.null(init$text)
+is.null,rpart.R,rpart,293,"is.null(attr(m, ""na.action""))"
+is.null,rpart.R,rpart,294,is.null(xlevels)
+is.null,rpart.anova.R,rpart.anova,3,is.null(offset)
+is.null,rpart.class.R,rpart.class,3,is.null(offset)
+is.null,rpart.class.R,rpart.class,11,is.null(parms)
+is.null,rpart.class.R,rpart.class,17,is.null(names(parms))
+is.null,rpart.class.R,rpart.class,24,is.null(parms$prior)
+is.null,rpart.class.R,rpart.class,32,is.null(parms$loss)
+is.null,rpart.class.R,rpart.class,46,is.null(parms$split)
+is.null,rpart.class.R,rpart.class,49,is.null(temp3)
+is.null,rpart.class.R,rpart.class,58,is.null(ylevel)
+is.null,rpart.class.R,rpart.class,80,is.null(ylevel)
+is.null,rpart.class.R,rpart.class,101,is.null(ylevel)
+is.null,rpart.exp.R,rpart.exp,112,is.null(names(parms))
+is.null,rpart.exp.R,rpart.exp,120,is.null(parms$method)
+is.null,rpart.exp.R,rpart.exp,124,is.null(parms$shrink)
+is.null,rpart.matrix.R,rpart.matrix,12,"is.null(attr(frame, ""terms""))"
+is.null,rpart.poisson.R,rpart.poisson,6,is.null(offset)
+is.null,rpart.poisson.R,rpart.poisson,8,is.null(offset)
+is.null,rpart.poisson.R,rpart.poisson,17,is.null(names(parms))
+is.null,rpart.poisson.R,rpart.poisson,25,is.null(parms$method)
+is.null,rpart.poisson.R,rpart.poisson,29,is.null(parms$shrink)
+is.null,snip.rpart.mouse.R,snip.rpart.mouse,35,is.null(ff$yval2)
+is.null,summary.rpart.R,summary.rpart,14,is.null(x$call)
+is.null,summary.rpart.R,summary.rpart,25,is.null(temp <- x$variable.importance)
+is.null,summary.rpart.R,summary.rpart,63,is.null(ff$yval2)
+is.null,text.rpart.R,text.rpart,18,"is.null(ylevels <- attr(x, ""ylevels""))"
+is.null,text.rpart.R,text.rpart,20,is.null(srt <- list(...)$srt)
+is.null,text.rpart.R,text.rpart,53,is.null(frame$yval2)
+is.null,xpred.rpart.R,xpred.rpart,18,is.null(Y)
+is.null,xpred.rpart.R,xpred.rpart,18,is.null(X)
+is.null,xpred.rpart.R,xpred.rpart,20,is.null(m)
+is.null,xpred.rpart.R,xpred.rpart,23,is.null(m$na.action)
+is.null,xpred.rpart.R,xpred.rpart,27,is.null(X)
+is.null,xpred.rpart.R,xpred.rpart,29,is.null(Y)
+is.null,xpred.rpart.R,xpred.rpart,54,is.null(xlevels)
+is.null,xpred.rpart.R,xpred.rpart,76,is.null(fit$na.action)
+is.null,xpred.rpart.R,xpred.rpart,88,is.null(costs)
+is.numeric,formatg.R,formatg,6,is.numeric(x)
+is.numeric,rpart.exp.R,rpart.exp,126,is.numeric(shrink)
+is.numeric,rpart.matrix.R,rpart.matrix,21,is.numeric(x)
+is.numeric,rpart.poisson.R,rpart.poisson,32,is.numeric(shrink)
+is.ordered,rpart.R,tfun,152,is.ordered(x)
+labels,text.rpart.R,text.rpart,33,"labels(x, pretty = pretty)"
+labels,text.rpart.R,text.rpart,33,"labels(x, minlength = minlength)"
+lapply,labels.rpart.R,labels.rpart,68,"lapply(xlevels, function(z) c(letters, LETTERS)[pmin(seq_along(z), 52L)])"
+lapply,labels.rpart.R,labels.rpart,70,"lapply(xlevels, abbreviate, minlength, ...)"
+lapply,rpart.R,rpart,88,"lapply(xlevels, length)"
+lapply,rpart.R,rpart,154,"lapply(m[labs], tfun)"
+lapply,rpart.matrix.R,rpart.matrix,18,"lapply(frame,
+                      function(x) {
+                          if (is.character(x)) as.numeric(factor(x))
+                          else if(!is.numeric(x))  as.numeric(x)
+                          else x
+                          }
+                      )"
+lapply,xpred.rpart.R,xpred.rpart,57,"lapply(xlevels, length)"
+legend,rsq.rpart.R,rsq.rpart,23,"legend(0, 1, c(""Apparent"", ""X Relative""), lty = 1:2)"
+length,labels.rpart.R,labels.rpart,41,length(irow)
+length,path.rpart.R,path.rpart,15,"length(i <- identify(xy, n = 1L, plot = FALSE))"
+length,path.rpart.R,path.rpart,23,"length(nodes <- node.match(nodes, node))"
+length,plotcp.R,plotcp,17,length(cp0)
+length,predict.rpart.R,predict.rpart,22,length(ylevels)
+length,predict.rpart.R,predict.rpart,31,length(ylevels)
+length,print.rpart.R,print.rpart,13,length(node)
+length,print.rpart.R,print.rpart,23,length(depth)
+length,print.rpart.R,print.rpart,30,length(omit)
+length,printcp.R,printcp,35,length(omit)
+length,prune.rpart.R,prune.rpart,6,length(toss)
+length,residuals.rpart.R,residuals.rpart,16,length(ylevels)
+length,roc.rpart.R,roc.rpart,5,"length(attr(object, ""ylevels""))"
+length,roc.rpart.R,roc.rpart,28,length(cutoffs)
+length,rpart.R,rpart,29,length(wt)
+length,rpart.R,rpart,95,length(extraArgs)
+length,rpart.R,rpart,114,length(xval)
+length,rpart.R,rpart,117,length(xval)
+length,rpart.R,rpart,120,length(xval)
+length,rpart.R,rpart,129,length(xval)
+length,rpart.R,rpart,141,length(cost)
+length,rpart.R,rpart,159,length(temp)
+length,rpart.class.R,rpart.class,29,length(temp)
+length,rpart.class.R,rpart.class,35,length(temp2)
+length,rpart.exp.R,drate2,56,length(ilength)
+length,rpart.exp.R,rpart.exp,39,length(dtimes)
+length,rpart.exp.R,rpart.exp,42,length(dtimes)
+length,rpart.exp.R,rpart.exp,107,length(offset)
+length,rpartcallback.R,rpartcallback,6,length(mlist)
+length,rpartcallback.R,rpartcallback,35,length(temp$label)
+length,rpartcallback.R,rpartcallback,37,length(temp$deviance)
+length,rpartcallback.R,rpartcallback,47,length(temp$goodness)
+length,rpartcallback.R,rpartcallback,48,length(temp$direction)
+length,rpartcallback.R,rpartcallback,53,length(temp$goodness)
+length,rpartcallback.R,rpartcallback,55,length(temp$direction)
+length,rpartcallback.R,rpartcallback,64,length(temp$label)
+length,rpartcallback.R,rpartcallback,66,length(temp$deviance)
+length,rpartcallback.R,rpartcallback,77,length(temp$goodness)
+length,rpartcallback.R,rpartcallback,78,length(temp$direction)
+length,rpartcallback.R,rpartcallback,84,length(temp$goodness)
+length,rpartcallback.R,rpartcallback,86,length(temp$direction)
+length,rpartco.R,rpartco,15,length(parms)
+length,rpartco.R,rpartco,54,length(node)
+length,snip.rpart.R,snip.rpart,8,length(toss) == 0L
+length,snip.rpart.R,snip.rpart,10,length(toss) == 0L
+length,snip.rpart.R,snip.rpart,15,length(id)
+length,snip.rpart.mouse.R,snip.rpart.mouse,17,length(parms$branch)
+length,snip.rpart.mouse.R,snip.rpart.mouse,25,"length(choose <- identify(xy, n = 1L, plot = FALSE))"
+length,summary.rpart.R,summary.rpart,21,length(omit)
+length,summary.rpart.R,summary.rpart,38,length(rows)
+length,xpred.rpart.R,xpred.rpart,50,length(wt)
+length,xpred.rpart.R,xpred.rpart,63,length(cp)
+length,xpred.rpart.R,xpred.rpart,68,length(xval)
+length,xpred.rpart.R,xpred.rpart,71,length(xval)
+length,xpred.rpart.R,xpred.rpart,73,length(unique(xgroups))
+length,xpred.rpart.R,xpred.rpart,80,length(xval)
+length,xpred.rpart.R,xpred.rpart,82,length(unique(xgroups))
+length,xpred.rpart.R,xpred.rpart,99,length(parms)
+length,xpred.rpart.R,xpred.rpart,118,length(temp)
+length,xpred.rpart.R,xpred.rpart,137,length(cp)
+length,zzz.R,descendants,37,length(nodes)
+length,zzz.R,node.match,24,length(bad)
+length,zzz.R,string.bounding.box,14,length
+levels,rpart.class.R,rpart.class,56,levels(fy)
+library.dynam.unload,zzz.R,.onUnload,1,"library.dynam.unload(""rpart"", libpath)"
+lines,plot.rpart.R,plot.rpart,31,"lines(c(temp$x), c(temp$y), col = branch.col, lty = branch.lty,
+          lwd = branch.lwd)"
+lines,snip.rpart.mouse.R,snip.rpart.mouse,53,"lines(c(draw$x[, temp]), c(draw$y[, temp]), col = 0L)"
+list,meanvar.rpart.R,meanvar.rpart,15,"list(x = x, y = y, label = label)"
+list,path.rpart.R,path.rpart,12,list()
+list,plot.rpart.R,plot.rpart,12,"list(uniform = uniform, branch = branch, nspace = nspace,
+                 minbranch = minbranch)"
+list,plot.rpart.R,plot.rpart,33,"list(x = xx, y = yy)"
+list,plotcp.R,plotcp,6,list(...)
+list,plotcp.R,plotcp,20,"list(ns, xerror, axes = FALSE, xlab = ""cp"",
+                         ylab = ""X-val Relative Error"", type = ""o"")"
+list,predict.rpart.R,predict.rpart,29,"list(names(where), NULL)"
+list,predict.rpart.R,predict.rpart,37,"list(names(where), ylevels)"
+list,rpart.R,rpart,94,list(...)
+list,rpart.R,rpart,182,"list(temp, 1L:numcp)"
+list,rpart.R,rpart,186,"list(tname[rpfit$isplit[, 1L] + 1L], c(""count"", ""ncat"", ""improve"", ""index"", ""adj""))"
+list,rpart.R,rpart,263,list(summary = init$summary)
+list,rpart.R,rpart,264,"list(summary = init$summary, print = init$print)"
+list,rpart.R,rpart,265,list(text = init$text)
+list,rpart.R,rpart,271,"list(frame = frame,
+             where = where,
+             call = Call, terms = Terms,
+             cptable = t(rpfit$cptable),
+             method = method,
+             parms = init$parms,
+             control = controls,
+             functions = functions,
+             numresp = init$numresp)"
+list,rpart.anova.R,rpart.anova,4,"list(y = y, parms = NULL, numresp = 1L, numy = 1L,
+	 summary = function(yval, dev, wt, ylevel, digits ) {
+	     paste0(""  mean="", formatg(yval, digits),
+                    "", MSE="" , formatg(dev/wt, digits))
+         },
+	 text = function(yval, dev, wt, ylevel, digits, n, use.n ) {
+	     if (use.n) paste0(formatg(yval, digits), ""\nn="", n) else
+             formatg(yval, digits)
+         })"
+list,rpart.branch.R,rpart.branch,25,"list(x = xx, y = yy)"
+list,rpart.class.R,rpart.class,12,"list(prior = counts/sum(counts),
+		      loss = matrix(rep(1, numclass^2) - diag(numclass),
+                                   numclass),
+		      split = 1)"
+list,rpart.class.R,rpart.class,51,"list(prior = temp, loss = matrix(temp2, numclass), split = temp3)"
+list,rpart.class.R,rpart.class,55,"list(y = y, parms = parms, numresp = numclass + 2L, counts = counts,
+	 ylevels = levels(fy), numy = 1L,
+	 print = function(yval, ylevel, digits, nsmall) { ... },
+	 summary = function(yval, dev, wt, ylevel, digits) { ... },
+	 text = function(yval, dev, wt, ylevel, digits, n, use.n) { ... })"
+list,rpart.control.R,rpart.control,30,"list(minsplit = minsplit, minbucket = minbucket, cp = cp,
+         maxcompete = maxcompete, maxsurrogate = maxsurrogate,
+         usesurrogate = usesurrogate,
+         surrogatestyle = surrogatestyle, maxdepth = maxdepth, xval = xval)"
+list,rpart.exp.R,rpart.exp,130,"list(y = cbind(newy, y[, 2L]), parms = parms, numresp = 2L, numy = 2L,
+	 summary = function(yval, dev, wt, ylevel, digits) {
+	     paste0(""  events="", formatg(yval[, 2L]),
+                   "",  estimated rate="" , formatg(yval[, 1L], digits),
+                   "" , mean deviance="", formatg(dev/wt, digits))
+         },
+	 text = function(yval, dev, wt, ylevel, digits, n, use.n) {
+	     if (use.n) paste0(formatg(yval[, 1L], digits), ""\n"",
+                              formatg(yval[, 2L]) , ""/"", n)
+             else paste(formatg(yval[, 1L], digits))
+         })"
+list,rpart.poisson.R,rpart.poisson,37,"list(y = y, parms = parms, numresp = 2L, numy = 2L,
+	 summary = function(yval, dev, wt, ylevel, digits) {
+	     paste0(""  events="", formatg(yval[, 2L]),
+                   "",  estimated rate="" , formatg(yval[, 1L], digits),
+                   "" , mean deviance="", formatg(dev/wt, digits))
+         },
+	 text = function(yval, dev, wt, ylevel, digits, n, use.n) {
+             ## fix for when there are no splits
+             if (!is.matrix(yval)) yval <- matrix(yval, nrow = 1L)
+
+             if (use.n) paste0(formatg(yval[, 1L], digits), ""\n"",
+                              formatg(yval[, 2L]), ""/"", n)
+             else paste(formatg(yval[, 1L], digits))
+         })"
+list,rpartcallback.R,rpartcallback,111,"list(expr1 = expr1, expr2 = expr2, rho = rho)"
+list,rpartco.R,compress,93,"list(left = x[lson], right = x[lson],
+                                        depth = depth + 1L, sons = lson)"
+list,rpartco.R,compress,101,"list(left = x[rson], right = x[rson],
+                                         depth = depth + 1L, sons = rson)"
+list,rpartco.R,compress,132,"list(x = x,
+             left = c(x[me] - nspace * (x[me] - x[lson]), templ),
+	     right = c(x[me] - nspace * (x[me] - x[rson]), tempr),
+	     depth = maxd + depth, sons = c(me, left$sons, right$sons))"
+list,rpartco.R,rpartco,64,"list(x = x, y = y)"
+list,rpartco.R,rpartco,138,"list(x = x, y = y)"
+list,text.rpart.R,text.rpart,20,list(...)$srt
+list,xpred.rpart.R,xpred.rpart,106,"list(numresp = numresp, numy = numy, parms = parms)"
+list,xpred.rpart.R,xpred.rpart,138,"list(NULL, format(cp), rownames(X))"
+list,xpred.rpart.R,xpred.rpart,142,"list(rownames(X), format(cp))"
+list,zzz.R,string.bounding.box,16,"list(columns = columns, rows = rows)"
+log,residuals.rpart.R,residuals.rpart,28,log(yhat)
+log,residuals.rpart.R,residuals.rpart,40,log(events/temp)
+log,zzz.R,descendants,43,"log(nodes, base = 2)"
+log,zzz.R,tree.depth,7,"log(nodes, base = 2)"
+match,labels.rpart.R,labels.rpart,61,"match(vnames, names(xlevels))"
+match,labels.rpart.R,labels.rpart,101,"match(node %/% 2L, node[whichrow])"
+match,pred.rpart.R,pred.rpart,13,"match(rownames(fit$splits), colnames(x))"
+match,prune.rpart.R,prune.rpart,10,"match(unique(temp), temp)"
+match,residuals.rpart.R,residuals.rpart,11,"match(type, c(""usual"", ""pearson"", ""deviance""))"
+match,rpart.R,rpart,13,"match(c(""formula"", ""data"", ""weights"", ""subset""),
+                      names(Call), nomatch = 0L)"
+match,rpart.R,rpart,87,"match(names(xlevels), colnames(X), nomatch=0)"
+match,rpart.R,rpart,97,"match(names(extraArgs), controlargs, nomatch = 0L)"
+match,rpart.branch.R,rpart.branch,19,"match(node.left/2L, node)"
+match,rpart.branch.R,rpart.branch,20,"match(node.left + 1L, node)"
+match,rpartco.R,rpartco,30,"match(node %/% 2L, node)"
+match,rpartco.R,rpartco,31,"match(ifelse(node %% 2L, node - 1L, node + 1L), node)"
+match,rpartco.R,rpartco,56,"match(node * 2L, node)"
+match,rpartco.R,rpartco,57,"match(node * 2L + 1L, node)"
+match,snip.rpart.R,snip.rpart,17,"match(toss, id, 0L)"
+match,snip.rpart.R,snip.rpart,40,"match(id2, toss, 0L)"
+match,snip.rpart.R,snip.rpart,46,"match(toss %/% 2L , toss, 0L)"
+match,snip.rpart.R,snip.rpart,47,"match(toss[temp == 0L], id)"
+match,snip.rpart.R,snip.rpart,48,"match(id, toss)"
+match,snip.rpart.R,snip.rpart,53,"match(n.split, keepit, 0L)"
+match,snip.rpart.R,snip.rpart,72,"match(id2, id3, 0L)"
+match,snip.rpart.R,snip.rpart,75,"match(id2, id3, 0L)"
+match,snip.rpart.R,snip.rpart,77,"match(id2, id3)"
+match,snip.rpart.mouse.R,snip.rpart.mouse,48,"match(id2, id, 0L)"
+match,snip.rpart.mouse.R,snip.rpart.mouse,52,"match(id, node[ff$var != ""<leaf>""], 0L)"
+match,summary.rpart.R,summary.rpart,36,"match(parent.id, id)"
+match,summary.rpart.R,summary.rpart,79,"match(sons, id)"
+match,text.rpart.R,text.rpart,26,"match(node.left/2L, node)"
+match,text.rpart.R,text.rpart,30,"match(2L * node, node)"
+match,text.rpart.R,text.rpart,31,"match(node * 2L + 1L, node)"
+match,text.rpart.R,text.rpart,90,"match(node[frame$var == ""<leaf>""], node)"
+match,xpred.rpart.R,xpred.rpart,21,"match(c("""", ""formula"", ""data"", ""weights"", ""subset"",
+                                  ""na.action""), names(fit$call), 0L)"
+match,xpred.rpart.R,xpred.rpart,56,"match(names(xlevels), colnames(X))"
+match,zzz.R,descendants,42,"match((nodes %/% 2L), nodes)"
+match,zzz.R,node.match,21,"match(nodes, nodelist, 0L)"
+match.arg,plotcp.R,plotcp,8,match.arg(upper)
+match.arg,predict.rpart.R,predict.rpart,8,match.arg(type)
+match.arg,residuals.rpart.R,residuals.rpart,10,match.arg(type)
+match.call,rpart.R,rpart,8,match.call()
+matrix,formatg.R,formatg,9,"matrix(temp, nrow = nrow(x))"
+matrix,roc.rpart.R,roc.rpart,18,"matrix(FALSE, nrow = 1L, ncol = last.c)"
+matrix,roc.rpart.R,roc.rpart,24,"matrix(TRUE, nrow = 1L, ncol = last.c)"
+matrix,roc.rpart.R,roc.rpart,30,"matrix(0, nrow = cutoff.n, ncol = 1L)"
+matrix,roc.rpart.R,roc.rpart,31,"matrix(0, nrow = cutoff.n, ncol = 1L)"
+matrix,roc.rpart.R,roc.rpart,32,"matrix(0, nrow = cutoff.n, ncol = 1L)"
+matrix,roc.rpart.R,roc.rpart,33,"matrix(0, nrow = cutoff.n, ncol = 1L)"
+matrix,roc.rpart.R,roc.rpart,34,"matrix(0, nrow = cutoff.n, ncol = 1L)"
+matrix,roc.rpart.R,roc.rpart,35,"matrix(0, nrow = cutoff.n, ncol = 1L)"
+matrix,roc.rpart.R,roc.rpart,36,"matrix(0, nrow = cutoff.n, ncol = 1L)"
+matrix,roc.rpart.R,roc.rpart,37,"matrix(0, nrow = cutoff.n, ncol = 1L)"
+matrix,roc.rpart.R,roc.rpart,41,"matrix(0, nrow = 2L, ncol = 2L)"
+matrix,rpart.R,rpart,185,"matrix(c(rpfit$isplit[, 2:3], rpfit$dsplit), ncol = 5L,
+                     dimnames = list(tname[rpfit$isplit[, 1L] + 1L],
+                     c(""count"", ""ncat"", ""improve"", ""index"", ""adj"")))"
+matrix,rpart.R,rpart,193,"matrix(0L, nadd, max(cats))"
+matrix,rpart.R,rpart,213,"matrix(0L, nrow(cs), ncc - ncs)"
+matrix,rpart.R,rpart,256,"matrix(rpfit$dnode[, 4L + (0L:numclass)], ncol = numclass + 1L)"
+matrix,rpart.class.R,rpart.class,13,"matrix(rep(1, numclass^2) - diag(numclass),
+                                   numclass)"
+matrix,rpart.class.R,rpart.class,37,"matrix(temp2, ncol = numclass)"
+matrix,rpart.class.R,rpart.class,51,"matrix(temp2, numclass)"
+matrix,rpart.class.R,rpart.class,67,"matrix(yprob, nrow = 1L)"
+matrix,rpart.class.R,rpart.class,85,"matrix(temp1, ncol = nclass)"
+matrix,rpart.class.R,rpart.class,87,"matrix(temp2, ncol = nclass)"
+matrix,rpart.class.R,rpart.class,105,"matrix(temp1, ncol = nclass)"
+matrix,rpart.poisson.R,rpart.poisson,45,"matrix(yval, nrow = 1L)"
+matrix,rpartcallback.R,rpartcallback,62,"matrix(yback[1L:(nback * numy)], ncol = numy)"
+matrix,rpartcallback.R,rpartcallback,73,"matrix(yback[1L:(n2 * numy)], ncol = numy)"
+matrix,rpartcallback.R,rpartcallback,81,"matrix(yback[1L:(nback * numy)], ncol = numy)"
+matrix,xpred.rpart.R,xpred.rpart,141,"matrix(pred, nrow = nrow(X), byrow = TRUE,
+               dimnames = list(rownames(X), format(cp)))"
+matrix,zzz.R,descendants,38,"matrix(TRUE, 1L, 1L)"
+matrix,zzz.R,descendants,40,"matrix(FALSE, n, n)"
+max,plotcp.R,plotcp,19,max(xerror + xstd)
+max,rpart.class.R,rpart.class,7,max(y[!is.na(y)])
+max,rpart.exp.R,rpart.exp,42,max(time)
+max,rpartco.R,compress,108,"max(left$depth, right$depth)"
+max,rpartco.R,rpartco,26,max(depth)
+max,rpartco.R,rpartco,26,"max(depth, 4L)"
+max,rpartco.R,rpartco,43,max(depth)
+max,rsq.rpart.R,rsq.rpart,24,max(xerror + xstd)
+max,text.rpart.R,text.rpart,78,max(string.bounding.box(stat)$columns)
+max,text.rpart.R,text.rpart,79,max(string.bounding.box(stat)$rows)
+max,zzz.R,descendants,45,max(lev)
+max,zzz.R,string.bounding.box,15,"max(nchar(x, ""w""))"
+min,plotcp.R,plotcp,19,min(xerror - xstd)
+min,plotcp.R,plotcp,35,min(seq_along(xerror)[xerror == min(xerror)])
+min,plotcp.R,plotcp,35,min(xerror)
+min,rpartco.R,compress,109,"min(left$depth, right$depth)"
+min,rpartco.R,compress,114,min(right$left[1L:mind] - left$right[1L:mind])
+min,rsq.rpart.R,rsq.rpart,24,min(xerror - xstd)
+min,zzz.R,tree.depth,8,min(depth)
+missing,labels.rpart.R,labels.rpart,19,missing(minlength)
+missing,labels.rpart.R,labels.rpart,19,missing(pretty)
+missing,path.rpart.R,path.rpart,13,missing(nodes)
+missing,plot.rpart.R,plot.rpart,8,missing(nspace)
+missing,post.rpart.R,post.rpart,20,missing(title.)
+missing,predict.rpart.R,predict.rpart,7,missing(type)
+missing,predict.rpart.R,predict.rpart,9,missing(newdata)
+missing,predict.rpart.R,predict.rpart,42,missing(newdata)
+missing,print.rpart.R,print.rpart,6,missing(cp)
+missing,rpart.R,rpart,35,missing(method)
+missing,rpart.R,rpart,49,missing(parms)
+missing,rpart.R,rpart,67,missing(parms)
+missing,rpart.R,rpart,107,missing(control)
+missing,rpart.R,rpart,139,missing(cost)
+missing,rpart.R,rpart,285,missing(y)
+missing,rpart.branch.R,rpart.branch,7,missing(branch)
+missing,rpart.class.R,rpart.class,11,missing(parms)
+missing,rpart.control.R,rpart.control,17,missing(minsplit)
+missing,rpart.control.R,rpart.control,17,missing(minbucket)
+missing,rpart.exp.R,rpart.exp,109,missing(parms)
+missing,rpart.poisson.R,rpart.poisson,14,missing(parms)
+missing,rpartco.R,rpartco,4,missing(parms)
+missing,snip.rpart.R,snip.rpart,8,missing(toss)
+missing,snip.rpart.mouse.R,snip.rpart.mouse,6,missing(parms)
+missing,summary.rpart.R,summary.rpart,9,missing(file)
+missing,text.rpart.R,text.rpart,15,missing(label)
+missing,text.rpart.R,text.rpart,32,missing(pretty)
+missing,text.rpart.R,text.rpart,32,missing(minlength)
+missing,xpred.rpart.R,xpred.rpart,61,missing(cp)
+missing,zzz.R,node.match,28,missing(leaves)
+model.extract,residuals.rpart.R,residuals.rpart,8,"model.extract(model.frame(object), ""response"")"
+model.extract,xpred.rpart.R,xpred.rpart,28,"model.extract(m, ""weights"")"
+model.extract,xpred.rpart.R,xpred.rpart,31,"model.extract(m, ""response"")"
+model.frame,model.frame.rpart.R,model.frame.rpart,10,"model.frame(object$terms, m, na.rpart)"
+model.frame,predict.rpart.R,predict.rpart,13,"model.frame(Terms, newdata, na.action = na.action,
+                                   xlev = attr(object, ""xlevels""))"
+model.frame,residuals.rpart.R,residuals.rpart,8,model.frame(object)
+model.matrix,rpart.matrix.R,rpart.matrix,27,"model.matrix(attr(frame, ""terms""), frame)[, -1L, drop = FALSE]"
+model.offset,rpart.R,rpart,30,model.offset(m)
+model.response,rpart.R,rpart,26,model.response(m)
+model.weights,rpart.R,rpart,27,model.weights(m)
+mtext,plotcp.R,plotcp,29,"mtext(""size of tree"", side = 3, line = 3)"
+mtext,plotcp.R,plotcp,33,"mtext(""number of splits"", side = 3, line = 3)"
+names,plotcp.R,plotcp,18,names(dots)
+names,pred.rpart.R,pred.rpart,29,names(temp)
+names,predict.rpart.R,predict.rpart,26,names(pred) <- names(where)
+names,predict.rpart.R,predict.rpart,26,names(where)
+names,predict.rpart.R,predict.rpart,29,names(where)
+names,predict.rpart.R,predict.rpart,34,names(pred) <- names(where)
+names,predict.rpart.R,predict.rpart,34,names(where)
+names,predict.rpart.R,predict.rpart,37,names(where)
+names,residuals.rpart.R,residuals.rpart,45,names(resid) <- names(y)
+names,residuals.rpart.R,residuals.rpart,45,names(y)
+names,rpart.R,rpart,14,names(Call)
+names,rpart.R,rpart,87,names(xlevels)
+names,rpart.R,rpart,96,names(formals(rpart.control))
+names,rpart.R,rpart,97,names(extraArgs)
+names,rpart.R,rpart,100,names(extraArgs)
+names,rpart.R,rpart,108,names(control)
+names,rpart.R,rpart,108,names(controls)
+names,rpart.R,rpart,269,names(where) <- row.names(m)
+names,rpart.class.R,rpart.class,17,names(parms)
+names,rpart.class.R,rpart.class,18,names(parms)
+names,rpart.class.R,rpart.class,21,names(parms)
+names,rpart.class.R,rpart.class,22,names(parms)
+names,rpart.exp.R,rpart.exp,112,names(parms)
+names,rpart.exp.R,rpart.exp,114,names(parms)
+names,rpart.exp.R,rpart.exp,117,names(parms)[indx == 0L]
+names,rpart.exp.R,rpart.exp,118,names(parms) <- parmsNames[indx]
+names,rpart.poisson.R,rpart.poisson,17,names(parms)
+names,rpart.poisson.R,rpart.poisson,19,names(parms)
+names,rpart.poisson.R,rpart.poisson,22,names(parms)[indx == 0L]
+names,rpart.poisson.R,rpart.poisson,23,names(parms)
+names,text.rpart.R,text.rpart,16,names(frame)
+names,xpred.rpart.R,xpred.rpart,22,names(fit$call)
+names,xpred.rpart.R,xpred.rpart,55,names(xlevels)
+names,xpred.rpart.R,xpred.rpart,56,names(xlevels)
+names<-,na.rpart.R,na.rpart,19,names(temp) <- row.names(x)[!keep]
+naprint,print.rpart.R,print.rpart,30,naprint(omit)
+naprint,printcp.R,printcp,35,naprint(omit)
+naresid,predict.rpart.R,predict.rpart,43,"naresid(object$na.action, pred)"
+naresid,residuals.rpart.R,residuals.rpart,47,"naresid(object$na.action, resid)"
+nchar,summary.rpart.R,summary.rpart,88,"nchar(cuts[j], ""w"")"
+nchar,summary.rpart.R,summary.rpart,100,"nchar(cuts[j], ""w"")"
+nchar,zzz.R,string.bounding.box,15,"nchar(x, ""w"")"
+ncol,na.rpart.R,na.rpart,7,ncol(xmiss)
+ncol,na.rpart.R,na.rpart,7,ncol(xmiss)
+ncol,na.rpart.R,na.rpart,12,ncol(xmiss)
+ncol,na.rpart.R,na.rpart,12,ncol(xmiss)
+ncol,na.rpart.R,na.rpart,13,ncol(ymiss)
+ncol,na.rpart.R,na.rpart,13,ncol(ymiss)
+ncol,na.rpart.R,na.rpart,14,ncol(xmiss)
+ncol,na.rpart.R,na.rpart,14,ncol(xmiss)
+ncol,plotcp.R,plotcp,10,ncol(p.rpart)
+ncol,rpart.R,rpart,33,ncol(X)
+ncol,rpart.R,rpart,83,ncol(X)
+ncol,rpart.R,rpart,179,ncol(rpfit$cptable)
+ncol,rpart.R,rpart,212,ncol(cs)
+ncol,rpart.R,rpart,212,ncol(newc)
+ncol,rpart.R,tfun,152,ncol(x)
+ncol,rpart.class.R,rpart.class,61,ncol(yval)
+ncol,rpart.class.R,rpart.class,70,ncol(yprob)
+ncol,rpart.class.R,rpart.class,75,ncol(yval)
+ncol,rpart.class.R,rpart.class,98,ncol(yval)
+ncol,rpart.exp.R,rpart.exp,17,ncol(y)
+ncol,rpart.poisson.R,rpart.poisson,4,ncol(y)
+ncol,xpred.rpart.R,xpred.rpart,36,ncol(Y)
+ncol,xpred.rpart.R,xpred.rpart,40,ncol(Y)
+ncol,xpred.rpart.R,xpred.rpart,44,ncol(Y)
+ncol,xpred.rpart.R,xpred.rpart,49,ncol(X)
+ncol,xpred.rpart.R,xpred.rpart,105,ncol(Y)
+new.env,rpartcallback.R,rpartcallback,99,new.env()
+nrow,formatg.R,formatg,9,nrow(x)
+nrow,labels.rpart.R,labels.rpart,27,nrow(ff)
+nrow,plot.rpart.R,plot.rpart,6,nrow(x$frame)
+nrow,pred.rpart.R,pred.rpart,6,nrow(frame)
+nrow,pred.rpart.R,pred.rpart,7,nrow(x)
+nrow,pred.rpart.R,pred.rpart,11,nrow(frame)
+nrow,rpart.R,rpart,29,nrow(m)
+nrow,rpart.R,rpart,32,nrow(X)
+nrow,rpart.R,rpart,173,nrow(rpfit$isplit)
+nrow,rpart.R,rpart,175,nrow(rpfit$csplit)
+nrow,rpart.R,rpart,180,nrow(rpfit$cptable)
+nrow,rpart.R,rpart,213,nrow(cs)
+nrow,rpart.exp.R,rpart.exp,18,nrow(y)
+nrow,snip.rpart.R,snip.rpart,58,nrow(x$csplit)
+nrow,summary.rpart.R,summary.rpart,44,nrow(x$splits)
+nrow,text.rpart.R,text.rpart,12,nrow(x$frame)
+nrow,text.rpart.R,text.rpart,50,nrow(frame)
+nrow,xpred.rpart.R,xpred.rpart,48,nrow(X)
+nrow,xpred.rpart.R,xpred.rpart,71,nrow(X)
+nrow,xpred.rpart.R,xpred.rpart,137,nrow(X)
+nrow,xpred.rpart.R,xpred.rpart,141,nrow(X)
+nzchar,post.rpart.R,post.rpart,23,nzchar(title.)
+on.exit,post.rpart.R,post.rpart,10,on.exit(dev.off())
+on.exit,post.rpart.R,post.rpart,13,on.exit(invisible(par(oldpar)))
+on.exit,roc.rpart.R,roc.rpart,60,on.exit(par(o.par))
+on.exit,summary.rpart.R,summary.rpart,11,on.exit(sink())
+order,summary.rpart.R,summary.rpart,38,order(id[rows])
+outer,roc.rpart.R,roc.rpart,13,"outer(cutoffs, object$frame$yprob[endnodes, 2L], ss.compare)"
+par,post.rpart.R,post.rpart,9,"par(mar = c(2,2,4,2) + 0.1)"
+par,post.rpart.R,post.rpart,12,"par(mar = c(2,2,4,2) + 0.1)"
+par,post.rpart.R,post.rpart,13,par(oldpar)
+par,roc.rpart.R,roc.rpart,59,"par(pty = ""s"")"
+par,roc.rpart.R,roc.rpart,60,par(o.par)
+par,rsq.rpart.R,rsq.rpart,20,par(new = TRUE)
+par,text.rpart.R,text.rpart,8,"par(""bg"")"
+par,text.rpart.R,text.rpart,19,"par(""cxy"")"
+paste,labels.rpart.R,labels.rpart,80,"paste((xlevels[[cindex[i]]])[splits == 1L], collapse = cl)"
+paste,labels.rpart.R,labels.rpart,82,"paste((xlevels[[cindex[i]]])[splits == 3L], collapse = cl)"
+paste,path.rpart.R,path.rpart,19,"paste(""  "", path.i)"
+paste,path.rpart.R,path.rpart,29,"paste(""  "", path.i)"
+paste,post.rpart.R,post.rpart,3,"paste(deparse(substitute(tree)), "".ps"", sep = """")"
+paste,post.rpart.R,post.rpart,22,"paste(""Endpoint ="", temp)"
+paste,print.rpart.R,print.rpart,11,"paste(rep("" "", spaces * 32L), collapse = """")"
+paste,print.rpart.R,print.rpart,27,"paste(indent, z, n, format(signif(frame$dev, digits)), yval, term)"
+paste,rpart.R,rpart,68,"paste(""rpart"", method, sep = ""."")"
+paste,rpart.R,rpart,71,"paste(""rpart"", method, sep = ""."")"
+paste,rpart.class.R,rpart.class,70,"paste(temp, yprob[, i], sep = "" "")"
+paste,rpart.class.R,rpart.class,86,paste
+paste,rpart.class.R,rpart.class,88,paste
+paste,rpart.class.R,rpart.class,106,paste
+paste,rpart.exp.R,rpart.exp,139,"paste(formatg(yval[, 1L], digits))"
+paste,rpart.poisson.R,rpart.poisson,49,"paste(formatg(yval[, 1L], digits))"
+paste,summary.rpart.R,summary.rpart,48,"paste(""<"", format(signif(x$splits[i, 4L], digits)))"
+paste,summary.rpart.R,summary.rpart,50,"paste(""<"", format(signif(x$splits[i, 4L], digits)))"
+paste,summary.rpart.R,summary.rpart,51,"paste(""splits as "",
+           paste(c(""L"", ""-"", ""R"")[x$csplit[x$splits[i, 4L], 1:temp[i]]],
+                 collapse = """", sep = """"),
+           collapse = """")"
+paste,summary.rpart.R,summary.rpart,52,"paste(c(""L"", ""-"", ""R"")[x$csplit[x$splits[i, 4L], 1:temp[i]]],
+             collapse = """", sep = """")"
+paste,summary.rpart.R,summary.rpart,91,"paste(""      "", format(sname[j], justify = ""left""), "" "", temp,
+	      "" improve="", format(signif(x$splits[j, 3L], digits)),
+	      "", ("", nn - x$splits[j, 1L], "" missing)"", sep = """")"
+paste,summary.rpart.R,summary.rpart,104,"paste(""      "", format(sname[j], justify = ""left""), "" "",
+          temp,
+          "" agree="", format(round(agree, 3L)),
+          "", adj="" , format(round(adj, 3L)),
+          "", ("", x$splits[j, 1L], "" split)"", sep = """")"
+paste,xpred.rpart.R,xpred.rpart,34,"paste(""rpart"", method, sep = ""."")"
+paste,zzz.R,node.match,26,"paste(bad, collapse = "","")"
+paste,zzz.R,node.match,30,"paste(good[leaves], collapse = "","")"
+paste0,formatg.R,formatg,4,"paste0(""%."", digits, ""g"")"
+paste0,labels.rpart.R,labels.rpart,48,"paste0(temp1, cutpoint)"
+paste0,labels.rpart.R,labels.rpart,49,"paste0(temp2, cutpoint)"
+paste0,labels.rpart.R,labels.rpart,93,"paste0(ifelse(ncat < 2L, """", ""=""), lsplit)"
+paste0,labels.rpart.R,labels.rpart,94,"paste0(ifelse(ncat < 2L, """", ""=""), rsplit)"
+paste0,labels.rpart.R,labels.rpart,105,"paste0(varname[parent[odd]], rsplit[parent[odd]])"
+paste0,labels.rpart.R,labels.rpart,106,"paste0(varname[parent[!odd]], lsplit[parent[!odd]])"
+paste0,plot.rpart.R,plot.rpart,23,"paste0(""device"", dev.cur())"
+paste0,print.rpart.R,print.rpart,15,"paste0(c("""", indent[depth]), format(node), "")"")"
+paste0,print.rpart.R,print.rpart,16,"paste0(format(node), "")"")"
+paste0,rpart.anova.R,rpart.anova,6,"paste0(""  mean="", formatg(yval, digits),
+                    "", MSE="" , formatg(dev/wt, digits))"
+paste0,rpart.anova.R,rpart.anova,10,"paste0(formatg(yval, digits), ""\nn="", n)"
+paste0,rpart.branch.R,rpart.branch,8,"paste0(""device"", dev.cur())"
+paste0,rpart.class.R,rpart.class,69,"paste0(temp, "" ("", yprob[, 1L])"
+paste0,rpart.class.R,rpart.class,71,"paste0(temp, "")"")"
+paste0,rpart.class.R,rpart.class,91,"paste0(""  predicted class="", format(group, justify = ""left""),
+                    ""  expected loss="", formatg(dev, digits),
+                    ""  P(node) ="", formatg(nodeprob, digits), ""\n"",
+                    ""    class counts: "", temp1, ""\n"",
+                    ""   probabilities: "", temp2)"
+paste0,rpart.class.R,rpart.class,107,"paste0(format(group, justify = ""left""), ""\n"", temp1)"
+paste0,rpart.exp.R,rpart.exp,132,"paste0(""  events="", formatg(yval[, 2L]),
+                   "",  estimated rate="" , formatg(yval[, 1L], digits),
+                   "" , mean deviance="", formatg(dev/wt, digits))"
+paste0,rpart.exp.R,rpart.exp,137,"paste0(formatg(yval[, 1L], digits), ""\n"",
+                              formatg(yval[, 2L]) , ""/"", n)"
+paste0,rpart.poisson.R,rpart.poisson,39,"paste0(""  events="", formatg(yval[, 2L]),
+                   "",  estimated rate="" , formatg(yval[, 1L], digits),
+                   "" , mean deviance="", formatg(dev/wt, digits))"
+paste0,rpart.poisson.R,rpart.poisson,47,"paste0(formatg(yval[, 1L], digits), ""\n"",
+                              formatg(yval[, 2L]), ""/"", n)"
+paste0,rpartco.R,rpartco,5,"paste0(""device"", dev.cur())"
+paste0,snip.rpart.mouse.R,snip.rpart.mouse,7,"paste0(""device"", dev.cur())"
+paste0,summary.rpart.R,summary.rpart,59,"paste0(cuts, ifelse(temp >= 2L, "","", ifelse(temp == 1L, "" to the right,"", "" to the left, "")))"
+plot,meanvar.rpart.R,meanvar.rpart,13,"plot(x, y, xlab = xlab, ylab = ylab, type = ""n"", ...)"
+plot,plot.rpart.R,plot.rpart,21,"plot(temp1, temp2, type = ""n"", axes = FALSE, xlab = """", ylab = """", ...)"
+plot,plotcp.R,plotcp,20,plot
+plot,post.rpart.R,post.rpart,16,"plot(tree, uniform = TRUE, branch = 0.2, compress = TRUE, margin = 0.1)"
+plot,roc.rpart.R,roc.rpart,62,"plot(1-specificity, sensitivity, type = ""o"", xlim = c(0, 1),
+                 ylim = c(0, 1), ylab = ""Sensitivity"", xlab = ""1-Specificity"")"
+plot,roc.rpart.R,roc.rpart,66,"plot(specificity, sensitivity, type = ""o"", xlim = c(0, 1),
+                 ylim = c(0, 1), ylab = ""Sensitivity"", xlab = ""Specificity"")"
+plot,rsq.rpart.R,rsq.rpart,18,"plot(nsplit, 1 - rel.error, xlab = ""Number of Splits"", ylab = ""R-square"",
+        ylim = c(0, 1), type = ""o"")"
+plot,rsq.rpart.R,rsq.rpart,21,"plot(nsplit, 1 - xerror, type = ""o"", ylim = c(0, 1), lty = 2,
+        xlab = "" "", ylab = "" "")"
+plot,rsq.rpart.R,rsq.rpart,26,"plot(nsplit, xerror, xlab = ""Number of Splits"", ylab = ""X Relative Error"",
+        ylim = ylim, type = ""o"")"
+pmatch,rpart.R,rpart,58,"pmatch(method, c(""anova"", ""poisson"", ""class"", ""exp""))"
+pmatch,rpart.class.R,rpart.class,18,"pmatch(names(parms), c(""prior"", ""loss"", ""split""), 0L)"
+pmatch,rpart.class.R,rpart.class,48,"pmatch(parms$split, c(""gini"", ""information""))"
+pmatch,rpart.exp.R,rpart.exp,114,"pmatch(names(parms), parmsNames, 0L)"
+pmatch,rpart.exp.R,rpart.exp,121,"pmatch(parms$method, c(""deviance"", ""sqrt""))"
+pmatch,rpart.poisson.R,rpart.poisson,19,"pmatch(names(parms), parmsNames, 0L)"
+pmatch,rpart.poisson.R,rpart.poisson,26,"pmatch(parms$method, c(""deviance"", ""sqrt""))"
+pmatch,xpred.rpart.R,xpred.rpart,10,"pmatch(method, c(""anova"", ""poisson"", ""class"", ""user"", ""exp""))"
+pmax,prune.rpart.R,prune.rpart,9,"pmax(tree$cptable[, 1L], cp)"
+pmax,rpart.R,rpart,241,"pmax(0L, rpfit$inode[, 3L] - 1L)"
+pmax,rpart.R,rpart,253,"pmax(1L, init$counts)"
+pmax,rpartco.R,compress,125,"pmax(tempr[1L:mind], right$right - slide)"
+pmin,labels.rpart.R,labels.rpart,68,"pmin(seq_along(z), 52L)"
+pmin,rpartco.R,compress,129,"pmin(templ[1L:mind], left$left)"
+polygon,text.rpart.R,oval,66,"polygon(newx, newy, border = TRUE, col = bg)"
+polygon,text.rpart.R,rectangle,74,"polygon(newx, newy, border = TRUE, col = bg)"
+postscript,post.rpart.R,post.rpart,8,"postscript(file = filename, horizontal = horizontal, ...)"
+print,printcp.R,printcp,22,"print(sort(as.character(used)), quote = FALSE)"
+print,printcp.R,printcp,37,"print(x$cptable, digits = digits)"
+print,summary.rpart.R,summary.rpart,24,"print(x$cptable, digits = digits)"
+print,summary.rpart.R,summary.rpart,29,print(temp[temp > 0])
+quantile,rpart.exp.R,rpart.exp,39,"quantile(dtimes, 0:1000/1000)"
+quote,rpart.R,rpart,18,quote(stats::model.frame)
+quote,rpartcallback.R,rpartcallback,33,"quote({
+    temp <- user.eval(yback[1:nback], wback[1:nback], parms)
+    if (length(temp$label) != numresp)
+        stop(""User 'eval' function returned invalid label"")
+    if (length(temp$deviance) != 1L)
+        stop(""User 'eval' function returned invalid deviance"")
+    as.numeric(as.vector(c(temp$deviance, temp$label)))
+})"
+quote,rpartcallback.R,rpartcallback,41,"quote({
+    if (nback < 0L) { #categorical variable
+        n2 <- -nback
+        temp <- user.split(yback[1L:n2], wback[1L:n2],
+                           xback[1L:n2], parms, FALSE)
+        ncat <- length(unique(xback[1L:n2]))
+        if (length(temp$goodness) != ncat - 1L ||
+            length(temp$direction) != ncat)
+            stop(""Invalid return from categorical 'split' function"")
+    } else {
+        temp <- user.split(yback[1L:nback], wback[1L:nback],
+                           xback[1L:nback], parms, TRUE)
+        if (length(temp$goodness) != (nback - 1L))
+            stop(""User 'split' function returned invalid goodness"")
+        if (length(temp$direction) != (nback - 1L))
+            stop(""User 'split' function returned invalid direction"")
+    }
+    as.numeric(as.vector(c(temp$goodness, temp$direction)))
+})"
+quote,rpartcallback.R,rpartcallback,61,"quote({
+    tempy <- matrix(yback[1L:(nback * numy)], ncol = numy)
+    temp <- user.eval(tempy, wback[1L:nback], parms)
+    if (length(temp$label) != numresp)
+        stop(""User 'eval' function returned invalid label"")
+    if (length(temp$deviance) != 1L)
+        stop(""User 'eval' function returned invalid deviance"")
+    as.numeric(as.vector(c(temp$deviance, temp$label)))
+})"
+quote,rpartcallback.R,rpartcallback,70,"quote({
+    if (nback < 0L) { #categorical variable
+        n2 <- -nback
+        tempy <- matrix(yback[1L:(n2 * numy)], ncol = numy)
+        temp <- user.split(tempy, wback[1L:n2], xback[1L:n2],
+                           parms, FALSE)
+        ncat <- length(unique(xback[1L:n2]))
+        if (length(temp$goodness) != ncat - 1L ||
+            length(temp$direction) != ncat)
+            stop(""Invalid return from categorical 'split' function"")
+    } else {
+        tempy <- matrix(yback[1L:(nback * numy)], ncol = numy)
+        temp <- user.split(tempy, wback[1:nback], xback[1L:nback],
+                           parms, TRUE)
+        if (length(temp$goodness) != (nback - 1L))
+            stop(""User 'split' function returned invalid goodness"")
+        if (length(temp$direction) != (nback - 1L))
+            stop(""User 'split' function returned invalid direction"")
+    }
+    as.numeric(as.vector(c(temp$goodness, temp$direction)))
+})"
+quote,xpred.rpart.R,xpred.rpart,24,quote(stats::model.frame)
+range,plot.rpart.R,plot.rpart,19,range(xx)
+range,plot.rpart.R,plot.rpart,19,range(xx)
+range,plot.rpart.R,plot.rpart,20,range(yy)
+range,plot.rpart.R,plot.rpart,20,range(yy)
+range,rpartco.R,rpartco,43,range(y)
+rbind,roc.rpart.R,roc.rpart,18,"rbind(matrix(FALSE, nrow = 1L, ncol = last.c), pred.np)"
+rbind,roc.rpart.R,roc.rpart,24,"rbind(pred.np, matrix(TRUE, nrow = 1L, ncol = last.c))"
+rbind,rpart.R,rpart,214,"rbind(cs, newc)"
+rbind,rpart.branch.R,rpart.branch,22,"rbind(x[is.left], x[is.left] + temp,
+                x[sibling] - temp, x[sibling], NA)"
+rbind,rpart.branch.R,rpart.branch,24,"rbind(y[is.left], y[parent], y[parent], y[sibling], NA)"
+rep,labels.rpart.R,labels.rpart,87,"rep(""<leaf>"", n)"
+rep,na.rpart.R,na.rpart,7,"rep(1, ncol(xmiss))"
+rep,na.rpart.R,na.rpart,12,"rep(1, ncol(xmiss))"
+rep,na.rpart.R,na.rpart,13,"rep(1, ncol(ymiss))"
+rep,na.rpart.R,na.rpart,14,"rep(1, ncol(xmiss))"
+rep,pred.rpart.R,pred.rpart,7,"rep(1, nrow(x), names = rownames(x))"
+rep,pred.rpart.R,pred.rpart,20,"rep(0L, 2L)"
+rep,print.rpart.R,print.rpart,11,"rep("" "", spaces * 32L)"
+rep,print.rpart.R,print.rpart,23,"rep("" "", length(depth))"
+rep,rpart.R,rpart,29,"rep(1, nrow(m))"
+rep,rpart.R,rpart,83,"rep(0L, ncol(X))"
+rep,rpart.R,rpart,119,"rep(1L:xval, length.out = nobs)"
+rep,rpart.R,rpart,139,"rep(1, nvar)"
+rep,rpart.R,tfun,152,"rep(is.ordered(x), ncol(x))"
+rep,rpart.class.R,rpart.class,13,"rep(1, numclass^2)"
+rep,snip.rpart.R,snip.rpart,52,"rep(1L:ff.n, ff$ncompete + ff$nsurrogate + (ff$var != ""<leaf>""))"
+rep,text.rpart.R,text.rpart,50,"rep(TRUE, nrow(frame))"
+rep,xpred.rpart.R,xpred.rpart,50,"rep(1, nobs)"
+rep,xpred.rpart.R,xpred.rpart,52,"rep(0, nvar)"
+rep,xpred.rpart.R,xpred.rpart,70,"rep(1L:xval, length.out = nobs)"
+rep,xpred.rpart.R,xpred.rpart,88,"rep(1, nvar)"
+return,labels.rpart.R,labels.rpart,28,"return(""root"")"
+return,labels.rpart.R,labels.rpart,90,"return(cbind(ltemp, rtemp))"
+return,model.frame.rpart.R,model.frame.rpart,4,return(m)
+return,model.frame.rpart.R,model.frame.rpart,12,return(m)
+return,path.rpart.R,path.rpart,24,return(invisible())
+return,prune.rpart.R,prune.rpart,6,return(tree)
+return,rpartco.R,rpartco,64,"return(list(x = x, y = y))"
+return,snip.rpart.R,snip.rpart,10,return(x)
+return,zzz.R,descendants,38,"return(matrix(TRUE, 1L, 1L))"
+rev,rpart.exp.R,drate2,82,rev(cumsum(rev(tab1)))
+rev,rpart.exp.R,drate2,82,rev(tab1)
+rev,rpart.exp.R,drate2,87,rev(cumsum(rev(tab2)))
+rev,rpart.exp.R,drate2,87,rev(tab2)
+rev,rpartco.R,rpartco,61,rev(temp)
+rev,text.rpart.R,text.rpart,20,rev(cxy)
+round,roc.rpart.R,roc.rpart,71,"round(cutoffs, 3L)"
+round,roc.rpart.R,roc.rpart,72,"round(sensitivity, 2L)"
+round,roc.rpart.R,roc.rpart,73,"round(specificity, 2L)"
+round,roc.rpart.R,roc.rpart,74,"round(pospred, 2L)"
+round,roc.rpart.R,roc.rpart,75,"round(negpred, 2L)"
+round,rpart.control.R,rpart.control,2,round(minsplit/3)
+round,summary.rpart.R,summary.rpart,26,round(100 * temp/sum(temp))
+round,summary.rpart.R,summary.rpart,106,"round(agree, 3L)"
+round,summary.rpart.R,summary.rpart,107,"round(adj, 3L)"
+row.names,labels.rpart.R,labels.rpart,100,row.names(ff)
+row.names,meanvar.rpart.R,meanvar.rpart,12,row.names(frame)
+row.names,na.rpart.R,na.rpart,19,row.names(x)
+row.names,path.rpart.R,path.rpart,9,row.names(frame)
+row.names,plot.rpart.R,plot.rpart,27,row.names(x$frame)
+row.names,pred.rpart.R,pred.rpart,21,row.names(frame)
+row.names,print.rpart.R,print.rpart,9,row.names(frame)
+row.names,prune.rpart.R,prune.rpart,4,row.names(ff)
+row.names,rpart.R,rpart,269,row.names(m)
+row.names,rpartco.R,rpartco,12,row.names(frame)
+row.names,snip.rpart.R,snip.rpart,14,row.names(ff)
+row.names,snip.rpart.mouse.R,snip.rpart.mouse,21,row.names(tree$frame)
+row.names,summary.rpart.R,summary.rpart,34,row.names(ff)
+row.names,text.rpart.R,text.rpart,23,row.names(frame)
+rowSums,rpart.R,rpart,255,rowSums(temp)
+rowSums,rpart.class.R,rpart.class,42,rowSums(temp2)
+rownames,pred.rpart.R,pred.rpart,7,rownames(x)
+rownames,pred.rpart.R,pred.rpart,13,rownames(fit$splits)
+rownames,pred.rpart.R,pred.rpart,29,rownames(x)
+rownames,summary.rpart.R,summary.rpart,43,rownames(x$splits)
+rownames,xpred.rpart.R,xpred.rpart,138,rownames(X)
+rownames,xpred.rpart.R,xpred.rpart,142,rownames(X)
+sample,rpart.R,rpart,119,"sample(rep(1L:xval, length.out = nobs), nobs, replace = FALSE)"
+sample,xpred.rpart.R,xpred.rpart,70,"sample(rep(1L:xval, length.out = nobs), nobs, replace = FALSE)"
+sapply,zzz.R,string.bounding.box,14,"sapply(s2, length)"
+sapply,zzz.R,string.bounding.box,15,"sapply(s2, function(x) max(nchar(x, ""w"")))"
+segments,plotcp.R,plotcp,24,"segments(ns, xerror - xstd, ns, xerror + xstd)"
+segments,rsq.rpart.R,rsq.rpart,28,"segments(nsplit, xerror - xstd, nsplit, xerror + xstd)"
+seq,na.rpart.R,na.rpart,18,seq(keep)
+seq,print.rpart.R,print.rpart,14,seq(depth)
+seq,residuals.rpart.R,residuals.rpart,23,seq(y)
+seq,rpartco.R,rpartco,29,seq(node)
+seq,rpartco.R,rpartco,55,seq(sum(is.leaf))
+seq,rpartco.R,rpartco,60,seq(node)
+seq,summary.rpart.R,summary.rpart,87,"seq(index[i], length.out = 1L + ff$ncompete[i])"
+seq,summary.rpart.R,summary.rpart,97,"seq(1L + index[i] + ff$ncompete[i],
+                     length.out = ff$nsurrogate[i])"
+seq,text.rpart.R,oval,63,"seq(0, 2 * pi, pi/30)"
+seq_along,importance.R,importance,13,seq_along(fpri)
+seq_along,importance.R,importance,28,seq_along(fpri)
+seq_along,labels.rpart.R,labels.rpart,59,seq_along(ncat)
+seq_along,labels.rpart.R,labels.rpart,68,seq_along(z)
+seq_along,labels.rpart.R,labels.rpart,74,seq_along(jrow)
+seq_along,plotcp.R,plotcp,15,seq_along(nsplit)
+seq_along,plotcp.R,plotcp,35,seq_along(xerror)
+seq_along,summary.rpart.R,summary.rpart,37,seq_along(id)
+seq_along,summary.rpart.R,summary.rpart,46,seq_along(cuts)
+seq_along,summary.rpart.R,summary.rpart,68,seq_along(rows)
+seq_len,importance.R,importance,31,seq_len(nsurr[i])
+sign,residuals.rpart.R,residuals.rpart,39,sign(events- expect)
+signif,plotcp.R,plotcp,25,"signif(cp, 2L)"
+signif,print.rpart.R,print.rpart,22,"signif(frame$yval, digits)"
+signif,print.rpart.R,print.rpart,27,"signif(frame$dev, digits)"
+signif,summary.rpart.R,summary.rpart,48,"signif(x$splits[i, 4L], digits)"
+signif,summary.rpart.R,summary.rpart,50,"signif(x$splits[i, 4L], digits)"
+signif,summary.rpart.R,summary.rpart,74,"signif(ff$complexity[i], digits)"
+signif,summary.rpart.R,summary.rpart,92,"signif(x$splits[j, 3L], digits)"
+sin,text.rpart.R,oval,65,sin(theta)
+sink,summary.rpart.R,summary.rpart,10,sink(file)
+sink,summary.rpart.R,summary.rpart,11,sink()
+sort,importance.R,importance,40,"sort(c(import), decreasing = TRUE)"
+sort,printcp.R,printcp,22,sort(as.character(used))
+sort,roc.rpart.R,roc.rpart,12,"sort(unique(c(0, 1, object$frame$yprob[endnodes, 2L])))"
+sort,rpart.exp.R,rpart.exp,32,sort(unique(time[status == 1]))
+sort,snip.rpart.R,snip.rpart,65,"sort(c(keepit, newleaf))"
+sort,snip.rpart.R,snip.rpart,71,"sort(c(keepit, newleaf))"
+split,rpartco.R,rpartco,29,"split(seq(node), depth)"
+split,rpartco.R,rpartco,60,"split(seq(node)[!is.leaf], depth[!is.leaf])"
+sprintf,formatg.R,formatg,8,"sprintf(format, x)"
+sqrt,plotcp.R,plotcp,17,"sqrt(cp0 * c(Inf, cp0[-length(cp0)]))"
+sqrt,residuals.rpart.R,residuals.rpart,38,sqrt(temp)
+sqrt,residuals.rpart.R,residuals.rpart,40,sqrt(2 * (events * log(events/temp) - (events - expect)))
+sqrt,text.rpart.R,text.rpart,89,sqrt(2)
+sqrt,xpred.rpart.R,xpred.rpart,63,"sqrt(cp * c(10, cp[-length(cp)]))"
+stats::model.frame,rpart.R,rpart,18,quote(stats::model.frame)
+stats::model.frame,xpred.rpart.R,xpred.rpart,24,quote(stats::model.frame)
+stop,formatg.R,formatg,6,"stop(""'x' must be a numeric vector"")"
+stop,meanvar.rpart.R,meanvar.rpart,5,"stop(""Not a legitimate \""rpart\"" object"")"
+stop,meanvar.rpart.R,meanvar.rpart,7,"stop(""Plot not useful for classification or poisson trees"")"
+stop,path.rpart.R,path.rpart,6,"stop(""Not a legitimate \""rpart\"" object"")"
+stop,plot.rpart.R,plot.rpart,5,"stop(""Not a legitimate \""rpart\"" object"")"
+stop,plot.rpart.R,plot.rpart,6,"stop(""fit is not a tree, just a root"")"
+stop,plotcp.R,plotcp,7,"stop(""Not a legitimate \""rpart\"" object"")"
+stop,pred.rpart.R,pred.rpart,15,"stop(""Tree has variables not found in new data"")"
+stop,predict.rpart.R,predict.rpart,5,"stop(""Not a legitimate \""rpart\"" object"")"
+stop,predict.rpart.R,predict.rpart,32,"stop(""type 'class' is only appropriate for classification"")"
+stop,predict.rpart.R,predict.rpart,38,"stop(""Invalid prediction for \""rpart\"" object"")"
+stop,print.rpart.R,print.rpart,4,"stop(""Not a legitimate \""rpart\"" object"")"
+stop,printcp.R,printcp,4,"stop (""'x' must be an \""rpart\"" object"")"
+stop,residuals.rpart.R,residuals.rpart,5,"stop(""Not a legitimate \""rpart\"" object"")"
+stop,residuals.rpart.R,residuals.rpart,12,"stop(""Invalid type of residual"")"
+stop,roc.rpart.R,roc.rpart,6,"stop('Not legitimate ""rpart"" tree and endpoint not a 2 level-factor')"
+stop,rpart.R,rpart,15,"stop(""a 'formula' argument is required"")"
+stop,rpart.R,rpart,24,"stop(""Trees cannot handle interaction terms"")"
+stop,rpart.R,rpart,28,"stop(""negative weights not allowed"")"
+stop,rpart.R,rpart,59,"stop(""Invalid method"")"
+stop,rpart.R,rpart,99,"stop(gettextf(""Argument %s not matched"",
+                          names(extraArgs)[indx == 0L]),
+                 domain = NA)"
+stop,rpart.R,rpart,109,"stop(""unkown named elements in 'control'"")"
+stop,rpart.R,rpart,132,"stop(""Wrong length for 'xval'"")"
+stop,rpart.R,rpart,133,"stop(""Wrong length for 'xval'"")"
+stop,rpart.R,rpart,142,"stop(""Cost vector is the wrong length"")"
+stop,rpart.R,rpart,143,"stop(""Cost vector must be positive"")"
+stop,rpart.R,rpart,262,"stop(""Initialization routine is missing the 'summary' function"")"
+stop,rpart.branch.R,rpart.branch,10,"stop(""no information available on parameters from previous call to plot()"")"
+stop,rpart.class.R,rpart.class,3,"stop(""No offset allowed in classification models"")"
+stop,rpart.class.R,rpart.class,17,"stop(""The parms list must have names"")"
+stop,rpart.class.R,rpart.class,20,"stop(gettextf(""'parms' component not matched: %s"",
+                          names(parms)[temp == 0L]), domain = NA)"
+stop,rpart.class.R,rpart.class,27,"stop(""Priors must sum to 1"")"
+stop,rpart.class.R,rpart.class,28,"stop(""Priors must be >= 0"")"
+stop,rpart.class.R,rpart.class,29,"stop(""Wrong length for priors"")"
+stop,rpart.class.R,rpart.class,36,"stop(""Wrong length for loss matrix"")"
+stop,rpart.class.R,rpart.class,39,"stop(""Loss matrix must have zero on diagonals"")"
+stop,rpart.class.R,rpart.class,41,"stop(""Loss matrix cannot have negative elements"")"
+stop,rpart.class.R,rpart.class,43,"stop(""Loss matrix has a row of zeros"")"
+stop,rpart.class.R,rpart.class,49,"stop(""Invalid splitting rule"")"
+stop,rpart.class.R,rpart.class,53,"stop(""Parameter argument must be a list"")"
+stop,rpart.control.R,rpart.control,15,"stop(""Maximum depth is 30"")"
+stop,rpart.control.R,rpart.control,16,"stop(""Maximum depth must be at least 1"")"
+stop,rpart.exp.R,rpart.exp,15,"stop(""Response must be a 'survival' object - use the 'Surv()' function"")"
+stop,rpart.exp.R,rpart.exp,21,"stop(""Observation time must be > 0"")"
+stop,rpart.exp.R,rpart.exp,22,"stop(""No deaths in data set"")"
+stop,rpart.exp.R,rpart.exp,112,"stop(""You must input a named list for parms"")"
+stop,rpart.exp.R,rpart.exp,116,"stop(gettextf(""'parms' component not matched: %s"", names(parms)[indx == 0L]), domain = NA)"
+stop,rpart.exp.R,rpart.exp,122,"stop(""Invalid error method for Poisson"")"
+stop,rpart.exp.R,rpart.exp,127,"stop(""Invalid shrinkage value"")"
+stop,rpart.poisson.R,rpart.poisson,5,"stop(""response must be a 2 column matrix or a vector"")"
+stop,rpart.poisson.R,rpart.poisson,11,"stop(""Observation time must be > 0"")"
+stop,rpart.poisson.R,rpart.poisson,12,"stop(""Number of events must be >= 0"")"
+stop,rpart.poisson.R,rpart.poisson,17,"stop(""You must input a named list for parms"")"
+stop,rpart.poisson.R,rpart.poisson,21,"stop(gettextf(""'parms' component not matched: %s"",
+                          names(parms)[indx == 0L]), domain = NA)"
+stop,rpart.poisson.R,rpart.poisson,27,"stop(""Invalid error method for Poisson"")"
+stop,rpart.poisson.R,rpart.poisson,33,"stop(""Invalid shrinkage value"")"
+stop,rpartcallback.R,rpartcallback,7,"stop(""User written methods must have 3 functions"")"
+stop,rpartcallback.R,rpartcallback,9,"stop(""User written method does not contain an 'init' function"")"
+stop,rpartcallback.R,rpartcallback,11,"stop(""User written method does not contain a 'split' function"")"
+stop,rpartcallback.R,rpartcallback,13,"stop(""User written method does not contain an 'eval' function"")"
+stop,rpartcallback.R,rpartcallback,36,"stop(""User 'eval' function returned invalid label"")"
+stop,rpartcallback.R,rpartcallback,38,"stop(""User 'eval' function returned invalid deviance"")"
+stop,rpartcallback.R,rpartcallback,49,"stop(""Invalid return from categorical 'split' function"")"
+stop,rpartcallback.R,rpartcallback,54,"stop(""User 'split' function returned invalid goodness"")"
+stop,rpartcallback.R,rpartcallback,56,"stop(""User 'split' function returned invalid direction"")"
+stop,rpartcallback.R,rpartcallback,65,"stop(""User 'eval' function returned invalid label"")"
+stop,rpartcallback.R,rpartcallback,67,"stop(""User 'eval' function returned invalid deviance"")"
+stop,rpartcallback.R,rpartcallback,79,"stop(""Invalid return from categorical 'split' function"")"
+stop,rpartcallback.R,rpartcallback,85,"stop(""User 'split' function returned invalid goodness"")"
+stop,rpartcallback.R,rpartcallback,87,"stop(""User 'split' function returned invalid direction"")"
+stop,rpartco.R,rpartco,7,"stop(""no information available on parameters from previous call to plot()"")"
+stop,rsq.rpart.R,rsq.rpart,7,"stop(""Not a legitimate \""rpart\"" object"")"
+stop,snip.rpart.R,snip.rpart,6,"stop(""Not an \""rpart\"" object"")"
+stop,snip.rpart.mouse.R,snip.rpart.mouse,9,"stop(""no information available on parameters from previous call to plot()"")"
+stop,summary.rpart.R,summary.rpart,4,"stop(""Not a legitimate \""rpart\"" object"")"
+stop,text.rpart.R,text.rpart,11,"stop(""Not a legitimate \""rpart\"" object"")"
+stop,text.rpart.R,text.rpart,12,"stop(""fit is not a tree, just a root"")"
+stop,xpred.rpart.R,xpred.rpart,7,"stop(""Invalid fit object"")"
+stop,xpred.rpart.R,xpred.rpart,83,"stop(""Wrong length for 'xval'"")"
+stop,xpred.rpart.R,xpred.rpart,84,"stop(""Wrong length for 'xval'"")"
+storage.mode,rpart.R,rpart,156,"storage.mode(X) <- ""double"""
+storage.mode,rpart.R,rpart,157,"storage.mode(wt) <- ""double"""
+storage.mode<-,xpred.rpart.R,xpred.rpart,114,"storage.mode(Y) <- ""double"""
+storage.mode<-,xpred.rpart.R,xpred.rpart,115,"storage.mode(X) <- ""double"""
+storage.mode<-,xpred.rpart.R,xpred.rpart,116,"storage.mode(wt) <- ""double"""
+strsplit,zzz.R,string.bounding.box,13,"strsplit(s, ""\n"")"
+structure,na.rpart.R,na.rpart,22,"structure(x[keep , , drop = FALSE], na.action = temp)"
+structure,pred.rpart.R,pred.rpart,7,"structure(rep(1, nrow(x), names = rownames(x)))"
+sub,rpart.matrix.R,rpart.matrix,29,"sub(""^`(.*)`"", ""\\1"", colnames(X))"
+substitute,post.rpart.R,post.rpart,3,substitute(tree)
+substring,model.frame.rpart.R,model.frame.rpart,6,"substring(deparse(oc[[1L]]), 1L, 7L)"
+substring,print.rpart.R,print.rpart,14,"substring(indent, 1L, spaces * seq(depth))"
+sum,roc.rpart.R,roc.rpart,17,"sum(pred.np[1L, ])"
+sum,roc.rpart.R,roc.rpart,23,"sum(pred.np[last.r, ])"
+sum,roc.rpart.R,roc.rpart,43,"sum(truth[pred.np[i, ], 1L])"
+sum,roc.rpart.R,roc.rpart,44,"sum(truth[!pred.np[i, ], 1L])"
+sum,roc.rpart.R,roc.rpart,45,"sum(truth[pred.np[i, ], 2L])"
+sum,roc.rpart.R,roc.rpart,46,"sum(truth[!pred.np[i, ], 2L])"
+sum,rpart.R,rpart,191,"sum(isord[rpfit$isplit[, 1L]])"
+sum,rpart.R,rpart,252,sum(wt)
+sum,rpart.class.R,rpart.class,8,sum
+sum,rpart.class.R,rpart.class,12,sum(counts)
+sum,rpart.class.R,rpart.class,24,sum(counts)
+sum,rpart.class.R,rpart.class,27,sum(temp)
+sum,rpart.exp.R,drate2,83,sum
+sum,rpart.exp.R,drate2,88,sum
+sum,rpart.exp.R,drate2,92,sum
+sum,rpartco.R,rpartco,55,sum(is.leaf)
+sum,summary.rpart.R,summary.rpart,26,sum(temp)
+switch,plotcp.R,plotcp,26,"switch(upper,
+           size = {
+               axis(3L, at = ns, labels = as.character(nsplit + 1), ...)
+               mtext(""size of tree"", side = 3, line = 3)
+           },
+           splits = {
+               axis(3L, at = ns, labels = as.character(nsplit), ...)
+               mtext(""number of splits"", side = 3, line = 3)
+           })"
+switch,printcp.R,printcp,5,"switch(x$method,
+               anova = ""\nRegression tree:\n"" ,
+               class = ""\nClassification tree:\n"" ,
+               poisson = ""\nRates regression tree:\n"",
+               exp = ""\nSurvival regression tree:\n"")"
+switch,residuals.rpart.R,residuals.rpart,25,"switch(type,
+               usual = loss[cbind(y, yhat)],
+               pearson = (1 - yhat)/yhat,
+               deviance = -2 * log(yhat))"
+switch,residuals.rpart.R,residuals.rpart,36,"switch(type,
+               usual = events - expect,
+               pearson = (events - expect)/sqrt(temp),
+               deviance = sign(events- expect) *
+                   sqrt(2 * (events * log(events/temp) - (events - expect)))
+               )"
+t,rpart.R,rpart,167,t(init$y)
+t,rpart.R,rpart,274,t(rpfit$cptable)
+table,rpart.exp.R,drate2,81,table(index)
+table,rpart.exp.R,drate2,86,"table(index2, levels = 1:ngrp)"
+tapply,importance.R,importance,37,"tapply(c(scaled.imp, unlist(sval)),
+                     c(as.character(ff$var[fpri]), unlist(sname)),
+                     sum)"
+tapply,rpart.class.R,rpart.class,8,"tapply(wt, factor(y, levels = 1:numclass), sum)"
+tapply,rpart.exp.R,drate2,83,"tapply(itime, index, sum)"
+tapply,rpart.exp.R,drate2,88,"tapply(itime2, index2, sum)"
+tapply,rpart.exp.R,drate2,92,"tapply(status, index, sum)"
+text,meanvar.rpart.R,meanvar.rpart,14,"text(x, y, label)"
+text,plot.rpart.R,plot.rpart,30,"text(xx[1L], yy[1L], ""|"")"
+text,post.rpart.R,post.rpart,17,"text(tree, all = TRUE, use.n = use.n, fancy = TRUE, digits = digits,
+         pretty = pretty)"
+title,post.rpart.R,post.rpart,22,"title(paste(""Endpoint ="", temp), cex = 0.8)"
+title,post.rpart.R,post.rpart,23,"title(title., cex = 0.8)"
+unclass,residuals.rpart.R,residuals.rpart,23,unclass(y)
+unclass,rpart.exp.R,drate2,64,"unclass(cut(time, itable, include.lowest = TRUE))"
+unclass,rpart.exp.R,drate2,71,"unclass(cut(stime, itable, include.lowest = TRUE))"
+unique,printcp.R,printcp,18,unique(frame$var[!leaves])
+unique,prune.rpart.R,prune.rpart,10,unique(temp)
+unique,roc.rpart.R,roc.rpart,12,"unique(c(0, 1, object$frame$yprob[endnodes, 2L]))"
+unique,rpart.R,rpart,122,unique(xgroups)
+unique,rpart.R,rpart,131,unique(xgroups)
+unique,rpart.exp.R,rpart.exp,32,unique(time[status == 1])
+unique,rpartcallback.R,rpartcallback,46,unique(xback[1L:n2])
+unique,rpartcallback.R,rpartcallback,76,unique(xback[1L:n2])
+unique,snip.rpart.R,snip.rpart,16,unique(toss)
+unique,xpred.rpart.R,xpred.rpart,73,unique(xgroups)
+unique,xpred.rpart.R,xpred.rpart,82,unique(xgroups)
+unlist,importance.R,importance,37,unlist(sval)
+unlist,importance.R,importance,38,unlist(sname)
+unlist,pred.rpart.R,pred.rpart,22,"unlist(frame[, c(""n"", ""ncompete"", ""nsurrogate"", ""index"")])"
+unlist,rpart.R,rpart,88,"unlist(lapply(xlevels, length))"
+unlist,rpart.R,rpart,154,"unlist(lapply(m[labs], tfun))"
+unlist,rpart.R,rpart,158,unlist(init$parms)
+unlist,rpart.R,rpart,163,unlist(controls)
+unlist,xpred.rpart.R,xpred.rpart,57,"unlist(lapply(xlevels, length))"
+unlist,xpred.rpart.R,xpred.rpart,117,unlist(parms)
+unlist,xpred.rpart.R,xpred.rpart,122,unlist(controls)
+vector,importance.R,importance,16,"vector(""list"", length(fpri))"
+warning,labels.rpart.R,labels.rpart,66,"warning(""more than 52 levels in a predicting factor, truncated for printout"",
+        domain = NA)"
+warning,rpart.control.R,rpart.control,8,"warning(""The value of 'maxcompete' supplied is < 0; the value 0 was used instead"")"
+warning,rpart.control.R,rpart.control,12,"warning(""The value of 'xval' supplied is < 0; the value 0 was used instead"")"
+warning,rpart.control.R,rpart.control,19,"warning(""The value of 'usesurrogate' supplied was out of range, the default value of 2 is used instead."")"
+warning,rpart.control.R,rpart.control,23,"warning(""The value of 'surrogatestyle' supplied was out of range, the default value of 0 is used instead."")"
+warning,rsq.rpart.R,rsq.rpart,17,"warning(""may not be applicable for this method"")"
+warning,snip.rpart.R,snip.rpart,20,"warning(gettext(""Nodes %s are not in this tree"", toss[toss.idx == 0L]),
+        domain = NA)"
+warning,text.rpart.R,text.rpart,15,"warning(""argument 'label' is no longer used"")"
+warning,zzz.R,node.match,25,"warning(gettextf(""supplied nodes %s are not in this tree"",
+                         paste(bad, collapse = "","")), domain = NA)"
+warning,zzz.R,node.match,29,"warning(gettextf(""supplied nodes %s are leaves"",
+                paste(good[leaves], collapse = "","")), domain = NA)"
+which,importance.R,importance,11,"which(ff$var != ""<leaf>"")"
+x$functions$text,text.rpart.R,text.rpart,53,"x$functions$text(yval = if (is.null(frame$yval2)) frame$yval[leaves]
+                                else frame$yval2[leaves, ],
+                         dev = frame$dev[leaves], wt = frame$wt[leaves],
+                         ylevel = ylevels, digits = digits,
+                         n = frame$n[leaves], use.n = use.n)"

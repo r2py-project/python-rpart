@@ -1,0 +1,2 @@
+language_dependency,file_path,function_name,line_number,call_body
+outer,roc.rpart.R,roc.rpart,13,"outer(cutoffs, object$frame$yprob[endnodes, 2L], ss.compare)"

@@ -1,0 +1,7 @@
+language_dependency,file_path,function_name,line_number,call_body
+apply,rpart.class.R,rpart.class,85,"apply(matrix(temp1, ncol = nclass), 1L,
+                                paste, collapse = "" "")"
+apply,rpart.class.R,rpart.class,87,"apply(matrix(temp2, ncol = nclass), 1L,
+                                paste, collapse = "" "")"
+apply,rpart.class.R,rpart.class,105,"apply(matrix(temp1, ncol = nclass), 1L,
+                                paste, collapse = ""/"")"

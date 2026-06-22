@@ -1,0 +1,24 @@
+language_dependency,file_path,function_name,line_number,call_body
+data.frame,roc.rpart.R,roc.rpart,71,"data.frame(cutoffs = format(round(cutoffs, 3L)), tpcp, tncp, tpcn, tncn,
+               sensitivity = format(round(sensitivity, 2L)),
+               specificity = format(round(specificity, 2L)),
+               pospred = format(round(pospred, 2L)),
+               negpred = format(round(negpred, 2L)))"
+data.frame,rpart.R,rpart,221,"data.frame(row.names = 1L,
+			    var = ""<leaf>"",
+			    n = rpfit$inode[, 5L],
+			    wt = rpfit$dnode[, 3L],
+			    dev = rpfit$dnode[, 1L],
+			    yval = rpfit$dnode[, 4L],
+			    complexity = rpfit$dnode[, 2L],
+			    ncompete = 0L,
+			    nsurrogate = 0L)"
+data.frame,rpart.R,rpart,233,"data.frame(row.names = rpfit$inode[, 1L],
+			    var = tname[svar + 1L],
+			    n = rpfit$inode[, 5L],
+			    wt = rpfit$dnode[, 3L],
+			    dev = rpfit$dnode[, 1L],
+			    yval = rpfit$dnode[, 4L],
+			    complexity = rpfit$dnode[, 2L],
+			    ncompete = pmax(0L, rpfit$inode[, 3L] - 1L),
+			    nsurrogate = rpfit$inode[, 4L])"

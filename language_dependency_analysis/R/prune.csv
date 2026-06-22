@@ -1,0 +1,2 @@
+language_dependency,function_name,line_number,call_body
+UseMethod,prune,2,"UseMethod(""prune"")"

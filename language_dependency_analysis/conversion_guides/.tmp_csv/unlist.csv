@@ -1,0 +1,11 @@
+language_dependency,file_path,function_name,line_number,call_body
+unlist,importance.R,importance,37,unlist(sval)
+unlist,importance.R,importance,38,unlist(sname)
+unlist,pred.rpart.R,pred.rpart,22,"unlist(frame[, c(""n"", ""ncompete"", ""nsurrogate"", ""index"")])"
+unlist,rpart.R,rpart,88,"unlist(lapply(xlevels, length))"
+unlist,rpart.R,rpart,154,"unlist(lapply(m[labs], tfun))"
+unlist,rpart.R,rpart,158,unlist(init$parms)
+unlist,rpart.R,rpart,163,unlist(controls)
+unlist,xpred.rpart.R,xpred.rpart,57,"unlist(lapply(xlevels, length))"
+unlist,xpred.rpart.R,xpred.rpart,117,unlist(parms)
+unlist,xpred.rpart.R,xpred.rpart,122,unlist(controls)

@@ -1,0 +1,9 @@
+language_dependency,function_name,line_number,call_body
+getOption,formatg,3,"getOption(""digits"")"
+is.matrix,formatg,9,"is.matrix(x)"
+is.numeric,formatg,6,"is.numeric(x)"
+matrix,formatg,9,"matrix(temp, nrow = nrow(x))"
+nrow,formatg,9,"nrow(x)"
+paste0,formatg,4,"paste0(""%."", digits, ""g"")"
+sprintf,formatg,8,"sprintf(format, x)"
+stop,formatg,6,"stop(""'x' must be a numeric vector"")"

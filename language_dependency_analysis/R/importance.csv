@@ -1,0 +1,18 @@
+language_dependency,function_name,line_number,call_body
+as.character,importance,38,"as.character(ff$var[fpri])"
+c,importance,12,"c(0, 1 + ff$ncompete[fpri] + ff$nsurrogate[fpri])"
+c,importance,37,"c(scaled.imp, unlist(sval))"
+c,importance,38,"c(as.character(ff$var[fpri]), unlist(sname))"
+c,importance,40,"c(import)"
+cumsum,importance,12,"cumsum(c(0, 1 + ff$ncompete[fpri] + ff$nsurrogate[fpri]))"
+seq_along,importance,13,"seq_along(fpri)"
+seq_along,importance,28,"seq_along(fpri)"
+seq_len,importance,31,"seq_len(nsurr[i])"
+sort,importance,40,"sort(c(import), decreasing = TRUE)"
+tapply,importance,37,"tapply(c(scaled.imp, unlist(sval)),
+                     c(as.character(ff$var[fpri]), unlist(sname)),
+                     sum)"
+unlist,importance,37,"unlist(sval)"
+unlist,importance,38,"unlist(sname)"
+vector,importance,16,"vector(""list"", length(fpri))"
+which,importance,11,"which(ff$var != ""<leaf>"")"

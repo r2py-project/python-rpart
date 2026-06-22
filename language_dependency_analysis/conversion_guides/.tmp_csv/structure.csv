@@ -1,0 +1,3 @@
+language_dependency,file_path,function_name,line_number,call_body
+structure,na.rpart.R,na.rpart,22,"structure(x[keep , , drop = FALSE], na.action = temp)"
+structure,pred.rpart.R,pred.rpart,7,"structure(rep(1, nrow(x), names = rownames(x)))"

@@ -1,0 +1,59 @@
+language_dependency,function_name,line_number,call_body
+any,rpart.poisson,11,"any(y[, 1L] <= 0)"
+any,rpart.poisson,12,"any(y[, 2L] < 0)"
+any,rpart.poisson,20,"any(indx == 0L)"
+as.list,rpart.poisson,16,"as.list(parms)"
+c,rpart.poisson,14,"c(shrink = 1L, method = 1L)"
+c,rpart.poisson,18,"c(""method"", ""shrink"")"
+c,rpart.poisson,26,"c(""deviance"", ""sqrt"")"
+c,rpart.poisson,34,"c(shrink = shrink, method = method)"
+cbind,rpart.poisson,8,"cbind(1, y)"
+cbind,rpart.poisson,9,"cbind( exp(offset), y)"
+exp,rpart.poisson,6,"exp(offset)"
+exp,rpart.poisson,9,"exp(offset)"
+gettextf,rpart.poisson,21,"gettextf(""'parms' component not matched: %s"", names(parms)[indx == 0L])"
+is.matrix,rpart.poisson,3,"is.matrix(y)"
+is.matrix,rpart.poisson,45,"is.matrix(yval)"
+is.null,rpart.poisson,6,"is.null(offset)"
+is.null,rpart.poisson,8,"is.null(offset)"
+is.null,rpart.poisson,17,"is.null(names(parms))"
+is.null,rpart.poisson,25,"is.null(parms$method)"
+is.null,rpart.poisson,29,"is.null(parms$shrink)"
+is.numeric,rpart.poisson,32,"is.numeric(shrink)"
+list,rpart.poisson,37,"list(y = y, parms = parms, numresp = 2L, numy = 2L,
+	 summary = function(yval, dev, wt, ylevel, digits) {
+	     paste0(""  events="", formatg(yval[, 2L]),
+                   "",  estimated rate="" , formatg(yval[, 1L], digits),
+                   "" , mean deviance="", formatg(dev/wt, digits))
+         },
+	 text = function(yval, dev, wt, ylevel, digits, n, use.n) {
+             ## fix for when there are no splits
+             if (!is.matrix(yval)) yval <- matrix(yval, nrow = 1L)
+
+             if (use.n) paste0(formatg(yval[, 1L], digits), ""\n"",
+                              formatg(yval[, 2L]), ""/"", n)
+             else paste(formatg(yval[, 1L], digits))
+         })"
+matrix,rpart.poisson,45,"matrix(yval, nrow = 1L)"
+missing,rpart.poisson,14,"missing(parms)"
+names,rpart.poisson,17,"names(parms)"
+names,rpart.poisson,19,"names(parms)"
+names,rpart.poisson,22,"names(parms)[indx == 0L]"
+names,rpart.poisson,23,"names(parms)"
+ncol,rpart.poisson,4,"ncol(y)"
+paste,rpart.poisson,49,"paste(formatg(yval[, 1L], digits))"
+paste0,rpart.poisson,39,"paste0(""  events="", formatg(yval[, 2L]),
+                   "",  estimated rate="" , formatg(yval[, 1L], digits),
+                   "" , mean deviance="", formatg(dev/wt, digits))"
+paste0,rpart.poisson,47,"paste0(formatg(yval[, 1L], digits), ""\n"",
+                              formatg(yval[, 2L]), ""/"", n)"
+pmatch,rpart.poisson,19,"pmatch(names(parms), parmsNames, 0L)"
+pmatch,rpart.poisson,26,"pmatch(parms$method, c(""deviance"", ""sqrt""))"
+stop,rpart.poisson,5,"stop(""response must be a 2 column matrix or a vector"")"
+stop,rpart.poisson,11,"stop(""Observation time must be > 0"")"
+stop,rpart.poisson,12,"stop(""Number of events must be >= 0"")"
+stop,rpart.poisson,17,"stop(""You must input a named list for parms"")"
+stop,rpart.poisson,21,"stop(gettextf(""'parms' component not matched: %s"",
+                          names(parms)[indx == 0L]), domain = NA)"
+stop,rpart.poisson,27,"stop(""Invalid error method for Poisson"")"
+stop,rpart.poisson,33,"stop(""Invalid shrinkage value"")"

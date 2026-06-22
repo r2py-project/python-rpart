@@ -1,0 +1,4 @@
+language_dependency,file_path,function_name,line_number,call_body
+storage.mode<-,xpred.rpart.R,xpred.rpart,114,"storage.mode(Y) <- ""double"""
+storage.mode<-,xpred.rpart.R,xpred.rpart,115,"storage.mode(X) <- ""double"""
+storage.mode<-,xpred.rpart.R,xpred.rpart,116,"storage.mode(wt) <- ""double"""

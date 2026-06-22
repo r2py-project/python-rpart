@@ -1,0 +1,2 @@
+language_dependency,file_path,function_name,line_number,call_body
+gettext,snip.rpart.R,snip.rpart,20,"gettext(""Nodes %s are not in this tree"", toss[toss.idx == 0L])"

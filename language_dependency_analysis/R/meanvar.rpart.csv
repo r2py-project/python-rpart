@@ -1,0 +1,10 @@
+language_dependency,function_name,line_number,call_body
+inherits,meanvar.rpart,4,"inherits(tree, ""rpart"")"
+invisible,meanvar.rpart,15,"invisible(list(x = x, y = y, label = label))"
+list,meanvar.rpart,15,"list(x = x, y = y, label = label)"
+plot,meanvar.rpart,13,"plot(x, y, xlab = xlab, ylab = ylab, type = ""n"", ...)"
+row.names,meanvar.rpart,12,"row.names(frame)"
+stop,meanvar.rpart,5,"stop(""Not a legitimate \""rpart\"" object"")"
+stop,meanvar.rpart,7,"stop(""Plot not useful for classification or poisson trees"")"
+text,meanvar.rpart,14,"text(x, y, label)"
+UseMethod,meanvar,18,"UseMethod(""meanvar"")"

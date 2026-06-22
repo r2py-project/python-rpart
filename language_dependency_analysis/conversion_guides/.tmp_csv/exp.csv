@@ -1,0 +1,4 @@
+language_dependency,file_path,function_name,line_number,call_body
+exp,rpart.exp.R,rpart.exp,107,exp(offset)
+exp,rpart.poisson.R,rpart.poisson,6,exp(offset)
+exp,rpart.poisson.R,rpart.poisson,9,exp(offset)

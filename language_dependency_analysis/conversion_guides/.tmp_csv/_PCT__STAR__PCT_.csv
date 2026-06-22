@@ -1,0 +1,5 @@
+language_dependency,file_path,function_name,line_number,call_body
+%*%,na.rpart.R,na.rpart,7,"xmiss %*% rep(1, ncol(xmiss))"
+%*%,na.rpart.R,na.rpart,12,"xmiss %*% rep(1, ncol(xmiss))"
+%*%,na.rpart.R,na.rpart,13,"ymiss %*% rep(1, ncol(ymiss))"
+%*%,na.rpart.R,na.rpart,14,"xmiss %*% rep(1, ncol(xmiss))"

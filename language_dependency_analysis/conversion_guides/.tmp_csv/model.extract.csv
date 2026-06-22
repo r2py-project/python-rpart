@@ -1,0 +1,4 @@
+language_dependency,file_path,function_name,line_number,call_body
+model.extract,residuals.rpart.R,residuals.rpart,8,"model.extract(model.frame(object), ""response"")"
+model.extract,xpred.rpart.R,xpred.rpart,28,"model.extract(m, ""weights"")"
+model.extract,xpred.rpart.R,xpred.rpart,31,"model.extract(m, ""response"")"

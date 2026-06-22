@@ -1,0 +1,16 @@
+language_dependency,function_name,line_number,call_body
+inherits,rsq.rpart,7,"inherits(x, ""rpart"")"
+invisible,rsq.rpart,29,"invisible()"
+legend,rsq.rpart,23,"legend(0, 1, c(""Apparent"", ""X Relative""), lty = 1:2)"
+max,rsq.rpart,24,"max(xerror + xstd)"
+min,rsq.rpart,24,"min(xerror - xstd)"
+par,rsq.rpart,20,"par(new = TRUE)"
+plot,rsq.rpart,18,"plot(nsplit, 1 - rel.error, xlab = ""Number of Splits"", ylab = ""R-square"",
+        ylim = c(0, 1), type = ""o"")"
+plot,rsq.rpart,21,"plot(nsplit, 1 - xerror, type = ""o"", ylim = c(0, 1), lty = 2,
+        xlab = "" "", ylab = "" "")"
+plot,rsq.rpart,26,"plot(nsplit, xerror, xlab = ""Number of Splits"", ylab = ""X Relative Error"",
+        ylim = ylim, type = ""o"")"
+segments,rsq.rpart,28,"segments(nsplit, xerror - xstd, nsplit, xerror + xstd)"
+stop,rsq.rpart,7,"stop(""Not a legitimate \""rpart\"" object"")"
+warning,rsq.rpart,17,"warning(""may not be applicable for this method"")"

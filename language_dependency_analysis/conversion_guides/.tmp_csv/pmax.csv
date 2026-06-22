@@ -1,0 +1,5 @@
+language_dependency,file_path,function_name,line_number,call_body
+pmax,prune.rpart.R,prune.rpart,9,"pmax(tree$cptable[, 1L], cp)"
+pmax,rpart.R,rpart,241,"pmax(0L, rpfit$inode[, 3L] - 1L)"
+pmax,rpart.R,rpart,253,"pmax(1L, init$counts)"
+pmax,rpartco.R,compress,125,"pmax(tempr[1L:mind], right$right - slide)"

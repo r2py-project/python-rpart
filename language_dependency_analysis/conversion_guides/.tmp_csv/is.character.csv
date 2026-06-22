@@ -1,0 +1,3 @@
+language_dependency,file_path,function_name,line_number,call_body
+is.character,rpart.R,rpart,36,is.character(Y)
+is.character,rpart.matrix.R,rpart.matrix,20,is.character(x)

@@ -1,0 +1,60 @@
+language_dependency,file_path,function_name,line_number,call_body
+cat,path.rpart.R,path.rpart,18,"cat(""\n"", ""node number:"", n[i], ""\n"")"
+cat,path.rpart.R,path.rpart,19,"cat(paste(""  "", path.i), sep = ""\n"")"
+cat,path.rpart.R,path.rpart,27,"cat(""\n"", ""node number:"", n[i], ""\n"")"
+cat,path.rpart.R,path.rpart,29,"cat(paste(""  "", path.i), sep = ""\n"")"
+cat,print.rpart.R,print.rpart,30,"cat(""n="", n[1L], "" ("", naprint(omit), "")\n\n"", sep = """")"
+cat,print.rpart.R,print.rpart,31,"cat(""n="", n[1L], ""\n\n"")"
+cat,print.rpart.R,print.rpart,34,"cat(""node), split, n, loss, yval, (yprob)\n"")"
+cat,print.rpart.R,print.rpart,35,"cat(""node), split, n, deviance, yval\n"")"
+cat,print.rpart.R,print.rpart,36,"cat(""      * denotes terminal node\n\n"")"
+cat,print.rpart.R,print.rpart,38,"cat(z, sep = ""\n"")"
+cat,printcp.R,printcp,5,"cat(switch(x$method,
+               anova = ""\nRegression tree:\n"" ,
+               class = ""\nClassification tree:\n"" ,
+               poisson = ""\nRates regression tree:\n"",
+               exp = ""\nSurvival regression tree:\n"")
+        )"
+cat,printcp.R,printcp,14,"cat(""\n"")"
+cat,printcp.R,printcp,21,"cat(""Variables actually used in tree construction:\n"")"
+cat,printcp.R,printcp,23,"cat(""\n"")"
+cat,printcp.R,printcp,27,"cat(""Root node error: "", format(frame$dev[1L], digits = digits), ""/"",
+        frame$n[1L], "" = "",
+        format(frame$dev[1L]/frame$n[1L], digits = digits),
+        ""\n\n"", sep = "")"
+cat,printcp.R,printcp,35,"cat(""n="", n[1L], "" ("", naprint(omit), "")\n\n"", sep = """")"
+cat,printcp.R,printcp,36,"cat(""n="", n[1L], ""\n\n"")"
+cat,snip.rpart.mouse.R,snip.rpart.mouse,27,"cat(""Terminal node -- try again\n"")"
+cat,snip.rpart.mouse.R,snip.rpart.mouse,33,"cat(""node number:"", node[choose], "" n="", ff$n[choose], ""\n"")"
+cat,snip.rpart.mouse.R,snip.rpart.mouse,34,"cat(""    response="", format(ff$yval[choose]))"
+cat,snip.rpart.mouse.R,snip.rpart.mouse,35,"cat (""\n"")"
+cat,snip.rpart.mouse.R,snip.rpart.mouse,37,"cat("" ("", format(ff$yval2[choose, ]), "")\n"")"
+cat,snip.rpart.mouse.R,snip.rpart.mouse,38,"cat("" ("", format(ff$yval2[choose]), "")\n"")"
+cat,snip.rpart.mouse.R,snip.rpart.mouse,39,"cat(""    Error (dev) = "", format(ff$dev[choose]), ""\n"")"
+cat,summary.rpart.R,summary.rpart,15,"cat(""Call:\n"")"
+cat,summary.rpart.R,summary.rpart,21,"cat(""  n="", n[1L], "" ("", naprint(omit), "")\n\n"", sep = """")"
+cat,summary.rpart.R,summary.rpart,22,"cat(""  n="", n[1L], ""\n\n"")"
+cat,summary.rpart.R,summary.rpart,28,"cat(""\nVariable importance\n"")"
+cat,summary.rpart.R,summary.rpart,71,"cat(""\nNode number "", id[i], "": "", nn, "" observations"", sep = """")"
+cat,summary.rpart.R,summary.rpart,72,"cat(""\n"")"
+cat,summary.rpart.R,summary.rpart,73,"cat("",    complexity param="",
+             format(signif(ff$complexity[i], digits)), ""\n"", sep = """")"
+cat,summary.rpart.R,summary.rpart,76,"cat(tprint[ii], ""\n"")"
+cat,summary.rpart.R,summary.rpart,80,"cat(""  left son="", sons[1L], "" ("", sons.n[1L], "" obs)"",
+	"" right son="", sons[2L], "" ("", sons.n[2L], "" obs)"", sep = """")"
+cat,summary.rpart.R,summary.rpart,83,"cat("", "", j, "" observations remain\n"", sep = """")"
+cat,summary.rpart.R,summary.rpart,84,"cat("", 1 observation remains\n"")"
+cat,summary.rpart.R,summary.rpart,85,"cat(""\n"")"
+cat,summary.rpart.R,summary.rpart,86,"cat(""  Primary splits:\n"")"
+cat,summary.rpart.R,summary.rpart,91,"cat(paste(""      "", format(sname[j], justify = ""left""), "" "", temp,
+	      "" improve="", format(signif(x$splits[j, 3L], digits)),
+	      "", ("", nn - x$splits[j, 1L], "" missing)"", sep = """"),
+            sep = ""\n"")"
+cat,summary.rpart.R,summary.rpart,96,"cat(""  Surrogate splits:\n"")"
+cat,summary.rpart.R,summary.rpart,104,"cat(paste(""      "", format(sname[j], justify = ""left""), "" "",
+          temp,
+          "" agree="", format(round(agree, 3L)),
+          "", adj="" , format(round(adj, 3L)),
+          "", ("", x$splits[j, 1L], "" split)"", sep = """"),
+    sep = ""\n"")"
+cat,summary.rpart.R,summary.rpart,113,"cat(""\n"")"

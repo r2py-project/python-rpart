@@ -1,0 +1,11 @@
+language_dependency,file_path,function_name,line_number,call_body
+gettextf,rpart.R,rpart,99,"gettextf(""Argument %s not matched"",
+                          names(extraArgs)[indx == 0L])"
+gettextf,rpart.class.R,rpart.class,20,"gettextf(""'parms' component not matched: %s"",
+                          names(parms)[temp == 0L])"
+gettextf,rpart.exp.R,rpart.exp,116,"gettextf(""'parms' component not matched: %s"", names(parms)[indx == 0L])"
+gettextf,rpart.poisson.R,rpart.poisson,21,"gettextf(""'parms' component not matched: %s"", names(parms)[indx == 0L])"
+gettextf,zzz.R,node.match,25,"gettextf(""supplied nodes %s are not in this tree"",
+                         paste(bad, collapse = "",""))"
+gettextf,zzz.R,node.match,29,"gettextf(""supplied nodes %s are leaves"",
+                paste(good[leaves], collapse = "",""))"

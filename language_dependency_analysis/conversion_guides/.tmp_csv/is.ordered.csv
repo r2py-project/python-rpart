@@ -1,0 +1,2 @@
+language_dependency,file_path,function_name,line_number,call_body
+is.ordered,rpart.R,tfun,152,is.ordered(x)

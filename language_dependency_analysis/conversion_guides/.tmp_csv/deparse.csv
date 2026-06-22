@@ -1,0 +1,4 @@
+language_dependency,file_path,function_name,line_number,call_body
+deparse,model.frame.rpart.R,model.frame.rpart,6,deparse(oc[[1L]])
+deparse,model.frame.rpart.R,model.frame.rpart,14,deparse(oc[[1L]])
+deparse,post.rpart.R,post.rpart,3,deparse(substitute(tree))

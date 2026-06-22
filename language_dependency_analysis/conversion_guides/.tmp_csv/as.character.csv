@@ -1,0 +1,8 @@
+language_dependency,file_path,function_name,line_number,call_body
+as.character,importance.R,importance,38,as.character(ff$var[fpri])
+as.character,labels.rpart.R,labels.rpart,99,as.character(vnames)
+as.character,plotcp.R,plotcp,25,"as.character(signif(cp, 2L))"
+as.character,plotcp.R,plotcp,28,as.character(nsplit + 1)
+as.character,plotcp.R,plotcp,32,as.character(nsplit)
+as.character,printcp.R,printcp,22,as.character(used)
+as.character,rpart.class.R,rpart.class,58,"as.character(yval[, 1L])"

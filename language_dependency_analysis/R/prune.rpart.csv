@@ -1,0 +1,8 @@
+language_dependency,function_name,line_number,call_body
+as.integer,prune.rpart,4,"as.integer(row.names(ff))"
+length,prune.rpart,6,"length(toss)"
+match,prune.rpart,10,"match(unique(temp), temp)"
+pmax,prune.rpart,9,"pmax(tree$cptable[, 1L], cp)"
+return,prune.rpart,6,"return(tree)"
+row.names,prune.rpart,4,"row.names(ff)"
+unique,prune.rpart,10,"unique(temp)"

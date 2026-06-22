@@ -1,0 +1,7 @@
+language_dependency,file_path,function_name,line_number,call_body
+sort,importance.R,importance,40,"sort(c(import), decreasing = TRUE)"
+sort,printcp.R,printcp,22,sort(as.character(used))
+sort,roc.rpart.R,roc.rpart,12,"sort(unique(c(0, 1, object$frame$yprob[endnodes, 2L])))"
+sort,rpart.exp.R,rpart.exp,32,sort(unique(time[status == 1]))
+sort,snip.rpart.R,snip.rpart,65,"sort(c(keepit, newleaf))"
+sort,snip.rpart.R,snip.rpart,71,"sort(c(keepit, newleaf))"

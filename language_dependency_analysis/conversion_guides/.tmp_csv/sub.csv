@@ -1,0 +1,2 @@
+language_dependency,file_path,function_name,line_number,call_body
+sub,rpart.matrix.R,rpart.matrix,29,"sub(""^`(.*)`"", ""\\1"", colnames(X))"

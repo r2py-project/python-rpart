@@ -1,0 +1,2 @@
+language_dependency,file_path,function_name,line_number,call_body
+delete.response,predict.rpart.R,predict.rpart,12,delete.response(object$terms)

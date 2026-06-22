@@ -1,0 +1,2 @@
+language_dependency,file_path,function_name,line_number,call_body
+model.matrix,rpart.matrix.R,rpart.matrix,27,"model.matrix(attr(frame, ""terms""), frame)[, -1L, drop = FALSE]"

@@ -1,0 +1,5 @@
+language_dependency,file_path,function_name,line_number,call_body
+text,meanvar.rpart.R,meanvar.rpart,14,"text(x, y, label)"
+text,plot.rpart.R,plot.rpart,30,"text(xx[1L], yy[1L], ""|"")"
+text,post.rpart.R,post.rpart,17,"text(tree, all = TRUE, use.n = use.n, fancy = TRUE, digits = digits,
+         pretty = pretty)"

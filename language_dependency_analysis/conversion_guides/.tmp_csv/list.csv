@@ -1,0 +1,91 @@
+language_dependency,file_path,function_name,line_number,call_body
+list,meanvar.rpart.R,meanvar.rpart,15,"list(x = x, y = y, label = label)"
+list,path.rpart.R,path.rpart,12,list()
+list,plot.rpart.R,plot.rpart,12,"list(uniform = uniform, branch = branch, nspace = nspace,
+                 minbranch = minbranch)"
+list,plot.rpart.R,plot.rpart,33,"list(x = xx, y = yy)"
+list,plotcp.R,plotcp,6,list(...)
+list,plotcp.R,plotcp,20,"list(ns, xerror, axes = FALSE, xlab = ""cp"",
+                         ylab = ""X-val Relative Error"", type = ""o"")"
+list,predict.rpart.R,predict.rpart,29,"list(names(where), NULL)"
+list,predict.rpart.R,predict.rpart,37,"list(names(where), ylevels)"
+list,rpart.R,rpart,94,list(...)
+list,rpart.R,rpart,182,"list(temp, 1L:numcp)"
+list,rpart.R,rpart,186,"list(tname[rpfit$isplit[, 1L] + 1L], c(""count"", ""ncat"", ""improve"", ""index"", ""adj""))"
+list,rpart.R,rpart,263,list(summary = init$summary)
+list,rpart.R,rpart,264,"list(summary = init$summary, print = init$print)"
+list,rpart.R,rpart,265,list(text = init$text)
+list,rpart.R,rpart,271,"list(frame = frame,
+             where = where,
+             call = Call, terms = Terms,
+             cptable = t(rpfit$cptable),
+             method = method,
+             parms = init$parms,
+             control = controls,
+             functions = functions,
+             numresp = init$numresp)"
+list,rpart.anova.R,rpart.anova,4,"list(y = y, parms = NULL, numresp = 1L, numy = 1L,
+	 summary = function(yval, dev, wt, ylevel, digits ) {
+	     paste0(""  mean="", formatg(yval, digits),
+                    "", MSE="" , formatg(dev/wt, digits))
+         },
+	 text = function(yval, dev, wt, ylevel, digits, n, use.n ) {
+	     if (use.n) paste0(formatg(yval, digits), ""\nn="", n) else
+             formatg(yval, digits)
+         })"
+list,rpart.branch.R,rpart.branch,25,"list(x = xx, y = yy)"
+list,rpart.class.R,rpart.class,12,"list(prior = counts/sum(counts),
+		      loss = matrix(rep(1, numclass^2) - diag(numclass),
+                                   numclass),
+		      split = 1)"
+list,rpart.class.R,rpart.class,51,"list(prior = temp, loss = matrix(temp2, numclass), split = temp3)"
+list,rpart.class.R,rpart.class,55,"list(y = y, parms = parms, numresp = numclass + 2L, counts = counts,
+	 ylevels = levels(fy), numy = 1L,
+	 print = function(yval, ylevel, digits, nsmall) { ... },
+	 summary = function(yval, dev, wt, ylevel, digits) { ... },
+	 text = function(yval, dev, wt, ylevel, digits, n, use.n) { ... })"
+list,rpart.control.R,rpart.control,30,"list(minsplit = minsplit, minbucket = minbucket, cp = cp,
+         maxcompete = maxcompete, maxsurrogate = maxsurrogate,
+         usesurrogate = usesurrogate,
+         surrogatestyle = surrogatestyle, maxdepth = maxdepth, xval = xval)"
+list,rpart.exp.R,rpart.exp,130,"list(y = cbind(newy, y[, 2L]), parms = parms, numresp = 2L, numy = 2L,
+	 summary = function(yval, dev, wt, ylevel, digits) {
+	     paste0(""  events="", formatg(yval[, 2L]),
+                   "",  estimated rate="" , formatg(yval[, 1L], digits),
+                   "" , mean deviance="", formatg(dev/wt, digits))
+         },
+	 text = function(yval, dev, wt, ylevel, digits, n, use.n) {
+	     if (use.n) paste0(formatg(yval[, 1L], digits), ""\n"",
+                              formatg(yval[, 2L]) , ""/"", n)
+             else paste(formatg(yval[, 1L], digits))
+         })"
+list,rpart.poisson.R,rpart.poisson,37,"list(y = y, parms = parms, numresp = 2L, numy = 2L,
+	 summary = function(yval, dev, wt, ylevel, digits) {
+	     paste0(""  events="", formatg(yval[, 2L]),
+                   "",  estimated rate="" , formatg(yval[, 1L], digits),
+                   "" , mean deviance="", formatg(dev/wt, digits))
+         },
+	 text = function(yval, dev, wt, ylevel, digits, n, use.n) {
+             ## fix for when there are no splits
+             if (!is.matrix(yval)) yval <- matrix(yval, nrow = 1L)
+
+             if (use.n) paste0(formatg(yval[, 1L], digits), ""\n"",
+                              formatg(yval[, 2L]), ""/"", n)
+             else paste(formatg(yval[, 1L], digits))
+         })"
+list,rpartcallback.R,rpartcallback,111,"list(expr1 = expr1, expr2 = expr2, rho = rho)"
+list,rpartco.R,compress,93,"list(left = x[lson], right = x[lson],
+                                        depth = depth + 1L, sons = lson)"
+list,rpartco.R,compress,101,"list(left = x[rson], right = x[rson],
+                                         depth = depth + 1L, sons = rson)"
+list,rpartco.R,compress,132,"list(x = x,
+             left = c(x[me] - nspace * (x[me] - x[lson]), templ),
+	     right = c(x[me] - nspace * (x[me] - x[rson]), tempr),
+	     depth = maxd + depth, sons = c(me, left$sons, right$sons))"
+list,rpartco.R,rpartco,64,"list(x = x, y = y)"
+list,rpartco.R,rpartco,138,"list(x = x, y = y)"
+list,text.rpart.R,text.rpart,20,list(...)$srt
+list,xpred.rpart.R,xpred.rpart,106,"list(numresp = numresp, numy = numy, parms = parms)"
+list,xpred.rpart.R,xpred.rpart,138,"list(NULL, format(cp), rownames(X))"
+list,xpred.rpart.R,xpred.rpart,142,"list(rownames(X), format(cp))"
+list,zzz.R,string.bounding.box,16,"list(columns = columns, rows = rows)"

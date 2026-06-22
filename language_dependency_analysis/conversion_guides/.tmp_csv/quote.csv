@@ -1,0 +1,60 @@
+language_dependency,file_path,function_name,line_number,call_body
+quote,rpart.R,rpart,18,quote(stats::model.frame)
+quote,rpartcallback.R,rpartcallback,33,"quote({
+    temp <- user.eval(yback[1:nback], wback[1:nback], parms)
+    if (length(temp$label) != numresp)
+        stop(""User 'eval' function returned invalid label"")
+    if (length(temp$deviance) != 1L)
+        stop(""User 'eval' function returned invalid deviance"")
+    as.numeric(as.vector(c(temp$deviance, temp$label)))
+})"
+quote,rpartcallback.R,rpartcallback,41,"quote({
+    if (nback < 0L) { #categorical variable
+        n2 <- -nback
+        temp <- user.split(yback[1L:n2], wback[1L:n2],
+                           xback[1L:n2], parms, FALSE)
+        ncat <- length(unique(xback[1L:n2]))
+        if (length(temp$goodness) != ncat - 1L ||
+            length(temp$direction) != ncat)
+            stop(""Invalid return from categorical 'split' function"")
+    } else {
+        temp <- user.split(yback[1L:nback], wback[1L:nback],
+                           xback[1L:nback], parms, TRUE)
+        if (length(temp$goodness) != (nback - 1L))
+            stop(""User 'split' function returned invalid goodness"")
+        if (length(temp$direction) != (nback - 1L))
+            stop(""User 'split' function returned invalid direction"")
+    }
+    as.numeric(as.vector(c(temp$goodness, temp$direction)))
+})"
+quote,rpartcallback.R,rpartcallback,61,"quote({
+    tempy <- matrix(yback[1L:(nback * numy)], ncol = numy)
+    temp <- user.eval(tempy, wback[1L:nback], parms)
+    if (length(temp$label) != numresp)
+        stop(""User 'eval' function returned invalid label"")
+    if (length(temp$deviance) != 1L)
+        stop(""User 'eval' function returned invalid deviance"")
+    as.numeric(as.vector(c(temp$deviance, temp$label)))
+})"
+quote,rpartcallback.R,rpartcallback,70,"quote({
+    if (nback < 0L) { #categorical variable
+        n2 <- -nback
+        tempy <- matrix(yback[1L:(n2 * numy)], ncol = numy)
+        temp <- user.split(tempy, wback[1L:n2], xback[1L:n2],
+                           parms, FALSE)
+        ncat <- length(unique(xback[1L:n2]))
+        if (length(temp$goodness) != ncat - 1L ||
+            length(temp$direction) != ncat)
+            stop(""Invalid return from categorical 'split' function"")
+    } else {
+        tempy <- matrix(yback[1L:(nback * numy)], ncol = numy)
+        temp <- user.split(tempy, wback[1:nback], xback[1L:nback],
+                           parms, TRUE)
+        if (length(temp$goodness) != (nback - 1L))
+            stop(""User 'split' function returned invalid goodness"")
+        if (length(temp$direction) != (nback - 1L))
+            stop(""User 'split' function returned invalid direction"")
+    }
+    as.numeric(as.vector(c(temp$goodness, temp$direction)))
+})"
+quote,xpred.rpart.R,xpred.rpart,24,quote(stats::model.frame)

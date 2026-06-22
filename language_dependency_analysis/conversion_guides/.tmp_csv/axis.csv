@@ -1,0 +1,5 @@
+language_dependency,file_path,function_name,line_number,call_body
+axis,plotcp.R,plotcp,23,"axis(2, ...)"
+axis,plotcp.R,plotcp,25,"axis(1L, at = ns, labels = as.character(signif(cp, 2L)), ...)"
+axis,plotcp.R,plotcp,28,"axis(3L, at = ns, labels = as.character(nsplit + 1), ...)"
+axis,plotcp.R,plotcp,32,"axis(3L, at = ns, labels = as.character(nsplit), ...)"

@@ -1,0 +1,14 @@
+language_dependency,function_name,line_number,call_body
+is.null,rpart.anova,3,is.null(offset)
+list,rpart.anova,4,"list(y = y, parms = NULL, numresp = 1L, numy = 1L,
+	 summary = function(yval, dev, wt, ylevel, digits ) {
+	     paste0(""  mean="", formatg(yval, digits),
+                    "", MSE="" , formatg(dev/wt, digits))
+         },
+	 text = function(yval, dev, wt, ylevel, digits, n, use.n ) {
+	     if (use.n) paste0(formatg(yval, digits), ""\nn="", n) else
+             formatg(yval, digits)
+         })"
+paste0,rpart.anova,6,"paste0(""  mean="", formatg(yval, digits),
+                    "", MSE="" , formatg(dev/wt, digits))"
+paste0,rpart.anova,10,"paste0(formatg(yval, digits), ""\nn="", n)"
