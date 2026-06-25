@@ -1,0 +1,19 @@
+{
+  "imports": [
+    "import numpy as np",
+    "import unicodedata"
+  ],
+  "function_prototype": "def string_bounding_box(s: list[str]) -> dict[str, np.ndarray[Any, np.dtype[np.int_]]]:",
+  "function_body": [
+    "    def _display_width(text: str) -> int:",
+    "        width = 0",
+    "        for ch in text:",
+    "            eaw = unicodedata.east_asian_width(ch)",
+    "            width += 2 if eaw in ('W', 'F') else 1",
+    "        return width",
+    "    s2: list[list[str]] = [elem.split('\\n') for elem in s]",
+    "    rows: np.ndarray[Any, np.dtype[np.int_]] = np.array([len(lines) for lines in s2], dtype=int)",
+    "    columns: np.ndarray[Any, np.dtype[np.int_]] = np.array([max(_display_width(line) for line in lines) for lines in s2], dtype=int)",
+    "    return {'columns': columns, 'rows': rows}"
+  ]
+}

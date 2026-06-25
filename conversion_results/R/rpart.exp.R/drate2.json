@@ -1,0 +1,31 @@
+{
+  "imports": [
+    "import numpy as np"
+  ],
+  "function_prototype": "def drate2(n: int, ny: int, y: np.ndarray[Any, np.dtype[np.float64]], wt: np.ndarray[Any, np.dtype[np.float64]], itable: np.ndarray[Any, np.dtype[np.float64]]) -> np.ndarray[Any, np.dtype[np.float64]]:",
+  "function_body": [
+    "    time = y[:, ny - 2]",
+    "    status = y[:, ny - 1]",
+    "    ilength = np.diff(itable)",
+    "    ngrp = len(ilength)",
+    "    index = np.searchsorted(itable[1:], time, side='left')",
+    "    index = np.clip(index, 0, ngrp - 1)",
+    "    itime = time - itable[index]",
+    "    if ny == 3:",
+    "        stime = y[:, 0]",
+    "        index2 = np.searchsorted(itable[1:], stime, side='left')",
+    "        index2 = np.clip(index2, 0, ngrp - 1)",
+    "        itime2 = stime - itable[index2]",
+    "    tab1 = np.bincount(index, minlength=ngrp)",
+    "    temp = np.cumsum(tab1[::-1])[::-1]",
+    "    pyears = ilength * np.append(temp[1:], 0) + np.array([itime[index == g].sum() for g in range(ngrp)])",
+    "    if ny == 3:",
+    "        tab2 = np.bincount(index2, minlength=ngrp)",
+    "        temp = np.cumsum(tab2[::-1])[::-1]",
+    "        py2 = ilength * np.concatenate([[0], temp[:-1]]) + np.array([itime2[index2 == g].sum() for g in range(ngrp)])",
+    "        pyears = pyears - py2",
+    "    deaths = np.array([status[index == g].sum() for g in range(ngrp)])",
+    "    rate = deaths / pyears",
+    "    return rate"
+  ]
+}

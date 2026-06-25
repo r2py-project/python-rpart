@@ -1,0 +1,34 @@
+{
+  "imports": [
+    "import numpy as np",
+    "from typing import Any"
+  ],
+  "function_prototype": "def path_rpart(tree: dict[str, Any], nodes: 'np.ndarray[Any, np.dtype[np.int_]] | list[int] | None' = None, pretty: int = 0, print_it: bool = True) -> dict[str, list[str]]:",
+  "function_body": [
+    "    if not isinstance(tree, dict) or tree.get('__class__') != 'rpart':",
+    "        raise ValueError('Not a legitimate \"rpart\" object')",
+    "    splits = labels_rpart(tree, pretty=pretty)",
+    "    frame = tree['frame']",
+    "    n = frame.index.astype(str).tolist()",
+    "    node = frame.index.astype(float).values.astype(int)",
+    "    which = descendants(node)",
+    "    path: dict[str, list[str]] = {}",
+    "    if nodes is None:",
+    "        # identify() is interactive R graphics; stub returns empty list so the while loop never runs",
+    "        pass",
+    "    else:",
+    "        node_indices = node_match(np.asarray(nodes), node)",
+    "        if len(node_indices) == 0:",
+    "            return path",
+    "        # node_match returns 1-based indices; convert to 0-based",
+    "        for i in (node_indices - 1):",
+    "            i = int(i)",
+    "            path_i = [splits[j] for j in range(len(splits)) if which[j, i]]",
+    "            path[n[i]] = path_i",
+    "            if print_it:",
+    "                print(f'\\n node number: {n[i]}')",
+    "                for label in path_i:",
+    "                    print(f'   {label}')",
+    "    return path"
+  ]
+}

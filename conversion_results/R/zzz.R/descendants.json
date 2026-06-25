@@ -1,0 +1,33 @@
+{
+  "imports": [
+    "import numpy as np",
+    "from typing import Any"
+  ],
+  "function_prototype": "def descendants(nodes: np.ndarray[Any, np.dtype[np.int64]], include: bool = True) -> np.ndarray[Any, np.dtype[np.bool_]]:",
+  "function_body": [
+    "    n = len(nodes)",
+    "    if n == 1:",
+    "        return np.ones((1, 1), dtype=bool)",
+    "    ind = np.arange(n)",
+    "    desc = np.zeros((n, n), dtype=bool)",
+    "    if include:",
+    "        np.fill_diagonal(desc, True)",
+    "    node_lookup = {int(v): i for i, v in enumerate(nodes)}",
+    "    parents = np.array([node_lookup.get(int(v) // 2, -1) for v in nodes])",
+    "    lev = np.floor(np.log2(nodes)).astype(int)",
+    "    desc[0, 1:n] = True",
+    "    for i in range(int(lev.max()), 1, -1):",
+    "        mask = (lev == i)",
+    "        col_idx = ind[mask]",
+    "        par_idx = parents[mask]",
+    "        valid = par_idx != -1",
+    "        if np.any(valid):",
+    "            desc[par_idx[valid], col_idx[valid]] = True",
+    "        safe_par_idx = np.where(par_idx != -1, par_idx, 0)",
+    "        new_parents = parents[safe_par_idx]",
+    "        new_parents[par_idx == -1] = -1",
+    "        parents[mask] = new_parents",
+    "        lev[mask] = i - 1",
+    "    return desc"
+  ]
+}

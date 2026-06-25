@@ -1,0 +1,37 @@
+{
+  "imports": [
+    "import numpy as np",
+    "import pandas as pd"
+  ],
+  "function_prototype": "def na_rpart(x: pd.DataFrame) -> pd.DataFrame:",
+  "function_body": [
+    "    Terms = x.attrs.get('terms')",
+    "    if Terms is not None:",
+    "        yvar = Terms.attrs.get('response', 0)",
+    "    else:",
+    "        yvar = 0",
+    "    if yvar == 0:",
+    "        xmiss = x.isna()",
+    "        keep = xmiss.sum(axis=1) < xmiss.shape[1]",
+    "    else:",
+    "        xmiss = x.drop(x.columns[yvar - 1], axis=1).isna()",
+    "        ymiss = x.iloc[:, yvar - 1].isna()",
+    "        if isinstance(ymiss, pd.DataFrame):",
+    "            keep = (xmiss.sum(axis=1) < xmiss.shape[1]) & (ymiss.sum(axis=1) == 0)",
+    "        else:",
+    "            keep = (xmiss.sum(axis=1) < xmiss.shape[1]) & (~ymiss)",
+    "    if keep.all():",
+    "        return x",
+    "    else:",
+    "        dropped_positions = np.where(~keep)[0] + 1",
+    "        dropped_names = x.index[~keep].astype(str).tolist()",
+    "        temp = {",
+    "            'indices': dropped_positions.tolist(),",
+    "            'names': dropped_names,",
+    "            'class': ('na.rpart', 'omit'),",
+    "        }",
+    "        x_filtered = x.loc[keep].copy()",
+    "        x_filtered.attrs['na.action'] = temp",
+    "        return x_filtered"
+  ]
+}

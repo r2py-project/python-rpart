@@ -1,0 +1,13 @@
+{
+  "imports": [
+    "import numpy as np",
+    "import matplotlib.axes"
+  ],
+  "function_prototype": "def oval(middlex: float, middley: float, a: float, b: float, ax: matplotlib.axes.Axes, bg: str) -> None:",
+  "function_body": [
+    "    theta: np.ndarray[Any, np.dtype[np.float64]] = np.linspace(0, 2 * np.pi, 61)",
+    "    newx: np.ndarray[Any, np.dtype[np.float64]] = middlex + a * np.cos(theta)",
+    "    newy: np.ndarray[Any, np.dtype[np.float64]] = middley + b * np.sin(theta)",
+    "    ax.fill(newx, newy, facecolor=bg, edgecolor='black')"
+  ]
+}

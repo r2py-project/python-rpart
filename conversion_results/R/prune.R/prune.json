@@ -1,0 +1,11 @@
+{
+  "imports": [
+    "from __future__ import annotations",
+    "from typing import Any"
+  ],
+  "function_prototype": "def prune(tree: dict[str, Any], **kwargs: Any) -> dict[str, Any]:",
+  "function_body": [
+    "    # UseMethod('prune') dispatches to prune_rpart for rpart objects.",
+    "    return prune_rpart(tree, **kwargs)"
+  ]
+}

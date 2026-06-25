@@ -1,0 +1,16 @@
+{
+  "imports": [
+    "import numpy as np",
+    "import pandas as pd"
+  ],
+  "function_prototype": "def tfun(x: np.ndarray[Any, np.dtype[Any]] | pd.Series) -> list[bool] | bool:",
+  "function_body": [
+    "    if isinstance(x, np.ndarray) and x.ndim == 2:",
+    "        is_ord: bool = hasattr(x, 'cat') and x.cat.ordered",
+    "        return [is_ord] * x.shape[1]",
+    "    else:",
+    "        if isinstance(x, pd.Series):",
+    "            return hasattr(x, 'cat') and x.cat.ordered",
+    "        return False"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "imports": [
+    "import warnings",
+    "import numpy as np",
+    "import matplotlib.pyplot as plt"
+  ],
+  "function_prototype": "def rsq_rpart(x: dict, fig: plt.Figure | None = None, ax: plt.Axes | None = None) -> None:",
+  "function_body": [
+    "    if not (isinstance(x, dict) and x.get('__class__') == 'rpart'):",
+    "        raise TypeError('Not a legitimate \"rpart\" object')",
+    "    p_rpart = x['cptable']",
+    "    xstd = p_rpart[:, 4]",
+    "    xerror = p_rpart[:, 3]",
+    "    rel_error = p_rpart[:, 2]",
+    "    nsplit = p_rpart[:, 1]",
+    "    method = x['method']",
+    "    if method != 'anova':",
+    "        warnings.warn('may not be applicable for this method')",
+    "    if fig is None or ax is None:",
+    "        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 5))",
+    "    else:",
+    "        ax1 = ax",
+    "        ax2 = ax",
+    "    # Panel 1: R-squared plots (apparent + cross-validated, overlaid via par(new=TRUE))",
+    "    ax1.plot(nsplit, 1 - rel_error, marker='o', linestyle='-', label='Apparent')",
+    "    ax1.plot(nsplit, 1 - xerror, marker='o', linestyle='--', label='X Relative')",
+    "    ax1.set_xlabel('Number of Splits')",
+    "    ax1.set_ylabel('R-square')",
+    "    ax1.set_ylim(0, 1)",
+    "    ax1.legend(loc='upper left', bbox_to_anchor=(0, 1), bbox_transform=ax1.transData)",
+    "    # Panel 2: Cross-validated relative error with error bars",
+    "    ylim_lo = float(np.min(xerror - xstd)) - 0.1",
+    "    ylim_hi = float(np.max(xerror + xstd)) + 0.1",
+    "    ax2.plot(nsplit, xerror, marker='o', linestyle='-')",
+    "    ax2.set_xlabel('Number of Splits')",
+    "    ax2.set_ylabel('X Relative Error')",
+    "    ax2.set_ylim(ylim_lo, ylim_hi)",
+    "    ax2.vlines(x=nsplit, ymin=xerror - xstd, ymax=xerror + xstd)",
+    "    plt.tight_layout()",
+    "    return None"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "imports": [
+    "import numpy as np"
+  ],
+  "function_prototype": "def tree_depth(nodes: np.ndarray[Any, np.dtype[np.float64]]) -> np.ndarray[Any, np.dtype[np.float64]]:",
+  "function_body": [
+    "    depth = np.floor(np.log2(nodes) + 1e-7)",
+    "    return depth - depth.min()"
+  ]
+}

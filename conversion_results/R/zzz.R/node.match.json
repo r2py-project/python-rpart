@@ -1,0 +1,30 @@
+{
+  "imports": [
+    "import warnings",
+    "import numpy as np"
+  ],
+  "function_prototype": "def node_match(nodes: np.ndarray[Any, np.dtype[np.int_]], nodelist: np.ndarray[Any, np.dtype[np.int_]], leaves: np.ndarray[Any, np.dtype[np.bool_]] | None = None, print_it: bool = True) -> np.ndarray[Any, np.dtype[np.int_]]:",
+  "function_body": [
+    "    nodes = np.asarray(nodes)",
+    "    nodelist = np.asarray(nodelist)",
+    "    lookup = {}",
+    "    for i, v in enumerate(nodelist):",
+    "        if v not in lookup:",
+    "            lookup[v] = i + 1",
+    "    node_index = np.array([lookup.get(n, 0) for n in nodes], dtype=np.intp)",
+    "    bad = nodes[node_index == 0]",
+    "    if len(bad) > 0 and print_it:",
+    "        bad_str = \",\".join(str(x) for x in bad)",
+    "        warnings.warn(f\"supplied nodes {bad_str} are not in this tree\", UserWarning, stacklevel=2)",
+    "    good = nodes[node_index > 0]",
+    "    if leaves is not None:",
+    "        leaves = np.asarray(leaves, dtype=bool)",
+    "        found_positions = node_index[node_index > 0]",
+    "        leaves_subset = leaves[found_positions - 1]",
+    "        if np.any(leaves_subset):",
+    "            leaf_str = \",\".join(str(x) for x in good[leaves_subset])",
+    "            warnings.warn(f\"supplied nodes {leaf_str} are leaves\", UserWarning, stacklevel=2)",
+    "            return found_positions[~leaves_subset]",
+    "    return node_index[node_index > 0]"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "imports": [],
+  "function_prototype": "def on_unload(libpath: str) -> None:",
+  "function_body": [
+    "    # R's .onUnload hook called library.dynam.unload(\"rpart\", libpath) to unload",
+    "    # the compiled shared library when the package namespace was unloaded.",
+    "    # In Python, CPython extension modules (.so files loaded via cffi/ctypes) are",
+    "    # managed automatically by the interpreter's reference-counting and shutdown",
+    "    # sequence, so no explicit unload step is required. This function is a no-op stub.",
+    "    pass"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "imports": [],
+  "function_prototype": "def meanvar(tree: dict, **kwargs) -> dict[str, Any]:",
+  "function_body": [
+    "    return meanvar_rpart(tree, **kwargs)"
+  ]
+}

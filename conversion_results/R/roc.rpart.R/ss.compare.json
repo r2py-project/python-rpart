@@ -1,0 +1,9 @@
+{
+  "imports": [
+    "import numpy as np"
+  ],
+  "function_prototype": "def ss_compare(a: np.ndarray[Any, np.dtype[np.bool_]] | np.ndarray[Any, np.dtype[np.float64]] | float, b: np.ndarray[Any, np.dtype[np.bool_]] | np.ndarray[Any, np.dtype[np.float64]] | float) -> np.ndarray[Any, np.dtype[np.bool_]] | bool:",
+  "function_body": [
+    "    return a >= b"
+  ]
+}

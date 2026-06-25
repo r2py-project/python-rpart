@@ -1,0 +1,12 @@
+{
+  "imports": [
+    "import numpy as np",
+    "import matplotlib.axes"
+  ],
+  "function_prototype": "def rectangle(middlex: float, middley: float, a: float, b: float, ax: matplotlib.axes.Axes, bg: str) -> None:",
+  "function_body": [
+    "    newx: np.ndarray[Any, np.dtype[np.float64]] = middlex + np.array([a, a, -a, -a])",
+    "    newy: np.ndarray[Any, np.dtype[np.float64]] = middley + np.array([b, -b, -b, b])",
+    "    ax.fill(newx, newy, facecolor=bg, edgecolor='black')"
+  ]
+}

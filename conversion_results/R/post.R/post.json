@@ -1,0 +1,9 @@
+{
+  "imports": [
+    "from typing import Any"
+  ],
+  "function_prototype": "def post(tree: dict[str, Any], **kwargs: Any) -> None:",
+  "function_body": [
+    "    post_rpart(tree, **kwargs)"
+  ]
+}

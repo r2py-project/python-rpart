@@ -1,0 +1,27 @@
+{
+  "imports": [
+    "import matplotlib.pyplot as plt",
+    "import numpy as np",
+    "import pandas as pd"
+  ],
+  "function_prototype": "def meanvar_rpart(tree: dict, xlab: str = 'ave(y)', ylab: str = 'ave(deviance)', **kwargs) -> dict[str, np.ndarray[Any, np.dtype[np.float64]] | list[str]]:",
+  "function_body": [
+    "    if not (isinstance(tree, dict) and tree.get('__class__') == 'rpart'):",
+    "        raise ValueError('Not a legitimate \"rpart\" object')",
+    "    if tree['method'] != 'anova':",
+    "        raise ValueError('Plot not useful for classification or poisson trees')",
+    "    frame = tree['frame']",
+    "    frame = frame[frame['var'] == '<leaf>']",
+    "    x = frame['yval'].to_numpy(dtype=np.float64)",
+    "    y = (frame['dev'] / frame['n']).to_numpy(dtype=np.float64)",
+    "    label = frame.index.astype(str).tolist()",
+    "    fig, ax = plt.subplots()",
+    "    ax.set_xlim(x.min(), x.max())",
+    "    ax.set_ylim(y.min(), y.max())",
+    "    ax.set_xlabel(xlab)",
+    "    ax.set_ylabel(ylab)",
+    "    for xi, yi, li in zip(x, y, label):",
+    "        ax.text(xi, yi, li)",
+    "    return {'x': x, 'y': y, 'label': label}"
+  ]
+}

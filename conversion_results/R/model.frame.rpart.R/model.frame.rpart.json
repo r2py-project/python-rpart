@@ -1,0 +1,23 @@
+{
+  "imports": [
+    "import pandas as pd",
+    "from typing import Any",
+    "from .na_rpart import na_rpart"
+  ],
+  "function_prototype": "def model_frame_rpart(formula: dict[str, Any], **kwargs: Any) -> pd.DataFrame | None:",
+  "function_body": [
+    "    m: pd.DataFrame | None = formula.get('model')",
+    "    if m is not None:",
+    "        return m",
+    "    oc: dict[str, Any] = formula['call']",
+    "    if str(oc.get('func_name', ''))[:7] == 'predict':",
+    "        m = oc['newdata']",
+    "        if m.attrs.get('terms') is None:",
+    "            m = na_rpart(m)",
+    "        return m",
+    "    oc = formula['call']",
+    "    oc['subset'] = list(formula['where'].keys())",
+    "    oc['method'] = formula['method']",
+    "    return None"
+  ]
+}
