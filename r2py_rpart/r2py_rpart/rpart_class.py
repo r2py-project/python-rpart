@@ -1,0 +1,183 @@
+from __future__ import annotations
+
+from typing import Any
+
+import numpy as np
+import pandas as pd
+
+
+
+def rpart_class(y: np.ndarray[Any, np.dtype[Any]], offset: np.ndarray[Any, np.dtype[np.float64]] | None, parms: dict[str, Any] | None, wt: np.ndarray[Any, np.dtype[np.float64]]) -> dict[str, Any]:
+    if offset is not None:
+        raise ValueError('No offset allowed in classification models')
+    fy = pd.Categorical(y)
+    y_int = fy.codes + 1
+    numclass = int(np.max(y_int[~np.isnan(y_int.astype(float))]))
+    all_levels = np.arange(1, numclass + 1)
+    index = pd.Categorical(y_int, categories=all_levels)
+    counts = pd.Series(wt, dtype=float).groupby(index, observed=False).sum()
+    counts = counts.fillna(0.0).values
+    def _pmatch(x, table, nomatch=None):
+        matches = [i + 1 for i, s in enumerate(table) if s.startswith(x)]
+        if len(matches) == 1:
+            return matches[0]
+        exact = [i + 1 for i, s in enumerate(table) if s == x]
+        if len(exact) == 1:
+            return exact[0]
+        return nomatch
+    def _pmatch_vec(x_vec, table, nomatch=0):
+        result = []
+        for x in x_vec:
+            matches = [i + 1 for i, s in enumerate(table) if s.startswith(x)]
+            if len(matches) == 1:
+                result.append(matches[0])
+            else:
+                exact = [i + 1 for i, s in enumerate(table) if s == x]
+                result.append(exact[0] if len(exact) == 1 else nomatch)
+        return result
+    if parms is None:
+        parms = {
+            'prior': counts / counts.sum(),
+            'loss': np.ones((numclass, numclass)) - np.eye(numclass),
+            'split': 1,
+        }
+    elif isinstance(parms, dict):
+        if len(parms) == 0 or list(parms.keys()) == [None]:
+            raise ValueError('The parms list must have names')
+        parms_names = list(parms.keys())
+        if any(k is None for k in parms_names):
+            raise ValueError('The parms list must have names')
+        canonical = ['prior', 'loss', 'split']
+        temp_idx = _pmatch_vec(parms_names, canonical, nomatch=0)
+        unmatched = [k for k, idx in zip(parms_names, temp_idx) if idx == 0]
+        if unmatched:
+            raise ValueError(f"'parms' component not matched: {', '.join(str(u) for u in unmatched)}")
+        parms = {canonical[idx - 1]: v for (k, v), idx in zip(parms.items(), temp_idx)}
+        if parms.get('prior') is None:
+            prior = counts / counts.sum()
+        else:
+            prior = np.asarray(parms['prior'], dtype=float)
+            if prior.sum() != 1:
+                raise ValueError('Priors must sum to 1')
+            if np.any(prior < 0):
+                raise ValueError('Priors must be >= 0')
+            if len(prior) != numclass:
+                raise ValueError('Wrong length for priors')
+        if parms.get('loss') is None:
+            loss = 1.0 - np.eye(numclass)
+        else:
+            loss = np.asarray(parms['loss'], dtype=float)
+            if loss.size != numclass ** 2:
+                raise ValueError('Wrong length for loss matrix')
+            loss = loss.reshape(numclass, numclass, order='F')
+            if np.any(np.diag(loss) != 0):
+                raise ValueError('Loss matrix must have zero on diagonals')
+            if np.any(loss < 0):
+                raise ValueError('Loss matrix cannot have negative elements')
+            if np.any(loss.sum(axis=1) == 0):
+                raise ValueError('Loss matrix has a row of zeros')
+        if parms.get('split') is None:
+            split = 1
+        else:
+            split_val = parms['split']
+            if isinstance(split_val, str):
+                split = _pmatch(split_val, ['gini', 'information'])
+                if split is None:
+                    raise ValueError('Invalid splitting rule')
+            else:
+                split = split_val
+        parms = {'prior': prior, 'loss': loss.reshape(numclass, numclass, order='F'), 'split': split}
+    else:
+        raise ValueError('Parameter argument must be a list')
+    ylevels = fy.categories.tolist()
+    def print_func(yval: np.ndarray[Any, np.dtype[Any]], ylevel: list[Any] | None, digits: int, nsmall: int) -> np.ndarray[Any, np.dtype[np.str_]]:
+        nclass = (yval.shape[1] - 2) // 2
+        if ylevel is None:
+            temp = np.array(yval[:, 0], dtype=str)
+        else:
+            temp = np.array([str(ylevel[int(v) - 1]) for v in yval[:, 0]])
+        yprob_sub = yval[:, 1 + nclass: 1 + nclass + nclass].astype(float)
+        if nclass < 5:
+            from math import floor, log10
+            def fmt_val(v):
+                if np.isnan(v):
+                    return 'NA'
+                if v == 0.0:
+                    return f'{v:.{nsmall}f}'
+                magnitude = floor(log10(abs(v))) if v != 0 else 0
+                sig_decimals = max(digits - 1 - magnitude, 0)
+                decimals = max(sig_decimals, nsmall)
+                return f'{v:.{decimals}f}'
+            yprob_str = np.vectorize(fmt_val)(yprob_sub)
+            flat = yprob_str.ravel(order='F')
+            max_width = max((len(s) for s in flat), default=0)
+            yprob_str = np.array([s.rjust(max_width) for s in flat], dtype=object).reshape(yprob_sub.shape, order='F')
+        else:
+            yprob_flat = yprob_sub.ravel(order='F')
+            yprob_str = np.vectorize(lambda v: '%.2g' % v)(yprob_flat).reshape(yprob_sub.shape, order='F')
+        if yprob_str.ndim == 1:
+            yprob_str = yprob_str.reshape(1, -1)
+        temp = np.char.add(np.char.add(temp.astype(str), ' ('), yprob_str[:, 0].astype(str))
+        for i in range(1, yprob_str.shape[1]):
+            temp = np.char.add(np.char.add(temp, ' '), yprob_str[:, i].astype(str))
+        temp = np.char.add(temp, ')')
+        return temp
+    def summary_func(yval: np.ndarray[Any, np.dtype[Any]], dev: np.ndarray[Any, np.dtype[np.float64]], wt: np.ndarray[Any, np.dtype[np.float64]], ylevel: list[Any] | None, digits: int) -> np.ndarray[Any, np.dtype[np.str_]]:
+        nclass = (yval.shape[1] - 2) // 2
+        group = yval[:, 0].astype(int)
+        counts_mat = yval[:, 1: 1 + nclass].astype(float)
+        yprob = yval[:, 1 + nclass: 1 + nclass + nclass].astype(float)
+        nodeprob = yval[:, 2 * nclass + 1].astype(float)
+        if ylevel is not None:
+            group = np.array([str(ylevel[int(g) - 1]) for g in group])
+        else:
+            group = group.astype(str)
+        temp1 = formatg(counts_mat, format='%5g')
+        temp2 = formatg(yprob, format='%5.3f')
+        if nclass > 1:
+            temp1 = np.array([' '.join(row) for row in np.array(temp1.ravel(order='F')).reshape(-1, nclass, order='F')])
+            temp2 = np.array([' '.join(row) for row in np.array(temp2.ravel(order='F')).reshape(-1, nclass, order='F')])
+        dev_scaled = dev / (wt[0] * nodeprob)
+        max_width = max((len(s) for s in group), default=0)
+        group_fmt = np.array([s.ljust(max_width) for s in group])
+        result = np.array([
+            f'  predicted class={g}  expected loss={e}  P(node) ={p}\n    class counts: {c1}\n   probabilities: {c2}'
+            for g, e, p, c1, c2 in zip(
+                group_fmt,
+                formatg(dev_scaled, digits),
+                formatg(nodeprob, digits),
+                temp1 if nclass > 1 else temp1.ravel(),
+                temp2 if nclass > 1 else temp2.ravel(),
+            )
+        ])
+        return result
+    def text_func(yval: np.ndarray[Any, np.dtype[Any]], dev: np.ndarray[Any, np.dtype[np.float64]], wt: np.ndarray[Any, np.dtype[np.float64]], ylevel: list[Any] | None, digits: int, n: np.ndarray[Any, np.dtype[np.int_]] | int, use_n: bool) -> np.ndarray[Any, np.dtype[np.str_]]:
+        nclass = (yval.shape[1] - 2) // 2
+        group = yval[:, 0].astype(int)
+        counts_mat = yval[:, 1: 1 + nclass].astype(float)
+        if ylevel is not None:
+            group = np.array([str(ylevel[int(g) - 1]) for g in group])
+        else:
+            group = group.astype(str)
+        temp1 = formatg(counts_mat, digits)
+        if nclass > 1:
+            temp1 = np.array(['/'.join(row) for row in np.array(temp1.ravel(order='F')).reshape(-1, nclass, order='F')])
+        else:
+            temp1 = temp1.ravel()
+        max_width = max((len(s) for s in group), default=0)
+        group_fmt = np.array([s.ljust(max_width) for s in group])
+        if use_n:
+            return np.char.add(np.char.add(group_fmt, '\n'), temp1.astype(str))
+        else:
+            return group_fmt
+    return {
+        'y': y_int,
+        'parms': parms,
+        'numresp': numclass + 2,
+        'counts': counts,
+        'ylevels': ylevels,
+        'numy': 1,
+        'print': print_func,
+        'summary': summary_func,
+        'text': text_func,
+    }

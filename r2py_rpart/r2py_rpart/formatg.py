@@ -1,0 +1,17 @@
+from __future__ import annotations
+
+from typing import Any
+
+import numpy as np
+
+
+
+def formatg(x: np.ndarray[Any, np.dtype[np.number]], digits: int = 7, format: str | None = None) -> np.ndarray[Any, np.dtype[np.str_]]:
+    if format is None:
+        format = f'%.{digits}g'
+    if not (isinstance(x, np.ndarray) and np.issubdtype(x.dtype, np.number)):
+        raise TypeError("'x' must be a numeric vector")
+    temp = np.vectorize(lambda v: format % v)(x)
+    if x.ndim == 2:
+        return temp.reshape(x.shape, order='F')
+    return temp

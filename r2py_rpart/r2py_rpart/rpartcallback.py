@@ -1,0 +1,274 @@
+from __future__ import annotations
+
+from typing import Any
+
+import ctypes
+import numpy as np
+from typing import Any, Callable
+
+
+
+def rpartcallback(mlist: dict[str, Callable[..., Any]], nobs: int, init: dict[str, Any]) -> dict[str, Any]:
+    if len(mlist) < 3:
+        raise ValueError("User written methods must have 3 functions")
+    if not callable(mlist.get("init")):
+        raise ValueError("User written method does not contain an 'init' function")
+    if not callable(mlist.get("split")):
+        raise ValueError("User written method does not contain a 'split' function")
+    if not callable(mlist.get("eval")):
+        raise ValueError("User written method does not contain an 'eval' function")
+
+    user_eval = mlist["eval"]
+    user_split = mlist["split"]
+
+    numresp = init["numresp"]
+    numy = init["numy"]
+    parms = init["parms"]
+
+    # rho dict holds shared mutable state; C code will write into the
+    # numpy array buffers stored here before each callback invocation.
+    rho: dict[str, Any] = {}
+    rho["nback"] = np.zeros(1, dtype=np.int32)
+    rho["wback"] = np.zeros(nobs, dtype=np.float64)
+    rho["xback"] = np.zeros(nobs, dtype=np.float64)
+    rho["yback"] = np.zeros(nobs * numy, dtype=np.float64)
+    rho["user_eval"] = user_eval
+    rho["user_split"] = user_split
+    rho["numy"] = int(numy)
+    rho["numresp"] = int(numresp)
+    rho["parms"] = parms
+
+    # eval2 replaces expr2: node evaluation callback.
+    # Called by rpart_callback1 with eval(expr2, rho).
+    # Returns a REALSXP of length (1 + numresp): [deviance, *label].
+    if numy == 1:
+        def eval2() -> np.ndarray[Any, np.dtype[np.float64]]:
+            nback = int(rho["nback"][0])
+            temp = user_eval(rho["yback"][:nback], rho["wback"][:nback], parms)
+            if len(temp["label"]) != numresp:
+                raise ValueError("User 'eval' function returned invalid label")
+            if np.asarray(temp["deviance"]).size != 1:
+                raise ValueError("User 'eval' function returned invalid deviance")
+            return np.concatenate([np.asarray(temp["deviance"]).ravel(),
+                                   np.asarray(temp["label"]).ravel()]).astype(np.float64)
+    else:
+        def eval2() -> np.ndarray[Any, np.dtype[np.float64]]:
+            nback = int(rho["nback"][0])
+            tempy = rho["yback"][:nback * numy].reshape((nback, numy), order="F")
+            temp = user_eval(tempy, rho["wback"][:nback], parms)
+            if len(temp["label"]) != numresp:
+                raise ValueError("User 'eval' function returned invalid label")
+            if np.asarray(temp["deviance"]).size != 1:
+                raise ValueError("User 'eval' function returned invalid deviance")
+            return np.concatenate([np.asarray(temp["deviance"]).ravel(),
+                                   np.asarray(temp["label"]).ravel()]).astype(np.float64)
+
+    # eval1 replaces expr1: split-goodness callback.
+    # Called by rpart_callback2 with eval(expr1, rho).
+    # nback < 0 signals a categorical variable; true count is -nback.
+    # Returns a REALSXP of concatenated [goodness, direction].
+    if numy == 1:
+        def eval1() -> np.ndarray[Any, np.dtype[np.float64]]:
+            nback = int(rho["nback"][0])
+            if nback < 0:
+                n2 = -nback
+                temp = user_split(rho["yback"][:n2], rho["wback"][:n2],
+                                  rho["xback"][:n2], parms, False)
+                ncat = len(np.unique(rho["xback"][:n2]))
+                if len(temp["goodness"]) != ncat - 1 or len(temp["direction"]) != ncat:
+                    raise ValueError("Invalid return from categorical 'split' function")
+            else:
+                temp = user_split(rho["yback"][:nback], rho["wback"][:nback],
+                                  rho["xback"][:nback], parms, True)
+                if len(temp["goodness"]) != nback - 1:
+                    raise ValueError("User 'split' function returned invalid goodness")
+                if len(temp["direction"]) != nback - 1:
+                    raise ValueError("User 'split' function returned invalid direction")
+            return np.concatenate([np.asarray(temp["goodness"]).ravel(),
+                                   np.asarray(temp["direction"]).ravel()]).astype(np.float64)
+    else:
+        def eval1() -> np.ndarray[Any, np.dtype[np.float64]]:
+            nback = int(rho["nback"][0])
+            if nback < 0:
+                n2 = -nback
+                tempy = rho["yback"][:n2 * numy].reshape((n2, numy), order="F")
+                temp = user_split(tempy, rho["wback"][:n2],
+                                  rho["xback"][:n2], parms, False)
+                ncat = len(np.unique(rho["xback"][:n2]))
+                if len(temp["goodness"]) != ncat - 1 or len(temp["direction"]) != ncat:
+                    raise ValueError("Invalid return from categorical 'split' function")
+            else:
+                tempy = rho["yback"][:nback * numy].reshape((nback, numy), order="F")
+                temp = user_split(tempy, rho["wback"][:nback],
+                                  rho["xback"][:nback], parms, True)
+                if len(temp["goodness"]) != nback - 1:
+                    raise ValueError("User 'split' function returned invalid goodness")
+                if len(temp["direction"]) != nback - 1:
+                    raise ValueError("User 'split' function returned invalid direction")
+            return np.concatenate([np.asarray(temp["goodness"]).ravel(),
+                                   np.asarray(temp["direction"]).ravel()]).astype(np.float64)
+
+    # --- C-level callback setup (mirrors .Call(C_init_rpcallback, ...)) ---
+    #
+    # The C callback mechanism (rpart_callback1/rpart_callback2) calls
+    # eval(expr, rho) at two sites.  We register a single Python dispatch
+    # function that selects eval1 or eval2 based on the opaque expr pointer,
+    # and wrap the result as a fake REALSXP for the C layer to read via REAL().
+    #
+    # Step 1: retrieve R_UnboundValue sentinel needed by findVarInFrame.
+    _lib.get_R_UnboundValue.restype = ctypes.c_void_p
+    _lib.get_R_UnboundValue.argtypes = []
+    R_UNBOUND = _lib.get_R_UnboundValue()
+
+    # Step 2: register install() stub — maps symbol name -> stable opaque pointer.
+    _symbol_handles: dict[str, int] = {}
+    _symbol_nodes: dict[str, Any] = {}
+
+    _InstallFnType = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_char_p)
+
+    def _py_install(name_bytes: bytes) -> int:
+        name = name_bytes.decode()
+        if name not in _symbol_handles:
+            node = (ctypes.c_char * 1)()
+            _symbol_handles[name] = ctypes.cast(node, ctypes.c_void_p).value
+            _symbol_nodes[name] = node
+        return _symbol_handles[name]
+
+    _install_cb = _InstallFnType(_py_install)
+    _lib.register_install_fn.restype = None
+    _lib.register_install_fn.argtypes = [_InstallFnType]
+    _lib.register_install_fn(_install_cb)
+
+    # Step 3: build fake REALSXP/INTSXP wrappers for the four back-arrays.
+    # The fake SEXPREC layout used by fake_R.h: type, length, nrow, ncol, data.
+    # We construct ctypes structs matching SEXPREC so the C layer can call
+    # REAL(sexp) / INTEGER(sexp) to obtain the numpy buffer pointers.
+    class _SEXPREC(ctypes.Structure):
+        _fields_ = [
+            ("type",   ctypes.c_int),
+            ("length", ctypes.c_int),
+            ("nrow",   ctypes.c_int),
+            ("ncol",   ctypes.c_int),
+            ("data",   ctypes.c_void_p),
+        ]
+
+    REALSXP = 14
+    INTSXP  = 13
+    ENVSXP  =  4
+
+    def _make_real_sexp(arr: np.ndarray) -> ctypes.Structure:
+        s = _SEXPREC()
+        s.type   = REALSXP
+        s.length = arr.size
+        s.nrow   = arr.size
+        s.ncol   = 1
+        s.data   = arr.ctypes.data
+        return s
+
+    def _make_int_sexp(arr: np.ndarray) -> ctypes.Structure:
+        s = _SEXPREC()
+        s.type   = INTSXP
+        s.length = arr.size
+        s.nrow   = arr.size
+        s.ncol   = 1
+        s.data   = arr.ctypes.data
+        return s
+
+    sexp_y = _make_real_sexp(rho["yback"])
+    sexp_w = _make_real_sexp(rho["wback"])
+    sexp_x = _make_real_sexp(rho["xback"])
+    sexp_n = _make_int_sexp(rho["nback"])
+
+    # Step 4: create an opaque rho handle (1-byte placeholder as identity).
+    _rho_node = (ctypes.c_char * 1)()
+    _rho_ptr  = ctypes.cast(_rho_node, ctypes.c_void_p).value
+
+    # Step 5: register findVarInFrame() stub using the frame registry.
+    _frame_registry: dict[int, dict[int, int]] = {
+        _rho_ptr: {
+            _py_install(b"yback"): ctypes.cast(ctypes.byref(sexp_y), ctypes.c_void_p).value,
+            _py_install(b"wback"): ctypes.cast(ctypes.byref(sexp_w), ctypes.c_void_p).value,
+            _py_install(b"xback"): ctypes.cast(ctypes.byref(sexp_x), ctypes.c_void_p).value,
+            _py_install(b"nback"): ctypes.cast(ctypes.byref(sexp_n), ctypes.c_void_p).value,
+        }
+    }
+
+    _FindVarInFrameFnType = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p)
+
+    def _py_findVarInFrame(rho_p: int, sym_p: int) -> int:
+        frame = _frame_registry.get(rho_p, {})
+        val = frame.get(sym_p)
+        return R_UNBOUND if val is None else val
+
+    _findVarInFrame_cb = _FindVarInFrameFnType(_py_findVarInFrame)
+    _lib.register_findVarInFrame_fn.restype = None
+    _lib.register_findVarInFrame_fn.argtypes = [_FindVarInFrameFnType]
+    _lib.register_findVarInFrame_fn(_findVarInFrame_cb)
+
+    # Step 6: register findVar() stub (inherits=TRUE path; dead code for rpart).
+    _FindVarFnType = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p)
+
+    def _py_findVar(sym_p: int, rho_p: int) -> int:
+        return R_UNBOUND
+
+    _findVar_cb = _FindVarFnType(_py_findVar)
+    _lib.register_findVar_fn.restype = None
+    _lib.register_findVar_fn.argtypes = [_FindVarFnType]
+    _lib.register_findVar_fn(_findVar_cb)
+
+    # Step 7: create opaque expr1/expr2 pointer handles.
+    _expr1_node = (ctypes.c_char * 1)()
+    _expr2_node = (ctypes.c_char * 1)()
+    _expr1_ptr  = ctypes.cast(_expr1_node, ctypes.c_void_p).value
+    _expr2_ptr  = ctypes.cast(_expr2_node, ctypes.c_void_p).value
+
+    # Step 8: register eval() stub — dispatches on expr pointer to eval1/eval2.
+    # eval(expr2, rho) -> rpart_callback1 (node evaluation)
+    # eval(expr1, rho) -> rpart_callback2 (split goodness)
+    # Return value must be a fake REALSXP whose REAL() pointer C can read.
+    _eval_result_keeper: list[Any] = []  # prevent GC until C has copied data
+
+    _EvalFnType = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p)
+
+    def _py_eval(expr_p: int, rho_p: int) -> int:
+        if expr_p == _expr2_ptr:
+            result_arr = eval2()
+        elif expr_p == _expr1_ptr:
+            result_arr = eval1()
+        else:
+            raise RuntimeError(
+                f"py_eval: unrecognized expr pointer {expr_p:#x}")
+        result_arr = np.ascontiguousarray(result_arr, dtype=np.float64)
+        sexp_result = _make_real_sexp(result_arr)
+        _eval_result_keeper.append((result_arr, sexp_result))
+        return ctypes.cast(ctypes.byref(sexp_result), ctypes.c_void_p).value
+
+    _eval_cb = _EvalFnType(_py_eval)
+    _lib.register_eval_fn.restype = None
+    _lib.register_eval_fn.argtypes = [_EvalFnType]
+    _lib.register_eval_fn(_eval_cb)
+
+    # Step 9: call init_rpcallback_c to initialise C-level statics
+    # (rho, ysave, rsave, expr1, expr2, ydata, wdata, xdata, ndata).
+    err_buf = np.zeros(_ERR_BUF_SIZE, dtype=np.uint8)
+    _lib.init_rpcallback_c(
+        ffi.cast("void *", _rho_ptr),
+        int(numy),
+        int(numresp),
+        ffi.cast("void *", _expr1_ptr),
+        ffi.cast("void *", _expr2_ptr),
+        _cptr(err_buf),
+        _ERR_BUF_SIZE,
+    )
+    _check_error(err_buf)
+
+    # Store ctypes callbacks in rho so they remain alive for the lifetime
+    # of the callback session (ctypes callbacks are freed when GC'd).
+    rho["_ctypes_keep_alive"] = [
+        _install_cb, _findVarInFrame_cb, _findVar_cb, _eval_cb,
+        _rho_node, _expr1_node, _expr2_node,
+        sexp_y, sexp_w, sexp_x, sexp_n,
+        _eval_result_keeper,
+    ]
+
+    return {"eval1": eval1, "eval2": eval2, "rho": rho}

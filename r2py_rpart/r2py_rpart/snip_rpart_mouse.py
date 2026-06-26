@@ -1,0 +1,86 @@
+from __future__ import annotations
+
+from typing import Any
+
+import numpy as np
+
+
+
+def snip_rpart_mouse(tree: dict[str, Any], parms: dict[str, Any] | None = None) -> list[int] | None:
+    global rpart_env
+    if parms is None:
+        pn = 'device' + str(1)  # dev.cur() equivalent: fixed device id 1
+        if pn not in rpart_env:
+            raise RuntimeError('no information available on parameters from previous call to plot()')
+        parms = rpart_env[pn]
+
+    xy = rpartco(tree, parms)
+    toss: list[int] = []
+    ff = tree['frame']
+    if parms.get('branch') is not None:
+        branch = parms['branch']
+    else:
+        branch = 1
+
+    node = ff.index.astype(int).values
+    draw = rpart_branch(xy['x'], xy['y'], node, branch)
+
+    lastchoice = 0
+    # identify() is an interactive R graphics function with no Python equivalent;
+    # stub it to return an empty list so the while loop never executes.
+    def identify(xy: dict[str, Any], n: int, plot: bool) -> list[int]:
+        return []
+
+    choose_result = identify(xy, n=1, plot=False)
+    while len(choose_result) > 0:
+        choose = choose_result[0]
+        if ff['var'].iloc[choose] == '<leaf>':
+            print('Terminal node -- try again')
+            choose_result = identify(xy, n=1, plot=False)
+            continue
+
+        if choose != lastchoice:
+            print('node number:', node[choose], ' n=', ff['n'].iloc[choose])
+            yval_val = ff['yval'].iloc[choose]
+            print('    response=', format(yval_val), end='')
+            if 'yval2' not in ff.columns or ff['yval2'].iloc[choose] is None:
+                print()
+            elif hasattr(ff['yval2'].iloc[choose], '__len__') and not isinstance(ff['yval2'].iloc[choose], str):
+                # yval2 is matrix-like (each row is an array)
+                print(' (', ' '.join(str(v) for v in ff['yval2'].iloc[choose]), ')')
+            else:
+                print(' (', ff['yval2'].iloc[choose], ')')
+            print('    Error (dev) = ', ff['dev'].iloc[choose])
+            lastchoice = choose
+        else:
+            id_arr = np.array([node[choose]], dtype=int)
+            id2 = node.copy()
+            while np.any(id2 > 1):
+                id2 = id2 // 2
+                temp_mask = np.isin(id2, id_arr)
+                id_arr = np.concatenate([id_arr, node[temp_mask]])
+                id2[temp_mask] = 0
+
+            # node[ff['var'] != '<leaf>'] gives node values for non-leaf nodes
+            non_leaf_nodes = node[ff['var'].values != '<leaf>']
+            # match(id_arr, non_leaf_nodes, 0L): find 0-based column indices
+            # of id_arr elements in non_leaf_nodes; keep only those found
+            temp_indices = [
+                int(np.where(non_leaf_nodes == v)[0][0])
+                for v in id_arr
+                if v in non_leaf_nodes
+            ]
+            if len(temp_indices) > 0:
+                temp_idx = np.array(temp_indices, dtype=int)
+                # draw['x'] and draw['y'] are 2D arrays of shape (5, k)
+                # c(draw$x[, temp]) in R flattens selected columns column-major
+                x_coords = draw['x'][:, temp_idx].ravel(order='F')
+                y_coords = draw['y'][:, temp_idx].ravel(order='F')
+                # lines(..., col=0L) erases branches by overpainting with background color;
+                # stub as no-op since matplotlib interactive context is not available.
+                pass  # lines(x_coords, y_coords, col='white')
+            toss.append(int(node[choose]))
+
+        choose_result = identify(xy, n=1, plot=False)
+
+    return toss if toss else None
