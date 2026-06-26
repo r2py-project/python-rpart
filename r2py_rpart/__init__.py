@@ -34,10 +34,54 @@ import numpy as np
 from numpy import ndarray
 
 __all__ = [
-    "rpart",
+    # High-level Python functions (from converted R modules)
     "pred_rpart",
-    "xpred",
-    "rpartexp2",
+    "rpart",
+    "compress",
+    "descendants",
+    "drate2",
+    "formatg",
+    "importance",
+    "labels_rpart",
+    "meanvar",
+    "meanvar_rpart",
+    "model_frame_rpart",
+    "na_rpart",
+    "node_match",
+    "on_unload",
+    "oval",
+    "path_rpart",
+    "plot_rpart",
+    "plotcp",
+    "post",
+    "post_rpart",
+    "predict_rpart",
+    "print_rpart",
+    "printcp",
+    "prune",
+    "prune_rpart",
+    "rectangle",
+    "residuals_rpart",
+    "roc_rpart",
+    "rpart_anova",
+    "rpart_branch",
+    "rpart_class",
+    "rpart_control",
+    "rpart_exp",
+    "rpart_matrix",
+    "rpart_poisson",
+    "rpartcallback",
+    "rpartco",
+    "rsq_rpart",
+    "snip_rpart",
+    "snip_rpart_mouse",
+    "ss_compare",
+    "string_bounding_box",
+    "summary_rpart",
+    "text_rpart",
+    "tfun",
+    "tree_depth",
+    "xpred_rpart",
 ]
 
 # ---------------------------------------------------------------------------
@@ -219,10 +263,10 @@ def _cptr(buf):
 
 
 # ---------------------------------------------------------------------------
-# Public API — rpart()
+# Internal C wrapper — rpart()
 # ---------------------------------------------------------------------------
 
-def rpart(
+def _rpart_c(
     ncat: ndarray,
     method: int,
     opt: ndarray,
@@ -343,10 +387,10 @@ def rpart(
 
 
 # ---------------------------------------------------------------------------
-# Public API — pred_rpart()
+# Internal C wrapper — pred_rpart()
 # ---------------------------------------------------------------------------
 
-def pred_rpart(
+def _pred_rpart_c(
     dimx: ndarray,
     nnode: int,
     nsplit: int,
@@ -420,10 +464,10 @@ def pred_rpart(
 
 
 # ---------------------------------------------------------------------------
-# Public API — xpred()
+# Internal C wrapper — xpred()
 # ---------------------------------------------------------------------------
 
-def xpred(
+def _xpred_c(
     ncat: ndarray,
     method: int,
     opt: ndarray,
@@ -496,10 +540,10 @@ def xpred(
 
 
 # ---------------------------------------------------------------------------
-# Public API — rpartexp2()
+# Internal C wrapper — rpartexp2()
 # ---------------------------------------------------------------------------
 
-def rpartexp2(dtimes: ndarray, eps: float | None = None) -> ndarray:
+def _rpartexp2_c(dtimes: ndarray, eps: float | None = None) -> ndarray:
     """Select unique death times for the exponential survival method.
 
     Parameters
@@ -526,3 +570,47 @@ def rpartexp2(dtimes: ndarray, eps: float | None = None) -> ndarray:
     )
     _check_error(err_buf)
     return keep_out.copy()
+
+
+# ---------------------------------------------------------------------------
+# High-level Python functions (converted from R source)
+# Note: rpart, pred_rpart, xpred, rpartexp2 keep their C-wrapper definitions
+#       above; the same-named high-level functions live in rpart.py / pred_rpart.py
+#       and are importable as r2py_rpart.rpart.rpart / r2py_rpart.pred_rpart.pred_rpart.
+# ---------------------------------------------------------------------------
+from .formatg import formatg
+from .importance import importance
+from .labels_rpart import labels_rpart
+from .meanvar_rpart import meanvar, meanvar_rpart
+from .model_frame_rpart import model_frame_rpart
+from .na_rpart import na_rpart
+from .path_rpart import path_rpart
+from .plot_rpart import plot_rpart
+from .plotcp import plotcp
+from .post import post
+from .post_rpart import post_rpart
+from .predict_rpart import predict_rpart
+from .print_rpart import print_rpart
+from .printcp import printcp
+from .prune import prune
+from .prune_rpart import prune_rpart
+from .residuals_rpart import residuals_rpart
+from .roc_rpart import roc_rpart, ss_compare
+from .rpart import rpart, tfun
+from .pred_rpart import pred_rpart
+from .rpart_anova import rpart_anova
+from .rpart_branch import rpart_branch
+from .rpart_class import rpart_class
+from .rpart_control import rpart_control
+from .rpart_exp import drate2, rpart_exp
+from .rpart_matrix import rpart_matrix
+from .rpart_poisson import rpart_poisson
+from .rpartcallback import rpartcallback
+from .rpartco import compress, rpartco
+from .rsq_rpart import rsq_rpart
+from .snip_rpart import snip_rpart
+from .snip_rpart_mouse import snip_rpart_mouse
+from .summary_rpart import summary_rpart
+from .text_rpart import oval, rectangle, text_rpart
+from .xpred_rpart import xpred_rpart
+from .zzz import descendants, node_match, on_unload, string_bounding_box, tree_depth
