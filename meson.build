@@ -60,6 +60,7 @@ rpart_src = files(
   'c_entry_points/xpred_c.c',
   'c_entry_points/rpartexp2_c.c',
   'c_entry_points/init_rpcallback_c.c',
+  'c_entry_points/interpreter_helpers_c.c',
 )
 
 # Build a plain shared library.  cffi's dlopen() in __init__.py loads it by
