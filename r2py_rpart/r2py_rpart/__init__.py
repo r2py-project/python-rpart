@@ -189,6 +189,14 @@ void register_install_fn(void *fn);
 void register_findVar_fn(void *fn);
 void register_findVarInFrame_fn(void *fn);
 void *get_R_UnboundValue(void);
+
+/* ---- interpreter helpers (method=4 SEXP construction) ------------------ */
+void *make_real_sexp(void *data, int length);
+void *make_int_sexp(void *data, int length);
+void *make_env_sexp(void);
+void  free_sexp_helper(void *sexp);
+void *call_install(const char *name);
+const char *get_make_sexp_error(void);
 """)
 
 

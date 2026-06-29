@@ -1,0 +1,21 @@
+Please read through the daily summaries stored in `docs/daily_summaries/` carefully and then write an unfinished technical report of this unfinished project, which is to convert the popular R package `rpart` into Python. Save the technical report in `docs/report/main.tex`. You need to follow the following important notes:
+1. The technical report needs to be extendable, which means you do not have to write any conclusions or summaries at the end. You may have to work on it later when other things are done.
+2. The report needs to be organized by phases. Assign each phase a brief subtitle.
+3. Use the `session` concept only when necessary. The report is meant to be read by humans.
+4. The report needs to be as detailed as possible. You may also need to review our previous sessions for more information that is omitted from the daily summaries.
+5. For each section (phase), you need to not only describe what has been done but also discuss why the section exists and the considerations behind it when you feel the reader might be curious.
+6. You should not mention anything about the line counts unless necessary.
+7. When any command or agent is called, you need to include the calling text in a code block. Include those commands' and agents' markdown files via some advanced LaTeX techniques so that they can appear in the appendix of the technical report. Note that if you are not sure about the calling text, please refer to our previous sessions.
+8. You are not allowed to add extra line breaks in the output LaTeX document. The document should only contain line breaks that are necessary, since I have to modify it by myself.
+9. If you find anything you cannot see, please tell me.
+
+Please first read through the detailed technical report in `docs/daily_summaries/report/report.tex`. Then check the daily summaries stored in `docs/daily_summaries` to see which phases the report does not contain. Usually, you will see several of the latest phases that do not appear in the report. Please write and append them to the report without changing any other existing phases. You need to follow the following important notes:
+1. The writing style should be consistent with the existing parts. Also, the technical report needs to be extendable, which means you do not have to write any conclusions or summaries in the end. You may have to work on it later when other things are done.
+2. The report needs to be organized by phases. Assign each phase a brief subtitle.
+3. Use the `session` concept only when necessary. The report is meant to be read by humans.
+4. The report needs to be as detailed as possible. You may also need to review our previous sessions for more informations which are omitted from the daily summaries.
+5. For each section (phase), you need to not only describe what has been done but also discuss why the section exists and the considerations behind it when you feel the reader might be curious.
+6. You should not mention anything about the line counts unless necessary.
+7. When any command or agent is called, you need to include the calling text in a code block. Include those commands' and agents' markdown files via some advanced LaTeX techniques so that they can appear in the appendix of the technical report. Note that if you are not sure about the calling text, please refer to our previous sessions.
+8. You are not allowed to add extra line breaks in the output LaTeX document. The document should only contain line breaks that are necessary, since I have to modify it by myself.
+9. If you find anything you cannot see, please tell me.

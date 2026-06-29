@@ -9,7 +9,7 @@ description: Orchestrates the batch generation of fake C++ header implementation
 
 When provided with a target `base_folder`, a CSV file matching the schema below, and a target `output_directory`, your task is to orchestrate the batch processing of this dataset. You must segment the CSV by unique `external_item` values and iteratively invoke the `@generate-r-extern-fake-guide` agent for each subset to generate the resulting guides to the specified output directory.
 
-The goal of each guide is to document how to implement a drop-in C++ fake for a given R C API external item — a type, macro, constant, or function — so that the original package C source files can be compiled and linked without `libR.so`, and called directly from Python.
+The goal of each guide is to document how to implement a drop-in C++ fake for a given R C API external item -- a type, macro, constant, or function -- so that the original package C source files can be compiled and linked without `libR.so`, and called directly from Python.
 
 ### Expected CSV Schema
 

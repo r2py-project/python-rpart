@@ -7,7 +7,7 @@ description: Writes a fake C++ header file for a specific R C API external item 
 
 ## Description
 
-When provided with a `base_folder`, a CSV text snippet, a `guides_folder` containing pre-generated Markdown fake implementation guides, and an `output_folder`, your task is to produce a single self-contained C++ header file — `{external_item}.h` — that provides a drop-in fake implementation of the target R C API item. The original package C source files must be able to `#include` this header (transitively through `fake_R.h`) and compile without any modification and without linking against `libR.so`.
+When provided with a `base_folder`, a CSV text snippet, a `guides_folder` containing pre-generated Markdown fake implementation guides, and an `output_folder`, your task is to produce a single self-contained C++ header file -- `{external_item}.h` -- that provides a drop-in fake implementation of the target R C API item. The original package C source files must be able to `#include` this header (transitively through `fake_R.h`) and compile without any modification and without linking against `libR.so`.
 
 The input CSV will strictly adhere to the following example schema:
 ```csv
@@ -43,26 +43,26 @@ The generated header must:
 
 Translate the Markdown guide's "Fake C++ Implementation Strategy" (Section 3) and "Fake Implementation Examples" (Section 4) into a complete, compilable C++ header file. Apply the following rules without exception:
 
-**Rule 1 — Use both `#ifndef` `#define` `#endif` header guards and `#pragma once`.**
+**Rule 1 -- Use both `#ifndef` `#define` `#endif` header guards and `#pragma once`.**
 You have to add traditional `#ifndef`/`#define`/`#endif` include guards to prevent multiple inclusions. Also, place `#pragma once` as the very first non-comment line.
 
-**Rule 2 — Dependency includes come first.**
+**Rule 2 -- Dependency includes come first.**
 After the header guards, emit one `#include "{dependency}.h"` line per dependency identified in Step 2, in the order listed by the guide's Integration Requirements. If the item is in Category C (memory allocation), also emit `#include "fake_arena.h"` before all other includes.
 
-**Rule 3 — Implement exactly what the guide specifies for the item's category.**
+**Rule 3 -- Implement exactly what the guide specifies for the item's category.**
 - **Category A (type or enum constant):** Emit the C++ `struct`, `typedef`, or `enum` definition. For `SEXP`/`SEXPREC`, output the full struct with `SEXPTYPE type`, `int length`, `int nrow`, `int ncol`, and a `union` of typed data pointers.
 - **Category B (accessor macro or inline function):** Emit `inline` C++ functions, not macros, for type safety. The function body casts `sexp->data` or reads scalar fields from the `SEXPREC` struct. Preserve any `#define` alias from the original header beneath the `inline` definition.
 - **Category C (allocation or memory function):** Implement heap-allocating functions (`allocVector`, `allocMatrix`, `mkChar`) as `inline` functions using `new` / `std::malloc`. Implement arena-delegating functions (`R_alloc`, `R_chk_calloc`, `S_alloc`) as `inline` functions calling `arena_alloc` / `arena_calloc` from `fake_arena.h`. Implement `PROTECT` and `UNPROTECT` as no-op `inline` functions. Place an `ArenaFrame` usage comment block showing callers exactly where to declare `ArenaFrame _frame;` at their function entry.
 - **Category D (error, warning, or print function):** Define the `RError` struct exactly once (guard with `#ifndef FAKE_R_RERROR_DEFINED`). Implement `Rf_error` as a `[[noreturn]]` `inline` function that formats its variadic arguments into a `std::string` via `vsnprintf` and throws `RError`. Implement `Rf_warning` as an `inline` function that writes to `stderr` via `std::fprintf`. Implement `Rprintf` and `REprintf` as `inline` forwarding functions. Emit all `#define` aliases from the original R error header (`#define error Rf_error`, `#define warning Rf_warning`).
-- **Category E (R interpreter item):** Emit the function pointer declaration as a global `extern "C"` variable, the registration function with C linkage, and the stub body that calls the pointer or throws `RError("...")` if the pointer is null. Wrap the entire block in a `// *** R INTERPRETER ITEM — requires Python callback registration ***` comment block.
+- **Category E (R interpreter item):** Emit the function pointer declaration as a global `extern "C"` variable, the registration function with C linkage, and the stub body that calls the pointer or throws `RError("...")` if the pointer is null. Wrap the entire block in a `// *** R INTERPRETER ITEM -- requires Python callback registration ***` comment block.
 
-**Rule 4 — Preserve all original R header `#define` aliases.**
+**Rule 4 -- Preserve all original R header `#define` aliases.**
 After the implementation code, emit a block labelled `// --- Compatibility aliases (preserve original R API names) ---` containing every `#define` the original R header declared for this item. These ensure the unchanged package source files see the same names they used before (e.g., `#define allocVector Rf_allocVector` if the original header used that remapping).
 
-**Rule 5 — Emit an `ArenaFrame` usage note for any Category C header.**
+**Rule 5 -- Emit an `ArenaFrame` usage note for any Category C header.**
 After the alias block, emit a comment block titled `// --- ArenaFrame usage ---` that shows the exact one-liner a caller must add at the top of any `.Call`-style function body that calls arena-backed functions defined in this header.
 
-**Rule 6 — No runtime R linkage.**
+**Rule 6 -- No runtime R linkage.**
 The generated header must introduce zero dependencies on `libR.so`. Do not `#include` any original R headers. The only permitted system includes are from the c/C++ standard library (`<stdlib.h>`, `<stddef.h>`, `<string.h>`, `<stdexcept>`, `<stdio.h>`, `<stdarg.h>`, `<vector>`, `<string>`, `<unordered_map>`, etc.) and from other fake headers already in the `output_folder`.
 
 ## Output Format Schema
@@ -71,9 +71,9 @@ The generated `.h` file must follow this exact structure, in order:
 
 ```
 // =============================================================
-// {external_item}.h — Fake R API: {external_item}
+// {external_item}.h -- Fake R API: {external_item}
 // Original R header: {header_file}
-// Category: {A|B|C|D|E} — {category description}
+// Category: {A|B|C|D|E} -- {category description}
 // Auto-generated by generate-r-extern-fake-header agent.
 // =============================================================
 #pragma once
@@ -88,7 +88,7 @@ The generated `.h` file must follow this exact structure, in order:
 #include "{dependency_2}.h"
 
 // --- R Interpreter Item warning block (Category E only) ---
-// *** R INTERPRETER ITEM — {external_item} ***
+// *** R INTERPRETER ITEM -- {external_item} ***
 // A complete fake is impossible without an R interpreter.
 // Register a Python callback via {external_item}_register() before use.
 // Affected code paths: [list from guide]

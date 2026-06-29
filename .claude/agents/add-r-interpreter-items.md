@@ -65,7 +65,7 @@ nm -D $(python -c "import r2py_rpart, os; print(os.path.dirname(r2py_rpart.__fil
 ```
 All five must appear. If any are missing, add `-fkeep-inline-functions` to the compile args for those symbols or restructure the function to have external linkage.
 
-### Step 4: Patch `__init__.py` — `ffi.cdef` Additions
+### Step 4: Patch `__init__.py` -- `ffi.cdef` Additions
 
 Append the following block inside the existing `ffi.cdef("""...""")` call, immediately before the closing `""")`. Do not modify any existing declaration:
 
@@ -78,9 +78,9 @@ void *call_install(const char *name);
 const char *get_make_sexp_error(void);
 ```
 
-### Step 5: Patch `__init__.py` — Module-Level Callback Infrastructure
+### Step 5: Patch `__init__.py` -- Module-Level Callback Infrastructure
 
-Insert the following block into `__init__.py` immediately after the `_lib = ffi.dlopen(_find_lib())` line. This registers the `install`, `findVarInFrame`, and `findVar` callbacks at module load time. The `eval` callback is intentionally excluded here — it is registered per-call inside `rpartcallback()` because it captures user-supplied split functions.
+Insert the following block into `__init__.py` immediately after the `_lib = ffi.dlopen(_find_lib())` line. This registers the `install`, `findVarInFrame`, and `findVar` callbacks at module load time. The `eval` callback is intentionally excluded here -- it is registered per-call inside `rpartcallback()` because it captures user-supplied split functions.
 
 ```python
 # ---------------------------------------------------------------------------
@@ -139,7 +139,7 @@ _interp_callbacks.extend([_install_cb, _findVarInFrame_cb, _findVar_cb])
 
 The existing converted `rpartcallback.py` is broken because it uses `ctypes.CFUNCTYPE` for callback creation while the library is loaded via `cffi`. Rewrite the entire file so it uses only `cffi`.
 
-The rewritten function must preserve all input validation and all `eval1`/`eval2` computation logic from the existing conversion — those are correct. Replace only the C-interface section (Steps 1–9 in the existing comments) with cffi equivalents following the rules below.
+The rewritten function must preserve all input validation and all `eval1`/`eval2` computation logic from the existing conversion -- those are correct. Replace only the C-interface section (Steps 1-9 in the existing comments) with cffi equivalents following the rules below.
 
 **Replace ctypes constructs with cffi equivalents:**
 
@@ -148,8 +148,8 @@ The rewritten function must preserve all input validation and all `eval1`/`eval2
 | `ctypes.CFUNCTYPE(ret, *args)` | `ffi.callback("ret (args)")` |
 | `ctypes.cast(x, ctypes.c_void_p).value` | `int(ffi.cast("uintptr_t", x))` |
 | `_SEXPREC(ctypes.Structure)` local struct | `_lib.make_real_sexp(...)` / `_lib.make_int_sexp(...)` |
-| `_lib.register_X_fn.restype = None` (ctypes API on cffi lib) | Remove — cffi does not use `.restype` |
-| `_lib.register_X_fn.argtypes = [...]` (ctypes API on cffi lib) | Remove — cffi resolves from `ffi.cdef` |
+| `_lib.register_X_fn.restype = None` (ctypes API on cffi lib) | Remove -- cffi does not use `.restype` |
+| `_lib.register_X_fn.argtypes = [...]` (ctypes API on cffi lib) | Remove -- cffi resolves from `ffi.cdef` |
 | `_lib.register_X_fn(cb)` | `_lib.register_X_fn(cb)` (valid in cffi too, keep) |
 
 **SEXP construction:** Use the new C helpers instead of local ctypes structs:
@@ -234,10 +234,10 @@ return {"eval1": eval1, "eval2": eval2, "rho": rho}
 
 Scan every `.py` file in `python_package_folder` for `NotImplementedError`. For each occurrence, classify it and act:
 
-**Class A — Stubs caused by missing interpreter-item wiring (must be fixed):**
+**Class A -- Stubs caused by missing interpreter-item wiring (must be fixed):**
 Any stub that says something like "C_init_rpcallback not available", "callbacks not registered", or similar. These should not exist after Step 6, but verify and fix any that remain.
 
-**Class B — `UseMethod` dispatch stubs (must be fixed):**
+**Class B -- `UseMethod` dispatch stubs (must be fixed):**
 Stubs in `post.py`, `prune.py`, and `meanvar.py` (or wherever `UseMethod` was converted to `NotImplementedError`). Replace each with a direct dispatch based on `tree.get("_rpart_class")`:
 ```python
 def post(tree: dict, *args, **kwargs):
@@ -248,8 +248,8 @@ def post(tree: dict, *args, **kwargs):
 ```
 Apply the same pattern to `prune` and `meanvar`.
 
-**Class C — Interactive or environment-specific stubs (annotate, do not silence):**
-Stubs in `snip_rpart_mouse.py` (uses R's `identify()` for interactive terminal tree pruning — no Python equivalent). Keep `NotImplementedError` but ensure the message is specific:
+**Class C -- Interactive or environment-specific stubs (annotate, do not silence):**
+Stubs in `snip_rpart_mouse.py` (uses R's `identify()` for interactive terminal tree pruning -- no Python equivalent). Keep `NotImplementedError` but ensure the message is specific:
 ```python
 raise NotImplementedError(
     "snip.rpart.mouse requires interactive terminal graphics (R's identify()); "
@@ -257,7 +257,7 @@ raise NotImplementedError(
 )
 ```
 
-**Class D — Formula/model.frame stubs (annotate precisely):**
+**Class D -- Formula/model.frame stubs (annotate precisely):**
 Stubs where `eval.parent(model.frame(...))` was replaced with `NotImplementedError`. Keep the stub but ensure the message names the specific R function and suggests the Python alternative:
 ```python
 raise NotImplementedError(

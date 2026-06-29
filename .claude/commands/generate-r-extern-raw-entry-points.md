@@ -7,7 +7,7 @@ description: Scans R source files for .Call/.External invocations, identifies ev
 
 ## Description
 
-Given four inputs — an `r_base_folder` containing R source files, a `c_base_folder` containing the package C source files, a `fake_headers_folder` containing the pre-generated fake R C API headers, and an `output_folder` for the resulting `.c` files — your task is to:
+Given four inputs -- an `r_base_folder` containing R source files, a `c_base_folder` containing the package C source files, a `fake_headers_folder` containing the pre-generated fake R C API headers, and an `output_folder` for the resulting `.c` files -- your task is to:
 
 1. Recursively scan every `.R` file in `r_base_folder` to locate all `.Call` and `.External` invocations and record the C function name, call type, R call expression, and source location for each one.
 2. Identify all unique C functions that are invoked directly from R, consolidating multiple call sites for the same function.
@@ -20,8 +20,8 @@ Given four inputs — an `r_base_folder` containing R source files, a `c_base_fo
 Recursively scan `r_base_folder` for all files with a `.R` or `.r` extension. For every R file found, parse it line by line to locate every `.Call(...)` and `.External(...)` invocation. For each invocation found, extract and record the following four data points:
 
 - **`c_function`**: The name of the C function being called. This is the first argument to `.Call`/`.External`. It may appear as:
-  - A registered native symbol object (e.g., `C_rpart`, `C_pred_rpart`) — strip the `C_` prefix to obtain the C function name.
-  - A quoted string literal (e.g., `"rpart"`, `"pred_rpart"`) — use the string content directly.
+  - A registered native symbol object (e.g., `C_rpart`, `C_pred_rpart`) -- strip the `C_` prefix to obtain the C function name.
+  - A quoted string literal (e.g., `"rpart"`, `"pred_rpart"`) -- use the string content directly.
 - **`call_type`**: Either `Call` (for `.Call(...)`) or `External` (for `.External(...)`).
 - **`r_file`**: The path of the R file, relative to `r_base_folder`.
 - **`r_line`**: The line number where the `.Call`/`.External` expression begins.
@@ -40,7 +40,7 @@ init_rpcallback,Call,rpart.R,198,".Call(C_init_rpcallback, rho, ny, nr, expr1, e
 
 ### Step 2: Identify Unique C Functions and Consolidate Call Sites
 
-From the call site table built in Step 1, extract the definitive ordered list of unique `c_function` values, preserving the first-occurrence order across the scanned R files. For each unique C function, collect all rows from the table that share that `c_function` value into a grouped CSV subset — multiple rows exist when the same C function is called from more than one R file or location.
+From the call site table built in Step 1, extract the definitive ordered list of unique `c_function` values, preserving the first-occurrence order across the scanned R files. For each unique C function, collect all rows from the table that share that `c_function` value into a grouped CSV subset -- multiple rows exist when the same C function is called from more than one R file or location.
 
 ### Step 3: Generate Entry-Point Files Sequentially
 

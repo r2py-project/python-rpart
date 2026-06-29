@@ -7,7 +7,7 @@ description: Writes a pure C entry-point wrapper for a single R-callable C funct
 
 ## Description
 
-When provided with an `r_base_folder`, a `c_base_folder`, a `fake_headers_folder` containing pre-generated fake R C API headers, an `output_folder`, and a CSV text snippet listing every R call site that invokes a specific C function, your task is to produce a single C source file — `{c_function}_c.c` — that wraps the original SEXP-based function in a new `{c_function}_c` entry point that Python can call directly via `ctypes` or `cffi` using only plain `int`, `double`, and `char` pointer arguments.
+When provided with an `r_base_folder`, a `c_base_folder`, a `fake_headers_folder` containing pre-generated fake R C API headers, an `output_folder`, and a CSV text snippet listing every R call site that invokes a specific C function, your task is to produce a single C source file -- `{c_function}_c.c` -- that wraps the original SEXP-based function in a new `{c_function}_c` entry point that Python can call directly via `ctypes` or `cffi` using only plain `int`, `double`, and `char` pointer arguments.
 
 The input CSV will strictly adhere to the following schema:
 ```csv
@@ -17,7 +17,7 @@ pred_rpart,Call,predict.rpart.R,201,".Call(C_pred_rpart, dimx2, nnode, nsplit, d
 ```
 
 The generated file must:
-1. Implement a `{c_function}_c` function whose signature uses only plain C types — `int *`, `double *`, `int` (for scalar dimensions), and `char *` (for error output) — with no SEXP anywhere in the signature.
+1. Implement a `{c_function}_c` function whose signature uses only plain C types -- `int *`, `double *`, `int` (for scalar dimensions), and `char *` (for error output) -- with no SEXP anywhere in the signature.
 2. Internally construct fake SEXP objects from the plain input arrays, call the original `{c_function}` using the fake R API from `fake_headers_folder`, unpack the returned SEXP into the caller-provided output arrays, and propagate any `RError` exception as a null-terminated string via an `error_out` parameter.
 3. Compile without `libR.so` by relying exclusively on the fake headers in `fake_headers_folder`.
 
@@ -43,18 +43,18 @@ The generated file must:
 Using the context gathered in Step 1, produce a complete mapping from the original SEXP parameters and return value to their plain-C equivalents. Apply the following rules in order:
 
 **Input parameter mapping:**
-- SEXP used as `asInteger(x)` (scalar int) → one `int` value parameter.
-- SEXP used as `asReal(x)` (scalar double) → one `double` value parameter.
-- SEXP used as `INTEGER(x)` only, with `LENGTH(x)` but no `nrows`/`ncols` → `int *{name}, int {name}_len`.
-- SEXP used as `REAL(x)` only, with `LENGTH(x)` but no `nrows`/`ncols` → `double *{name}, int {name}_len`.
-- SEXP used as `INTEGER(x)` with `nrows(x)`/`ncols(x)` → `int *{name}, int {name}_nrow, int {name}_ncol`.
-- SEXP used as `REAL(x)` with `nrows(x)`/`ncols(x)` → `double *{name}, int {name}_nrow, int {name}_ncol`.
-- SEXP that is a Category E R interpreter item (environment, expression, language object) → replace with a `void *{name}_callback` function pointer of an appropriate `typedef`-d type, with a comment explaining the Python registration requirement. See the corresponding guide in `fake_headers_folder` for the pointer type definition.
+- SEXP used as `asInteger(x)` (scalar int) -> one `int` value parameter.
+- SEXP used as `asReal(x)` (scalar double) -> one `double` value parameter.
+- SEXP used as `INTEGER(x)` only, with `LENGTH(x)` but no `nrows`/`ncols` -> `int *{name}, int {name}_len`.
+- SEXP used as `REAL(x)` only, with `LENGTH(x)` but no `nrows`/`ncols` -> `double *{name}, int {name}_len`.
+- SEXP used as `INTEGER(x)` with `nrows(x)`/`ncols(x)` -> `int *{name}, int {name}_nrow, int {name}_ncol`.
+- SEXP used as `REAL(x)` with `nrows(x)`/`ncols(x)` -> `double *{name}, int {name}_nrow, int {name}_ncol`.
+- SEXP that is a Category E R interpreter item (environment, expression, language object) -> replace with a `void *{name}_callback` function pointer of an appropriate `typedef`-d type, with a comment explaining the Python registration requirement. See the corresponding guide in `fake_headers_folder` for the pointer type definition.
 
 **Return value mapping:**
-- SEXP that is a 1-D integer vector → one output parameter `int *{name}_out` (pre-allocated by caller) and one `int {name}_len` parameter carrying the expected length.
-- SEXP that is a 1-D real vector → `double *{name}_out`, `int {name}_len`.
-- SEXP that is a named list (`VECSXP`) → one pair `{type} *{component}_out` / dimension parameter(s) per list component, plus one `int *has_{optional_component}` flag parameter for any component whose presence is conditional (e.g., `csplit` in `rpart`). Derive the component types and sizes from the `SET_VECTOR_ELT` analysis in Step 1.
+- SEXP that is a 1-D integer vector -> one output parameter `int *{name}_out` (pre-allocated by caller) and one `int {name}_len` parameter carrying the expected length.
+- SEXP that is a 1-D real vector -> `double *{name}_out`, `int {name}_len`.
+- SEXP that is a named list (`VECSXP`) -> one pair `{type} *{component}_out` / dimension parameter(s) per list component, plus one `int *has_{optional_component}` flag parameter for any component whose presence is conditional (e.g., `csplit` in `rpart`). Derive the component types and sizes from the `SET_VECTOR_ELT` analysis in Step 1.
 - In all cases, append two trailing parameters at the end of the signature: `char *error_out` (a caller-allocated buffer that receives the error message if `RError` is thrown) and `int error_out_len` (its capacity in bytes). The presence of a non-empty `error_out` after the call signals an error to the caller.
 
 Document the complete derived signature in a structured comment block at the top of the generated file, listing each parameter, its direction (`in`, `out`, `in/out`), its plain-C type, and the original SEXP parameter or return component it corresponds to.
@@ -63,7 +63,7 @@ Document the complete derived signature in a structured comment block at the top
 
 Produce the complete C source file applying the following rules without exception:
 
-**Rule 1 — Includes.**
+**Rule 1 -- Includes.**
 Begin with a file-level comment block (see Output Format Schema). Then emit:
 ```c
 #include "fake_R.h"   /* or whichever master fake header exists in fake_headers_folder */
@@ -73,20 +73,20 @@ Begin with a file-level comment block (see Output Format Schema). Then emit:
 ```
 Do not include any original R headers. Do not include the C source file that defines `{c_function}`; instead use an `extern` declaration (Rule 2).
 
-**Rule 2 — Extern declaration of the original function.**
+**Rule 2 -- Extern declaration of the original function.**
 Emit the exact SEXP-based function prototype from the C source file, prefixed with `extern`, so the linker can resolve it from the compiled package object:
 ```c
 extern SEXP {c_function}(SEXP param1, SEXP param2, ...);
 ```
 
-**Rule 3 — Static inline SEXP construction helpers.**
-For each distinct plain-C → SEXP conversion required by the input parameters (determined in Step 2), write a `static inline` helper function that allocates a `SEXPREC` on the heap, sets its `type`, `length`, `nrow`, `ncol`, and `data` fields using the fake header definitions, and returns the `SEXP`. The helper must **not** copy the data — it must point `data` directly at the caller-supplied array, since the original C function only reads from these inputs. Name helpers descriptively: `make_int_vec`, `make_real_vec`, `make_int_mat`, `make_real_mat`, `make_int_scalar`, `make_real_scalar`. Each helper must be guarded against a null data pointer and throw `RError` (from the fake error header) if `malloc` fails.
+**Rule 3 -- Static inline SEXP construction helpers.**
+For each distinct plain-C -> SEXP conversion required by the input parameters (determined in Step 2), write a `static inline` helper function that allocates a `SEXPREC` on the heap, sets its `type`, `length`, `nrow`, `ncol`, and `data` fields using the fake header definitions, and returns the `SEXP`. The helper must **not** copy the data -- it must point `data` directly at the caller-supplied array, since the original C function only reads from these inputs. Name helpers descriptively: `make_int_vec`, `make_real_vec`, `make_int_mat`, `make_real_mat`, `make_int_scalar`, `make_real_scalar`. Each helper must be guarded against a null data pointer and throw `RError` (from the fake error header) if `malloc` fails.
 
-**Rule 4 — Static inline SEXP extraction helpers.**
-For each distinct SEXP → plain-C conversion required by the return value (determined in Step 2), write a `static inline` helper that reads from a `SEXP` using the accessor functions from the fake headers and copies into a caller-supplied output array. Name helpers descriptively: `extract_int_vec`, `extract_real_vec`, `extract_int_mat`, `extract_real_mat`. For list components, write one helper per component type, taking the list SEXP, the component index, and the output pointer. Each extraction helper must validate the SEXP type tag matches what is expected and call `Rf_error` (which throws `RError`) if there is a mismatch.
+**Rule 4 -- Static inline SEXP extraction helpers.**
+For each distinct SEXP -> plain-C conversion required by the return value (determined in Step 2), write a `static inline` helper that reads from a `SEXP` using the accessor functions from the fake headers and copies into a caller-supplied output array. Name helpers descriptively: `extract_int_vec`, `extract_real_vec`, `extract_int_mat`, `extract_real_mat`. For list components, write one helper per component type, taking the list SEXP, the component index, and the output pointer. Each extraction helper must validate the SEXP type tag matches what is expected and call `Rf_error` (which throws `RError`) if there is a mismatch.
 
-**Rule 5 — The `{c_function}_c` entry-point function.**
-Write the entry point with the exact plain-C signature derived in Step 2. Declare it `noexcept` — `ctypes` and `cffi` operate at the C ABI level and have no knowledge of C++ exceptions; any exception that escapes an `extern "C"` boundary produces undefined behaviour (a process crash on most platforms). `noexcept` makes this contract explicit and lets the compiler enforce it. The function body must follow this strict sequence:
+**Rule 5 -- The `{c_function}_c` entry-point function.**
+Write the entry point with the exact plain-C signature derived in Step 2. Declare it `noexcept` -- `ctypes` and `cffi` operate at the C ABI level and have no knowledge of C++ exceptions; any exception that escapes an `extern "C"` boundary produces undefined behaviour (a process crash on most platforms). `noexcept` makes this contract explicit and lets the compiler enforce it. The function body must follow this strict sequence:
   1. Immediately zero the `error_out` buffer: `if (error_out && error_out_len > 0) error_out[0] = '\0';`
   2. Declare `ArenaFrame _frame;` as the very next line, before any other local variable. This RAII guard ensures all `R_alloc` arena memory used by `{c_function}` is freed when `{c_function}_c` returns.
   3. Construct a `SEXP` local variable for each input parameter by calling the appropriate helper from Rule 3.
@@ -128,7 +128,7 @@ Write the entry point with the exact plain-C signature derived in Step 2. Declar
      }
      ```
   5. Unpack the returned `_result` SEXP into caller-supplied output arrays using the helpers from Rule 4. For conditional list components (e.g., `csplit`), check the list length and set the corresponding `has_*` flag.
-  6. Free all heap-allocated `SEXPREC` wrapper structs created by the Rule 3 helpers (the underlying data arrays are **not** freed — the caller owns them). Free the returned `_result` SEXP and any sub-SEXPs it contains.
+  6. Free all heap-allocated `SEXPREC` wrapper structs created by the Rule 3 helpers (the underlying data arrays are **not** freed -- the caller owns them). Free the returned `_result` SEXP and any sub-SEXPs it contains.
 
 The Python caller checks `error_out` after every call and raises a Python exception if it is non-empty:
 ```python
@@ -139,10 +139,10 @@ if error_buf.value:
 ```
 This is the only safe error-propagation channel across the C ABI boundary when using `ctypes`. If native Python exception propagation is required in the future, the entry-point file should be ported to `pybind11` or `Cython`, which understand C++ exceptions and can translate them automatically.
 
-**Rule 6 — `extern "C"` linkage guard.**
+**Rule 6 -- `extern "C"` linkage guard.**
 Wrap the `extern` declaration, all helper functions, and the entry point in an `#ifdef __cplusplus` / `extern "C"` / `#endif` block so the file compiles correctly whether the package is built as C or C++.
 
-**Rule 7 — No runtime R linkage.**
+**Rule 7 -- No runtime R linkage.**
 The generated file must introduce zero dependencies on `libR.so`. All SEXP types and API functions come exclusively from the fake headers.
 
 ## Output Format Schema
@@ -151,19 +151,19 @@ The generated `{c_function}_c.c` file must follow this exact structure, in order
 
 ```c
 /* ================================================================
- * {c_function}_c.c — Pure C entry point for {c_function}()
+ * {c_function}_c.c -- Pure C entry point for {c_function}()
  *
  * Original R call form:
  *   {r_call_expression from CSV}
  *
- * Parameter map (SEXP → plain C):
- *   {param1} ({original SEXP type}) → {plain C type}  [in]
- *   {param2} ({original SEXP type}) → {plain C type}  [in]
+ * Parameter map (SEXP -> plain C):
+ *   {param1} ({original SEXP type}) -> {plain C type}  [in]
+ *   {param2} ({original SEXP type}) -> {plain C type}  [in]
  *   ...
- *   {return component 1} ({SEXP type}) → {plain C type}  [out]
- *   {return component 2} ({SEXP type}) → {plain C type}  [out]
- *   error_out  char *  [out]  — non-empty on any C++ exception
- *   error_out_len  int  [in]   — capacity of error_out buffer
+ *   {return component 1} ({SEXP type}) -> {plain C type}  [out]
+ *   {return component 2} ({SEXP type}) -> {plain C type}  [out]
+ *   error_out  char *  [out]  -- non-empty on any C++ exception
+ *   error_out_len  int  [in]   -- capacity of error_out buffer
  *
  * NOTE: ctypes/cffi have no knowledge of C++ exceptions. All exceptions
  * are caught inside this file and written to error_out. The entry point
@@ -212,7 +212,7 @@ void {c_function}_c(
     /* wrap inputs */
     ...
 
-    /* call original — catch ALL exception types; nothing may escape */
+    /* call original -- catch ALL exception types; nothing may escape */
     SEXP _result;
     try { _result = {c_function}(...); }
     catch (const RError &_e) {

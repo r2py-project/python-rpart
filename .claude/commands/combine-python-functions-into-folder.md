@@ -7,7 +7,7 @@ description: Combines all converted Python functions from the output of /convert
 
 ## Description
 
-Given a folder that was produced by `/convert-r-folder-to-python` (containing one subdirectory per R source file, each holding per-function JSON files), assemble the per-function JSON files for every R file into a unified Python module, name each output file after its R counterpart (`.R` → `.py`), and then audit the package's `__init__.py` to ensure all public interfaces are correctly exposed. If the package cannot be imported or run cleanly, fix any issues before finishing.
+Given a folder that was produced by `/convert-r-folder-to-python` (containing one subdirectory per R source file, each holding per-function JSON files), assemble the per-function JSON files for every R file into a unified Python module, name each output file after its R counterpart (`.R` -> `.py`), and then audit the package's `__init__.py` to ensure all public interfaces are correctly exposed. If the package cannot be imported or run cleanly, fix any issues before finishing.
 
 ## Parameters
 
@@ -51,8 +51,8 @@ For each qualifying subdirectory discovered in Step 1:
 
 ```
 Mapping:
-  <subdir_name_1>  →  <target_python_path_1>
-  <subdir_name_2>  →  <target_python_path_2>
+  <subdir_name_1>  ->  <target_python_path_1>
+  <subdir_name_2>  ->  <target_python_path_2>
   ...
 ```
 
@@ -87,7 +87,7 @@ __init__.py audit:
   Removed : <symbol_or_import>  (reason: no longer exists in package)
   Added   : <symbol_or_import>  (reason: public interface missing from exports)
   ...
-  No changes required.  ← (if everything was already correct)
+  No changes required.  <- (if everything was already correct)
 ```
 
 ### Step 5: Verify the Package Builds and Runs Cleanly
@@ -97,7 +97,7 @@ After the audit:
 1. **Import check:** Attempt to import the package from its directory to verify there are no syntax errors or broken imports. Report the result:
 
    ```
-   Import check: PASSED  ← or FAILED: <error>
+   Import check: PASSED  <- or FAILED: <error>
    ```
 
 2. **If the import fails:** Diagnose the root cause by reading the error traceback carefully. Apply targeted fixes to the affected files (imports, missing symbols, typos, indentation errors). Re-run the import check after each fix. Repeat until the import succeeds or you have exhausted reasonable automated remediation.
@@ -110,7 +110,7 @@ Print a final summary:
 
 ```
 ========================================
- Combine Python Functions into Folder — Summary
+ Combine Python Functions into Folder -- Summary
 ========================================
  Conversion output folder : <conversion_output_folder>
  Python output folder     : <python_output_folder>

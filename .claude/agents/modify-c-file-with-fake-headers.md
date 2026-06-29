@@ -1,6 +1,6 @@
 ---
 name: modify-c-file-with-fake-headers
-description: Modifies a single C source or header file in-place to replace all R API header includes with a single fake_R.h include, validates every R external symbol used in the file against the fake symbol inventory, and comments out (never removes) any statement that references a symbol absent from the fake headers — while never commenting out function parameter declarations.
+description: Modifies a single C source or header file in-place to replace all R API header includes with a single fake_R.h include, validates every R external symbol used in the file against the fake symbol inventory, and comments out (never removes) any statement that references a symbol absent from the fake headers -- while never commenting out function parameter declarations.
 ---
 
 # Modify a C File to Use Fake R Headers
@@ -9,15 +9,15 @@ description: Modifies a single C source or header file in-place to replace all R
 
 When provided with a `c_file` (absolute path to a `.c` or `.h` file) and a `fake_r_header` (absolute path to `fake_R.h`), your task is to modify the file **in-place** so it compiles correctly with `g++ -x c++` using the fake R API instead of `libR.so`. Three categories of change are applied:
 
-1. **Include replacement** — every `#include` line that references a real R API header is commented out and replaced by a single `#include "fake_R.h"` directive.
-2. **Symbol validation** — every R external symbol used in the file is cross-referenced against the complete fake symbol inventory derived from `fake_R.h` and all its transitively included headers.
-3. **Unfakeable-symbol suppression** — any statement whose only function is to call or assign a symbol that is absent from the fake headers is commented out (not deleted) with an explanatory note. The one inviolable exception: **lines that are part of a function parameter declaration must never be commented out**, regardless of which symbols appear on them.
+1. **Include replacement** -- every `#include` line that references a real R API header is commented out and replaced by a single `#include "fake_R.h"` directive.
+2. **Symbol validation** -- every R external symbol used in the file is cross-referenced against the complete fake symbol inventory derived from `fake_R.h` and all its transitively included headers.
+3. **Unfakeable-symbol suppression** -- any statement whose only function is to call or assign a symbol that is absent from the fake headers is commented out (not deleted) with an explanatory note. The one inviolable exception: **lines that are part of a function parameter declaration must never be commented out**, regardless of which symbols appear on them.
 
 If the file contains no R API includes and no R API symbols, it is left unchanged.
 
 ### The Non-Negotiable Parameter Rule
 
-A line is a **function parameter line** if it appears inside the parameter list of a function definition — between the opening `(` that immediately follows the function name and the matching `)` that precedes the opening `{` of the function body. This applies equally to:
+A line is a **function parameter line** if it appears inside the parameter list of a function definition -- between the opening `(` that immediately follows the function name and the matching `)` that precedes the opening `{` of the function body. This applies equally to:
 - Single-line signatures: `SEXP foo(SEXP x, SEXP y) {`
 - Multi-line signatures:
   ```c
@@ -26,9 +26,9 @@ A line is a **function parameter line** if it appears inside the parameter list 
             int n) {
   ```
 
-Function parameter lines **must never be commented out**, even when they reference an unfakeable symbol. Instead, append a trailing `/* NOTE: parameter references unfakeable symbol '{symbol}' — ensure fake_R.h provides a compatible type */` comment to that line.
+Function parameter lines **must never be commented out**, even when they reference an unfakeable symbol. Instead, append a trailing `/* NOTE: parameter references unfakeable symbol '{symbol}' -- ensure fake_R.h provides a compatible type */` comment to that line.
 
-This rule exists because commenting out a parameter declaration corrupts the function's ABI and prevents all callers from compiling — a far worse outcome than leaving an unfakeable type in a parameter position.
+This rule exists because commenting out a parameter declaration corrupts the function's ABI and prevents all callers from compiling -- a far worse outcome than leaving an unfakeable type in a parameter position.
 
 ### Recognised R API Headers
 
@@ -74,12 +74,12 @@ Only symbols that are **genuinely absent** from the fake symbol inventory are ca
 ### Step 2: Read the Target File
 
 Read the entire contents of `c_file` into a line-indexed buffer. Do not modify anything yet. Classify every line as one of the following:
-- **R-include line** — matches one of the R API header patterns from the Description.
-- **Non-R-include line** — any other `#include`.
-- **Preprocessor line** — `#ifdef`, `#endif`, `#define`, etc.
-- **Function signature line** — part of a function definition's parameter list (apply the parameter rule from the Description; see also Step 3 for detection logic).
-- **Code line** — any other line inside a function body or at file scope.
-- **Comment line** — already wrapped in `/* */` or `//`.
+- **R-include line** -- matches one of the R API header patterns from the Description.
+- **Non-R-include line** -- any other `#include`.
+- **Preprocessor line** -- `#ifdef`, `#endif`, `#define`, etc.
+- **Function signature line** -- part of a function definition's parameter list (apply the parameter rule from the Description; see also Step 3 for detection logic).
+- **Code line** -- any other line inside a function body or at file scope.
+- **Comment line** -- already wrapped in `/* */` or `//`.
 
 ### Step 3: Replace R Header Includes
 
@@ -107,22 +107,22 @@ Iterate through the line buffer. For each **R-include line**:
 
 Walk through every non-comment line in the modified buffer (after Step 3). For each line, tokenise it and check each identifier against the fake symbol inventory built in Step 1. If an identifier is both an R API symbol (i.e., it would have been provided by one of the real R headers) and **absent** from the fake symbol inventory, apply the following rules:
 
-**Rule 1 — Detect the containing syntactic context.**
+**Rule 1 -- Detect the containing syntactic context.**
 
 Before deciding whether to comment out the line, determine whether it is part of a function parameter list:
 - Parse backwards from the suspicious identifier to find the most recently opened `(` that has not yet been closed by a matching `)`.
-- Then parse backwards further to find whether that `(` is immediately preceded by an identifier followed by optional whitespace — the signature of a function call or function definition.
+- Then parse backwards further to find whether that `(` is immediately preceded by an identifier followed by optional whitespace -- the signature of a function call or function definition.
 - If the `(` is part of a **function definition** (i.e., it is followed eventually by `{` at the same brace depth, with no intervening `;`), the line is a **parameter line**. Apply the parameter rule: append a trailing warning comment and do not comment out the line.
 - If the `(` is part of a **function call** or the line is a regular statement in a function body, the line is a **code line** and may be commented out.
 
-**Rule 2 — Comment out single-line statements.**
+**Rule 2 -- Comment out single-line statements.**
 
 If the line is a code line that forms a complete C statement (ends with `;`, or is a `return` statement, or is a stand-alone expression), comment it out by wrapping the entire original line:
 ```c
 /* [UNFAKEABLE: {symbol}] <original_line_content> */
 ```
 
-**Rule 3 — Comment out multi-line statements.**
+**Rule 3 -- Comment out multi-line statements.**
 
 If the unfakeable symbol appears on a line that is the start of a multi-line statement (opening expression does not end with `;` and the next line continues the expression), gather all lines belonging to that statement and replace them with a block comment:
 ```c
@@ -133,27 +133,27 @@ If the unfakeable symbol appears on a line that is the start of a multi-line sta
    [UNFAKEABLE: {symbol}] end */
 ```
 
-**Rule 4 — Cascade suppression for dangling references.**
+**Rule 4 -- Cascade suppression for dangling references.**
 
 If a variable is assigned only in a statement that was suppressed by Rule 2 or Rule 3, and the same variable is subsequently used on another line in the same scope, that subsequent line must also be commented out (with the annotation `/* [UNFAKEABLE: cascaded from {symbol}] ... */`). Apply this rule recursively until no active code line references a variable that has only ever been assigned in suppressed statements.
 
-**Rule 5 — Preprocessor blocks.**
+**Rule 5 -- Preprocessor blocks.**
 
 If the unfakeable symbol appears inside a `#if`/`#ifdef`/`#elif` block (e.g., `#if R_VERSION < R_Version(4, 5, 0)`), evaluate whether the block as a whole should be suppressed. If the block defines a helper function or macro that itself uses only unfakeable items, comment out the entire block from `#if` to the matching `#endif`, replacing it with:
 ```c
-/* [UNFAKEABLE: {symbol} — entire preprocessor block suppressed]
+/* [UNFAKEABLE: {symbol} -- entire preprocessor block suppressed]
    <original_block_content>
 */
 ```
-If the block contains a mix of fakeable and unfakeable items, suppress only the specific lines that reference unfakeable symbols within the block, following Rules 1–4.
+If the block contains a mix of fakeable and unfakeable items, suppress only the specific lines that reference unfakeable symbols within the block, following Rules 1-4.
 
-**Rule 6 — Static file-scope variable declarations.**
+**Rule 6 -- Static file-scope variable declarations.**
 
-A line of the form `static T var;` where `T` is an unfakeable type is a variable declaration at file scope — not a function parameter. It may be commented out. If doing so creates dangling references within function bodies, apply Rule 4.
+A line of the form `static T var;` where `T` is an unfakeable type is a variable declaration at file scope -- not a function parameter. It may be commented out. If doing so creates dangling references within function bodies, apply Rule 4.
 
 ### Step 5: Write the Modified File
 
-Overwrite `c_file` in-place with the modified line buffer. The file's line count must be **identical** to the original: no lines are inserted without offsetting, and no lines are deleted — only replaced or commented out. (The single `#include "fake_R.h"` line inserted in Step 3 is the only net addition; it is injected by replacing one blank line or by shifting subsequent lines down by exactly one position.)
+Overwrite `c_file` in-place with the modified line buffer. The file's line count must be **identical** to the original: no lines are inserted without offsetting, and no lines are deleted -- only replaced or commented out. (The single `#include "fake_R.h"` line inserted in Step 3 is the only net addition; it is injected by replacing one blank line or by shifting subsequent lines down by exactly one position.)
 
 > Implementation note: the simplest approach is to build the modified file as a list of strings, where each original line is either kept verbatim, replaced by a comment variant, or in the case of the insertion point, preceded by the new include line. The resulting file will have at most one more line than the original (the inserted `#include "fake_R.h"`).
 
@@ -169,7 +169,7 @@ FILE: <c_file>
     ...
   fake_R.h inserted at  : line <N> (after <last_replaced_header>)
   Unfakeable symbols    : <count>
-    - <symbol>: <file>:<line_numbers> [commented out | parameter — warned]
+    - <symbol>: <file>:<line_numbers> [commented out | parameter -- warned]
   Lines commented out   : <count>
   Status                : OK | WARNINGS (see above)
 ```
@@ -177,5 +177,5 @@ FILE: <c_file>
 If the file required no changes (no R includes and no unfakeable symbols), print:
 
 ```
-FILE: <c_file> — no changes required
+FILE: <c_file> -- no changes required
 ```

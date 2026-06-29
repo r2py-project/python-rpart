@@ -23,7 +23,7 @@ Translate an entire directory of R test files into Python. You will require the 
 - Pass the following explicit context to the agent for each invocation:
   1. The exact path to the current R test file.
   2. The path to the source R library folder.
-  3. The path to the corresponding Python library folder (e.g., the root of the `r2py_kernsmooth` package, ensuring the agent can correctly locate or create the `tests/` directory as per its instructions).
+  3. The path to the corresponding Python library folder (e.g., the root of the `r2py_rpart` package, ensuring the agent can correctly locate or create the `tests/` directory as per its instructions).
   4. The output folder if specified.
   
 ### Step 3: Error Handling and Logging

@@ -1,76 +1,83 @@
-# Phase 2 Session Report
+# Phase 2 Research Report: R External Item Extraction from `rpart/src/`
+
 **Date:** 2026-06-10
-**Project:** python-rpart — R-to-Python translation of the `rpart` package (v4.1.27)
+**Working Directory:** `/groups/jli9/Yufei/python-rpart`
 
 ---
 
 ### 1. Abstract
 
-This session established a test framework for the `rpart` R package by creating a parallel, modifiable copy of the source (`rpart-test/`) installed under the distinct package name `rpart.test` into the `r-to-python` conda environment. The goal is to enable side-by-side loading and comparison of the original `rpart` and the modified `rpart.test` in a single R session. All infrastructure—installation, naming, and test file configuration—was completed and verified to function correctly.
+This session executed a systematic batch extraction of R API external references (macros, types, and functions) from all C and header source files in the `rpart/src/` directory. The `extract-c-file-r-extern-items` subagent was invoked per-file to identify identifiers declared in the R include headers (`~/.conda/envs/r-to-python/lib/R/include/`). Results were serialized as per-file CSV reports and consolidated into a single sorted master table (`r_extern_analysis/combined.csv`) containing 235 reference entries across 51 unique R external identifiers.
 
 ---
 
 ### 2. Methodology & Actions Taken
 
-**2.1 Directory and Install Script Setup**
+#### 2.1 File Discovery
+All 35 C source and header files in `rpart/src/` were enumerated via recursive `find`, comprising 32 `.c` files and 3 `.h` files (`func_table.h`, `node.h`, `rpart.h`, `rpartproto.h`).
 
-- Recursively copied `rpart/` to `rpart-test/` via `cp -r` and applied `chmod -R u+w` to make all contents writable (original source tree was read-only: `dr-xr-xr-x`).
-- Created `rpart-test/install_rpart_test.sh`: a Bash script that activates the `r-to-python` conda environment (`/users/ycai9/.conda/envs/r-to-python`, R v4.5.3) and runs `R CMD INSTALL --preclean` on the `rpart-test/` directory.
-- Script self-locates using `BASH_SOURCE[0]` so it is runnable from any working directory.
+#### 2.2 Per-File Extraction
+The `extract-c-file-r-extern-items` subagent was invoked sequentially for each file. Agents were batched in parallel groups of up to 5 to reduce total wall time. Each agent:
+1. Read the source file and all transitively included local headers (`rpart.h`, `node.h`, `rpartproto.h`).
+2. Searched the R include directory to determine whether each non-standard identifier was declared there.
+3. Returned a flat CSV with schema: `external_item, header_file, category, file_name, line_number, context_statement`.
 
-**2.2 Package Rename: `rpart` → `rpart.test`**
+The critical disambiguation applied throughout: local wrapper macros in `rpart.h` (`ALLOC`, `CALLOC`, `RPARTNA`, `LEFT`, `RIGHT`) were consistently excluded, as they are declared in the local project header — not in the R include directory — even though they wrap R API calls (`R_alloc`, `R_chk_calloc`, `ISNAN`).
 
-Three files required changes to rename the package while leaving all C source files unmodified:
+#### 2.3 CSV Output
+Per-file CSVs were saved to `r_extern_analysis/src/` using the naming convention `<original_filename>.csv` (e.g., `rpart.c` → `rpart.c.csv`, `rpart.h` → `rpart.h.csv`). An initial naming convention (stripping the original extension) was corrected mid-session after a command-file update; all 35 files were renamed via a shell `mv` loop.
 
-| File | Change |
-|---|---|
-| `rpart-test/DESCRIPTION` | `Package: rpart` → `Package: rpart.test`; removed `Priority: recommended` field |
-| `rpart-test/NAMESPACE` | `useDynLib(rpart, ...)` → `useDynLib(rpart.test, ...)` |
-| `rpart-test/src/Makevars` | **New file**: `PKG_LIBS = -Wl,--defsym=R_init_rpart_test=R_init_rpart` |
-
-The `src/init.c` file was initially modified (renaming `R_init_rpart` to `R_init_rpart_test`) but reverted. Instead, a GNU linker `--defsym` directive in `src/Makevars` creates `R_init_rpart_test` as a link-time alias for `R_init_rpart`, satisfying R's DLL init symbol convention (`R_init_<pkgname>`) without touching any C source.
-
-**2.3 Installation Errors Resolved**
-
-- **Stale lock file**: Removed `/users/ycai9/.conda/envs/r-to-python/lib/R/library/00LOCK-rpart-test` left by an interrupted prior install attempt.
-- **`Priority: recommended` rejection**: R rejects this field for packages not in its built-in registry. Removed from `DESCRIPTION`.
-- **Stale `MD5` file**: `rpart-test/MD5` contained checksums for the original unmodified files. Removed; `R CMD INSTALL` does not require it.
-
-**2.4 Test File Updates**
-
-- All `.R` and `.Rout.save` files in `rpart-test/tests/` (28 files total) were updated in two passes:
-  1. `library(rpart)` → `library(rpart.test)` (to target the renamed package).
-  2. `library(rpart.test)` → `library(rpart)\nlibrary(rpart.test)` (to enforce correct load order; see §3).
+#### 2.4 Combination Script
+`r_extern_analysis/combine_csvs.py` was written using `pandas`. It reads all `*.csv` files from `r_extern_analysis/src/`, concatenates them, drops all-`NaN` rows (empty header-only files), and sorts by: (1) `category` in custom order `type → variable → function`, (2) `external_item` alphabetically, (3) `file_name` alphabetically, (4) `line_number` ascending. The sort key was revised once during the session to add `external_item` as the second sort level.
 
 ---
 
 ### 3. Key Findings & Results
 
-**3.1 Successful Installation**
+#### 3.1 Coverage Statistics
+| Metric | Value |
+|--------|-------|
+| Total source files analyzed | 35 |
+| Files with ≥1 R external reference | 16 |
+| Files with zero R external references | 19 |
+| Total reference rows in `combined.csv` | 235 |
+| Unique R external identifiers | 51 |
 
-`rpart.test` v4.1.27 installs cleanly into `/users/ycai9/.conda/envs/r-to-python/lib/R/library` and the core `rpart()` function executes correctly, producing identical tree output to the original package.
+#### 3.2 Category Breakdown
+| Category | Count |
+|----------|-------|
+| `function` | 184 (78.3%) |
+| `type` | 39 (16.6%) |
+| `variable` | 12 (5.1%) |
 
-**3.2 S3 Method Conflict via R Lazy-Loading**
+#### 3.3 R Header Attribution
+| R Header | Reference Count |
+|----------|----------------|
+| `Rinternals.h` | 165 |
+| `R_ext/Print.h` | 28 |
+| `R_ext/Error.h` | 9 |
+| `R_ext/Boolean.h` | 7 |
+| `R_ext/Rdynload.h` | 6 |
+| `R_ext/RS.h` | 6 |
+| `R_ext/Arith.h` | 5 |
+| `Rversion.h` | 4 |
+| `R.h` | 3 |
+| `R_ext/Utils.h` | 2 |
 
-Loading only `library(rpart.test)` and then calling `rpart()` triggers R to lazy-load the original `rpart` namespace. This occurs because `rpart` is a *recommended* package: R's S3 dispatch automatically loads recommended-package namespaces when resolving methods for a known class (`"rpart"`). Upon lazy-loading, `rpart`'s S3 methods overwrite `rpart.test`'s, confirmed by `getS3method()` inspection:
+#### 3.4 Files With R External References
+`branch.c`, `free_tree.c`, `init.c`, `insert_split.c`, `nodesplit.c`, `pred_rpart.c`, `print_tree.c`, `rpart.c`, `rpart.h`, `rpart_callback.c`, `rpartexp2.c`, `rpartproto.h`, `rundown.c`, `rundown2.c`, `xpred.c`, `xval.c`.
 
-- `rpart()` function → from `rpart.test` ✓
-- `print.rpart`, `predict.rpart`, `summary.rpart` → from `rpart` ✗ (overwritten)
+#### 3.5 Files With No R External References
+`anova.c`, `anovapred.c`, `bsplit.c`, `choose_surg.c`, `fix_cp.c`, `func_table.h`, `gini.c`, `graycode.c`, `make_cp_list.c`, `make_cp_table.c`, `mysort.c`, `node.h`, `partition.c`, `poisson.c`, `rpartexp.c`, `rpcountup.c`, `rpmatrix.c`, `surrogate.c`, `usersplit.c`. These files rely exclusively on local project abstractions and standard C primitives.
 
-**3.3 Resolution: Load Order**
-
-Loading `rpart` explicitly before `rpart.test` prevents the conflict entirely. Since `rpart`'s namespace is already fully loaded, no lazy-loading occurs when `rpart()` is called. With the corrected order, all S3 methods resolve to `rpart.test`. This was confirmed with `environmentName(environment(getS3method(...)))` for `print`, `predict`, and `summary`.
-
-**3.4 Shared Class Name**
-
-The deeper root cause is that both packages produce objects of class `"rpart"`. The load-order fix is the minimal-change solution; a permanent fix would require renaming the class in `rpart.test` to `"rpart.test"` across all R source files.
+#### 3.6 Notable Technical Observations
+- `rpart.c` and `xpred.c` are the most R-API-dense files, making heavy use of `SEXP`, `PROTECT`/`UNPROTECT`, `allocVector`/`allocMatrix`, `INTEGER`, `REAL`, and `SET_VECTOR_ELT`/`SET_STRING_ELT` for constructing and returning R list objects.
+- `rpart_callback.c` uniquely uses `eval`, `findVar`/`findVarInFrame`, and `install` — R interpreter-level functions required for callback-based user-defined split evaluation.
+- `print_tree.c` contributes 26 rows, all from a single R external item (`Rprintf`), the highest single-function repetition in the dataset.
+- `rpart.h` itself references 3 R external items (`R_alloc`, `R_chk_calloc`, `ISNAN`) within its local macro definitions — confirming it as the primary R API abstraction layer for the package.
 
 ---
 
 ### 4. Conclusion & Next Steps
 
-The `rpart.test` test framework is fully operational. The package installs into `r-to-python`, all C code is unchanged, and all 28 test files are configured with the correct two-line library load sequence. The framework is ready for iterative modification of `rpart.test` source and direct comparison against the original `rpart` in a shared R session.
-
-**Suggested next steps:**
-- Modify target functions in `rpart-test/R/` or `rpart-test/src/`, reinstall via `./install_rpart_test.sh`, and run comparison tests.
-- If S3 methods will be modified, evaluate whether renaming the `"rpart"` class to `"rpart.test"` is warranted to eliminate the load-order dependency.
+All 35 files in `rpart/src/` were successfully analyzed. The complete R external item inventory is available in `r_extern_analysis/combined.csv` (235 rows, 51 unique items) and as per-file CSVs in `r_extern_analysis/src/`. The `combine_csvs.py` script is reproducible and can be re-run after any per-file CSV update. The natural next step is to use `combined.csv` as a reference map for implementing Python equivalents of the identified R API calls during the C-to-Python translation phase of the project.

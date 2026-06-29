@@ -7,7 +7,7 @@ description: Generates fake C++ header files for all R C API external items list
 
 ## Description
 
-Given four inputs — a C source `base_folder`, a `csv_file` mapping all R external items that need faking, a `guides_folder` containing the pre-generated Markdown fake implementation guides (one per `external_item`), and an `output_folder` for the resulting `.h` files — your task is to:
+Given four inputs -- a C source `base_folder`, a `csv_file` mapping all R external items that need faking, a `guides_folder` containing the pre-generated Markdown fake implementation guides (one per `external_item`), and an `output_folder` for the resulting `.h` files -- your task is to:
 
 1. Parse the CSV to determine the ordered list of unique `external_item` values.
 2. Sequentially invoke the `@generate-r-extern-fake-header` agent for each item to produce a corresponding `{external_item}.h` file in the `output_folder`.

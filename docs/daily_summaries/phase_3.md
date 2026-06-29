@@ -1,83 +1,94 @@
-# Phase 3 Research Report: R External Item Extraction from `rpart/src/`
+# Phase 3 Research Report: Fake C++ Header Implementation Guides for R C API External Items
 
-**Date:** 2026-06-10
+**Date:** 2026-06-17
 **Working Directory:** `/groups/jli9/Yufei/python-rpart`
 
 ---
 
 ### 1. Abstract
 
-This session executed a systematic batch extraction of R API external references (macros, types, and functions) from all C and header source files in the `rpart/src/` directory. The `extract-c-file-r-extern-items` subagent was invoked per-file to identify identifiers declared in the R include headers (`~/.conda/envs/r-to-python/lib/R/include/`). Results were serialized as per-file CSV reports and consolidated into a single sorted master table (`r_extern_analysis/combined.csv`) containing 235 reference entries across 51 unique R external identifiers.
+This session executed batch generation of fake C++ header implementation guides for all 51 unique R C API external items identified in the `rpart/src/` directory. Using the `/generate-r-extern-fake-guides` skill against `r_extern_analysis/combined.csv`, the `generate-r-extern-fake-guide` subagent was invoked sequentially for each external item, producing 51 Markdown guide files in `r_extern_analysis/fake_guides/`. These guides collectively specify how to implement a complete set of drop-in C++ fakes that allow the original rpart C source to compile and link without `libR.so`, enabling direct invocation from Python.
 
 ---
 
 ### 2. Methodology & Actions Taken
 
-#### 2.1 File Discovery
-All 35 C source and header files in `rpart/src/` were enumerated via recursive `find`, comprising 32 `.c` files and 3 `.h` files (`func_table.h`, `node.h`, `rpart.h`, `rpartproto.h`).
+#### 2.1 Input Parsing
 
-#### 2.2 Per-File Extraction
-The `extract-c-file-r-extern-items` subagent was invoked sequentially for each file. Agents were batched in parallel groups of up to 5 to reduce total wall time. Each agent:
-1. Read the source file and all transitively included local headers (`rpart.h`, `node.h`, `rpartproto.h`).
-2. Searched the R include directory to determine whether each non-standard identifier was declared there.
-3. Returned a flat CSV with schema: `external_item, header_file, category, file_name, line_number, context_statement`.
+The master CSV `r_extern_analysis/combined.csv` (235 data rows, 1 header row) was read and parsed to extract all unique values in the `external_item` column. This yielded 51 unique identifiers drawn from 16 source files (`rpart.c`, `xpred.c`, `pred_rpart.c`, `rpart_callback.c`, `rpartexp2.c`, `init.c`, `branch.c`, `nodesplit.c`, `xval.c`, `print_tree.c`, `free_tree.c`, `insert_split.c`, `rundown.c`, `rundown2.c`, `rpart.h`, `rpartproto.h`) referencing 10 R include headers (`Rinternals.h`, `R_ext/Print.h`, `R_ext/Error.h`, `R_ext/Boolean.h`, `R_ext/RS.h`, `R_ext/Rdynload.h`, `R_ext/Arith.h`, `Rversion.h`, `R.h`, `R_ext/Utils.h`).
 
-The critical disambiguation applied throughout: local wrapper macros in `rpart.h` (`ALLOC`, `CALLOC`, `RPARTNA`, `LEFT`, `RIGHT`) were consistently excluded, as they are declared in the local project header — not in the R include directory — even though they wrap R API calls (`R_alloc`, `R_chk_calloc`, `ISNAN`).
+#### 2.2 Output Directory Creation
 
-#### 2.3 CSV Output
-Per-file CSVs were saved to `r_extern_analysis/src/` using the naming convention `<original_filename>.csv` (e.g., `rpart.c` → `rpart.c.csv`, `rpart.h` → `rpart.h.csv`). An initial naming convention (stripping the original extension) was corrected mid-session after a command-file update; all 35 files were renamed via a shell `mv` loop.
+The target output directory `r_extern_analysis/fake_guides/` did not exist and was created via `mkdir -p` before processing began.
 
-#### 2.4 Combination Script
-`r_extern_analysis/combine_csvs.py` was written using `pandas`. It reads all `*.csv` files from `r_extern_analysis/src/`, concatenates them, drops all-`NaN` rows (empty header-only files), and sorts by: (1) `category` in custom order `type → variable → function`, (2) `external_item` alphabetically, (3) `file_name` alphabetically, (4) `line_number` ascending. The sort key was revised once during the session to add `external_item` as the second sort level.
+#### 2.3 Sequential Subagent Invocation
+
+The 51 external items were processed in strict sequential order — the order in which they appear in the pre-sorted CSV — to ensure foundational fake definitions (e.g., `SEXP` struct, `SEXPTYPE` enum, arena allocator) were available as references when later dependent items were generated. For each item:
+
+1. All CSV rows matching the target `external_item` were isolated and prepended with the CSV header to form a standalone subset string.
+2. The `generate-r-extern-fake-guide` subagent was invoked with `base_folder=rpart/src/`, the CSV subset, and `output_directory=r_extern_analysis/fake_guides/`.
+3. The agent read the relevant rpart source files, inspected the R include headers at `~/.conda/envs/r-to-python/lib/R/include/`, and produced a Markdown guide file named `<external_item>.md`.
+
+Progress was tracked in real time using the `TodoWrite` tool across all 51 items. No agent invocations failed or required retries.
+
+#### 2.4 Files Created
+
+- `r_extern_analysis/fake_guides/` — new directory
+- 51 Markdown guide files totaling approximately 1.07 MB (avg. ~21.5 KB/file)
 
 ---
 
 ### 3. Key Findings & Results
 
-#### 3.1 Coverage Statistics
-| Metric | Value |
-|--------|-------|
-| Total source files analyzed | 35 |
-| Files with ≥1 R external reference | 16 |
-| Files with zero R external references | 19 |
-| Total reference rows in `combined.csv` | 235 |
-| Unique R external identifiers | 51 |
+#### 3.1 Classification Distribution
 
-#### 3.2 Category Breakdown
-| Category | Count |
-|----------|-------|
-| `function` | 184 (78.3%) |
-| `type` | 39 (16.6%) |
-| `variable` | 12 (5.1%) |
+The 51 guides were categorized according to the fake implementation strategy required:
 
-#### 3.3 R Header Attribution
-| R Header | Reference Count |
-|----------|----------------|
-| `Rinternals.h` | 165 |
-| `R_ext/Print.h` | 28 |
-| `R_ext/Error.h` | 9 |
-| `R_ext/Boolean.h` | 7 |
-| `R_ext/Rdynload.h` | 6 |
-| `R_ext/RS.h` | 6 |
-| `R_ext/Arith.h` | 5 |
-| `Rversion.h` | 4 |
-| `R.h` | 3 |
-| `R_ext/Utils.h` | 2 |
+| Category | Description | Count | Items |
+|---|---|---|---|
+| A | Type, enum constant, or registration no-op | 19 | `SEXP`, `INTSXP`, `REALSXP`, `STRSXP`, `VECSXP`, `DL_FUNC`, `DllInfo`, `R_CallMethodDef`, `Rboolean`, `TRUE`, `FALSE`, `R_VERSION`, `R_Version`, `R_NilValue`, `R_NamesSymbol`, `R_UnboundValue`, `R_forceSymbols`, `R_registerRoutines`, `R_useDynamicSymbols` |
+| B | Accessor macro or inline function | 16 | `INTEGER`, `REAL`, `CHAR`, `PROTECT`, `UNPROTECT`, `LENGTH`, `PRINTNAME`, `ISNAN`, `R_FINITE`, `asInteger`, `asReal`, `isReal`, `ncols`, `nrows`, `SET_STRING_ELT`, `SET_VECTOR_ELT` |
+| C | Allocation or memory management | 7 | `allocVector`, `allocMatrix`, `R_alloc`, `R_chk_calloc`, `R_Free`, `mkChar`, `setAttrib` |
+| D | Error, warning, or print function | 4 | `error`, `warning`, `Rprintf`, `R_CheckUserInterrupt` |
+| E | R interpreter item (Python function-pointer bridge) | 5 | `eval`, `findVar`, `findVarInFrame`, `install`, `R_getVar` |
 
-#### 3.4 Files With R External References
-`branch.c`, `free_tree.c`, `init.c`, `insert_split.c`, `nodesplit.c`, `pred_rpart.c`, `print_tree.c`, `rpart.c`, `rpart.h`, `rpart_callback.c`, `rpartexp2.c`, `rpartproto.h`, `rundown.c`, `rundown2.c`, `xpred.c`, `xval.c`.
+#### 3.2 Key Technical Decisions
 
-#### 3.5 Files With No R External References
-`anova.c`, `anovapred.c`, `bsplit.c`, `choose_surg.c`, `fix_cp.c`, `func_table.h`, `gini.c`, `graycode.c`, `make_cp_list.c`, `make_cp_table.c`, `mysort.c`, `node.h`, `partition.c`, `poisson.c`, `rpartexp.c`, `rpcountup.c`, `rpmatrix.c`, `surrogate.c`, `usersplit.c`. These files rely exclusively on local project abstractions and standard C primitives.
+**Memory model split.** The guides establish a two-tier heap/arena model: `R_alloc`/`ALLOC` scratch allocations delegate to a per-frame `ArenaFrame` (freed automatically at `.Call` exit), while `CALLOC`/`std::malloc`-based allocations for `SEXP` nodes, SEXP data buffers, and `Node`/`Split` structs live on the process heap and are freed explicitly via `R_Free` or `free_sexp()`.
 
-#### 3.6 Notable Technical Observations
-- `rpart.c` and `xpred.c` are the most R-API-dense files, making heavy use of `SEXP`, `PROTECT`/`UNPROTECT`, `allocVector`/`allocMatrix`, `INTEGER`, `REAL`, and `SET_VECTOR_ELT`/`SET_STRING_ELT` for constructing and returning R list objects.
-- `rpart_callback.c` uniquely uses `eval`, `findVar`/`findVarInFrame`, and `install` — R interpreter-level functions required for callback-based user-defined split evaluation.
-- `print_tree.c` contributes 26 rows, all from a single R external item (`Rprintf`), the highest single-function repetition in the dataset.
-- `rpart.h` itself references 3 R external items (`R_alloc`, `R_chk_calloc`, `ISNAN`) within its local macro definitions — confirming it as the primary R API abstraction layer for the package.
+**R version pinning.** `R_VERSION` must be faked as `R_Version(4, 4, 0) = 263168`. This value satisfies two conflicting preprocessor guards simultaneously: `R_VERSION >= R_Version(2, 16, 0)` in `init.c:27` (enabling `R_forceSymbols`) and `R_VERSION < R_Version(4, 5, 0)` in `rpart_callback.c:19` (selecting the `compat_getVar` shim, which avoids the native `R_getVar` symbol that would require `libR.so`).
+
+**`R_getVar` is a macro, not a symbol.** For R < 4.5.0, `R_getVar` expands to the local shim `compat_getVar`, meaning no direct function pointer stub is needed for `R_getVar` itself. At runtime, it always resolves to `findVarInFrame` (all four call sites pass `inherits=FALSE`).
+
+**Category E items are `method=4` only.** The five R interpreter items (`eval`, `findVar`, `findVarInFrame`, `install`, `R_getVar`) are only reachable when `rpart()` is called with `method=4` (user-defined splits). All four standard methods (anova, poisson, class, exp) execute without any Python callback registration.
+
+**`PROTECT`/`UNPROTECT` are no-ops.** Without a garbage collector, the entire GC protection protocol reduces to identity functions. SEXP lifetime is managed by the Python caller via explicit `free_sexp()` after the `.Call` boundary returns.
+
+**`install` is self-contained.** Unlike `eval`/`findVar`, `install` can be fully faked in C++ using a `thread_local std::unordered_map<std::string, SEXP>` string-interning cache, with no Python callback bridge required.
+
+#### 3.3 Header Architecture Established
+
+The guides collectively specify a layered fake header hierarchy:
+
+```
+fake_Rversion.hpp       ← R_VERSION, R_Version (must be first)
+fake_Boolean.hpp        ← Rboolean, TRUE, FALSE
+fake_arena.hpp          ← ArenaFrame, arena_alloc
+fake_Arith.hpp          ← ISNAN, R_FINITE, R_NaReal, NA_REAL
+fake_Print.hpp          ← Rprintf, REprintf
+fake_error.hpp          ← RError, Rf_error, Rf_warning
+fake_Rinternals.hpp     ← SEXP/SEXPREC, SEXPTYPE enum, all accessors, sentinels
+fake_Rdynload.hpp       ← DL_FUNC, R_CallMethodDef, DllInfo, registration stubs
+fake_R.hpp              ← R_alloc (ALLOC), R_chk_calloc (CALLOC)
+fake_RS.hpp             ← R_Free, R_chk_free
+fake_Utils.hpp          ← R_CheckUserInterrupt, R_CheckStack
+fake_interpreter.hpp    ← eval, findVar, findVarInFrame, install (function-pointer bridges)
+```
 
 ---
 
 ### 4. Conclusion & Next Steps
 
-All 35 files in `rpart/src/` were successfully analyzed. The complete R external item inventory is available in `r_extern_analysis/combined.csv` (235 rows, 51 unique items) and as per-file CSVs in `r_extern_analysis/src/`. The `combine_csvs.py` script is reproducible and can be re-run after any per-file CSV update. The natural next step is to use `combined.csv` as a reference map for implementing Python equivalents of the identified R API calls during the C-to-Python translation phase of the project.
+All 51 fake header implementation guides have been successfully generated in `r_extern_analysis/fake_guides/`. The guides provide a complete, self-consistent blueprint for building `fake_rpart.hpp` — a single master header that replaces `R.h`, `Rinternals.h`, and all transitively included R API headers, enabling the rpart C source files to compile as a standalone shared library without `libR.so`.
+
+The immediate next step is Phase 4: implementing the actual fake header files (`fake_Rinternals.hpp`, `fake_arena.hpp`, etc.) by translating each guide's C++ code specifications into compilable header files, then assembling `fake_rpart.hpp` as the master entry-point header. This will be followed by a build test (`g++ -std=c++17 -shared -fPIC`) to validate that all 16 source files compile cleanly under the fake headers.

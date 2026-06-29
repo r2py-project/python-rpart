@@ -9,8 +9,8 @@ description: Writes C helper entry points for Category E R interpreter items, re
 
 After `/combine-python-functions-into-folder`, two layers required for full functional equivalence are missing:
 
-1. **C side** — `make_real_sexp`, `make_int_sexp`, `make_env_sexp`, and `call_install` are referenced in `init_rpcallback_c.c`'s caller comment but not yet exported from `_rpart_core.so`.
-2. **Python side** — The converted `rpartcallback.py` mixes `ctypes` (for callbacks) with `cffi` (for C calls), which is incompatible. All callbacks must be rewritten using `ffi.callback` to match the rest of the package.
+1. **C side** -- `make_real_sexp`, `make_int_sexp`, `make_env_sexp`, and `call_install` are referenced in `init_rpcallback_c.c`'s caller comment but not yet exported from `_rpart_core.so`.
+2. **Python side** -- The converted `rpartcallback.py` mixes `ctypes` (for callbacks) with `cffi` (for C calls), which is incompatible. All callbacks must be rewritten using `ffi.callback` to match the rest of the package.
 
 This command writes the missing C file, rebuilds the library, patches `__init__.py`, rewrites `rpartcallback.py`, and resolves all `NotImplementedError` stubs so that no stub is silently reachable at runtime.
 
@@ -27,11 +27,11 @@ This command writes the missing C file, rebuilds the library, patches `__init__.
 
 ### Step 1: Identify Inputs
 
-1. **Category E guides** — In `fake_guides_folder`, find guides whose **opening blockquote (line 3)** begins with `**R Interpreter Item.`** (strict prefix match). Exclude any guide whose opening blockquote contains `best-effort fakeable without a Python function pointer`. For rpart this yields `eval.md`, `findVar.md`, `findVarInFrame.md`. (`install.md` is excluded — its built-in C++ hash-map requires no Python bridge in normal use.)
+1. **Category E guides** -- In `fake_guides_folder`, find guides whose **opening blockquote (line 3)** begins with `**R Interpreter Item.`** (strict prefix match). Exclude any guide whose opening blockquote contains `best-effort fakeable without a Python function pointer`. For rpart this yields `eval.md`, `findVar.md`, `findVarInFrame.md`. (`install.md` is excluded -- its built-in C++ hash-map requires no Python bridge in normal use.)
 
-2. **Existing entry points** — Collect the full text of `init_rpcallback_c.c` from `c_entry_points_folder` (contains the caller-comment protocol for `make_real_sexp` etc.) and one representative existing entry point (e.g., `rpart_c.c`) for style reference.
+2. **Existing entry points** -- Collect the full text of `init_rpcallback_c.c` from `c_entry_points_folder` (contains the caller-comment protocol for `make_real_sexp` etc.) and one representative existing entry point (e.g., `rpart_c.c`) for style reference.
 
-3. **Existing package files** — Collect the full text of `__init__.py` and `rpartcallback.py` from `python_package_folder`. Also grep every `.py` file in `python_package_folder` for `NotImplementedError` and `ctypes` to identify all stubs and FFI mismatches.
+3. **Existing package files** -- Collect the full text of `__init__.py` and `rpartcallback.py` from `python_package_folder`. Also grep every `.py` file in `python_package_folder` for `NotImplementedError` and `ctypes` to identify all stubs and FFI mismatches.
 
 Log a discovery summary:
 ```
@@ -43,7 +43,7 @@ ctypes usage hits       : <N> across <files>
 
 ### Step 2: Invoke the Agent
 
-Invoke `@add-r-interpreter-items` exactly once, providing all of the following as context:
+Invoke the `@add-r-interpreter-items` agent exactly once, providing all of the following as context:
 
 - The three Category E guide texts (full content of `eval.md`, `findVar.md`, `findVarInFrame.md`)
 - The full text of `init_rpcallback_c.c`
@@ -62,7 +62,7 @@ Print the agent's reported results in the following format:
 
 ```
 ========================================
- Add R Interpreter Items — Summary
+ Add R Interpreter Items -- Summary
 ========================================
  C file written          : c_entry_points/interpreter_helpers_c.c
  meson.build updated     : YES / NO
@@ -70,7 +70,7 @@ Print the agent's reported results in the following format:
  New symbols verified    : make_real_sexp, make_int_sexp,
                            make_env_sexp, call_install
  __init__.py patched     : YES / NO  (<N> additions)
- rpartcallback.py fixed  : YES / NO  (ctypes → cffi)
+ rpartcallback.py fixed  : YES / NO  (ctypes -> cffi)
  NotImplementedError stubs resolved : <N>
  NotImplementedError stubs remaining (intentional) : <N>
  Import check            : PASSED / FAILED
