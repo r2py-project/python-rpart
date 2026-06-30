@@ -15,6 +15,8 @@ def plotcp(x: dict[str, Any], minline: bool = True, lty: int | str = 3, col: int
     if not isinstance(x, dict) or 'cptable' not in x:
         raise TypeError('Not a legitimate "rpart" object')
     p_rpart = x['cptable']
+    if hasattr(p_rpart, 'to_numpy'):
+        p_rpart = p_rpart.to_numpy()
     if p_rpart.ndim < 2 or p_rpart.shape[1] < 5:
         raise ValueError("'cptable' does not contain cross-validation results")
     xstd = p_rpart[:, 4]
@@ -46,7 +48,11 @@ def plotcp(x: dict[str, Any], minline: bool = True, lty: int | str = 3, col: int
         with np.errstate(divide='ignore', invalid='ignore'):
             magnitude = np.floor(np.log10(np.abs(arr)))
             magnitude = np.where(np.isfinite(magnitude), magnitude, 0)
-        return np.round(arr, (digits - 1 - magnitude).astype(int))
+        # np.round()'s `decimals` must be a scalar, not a per-element array,
+        # so round element-by-element (each value needs its own decimal
+        # count to hit `digits` significant figures).
+        decimals = (digits - 1 - magnitude).astype(int)
+        return np.array([round(float(v), int(d)) for v, d in zip(arr, decimals)])
     cp_labels = [str(v) for v in _signif(cp, 2)]
     ax.set_xticks(ns)
     ax.set_xticklabels(cp_labels)

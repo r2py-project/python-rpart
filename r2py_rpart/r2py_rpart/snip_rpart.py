@@ -3,13 +3,36 @@ from __future__ import annotations
 from typing import Any
 
 import numpy as np
+import pandas as pd
 import warnings
+
+from .snip_rpart_mouse import snip_rpart_mouse
 
 
 
 def snip_rpart(x: dict[str, Any], toss: np.ndarray[Any, np.dtype[np.int64]] | list[int] | None = None) -> dict[str, Any]:
-    if not (isinstance(x, dict) and x.get('__class__') == 'rpart'):
+    if not (isinstance(x, dict) and x.get('_rpart_class') == 'rpart'):
         raise TypeError('Not an "rpart" object')
+
+    # R's snip.rpart has copy-on-modify value semantics: the caller's tree
+    # object is never mutated, even when toss is empty (snip.rpart.R's
+    # "return(x)" early-out returns R's own independent copy of x, not an
+    # alias). A bare `x = dict(x)` only copies the top-level keys, so
+    # frame/splits/csplit/where -- which this function mutates in place or
+    # rebinds below -- still need their own copies, otherwise a caller that
+    # keeps the original tree (e.g. chaining prune(tree) then
+    # xpred_rpart(tree)) would see it silently mutated. We've confirmed
+    # this concretely: without this copy, calling xpred_rpart() on a tree
+    # already snipped in place corrupts the C-level xpred_c() heap (the
+    # cached x/y arrays still reflect the original size while frame/splits
+    # reflect the pruned tree).
+    x = dict(x)
+    if x.get('splits') is not None:
+        x['splits'] = x['splits'].copy()
+    if x.get('csplit') is not None:
+        x['csplit'] = np.array(x['csplit'], copy=True)
+    if x.get('where') is not None:
+        x['where'] = np.array(x['where'], copy=True)
 
     if toss is None or len(toss) == 0:
         toss_result = snip_rpart_mouse(x)
@@ -19,7 +42,7 @@ def snip_rpart(x: dict[str, Any], toss: np.ndarray[Any, np.dtype[np.int64]] | li
     else:
         toss = np.array(toss, dtype=np.int64)
 
-    ff = x['frame']
+    ff = x['frame'].copy()
     id = ff.index.astype(int).values
     ff_n = len(id)
     toss = np.unique(toss)
@@ -61,9 +84,24 @@ def snip_rpart(x: dict[str, Any], toss: np.ndarray[Any, np.dtype[np.int64]] | li
               (ff['var'].values != '<leaf>').astype(int))
     n_split = np.repeat(np.arange(ff_n, dtype=int), counts)
 
-    # Select split rows where n_split index is in keepit
+    # Select split rows where n_split index is in keepit. x['splits'] is
+    # normally a pandas DataFrame (see rpart.py), so pull out a plain
+    # ndarray for the numpy-style indexing below and remember the original
+    # row labels/columns to rebuild a DataFrame at the end.
+    splits_orig = x['splits']
+    splits_is_df = hasattr(splits_orig, 'to_numpy')
+    if splits_is_df:
+        splits_columns = list(splits_orig.columns)
+        splits_row_labels = np.asarray(splits_orig.index)
+        splits_values = splits_orig.to_numpy()
+    else:
+        splits_values = np.asarray(splits_orig)
+        splits_columns = None
+        splits_row_labels = None
+
     split_mask = np.isin(n_split, keepit)
-    split = x['splits'][split_mask, :]
+    split = splits_values[split_mask, :]
+    kept_row_labels = splits_row_labels[split_mask] if splits_row_labels is not None else None
 
     # Handle csplit: column index 1 (0-based) is ncat; column index 3 is csplit index
     # R: temp <- split[, 2L] > 1L  (col 2 in R = col 1 in Python)
@@ -85,20 +123,30 @@ def snip_rpart(x: dict[str, Any], toss: np.ndarray[Any, np.dtype[np.int64]] | li
     else:
         x['csplit'] = None
 
-    x['splits'] = split
+    if splits_is_df:
+        x['splits'] = pd.DataFrame(split, index=kept_row_labels, columns=splits_columns)
+    else:
+        x['splits'] = split
 
-    # Set new leaves' ncompete, nsurrogate to 0 and var to '<leaf>'
-    ff['ncompete'].iloc[newleaf] = 0
-    ff['nsurrogate'].iloc[newleaf] = 0
-    ff['var'].iloc[newleaf] = '<leaf>'
+    # Set new leaves' ncompete, nsurrogate to 0 and var to '<leaf>'.
+    # ff[col].iloc[rows] = value is chained assignment: under pandas
+    # copy-on-write this silently mutates a throwaway copy rather than ff,
+    # so use a single .iloc call addressing both axes at once.
+    ff.iloc[newleaf, ff.columns.get_loc('ncompete')] = 0
+    ff.iloc[newleaf, ff.columns.get_loc('nsurrogate')] = 0
+    ff.iloc[newleaf, ff.columns.get_loc('var')] = '<leaf>'
 
     # Update frame: keep rows at sorted union of keepit and newleaf (0-based)
     sorted_idx = np.sort(np.concatenate([keepit, newleaf]))
     x['frame'] = ff.iloc[sorted_idx]
 
-    # Update where: map old where indices to new frame positions
-    # id[x['where']] gives the node IDs for each observation
-    id2 = id[x['where']]
+    # Update where: map old where indices to new frame positions.
+    # x['where'] holds 1-based row positions into the *original* frame
+    # (the package-wide convention -- see predict_rpart.py/residuals_rpart.py,
+    # which subtract 1 before indexing), so convert to 0-based before
+    # indexing into `id`, matching R's id[x$where] (R indices are 1-based
+    # natively).
+    id2 = id[np.asarray(x['where'], dtype=int) - 1]
     # id3: node IDs in the new frame order
     id3 = id[sorted_idx]
     id3_index = {v: i for i, v in enumerate(id3)}
@@ -106,6 +154,8 @@ def snip_rpart(x: dict[str, Any], toss: np.ndarray[Any, np.dtype[np.int64]] | li
     while np.any(temp == -1):
         id2[temp == -1] = id2[temp == -1] // 2
         temp = np.array([id3_index.get(v, -1) for v in id2], dtype=int)
-    x['where'] = temp
+    # R's match() returns 1-based positions; restore that convention here
+    # since x['where'] is consumed as 1-based everywhere else in the package.
+    x['where'] = temp + 1
 
     return x

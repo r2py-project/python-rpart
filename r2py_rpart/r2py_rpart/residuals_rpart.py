@@ -30,7 +30,7 @@ def residuals_rpart(object: dict[str, Any], type: str = 'usual', **kwargs: Any) 
     where_0: np.ndarray[Any, np.dtype[np.int64]] = where - 1
     method: str = object['method']
     if method == 'class':
-        ylevels: list[str] = object['ylevels']
+        ylevels: list[str] = object['_ylevels']
         nclass: int = len(ylevels)
         # y is an integer array of 1-based class labels
         y_int: np.ndarray[Any, np.dtype[np.int64]] = np.asarray(y, dtype=np.int64)

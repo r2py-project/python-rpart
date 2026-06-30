@@ -133,9 +133,26 @@ def test_rpart_constant_response_produces_no_split():
 # Error handling
 # ---------------------------------------------------------------------------
 
-def test_rpart_raises_without_prebuilt_model():
+def test_rpart_formula_and_data_builds_model_frame():
+    # formula+data is the normal, documented call pattern (mirrors R's
+    # rpart(formula, data=...)); it should build its own model frame via
+    # stats::model.frame-equivalent logic rather than requiring a
+    # pre-built model= DataFrame.
+    rng = np.random.default_rng(10)
+    n = 100
+    x = rng.standard_normal(n)
+    y = x * 3 + rng.standard_normal(n) * 0.1
+    df = pd.DataFrame({"x": x, "y": y})
+    fit = rpart("y ~ x", data=df, method="anova", xval=0)
+
+    assert isinstance(fit, dict)
+    assert isinstance(fit["frame"], pd.DataFrame)
+    assert fit["where"].shape == (n,)
+
+
+def test_rpart_raises_without_formula_or_prebuilt_model():
     with pytest.raises(NotImplementedError):
-        rpart("y ~ x", data=pd.DataFrame({"x": [1, 2, 3], "y": [1, 2, 3]}))
+        rpart(object(), data=pd.DataFrame({"x": [1, 2, 3], "y": [1, 2, 3]}))
 
 
 def test_rpart_raises_on_negative_weights():

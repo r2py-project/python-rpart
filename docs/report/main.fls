@@ -194,7 +194,6 @@ INPUT /software/t/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 INPUT /software/t/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 INPUT /software/t/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 INPUT /software/t/texlive/2026/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm
-INPUT /software/t/texlive/2026/texmf-dist/fonts/tfm/jknappen/ec/ecrm1095.tfm
 INPUT /software/t/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 INPUT /software/t/texlive/2026/texmf-dist/fonts/tfm/jknappen/ec/ectt1440.tfm
 INPUT ../../.claude/commands/analyze-c-folder-dependencies.md

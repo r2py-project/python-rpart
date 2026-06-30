@@ -250,12 +250,25 @@ def _check_error(buf: Any) -> None:
         raise RuntimeError(msg)
 
 
+def _as_contig(arr: ndarray, dtype) -> ndarray:
+    # order="K" preserves the caller's existing memory layout (row- or
+    # column-major) instead of silently flattening Fortran-ordered 2-D
+    # inputs (e.g. np.asfortranarray(xmat)) back to C order, which would
+    # corrupt the column-major layout the C core expects. If dtype already
+    # matches, asarray returns the input unchanged (even if non-contiguous),
+    # so guard against that case explicitly.
+    arr = np.asarray(arr, dtype=dtype, order="K")
+    if not (arr.flags["C_CONTIGUOUS"] or arr.flags["F_CONTIGUOUS"]):
+        arr = np.ascontiguousarray(arr)
+    return arr
+
+
 def _int32(arr: ndarray) -> ndarray:
-    return np.ascontiguousarray(arr, dtype=np.int32)
+    return _as_contig(arr, np.int32)
 
 
 def _float64(arr: ndarray) -> ndarray:
-    return np.ascontiguousarray(arr, dtype=np.float64)
+    return _as_contig(arr, np.float64)
 
 
 def _iptr(arr: ndarray):
@@ -380,6 +393,26 @@ def _rpart_c(
     nr_dn = dnode_nr[0];    nc_dn = dnode_nc[0]
     nr_in = inode_nr[0]
 
+    # rpart_c.c only copies into *_out when *_cap >= nrow*ncol (otherwise it
+    # leaves the buffer untouched and just reports the true nrow/ncol), so
+    # an undersized pre-allocation would otherwise surface as an opaque
+    # numpy reshape ValueError. Fail with a clear, actionable message
+    # instead -- this is a wrapper sizing bug, never a user-input error.
+    for _name, _nr, _nc, _cap in (
+        ("cptable", nr_cp, nc_cp, len(cptable_arr)),
+        ("dsplit",  nr_ds, 3,     len(dsplit_arr)),
+        ("isplit",  nr_is, 3,     len(isplit_arr)),
+        ("dnode",   nr_dn, nc_dn, len(dnode_arr)),
+        ("inode",   nr_in, 6,     len(inode_arr)),
+    ):
+        if _nr * _nc > _cap:
+            raise RuntimeError(
+                f"r2py_rpart: internal output buffer {_name!r} was undersized "
+                f"(tree needed {_nr * _nc} elements, pre-allocated {_cap}); "
+                "this is a bug in the Python wrapper's buffer sizing, not "
+                "your input data."
+            )
+
     result: dict[str, Any] = {
         "which":    which_arr[:which_len[0]].copy(),
         "cptable":  cptable_arr[:nr_cp * nc_cp].reshape(nr_cp, nc_cp, order="F").copy(),
@@ -390,6 +423,12 @@ def _rpart_c(
     }
     if has_csplit[0]:
         nr_cs = csplit_nr[0];  nc_cs = csplit_nc[0]
+        if nr_cs * nc_cs > len(csplit_arr):
+            raise RuntimeError(
+                f"r2py_rpart: internal output buffer 'csplit' was undersized "
+                f"(tree needed {nr_cs * nc_cs} elements, pre-allocated {len(csplit_arr)}); "
+                "this is a bug in the Python wrapper's buffer sizing, not your input data."
+            )
         result["csplit"] = csplit_arr[:nr_cs * nc_cs].reshape(nr_cs, nc_cs, order="F").copy()
     return result
 

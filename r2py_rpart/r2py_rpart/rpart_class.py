@@ -5,6 +5,8 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
+from .formatg import formatg
+
 
 
 def rpart_class(y: np.ndarray[Any, np.dtype[Any]], offset: np.ndarray[Any, np.dtype[np.float64]] | None, parms: dict[str, Any] | None, wt: np.ndarray[Any, np.dtype[np.float64]]) -> dict[str, Any]:
@@ -18,22 +20,23 @@ def rpart_class(y: np.ndarray[Any, np.dtype[Any]], offset: np.ndarray[Any, np.dt
     counts = pd.Series(wt, dtype=float).groupby(index, observed=False).sum()
     counts = counts.fillna(0.0).values
     def _pmatch(x, table, nomatch=None):
-        matches = [i + 1 for i, s in enumerate(table) if s.startswith(x)]
-        if len(matches) == 1:
-            return matches[0]
+        # R's pmatch() prefers an exact match over a (unique) partial match.
         exact = [i + 1 for i, s in enumerate(table) if s == x]
         if len(exact) == 1:
             return exact[0]
+        matches = [i + 1 for i, s in enumerate(table) if s.startswith(x)]
+        if len(matches) == 1:
+            return matches[0]
         return nomatch
     def _pmatch_vec(x_vec, table, nomatch=0):
         result = []
         for x in x_vec:
+            exact = [i + 1 for i, s in enumerate(table) if s == x]
+            if len(exact) == 1:
+                result.append(exact[0])
+                continue
             matches = [i + 1 for i, s in enumerate(table) if s.startswith(x)]
-            if len(matches) == 1:
-                result.append(matches[0])
-            else:
-                exact = [i + 1 for i, s in enumerate(table) if s == x]
-                result.append(exact[0] if len(exact) == 1 else nomatch)
+            result.append(matches[0] if len(matches) == 1 else nomatch)
         return result
     if parms is None:
         parms = {
@@ -79,13 +82,13 @@ def rpart_class(y: np.ndarray[Any, np.dtype[Any]], offset: np.ndarray[Any, np.dt
         if parms.get('split') is None:
             split = 1
         else:
-            split_val = parms['split']
-            if isinstance(split_val, str):
-                split = _pmatch(split_val, ['gini', 'information'])
-                if split is None:
-                    raise ValueError('Invalid splitting rule')
-            else:
-                split = split_val
+            # R's pmatch() coerces its first argument via as.character(), so
+            # even non-string `split` values are run through the same
+            # partial-match check (and fail it, raising) rather than being
+            # passed through to the C code unvalidated.
+            split = _pmatch(str(parms['split']), ['gini', 'information'])
+            if split is None:
+                raise ValueError('Invalid splitting rule')
         parms = {'prior': prior, 'loss': loss.reshape(numclass, numclass, order='F'), 'split': split}
     else:
         raise ValueError('Parameter argument must be a list')

@@ -9,6 +9,12 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import matplotlib.transforms as mtransforms
 from typing import Any, Callable
+
+from .labels_rpart import labels_rpart
+from .rpart_branch import rpart_branch
+from .rpartco import rpartco
+from .zzz import string_bounding_box
+
 _text_rpart_MISSING = object()
 
 
@@ -27,7 +33,7 @@ def rectangle(middlex: float, middley: float, a: float, b: float, ax: matplotlib
 
 
 def text_rpart(x: dict[str, Any], splits: bool = True, label: Any = _text_rpart_MISSING, FUN: Callable[..., None] | None = None, all: bool = False, pretty: Any = _text_rpart_MISSING, digits: int | None = None, use_n: bool = False, fancy: bool = False, fwidth: float = 0.8, fheight: float = 0.8, bg: str | None = None, minlength: int = 1, ax: 'matplotlib.axes.Axes | None' = None, cxy: 'tuple[float, float] | list[float] | None' = None, **kwargs: Any) -> None:
-    if not isinstance(x, dict) or x.get('__class__') != 'rpart':
+    if not isinstance(x, dict) or x.get('_rpart_class') != 'rpart':
         raise ValueError('Not a legitimate "rpart" object')
     frame = x['frame']
     if len(frame) <= 1:
@@ -39,7 +45,7 @@ def text_rpart(x: dict[str, Any], splits: bool = True, label: Any = _text_rpart_
     if digits is None:
         digits = 4  # equivalent to getOption('digits') - 3L with digits default 7
 
-    ylevels: list[str] | None = x.get('ylevels', None)
+    ylevels: list[str] | None = x.get('_ylevels', None)
 
     # Resolve ax and cxy (analogues of par('cxy') and par('bg'))
     if ax is None:
@@ -149,13 +155,15 @@ def text_rpart(x: dict[str, Any], splits: bool = True, label: Any = _text_rpart_
         else (frame['var'].values == '<leaf>')
     )
 
-    # Compute stat: call the method-specific text closure
-    yval2 = frame.get('yval2', None) if hasattr(frame, 'get') else None
-    # yval2 is a 2D array if present; yval is a 1D array
-    if yval2 is not None and hasattr(yval2, 'ndim') and yval2.ndim == 2:
-        yval_arg = yval2[leaves, :]
-    elif yval2 is not None and hasattr(yval2, '__len__'):
-        yval_arg = yval2[leaves]
+    # Compute stat: call the method-specific text closure.
+    # frame['yval2'] holds one array per row (object-dtype Series), so it
+    # must be stacked via tolist()+np.array() into a true 2-D matrix before
+    # row-selecting with the `leaves` boolean mask -- a Series always
+    # reports ndim==1 regardless of its contents, so that check never
+    # actually distinguished "matrix-like" from "vector-like" here.
+    if 'yval2' in frame.columns:
+        yval2_mat = np.array(frame['yval2'].tolist(), dtype=np.float64)
+        yval_arg = yval2_mat[leaves, :]
     else:
         yval_arg = frame['yval'].values[leaves]
 

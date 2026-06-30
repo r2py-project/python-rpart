@@ -4,10 +4,13 @@ from typing import Any
 
 import numpy as np
 
+from .labels_rpart import labels_rpart
+from .zzz import descendants, node_match
+
 
 
 def path_rpart(tree: dict[str, Any], nodes: 'np.ndarray[Any, np.dtype[np.int_]] | list[int] | None' = None, pretty: int = 0, print_it: bool = True) -> dict[str, list[str]]:
-    if not isinstance(tree, dict) or tree.get('__class__') != 'rpart':
+    if not isinstance(tree, dict) or tree.get('_rpart_class') != 'rpart':
         raise ValueError('Not a legitimate "rpart" object')
     splits = labels_rpart(tree, pretty=pretty)
     frame = tree['frame']

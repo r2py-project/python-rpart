@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.18)  29 JUN 2026 14:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.18)  30 JUN 2026 10:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -462,256 +462,256 @@ Package microtype Info: Loading generic protrusion settings for font family
 \tf@toc=\write4
 \openout4 = `main.toc'.
 
- [3] [4]
-Overfull \hbox (8.27084pt too wide) in paragraph at lines 103--104
+ [3] [4] [5]
+Overfull \hbox (8.27084pt too wide) in paragraph at lines 119--120
 \T1/cmr/m/n/12 (-20) dency of \T1/cmtt/m/n/12 init_rpcallback\T1/cmr/m/n/12 (-20) ; it is only called in-side \T1/cmtt/m/n/12 compat_getVar\T1/cmr/m/n/12 (-20) , not \T1/cmtt/m/n/12 init_rpcallback
  []
 
-[5]
-Overfull \hbox (55.49533pt too wide) in paragraph at lines 109--110
+
+Overfull \hbox (55.49533pt too wide) in paragraph at lines 129--130
 \T1/cmr/m/n/12 (-20) external-dependency nodes) and 255 edges. The topo-log-i-cal level dis-tri-bu-tion in \T1/cmtt/m/n/12 dependency_levels.csv
  []
 
 [6] [7]
-Underfull \hbox (badness 7012) in paragraph at lines 142--143
+Underfull \hbox (badness 7012) in paragraph at lines 181--182
 \T1/cmtt/m/n/12 DL_FUNC\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 DllInfo\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_CallMethodDef\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 142--143
+Underfull \hbox (badness 10000) in paragraph at lines 181--182
 \T1/cmtt/m/n/12 Rboolean\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 TRUE\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 FALSE\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_VERSION\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 142--143
+Underfull \hbox (badness 10000) in paragraph at lines 181--182
 \T1/cmtt/m/n/12 R_Version\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_NilValue\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 142--143
+Underfull \hbox (badness 10000) in paragraph at lines 181--182
 \T1/cmtt/m/n/12 R_NamesSymbol\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_UnboundValue\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 2237) in paragraph at lines 142--143
+Underfull \hbox (badness 2237) in paragraph at lines 181--182
 \T1/cmtt/m/n/12 R_forceSymbols\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_registerRoutines\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 144--145
+Underfull \hbox (badness 10000) in paragraph at lines 183--184
 []|\T1/cmtt/m/n/12 INTEGER\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 REAL\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 CHAR\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 PROTECT\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 144--145
+Underfull \hbox (badness 10000) in paragraph at lines 183--184
 \T1/cmtt/m/n/12 UNPROTECT\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 LENGTH\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 PRINTNAME\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 1939) in paragraph at lines 144--145
+Underfull \hbox (badness 1939) in paragraph at lines 183--184
 \T1/cmtt/m/n/12 ISNAN\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_FINITE\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 asInteger\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 asReal\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 5119) in paragraph at lines 146--147
+Underfull \hbox (badness 5119) in paragraph at lines 185--186
 []|\T1/cmtt/m/n/12 allocVector\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 allocMatrix\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_alloc\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 146--147
+Underfull \hbox (badness 10000) in paragraph at lines 185--186
 \T1/cmtt/m/n/12 R_chk_calloc\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_Free\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 mkChar\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 148--149
+Underfull \hbox (badness 10000) in paragraph at lines 187--188
 []|\T1/cmtt/m/n/12 error\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 warning\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 Rprintf\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 150--151
+Underfull \hbox (badness 10000) in paragraph at lines 189--190
 []|\T1/cmtt/m/n/12 eval\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 findVar\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 findVarInFrame\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Overfull \hbox (93.2196pt too wide) in paragraph at lines 138--153
+Overfull \hbox (93.2196pt too wide) in paragraph at lines 177--192
  [] 
  []
 
 [8]
-Overfull \hbox (41.61786pt too wide) in paragraph at lines 156--157
+Overfull \hbox (41.61786pt too wide) in paragraph at lines 198--199
 \T1/cmr/m/n/12 (-20) value si-mul-ta-ne-ously sat-is-fies two con-flict-ing pre-pro-ces-sor guards: \T1/cmtt/m/n/12 R_VERSION >= R_Version(2,16,0)
  []
 
+[9]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <12> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 158.
-[9] (/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 202.
+ (/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 ) (/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
-)
-Underfull \hbox (badness 10000) in paragraph at lines 196--197
+) [10]
+Underfull \hbox (badness 10000) in paragraph at lines 254--255
 []|\T1/cmtt/m/n/12 Rf_warning \T1/cmr/m/n/12 (+20) de-fined with-out
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 196--197
+Underfull \hbox (badness 10000) in paragraph at lines 254--255
 \T1/cmtt/m/n/12 FAKE_RF_WARNING_DEFINED \T1/cmr/m/n/12 (+20) in
  []
 
 
-Underfull \hbox (badness 1975) in paragraph at lines 197--198
+Underfull \hbox (badness 1975) in paragraph at lines 255--256
 []|\T1/cmr/m/n/12 (+20) Function pointer vari-ables de-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 198--199
+Underfull \hbox (badness 10000) in paragraph at lines 256--257
 []|\T1/cmtt/m/n/12 DL_FUNC.h \T1/cmr/m/n/12 (+20) used guard
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 198--199
+Underfull \hbox (badness 10000) in paragraph at lines 256--257
 \T1/cmr/m/n/12 (+20) used \T1/cmtt/m/n/12 FAKE_RBOOLEAN_DEFINED\T1/cmr/m/n/12 (+20) ;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 199--200
+Underfull \hbox (badness 10000) in paragraph at lines 257--258
 []|\T1/cmtt/m/n/12 PROTECT.h \T1/cmr/m/n/12 (+20) used two sep-a-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 199--200
+Underfull \hbox (badness 10000) in paragraph at lines 257--258
 \T1/cmr/m/n/12 (+20) rate guards per func-tion;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 199--200
+Underfull \hbox (badness 10000) in paragraph at lines 257--258
 \T1/cmtt/m/n/12 SEXP.h \T1/cmr/m/n/12 (+20) used one uni-fied
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 199--200
+Underfull \hbox (badness 10000) in paragraph at lines 257--258
 \T1/cmr/m/n/12 (+20) guard; mis-match caused
  []
 
 
-Overfull \hbox (14.07085pt too wide) in paragraph at lines 199--200
+Overfull \hbox (14.07085pt too wide) in paragraph at lines 257--258
 \T1/cmtt/m/n/12 R_ProtectWithIndex\T1/cmr/m/n/12 (-20) /\T1/cmtt/m/n/12 R_Reprotect
  []
 
 
-Underfull \hbox (badness 1694) in paragraph at lines 199--200
+Underfull \hbox (badness 1694) in paragraph at lines 257--258
 \T1/cmr/m/n/12 (+20) is \T1/cmtt/m/n/12 typedef int\T1/cmr/m/n/12 (+20) , so types are
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 199--200
+Underfull \hbox (badness 10000) in paragraph at lines 257--258
 \T1/cmr/m/n/12 (+20) identical---pure guard er-ror).
  []
 
 
-Underfull \hbox (badness 3514) in paragraph at lines 199--200
+Underfull \hbox (badness 3514) in paragraph at lines 257--258
 \T1/cmr/m/n/12 (+20) Fixed by uni-fy-ing guards in
  []
 
 
-Underfull \hbox (badness 1189) in paragraph at lines 200--201
+Underfull \hbox (badness 1189) in paragraph at lines 258--259
 \T1/cmr/m/n/12 (+20) out any guard; \T1/cmtt/m/n/12 R_NilValue.h
  []
 
 
-Underfull \hbox (badness 1783) in paragraph at lines 201--202
+Underfull \hbox (badness 1783) in paragraph at lines 259--260
 \T1/cmr/m/n/12 (+20) con-flict is ill-formed in C++.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 201--202
+Underfull \hbox (badness 10000) in paragraph at lines 259--260
 \T1/cmtt/m/n/12 FAKE_R_*_DEFINED \T1/cmr/m/n/12 (+20) lines in
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 202--203
+Underfull \hbox (badness 10000) in paragraph at lines 260--261
 []|\T1/cmtt/m/n/12 DL_FUNC.h \T1/cmr/m/n/12 (+20) de-clared \T1/cmtt/m/n/12 struct
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 202--203
+Underfull \hbox (badness 10000) in paragraph at lines 260--261
 \T1/cmtt/m/n/12 DllInfo {} \T1/cmr/m/n/12 (+20) with-out set-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 202--203
+Underfull \hbox (badness 10000) in paragraph at lines 260--261
 \T1/cmr/m/n/12 (+20) ting \T1/cmtt/m/n/12 FAKE_DLLINFO_DEFINED\T1/cmr/m/n/12 (+20) ;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 202--203
+Underfull \hbox (badness 10000) in paragraph at lines 260--261
 \T1/cmtt/m/n/12 DllInfo.h \T1/cmr/m/n/12 (+20) then at-tempted
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 202--203
+Underfull \hbox (badness 10000) in paragraph at lines 260--261
 \T1/cmtt/m/n/12 typedef struct DllInfo_fake
  []
 
-[10]
-ignored: Infinite glue shrinkage found in box being split [11] [12]
+
+ignored: Infinite glue shrinkage found in box being split [11] [12] [13{/software/t/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 232.
- [13{/software/t/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-Overfull \hbox (29.49812pt too wide) in paragraph at lines 251--253
-\T1/cmr/m/n/12 (-20) graph vi-su-al-iza-tion and the topo-log-i-cal level CSV \T1/cmtt/m/n/12 structural_analysis/dependency_levels.csv\T1/cmr/m/n/12 (-20) . 
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 303.
+ [14]
+Overfull \hbox (90.68765pt too wide) in paragraph at lines 333--334
+\T1/cmr/m/n/12 (-20) pro-duce the graph vi-su-al-iza-tion and the topo-log-i-cal level CSV \T1/cmtt/m/n/12 structural_analysis/dependency_levels.csv\T1/cmr/m/n/12 (-20) . 
  []
 
-[14]
-Overfull \hbox (29.94257pt too wide) in paragraph at lines 260--261
+
+Overfull \hbox (29.94257pt too wide) in paragraph at lines 348--349
 \T1/cmr/m/n/12 (-20) fras-truc-ture is the anal-o-gous project \T1/cmtt/m/n/12 r2py_kernsmooth \T1/cmr/m/n/12 (-20) at \T1/cmtt/m/n/12 python-KernSmooth/r2py_kernsmooth/\T1/cmr/m/n/12 (-20) . 
  []
 
-
-Overfull \hbox (11.05098pt too wide) in paragraph at lines 264--265
+[15]
+Overfull \hbox (11.05098pt too wide) in paragraph at lines 356--357
  []\T1/cmr/bx/n/12 (-20) Bug 3: \T1/cmtt/m/n/12 _find_lib() \T1/cmr/bx/n/12 (-20) searched the source tree.[] \T1/cmr/m/n/12 (-20) The \T1/cmtt/m/n/12 _find_lib() \T1/cmr/m/n/12 (-20) func-tion in \T1/cmtt/m/n/12 __init__.py
  []
 
-[15]
-Overfull \hbox (15.18904pt too wide) in paragraph at lines 275--276
-\T1/cmr/m/n/12 (-20) After all four bug fixes, the pack-age builds suc-cess-fully with \T1/cmtt/m/n/12 pip install --no-build-isolation
+
+Overfull \hbox (15.18904pt too wide) in paragraph at lines 371--372
+[]\T1/cmr/m/n/12 (-20) After all four bug fixes, the pack-age builds suc-cess-fully with \T1/cmtt/m/n/12 pip install --no-build-isolation
  []
 
 [16] [17] [18]
-Overfull \hbox (17.25694pt too wide) in paragraph at lines 322--344
+Overfull \hbox (17.25694pt too wide) in paragraph at lines 449--471
  [] 
  []
 
-[19]
-Overfull \hbox (43.3132pt too wide) in paragraph at lines 361--362
+[19] [20]
+Overfull \hbox (43.3132pt too wide) in paragraph at lines 499--500
 []\T1/cmr/bx/n/12 (-20) Undefined \T1/cmtt/m/n/12 _MISSING \T1/cmr/bx/n/12 (-20) sen-tinel \T1/cmr/m/n/12 (-20) in four files: \T1/cmtt/m/n/12 rpart.py\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_control.py\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 summary_rpart.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Overfull \hbox (48.8933pt too wide) in paragraph at lines 364--365
+Overfull \hbox (48.8933pt too wide) in paragraph at lines 502--503
 \T1/cmr/m/n/12 (-20) called \T1/cmtt/m/n/12 rpart_anova\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_class\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_control\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_exp\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_matrix\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_poisson\T1/cmr/m/n/12 (-20) ,
  []
 
-[20]
-Overfull \hbox (26.91652pt too wide) in paragraph at lines 372--373
+[21]
+Overfull \hbox (26.91652pt too wide) in paragraph at lines 514--515
 []\T1/cmtt/m/n/12 parms \T1/cmr/bx/n/12 (-20) dict se-ri-al-iza-tion for clas-si-fi-ca-tion method. \T1/cmtt/m/n/12 rpart_class \T1/cmr/m/n/12 (-20) re-turns \T1/cmtt/m/n/12 init["parms"]
  []
 
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 379.
-[21]
-Overfull \hbox (15.0979pt too wide) in paragraph at lines 393--404
- [] 
- []
-
-
-Overfull \hbox (60.47139pt too wide) in paragraph at lines 409--421
- [] 
- []
-
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 526.
 [22]
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 431.
- (../../.claude/commands/analyze-c-folder-dependencies.md [23]) (../../.claude/agents/analyze-c-file-dependencies.md [24]) [25] (../../.claude/commands/extract-c-folder-r-extern-items.md) [26] (../../.claude/agents/extract-c-file-r-extern-items.md [27]) (../../.claude/commands/generate-r-extern-fake-guides.md [28] [29]) (../../.claude/agents/generate-r-extern-fake-guide.md [30] [31] [32] [33] [34] [35]) (../../.claude/commands/generate-r-extern-fake-headers.md [36] [37]) (../../.claude/agents/generate-r-extern-fake-header.md [38] [39] [40] [41]) (../../.claude/commands/generate-r-extern-raw-entry-points.md [42] [43]) (../../.claude/agents/generate-r-extern-raw-entry-point.md [44] [45] [46] [47] [48] [49] [50]) (../../.claude/commands/modify-c-folder-with-fake-headers.md [51] [52] [53] [54]) (../../.claude/agents/modify-c-file-with-fake-headers.md [55] [56] [57] [58] [59]) (../../.claude/commands/analyze-r-folder-dependencies.md [60]) (../../.claude/agents/analyze-r-file-dependencies.md [61]) [62] (../../.claude/commands/extract-r-folder-language-dependencies.md [63]) (../../.claude/agents/extract-r-file-language-dependencies.md [64]) (../../.claude/commands/generate-language-dependency-conversion-guides.md [65]) (../../.claude/agents/generate-language-dependency-conversion-guide.md [66] [67]) (../../.claude/commands/convert-r-folder-to-python.md [68] [69] [70]) (../../.claude/commands/convert-r-file-to-python.md [71]) (../../.claude/agents/convert-r-function-to-python.md [72]) (../../.claude/commands/combine-python-functions-into-folder.md [73] [74] [75] [76]) (../../.claude/commands/combine-python-functions-into-file.md [77]) (../../.claude/commands/add-r-interpreter-items.md [78] [79]) (../../.claude/agents/add-r-interpreter-items.md [80] [81] [82] [83] [84] [85] [86]) [87] (./main.aux)
+Overfull \hbox (15.0979pt too wide) in paragraph at lines 548--559
+ [] 
+ []
+
+[23]
+Overfull \hbox (60.47139pt too wide) in paragraph at lines 567--579
+ [] 
+ []
+
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 597.
+(../../.claude/commands/analyze-c-folder-dependencies.md [24]) (../../.claude/agents/analyze-c-file-dependencies.md [25] [26]) (../../.claude/commands/extract-c-folder-r-extern-items.md [27]) (../../.claude/agents/extract-c-file-r-extern-items.md [28]) (../../.claude/commands/generate-r-extern-fake-guides.md [29] [30]) (../../.claude/agents/generate-r-extern-fake-guide.md [31] [32] [33] [34] [35] [36]) (../../.claude/commands/generate-r-extern-fake-headers.md [37] [38]) (../../.claude/agents/generate-r-extern-fake-header.md [39] [40] [41] [42]) (../../.claude/commands/generate-r-extern-raw-entry-points.md [43] [44]) (../../.claude/agents/generate-r-extern-raw-entry-point.md [45] [46] [47] [48] [49] [50] [51]) (../../.claude/commands/modify-c-folder-with-fake-headers.md [52] [53] [54] [55]) (../../.claude/agents/modify-c-file-with-fake-headers.md [56] [57] [58] [59] [60]) (../../.claude/commands/analyze-r-folder-dependencies.md [61]) (../../.claude/agents/analyze-r-file-dependencies.md [62] [63]) (../../.claude/commands/extract-r-folder-language-dependencies.md [64]) (../../.claude/agents/extract-r-file-language-dependencies.md [65]) (../../.claude/commands/generate-language-dependency-conversion-guides.md [66]) (../../.claude/agents/generate-language-dependency-conversion-guide.md [67] [68]) (../../.claude/commands/convert-r-folder-to-python.md [69] [70] [71]) (../../.claude/commands/convert-r-file-to-python.md [72]) (../../.claude/agents/convert-r-function-to-python.md [73]) [74] (../../.claude/commands/combine-python-functions-into-folder.md [75] [76] [77]) (../../.claude/commands/combine-python-functions-into-file.md [78]) (../../.claude/commands/add-r-interpreter-items.md [79] [80]) (../../.claude/agents/add-r-interpreter-items.md [81] [82] [83] [84] [85] [86] [87]) [88] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-04-28>
@@ -720,18 +720,18 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 4DBF7E72200AA0B6AB35525ADC2455BE;20946.
  ) 
 Here is how much of TeX's memory you used:
- 19895 strings out of 467341
- 305465 string characters out of 5414848
- 1661814 words of memory out of 5000000
- 46023 multiletter control sequences out of 15000+600000
- 647122 words of font info for 153 fonts, out of 8000000 for 9000
+ 19889 strings out of 467341
+ 305377 string characters out of 5414848
+ 1595778 words of memory out of 5000000
+ 46021 multiletter control sequences out of 15000+600000
+ 646123 words of font info for 150 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 69i,8n,79p,1137b,2122s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 69i,8n,79p,1121b,2122s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </software/t/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1440.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt2074.pfb>
-Output written on main.pdf (87 pages, 720520 bytes).
+Output written on main.pdf (88 pages, 721126 bytes).
 PDF statistics:
- 3895 PDF objects out of 4296 (max. 8388607)
- 3737 compressed objects within 38 object streams
- 2567 named destinations out of 2984 (max. 500000)
- 38169 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 3899 PDF objects out of 4296 (max. 8388607)
+ 3740 compressed objects within 38 object streams
+ 2568 named destinations out of 2984 (max. 500000)
+ 36121 words of extra memory for PDF output out of 42996 (max. 10000000)
 

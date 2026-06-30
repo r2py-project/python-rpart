@@ -4,6 +4,9 @@ from typing import Any
 
 import warnings
 import numpy as np
+
+from .formatg import formatg
+
 _labels_rpart_MISSING = object()
 
 
@@ -25,6 +28,10 @@ def labels_rpart(object: dict[str, Any], digits: int = 4, minlength: 'int | obje
     if n == 1:
         return ['root']
 
+    # object['splits'] is normally a pandas DataFrame (see rpart.py); the
+    # numpy-style [rows, col] indexing below needs a plain ndarray.
+    splits_arr = np.asarray(object['splits'])
+
     is_leaf = (ff['var'].values == '<leaf>')
     whichrow = ~is_leaf
     vnames = ff['var'].values[whichrow]  # variable names for non-leaf nodes
@@ -42,7 +49,7 @@ def labels_rpart(object: dict[str, Any], digits: int = 4, minlength: 'int | obje
     irow = index_0based[np.where(whichrow)[0]]  # 0-based row indices into splits array
 
     # R: ncat <- object$splits[irow, 2L]  (R col 2 = Python col 1, 0-based)
-    ncat = object['splits'][irow, 1].astype(int)
+    ncat = splits_arr[irow, 1].astype(int)
 
     num_irow = len(irow)
     lsplit = [''] * num_irow
@@ -53,7 +60,7 @@ def labels_rpart(object: dict[str, Any], digits: int = 4, minlength: 'int | obje
         # R: jrow <- irow[ncat < 2L]  -- 0-based row indices into splits for continuous splits
         jrow = irow[ncat < 2]
         # R: cutpoint <- formatg(object$splits[jrow, 4L], digits)  (R col 4 = Python col 3)
-        cutpoint = formatg(object['splits'][jrow, 3], digits)
+        cutpoint = formatg(splits_arr[jrow, 3], digits)
         continuous_mask = ncat < 2
         # R: temp1 <- (ifelse(ncat < 0, '< ', '>='))[ncat < 2L]
         temp1_full = np.where(ncat < 0, '< ', '>=')
@@ -67,12 +74,12 @@ def labels_rpart(object: dict[str, Any], digits: int = 4, minlength: 'int | obje
 
     # Handle categorical splits (ncat > 1)
     if np.any(ncat > 1):
-        xlevels = object['xlevels']  # dict: variable name -> list of level strings
+        xlevels = object['_xlevels']  # dict: variable name -> list of level strings
         # jrow: indices into the ncat/irow arrays (not into splits) for categorical splits
         jrow_idx = np.where(ncat > 1)[0]
         # R: crow <- object$splits[irow[ncat > 1], 4L]  (R col 4 = Python col 3)
         # crow is 1-based row into csplit
-        crow = object['splits'][irow[ncat > 1], 3].astype(int)
+        crow = splits_arr[irow[ncat > 1], 3].astype(int)
         # R: cindex <- (match(vnames, names(xlevels)))[ncat > 1]
         # 0-based index of each split vname into xlevels keys
         xlevel_names = list(xlevels.keys())

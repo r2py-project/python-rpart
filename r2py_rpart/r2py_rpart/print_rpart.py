@@ -3,6 +3,11 @@ from __future__ import annotations
 from typing import Any
 
 import numpy as np
+
+from .labels_rpart import labels_rpart
+from .prune_rpart import prune_rpart
+from .zzz import tree_depth
+
 _print_rpart_MISSING = object()
 
 
@@ -18,7 +23,7 @@ def print_rpart(x: dict[str, Any], minlength: int = 0, spaces: int = 2, cp: 'flo
         x = prune_rpart(x, cp=cp)
 
     frame = x['frame']
-    ylevel = x.get('ylevels', None)  # attr(x, 'ylevels')
+    ylevel = x.get('_ylevels', None)  # attr(x, 'ylevels')
     node = frame.index.astype(float).values  # as.numeric(row.names(frame))
     depth = tree_depth(node)  # integer-valued float array, 0-based depths
 
@@ -55,9 +60,13 @@ def print_rpart(x: dict[str, Any], minlength: int = 0, spaces: int = 2, cp: 'flo
     # Compute yval strings
     if tfun is not None:
         if 'yval2' not in frame.columns or frame['yval2'] is None:
-            yval = tfun(frame['yval'], ylevel, digits, nsmall)
+            yval = tfun(frame['yval'].to_numpy(), ylevel, digits, nsmall)
         else:
-            yval = tfun(frame['yval2'], ylevel, digits, nsmall)
+            # frame['yval2'] holds one array per row (object-dtype Series);
+            # stack via tolist()+np.array() into a true 2-D matrix, since
+            # print_func/summary_func implementations index yval.shape[1].
+            yval2_mat = np.array(frame['yval2'].tolist(), dtype=np.float64)
+            yval = tfun(yval2_mat, ylevel, digits, nsmall)
     else:
         # format(signif(frame$yval, digits))
         yval_arr = frame['yval'].values.astype(float)
@@ -105,7 +114,9 @@ def print_rpart(x: dict[str, Any], minlength: int = 0, spaces: int = 2, cp: 'flo
         naprint_str = f'{n_omit} {noun} deleted due to missingness'
         print(f'n={n0} ({naprint_str})\n')
     else:
-        print(f'n={n0}\n')
+        # R: cat("n=", n[1L], "\n\n") uses cat's default sep=" ", giving
+        # "n= <n> \n\n" (space after "n=" and before the trailing newline).
+        print(f'n= {n0} \n')
 
     if x.get('method', '') == 'class':
         print('node), split, n, loss, yval, (yprob)')
