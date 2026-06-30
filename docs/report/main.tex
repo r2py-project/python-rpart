@@ -74,6 +74,14 @@
 \maketitle
 \tableofcontents
 \newpage
+
+\section*{Abstract}
+\addcontentsline{toc}{section}{Abstract}
+\label{sec:abstract}
+
+This report documents the systematic conversion of the R package \texttt{rpart} (version 4.1.27)---the reference implementation of the CART (Classification and Regression Trees) methodology of Breiman, Friedman, Olshen, and Stone (1984)---into an installable Python package named \texttt{r2py\_rpart}. Rather than reimplementing the algorithms from scratch, the project reuses \texttt{rpart}'s original C source code directly, wrapped behind a layer of fake R C API headers that removes the runtime dependency on \texttt{libR.so}, and converts the R source layer to Python function by function in a dependency-aware order guided by 172 machine-generated language-construct conversion guides. The work documented here spans Phases 1 through 9.3: structural analysis of the C and R source layers (Phases 1--2 and 6), generation and compilation verification of the fake-header infrastructure (Phases 3--5), establishment of the Python build and CI/CD pipeline (Phase 7), cataloguing of base-R language dependencies and their conversion guides (Phase 8), and automated R-to-Python function conversion, package assembly, and FFI bridging for the user-defined-split callback path (Phase 9). The resulting package builds and installs under Python~3.14 in the \texttt{r-to-python} conda environment on a Red~Hat Enterprise Linux~9 development node, and its primary \texttt{rpart()} entry point passes an 11-test regression suite.
+
+\newpage
 \section{Introduction}
 \label{sec:intro}
 
@@ -92,10 +100,66 @@ The entire conversion process is divided into sequential phases. Phases 1--3 ana
 
 A key structural observation motivating the conversion strategy is that the R-to-C interface is narrow: only five \texttt{.Call()} invocations exist across all 36 R source files. This means that if these five entry points can be faithfully exposed through a Python-callable interface, the R source layer can be converted independently without touching the C layer.
 
+\subsection{Repository Structure}
+\label{sec:intro:repo}
+
+The working directory \texttt{python-rpart/} is the working tree of the \texttt{python-rpart} repository hosted at \texttt{github.com/caiyufei8/python-rpart}. The \texttt{r2py\_rpart/} subdirectory is additionally managed as a git subtree linked to a separate repository at \texttt{github.com/caiyufei8/r2py\_rpart}, allowing the Python package to be versioned and published to PyPI independently of the broader project. The cluster scripts \texttt{git\_pull.sh} and \texttt{git\_push.sh} at the project root encapsulate the subtree synchronisation commands required to keep both remotes up to date from the HPC node.
+
+\medskip
+\begin{center}
+\begin{tabular}{p{0.30\textwidth}p{0.58\textwidth}}
+\toprule
+Path & Contents \\
+\midrule
+\texttt{rpart/} & Unmodified R package source (\texttt{rpart} version 4.1.27), as obtained from CRAN; the canonical reference against which every later phase is checked. \\
+\texttt{r2py\_rpart/} & Git subtree linked to \texttt{github.com/caiyufei8/r2py\_rpart}; the installable Python package. Internal structure detailed in Section~\ref{sec:intro:layout}. \\
+\texttt{c\_refactor\_analysis/} & C dependency-graph analysis artifacts from Phase~1 (\texttt{src/}, \texttt{lib/}). \\
+\texttt{r\_extern\_analysis/} & R external item extraction CSVs, fake-header implementation guides, and fake-header conversion guides from Phases~2--4 (\texttt{src/}, \texttt{fake\_guides/}, \texttt{conversion\_guides/}). \\
+\texttt{structural\_analysis/} & R structural dependency analysis JSONs and dependency-graph artifacts from Phase~6 (\texttt{R/}, \texttt{lib/}). \\
+\texttt{language\_dependency\_analysis/} & Per-file language-dependency CSVs and the 172 conversion guides from Phase~8 (\texttt{R/}, \texttt{conversion\_guides/}). \\
+\texttt{conversion\_results/} & Per-function JSON translation artifacts from Phase~9.1 (\texttt{R/}). \\
+\texttt{docs/} & Architecture notes, planning PDFs, per-phase summaries in \texttt{daily\_summaries/}, and this report in \texttt{report/}. \\
+\texttt{.claude/agents/} & Sub-agent specification Markdown files. \\
+\texttt{.claude/commands/} & Skill (slash command) specification Markdown files. \\
+\texttt{git\_pull.sh} & Cluster batch script; pulls from the \texttt{python-rpart} main remote and merges changes from the \texttt{r2py\_rpart} subtree remote into \texttt{r2py\_rpart/}. \\
+\texttt{git\_push.sh} & Cluster batch script; pushes to the \texttt{python-rpart} main remote and propagates \texttt{r2py\_rpart/} changes to the \texttt{r2py\_rpart} subtree remote via \texttt{git subtree push}. \\
+\texttt{install\_environments.sh} & Cluster batch script; provisions the \texttt{r-to-python} conda environment (\texttt{meson-python}, \texttt{numpy}, \texttt{pandas}, \texttt{rpy2}, \texttt{r-rpart}, and related packages) used throughout every phase of this report. \\
+\bottomrule
+\end{tabular}
+\end{center}
+\medskip
+
 \subsection{Target Package Layout}
 \label{sec:intro:layout}
 
-The \texttt{r2py\_rpart} Python package is organized as follows. The directory \texttt{r2py\_rpart/src/} contains a copy of the original C source files from \texttt{rpart/src/}, modified to replace real R API includes with fake headers. The directory \texttt{r2py\_rpart/r\_fake\_headers/} contains the 53 fake C++ header files. The directory \texttt{r2py\_rpart/c\_entry\_points/} contains the six pure-C wrapper files that translate between the Python-callable (plain-array) interface and the SEXP-based internal interface. The directory \texttt{r2py\_rpart/r2py\_rpart/} contains the Python package itself: 37 \texttt{.py} modules converted from the R source, plus \texttt{\_\_init\_\_.py} which loads \texttt{\_rpart\_core.so} via \texttt{cffi} and exposes the low-level C entry points as private symbols.
+The \texttt{r2py\_rpart} Python package is organized as follows.
+
+\medskip
+\begin{center}
+\begin{tabular}{p{0.30\textwidth}p{0.58\textwidth}}
+\toprule
+Path (relative to \texttt{r2py\_rpart/}) & Contents \\
+\midrule
+\texttt{src/} & Copy of the original C source files from \texttt{rpart/src/}, modified to replace real R API includes with fake headers (5 of 35 files modified; Phase~5). \\
+\texttt{r\_fake\_headers/} & The 53 fake C++ header files that replace R's C API, eliminating the runtime dependency on \texttt{libR.so} (Phases~3--4). \\
+\texttt{c\_entry\_points/} & Six pure-C wrapper files translating between the Python-callable (plain-array) interface and the SEXP-based internal interface: five \texttt{.Call} entry-point wrappers (Phase~5) plus the Category~E interpreter-item helper file (Phase~9.3). \\
+\texttt{r2py\_rpart/} & The Python package itself: 37 \texttt{.py} modules converted from the R source (Phase~9), plus \texttt{\_\_init\_\_.py}, which loads \texttt{\_rpart\_core.so} via \texttt{cffi} and exposes the low-level C entry points as private symbols. \\
+\texttt{meson.build} & Meson build definition: compiles \texttt{src/} and \texttt{c\_entry\_points/} into \texttt{\_rpart\_core.so} and enumerates every \texttt{.py} module for \texttt{py.install\_sources()} (Phases~7, 9.2). \\
+\texttt{pyproject.toml} & Package metadata, build-system declaration (\texttt{meson-python}), and the \texttt{[tool.cibuildwheel]} platform configuration (Phase~7). \\
+\texttt{tests/} & The \texttt{pytest} suite, including \texttt{test\_rpart.py} (Phase~9.2--9.3). \\
+\texttt{pip\_install.sh} & Cluster batch script for a non-editable development install via \texttt{pip install --no-build-isolation} (Phase~7). \\
+\texttt{.github/workflows/python-publish.yml} & GitHub Actions workflow; builds wheels for five platforms and publishes them to PyPI on every release via OIDC trusted publishing (Phase~7). \\
+\bottomrule
+\end{tabular}
+\end{center}
+\medskip
+
+\subsection{Automated Workflow Infrastructure}
+\label{sec:intro:workflow}
+
+This project employs \textbf{Claude Code} (Anthropic) as an AI-assisted development environment. Recurring multi-step tasks are encoded as \emph{skills}---top-level slash commands whose specifications are stored as Markdown files under \texttt{.claude/commands/}. Skills orchestrate one or more \emph{sub-agents}, whose specifications are stored under \texttt{.claude/agents/} and which are dispatched via the \texttt{@agent-name} notation from within a skill. Both skills and sub-agents are specified as Markdown files with YAML front matter declaring a name and description, followed by a structured natural-language body describing execution steps and output schemas.
+
+Throughout this report, a skill invocation rendered as \skillapp{analyze-c-folder-dependencies}{analyze-c-folder-dependencies} links to that skill's full specification in the appendix; the sub-agent(s) it dispatches are referenced separately by their \texttt{@agent-name} and are likewise reproduced in full there. At the end of each working session, the \skill{summarize-research-report} skill was invoked to synthesize that session's activities into a structured Markdown summary, saved to \texttt{docs/daily\_summaries/}; those summaries are the primary source material for this report.
 
 \section{Phase 1: C Source Dependency Analysis}
 \label{sec:phase1}
@@ -126,7 +190,7 @@ The \texttt{networkx} package (version 3.6.1) was installed into the \texttt{r-t
 
 \subsection{Key Findings}
 
-The final dependency graph contains 136 nodes (35 file nodes, 66 function/macro nodes, 35 external-dependency nodes) and 255 edges. The topological level distribution in \texttt{dependency\_levels.csv} shows 38 nodes at level 0 (entry points or leaves with no unresolved callers), 24 at level 1, and 4 at level 2. Of the 66 function nodes, 47 are pure leaves that make no internal calls. Structurally, \texttt{rpart.c} is the primary integration point (12 internal dependencies, 15 R API calls), while \texttt{rpart\_callback.c} is architecturally isolated---it does not include \texttt{rpart.h} and implements its own version-compatibility logic for R~$<$~4.5.0 vs.\ R~$\geq$~4.5.0 using its own \texttt{compat\_getVar} shim.
+The final dependency graph contains 136 nodes (35 file nodes, 66 function/macro nodes, 35 external-dependency nodes) and 255 edges. The topological level distribution in \texttt{dependency\_levels.csv} shows 38 nodes at level 0 (entry points or leaves with no unresolved callers), 24 at level 1, and 4 at level 2. The four level-2 nodes---\texttt{ALLOC}, \texttt{rp\_error}, \texttt{compat\_getVar}, and \texttt{branch}---are the topmost callers in the graph. Of the 66 function nodes, 47 are pure leaves that make no internal calls. Structurally, \texttt{rpart.c} is the primary integration point (12 internal dependencies, 15 R API calls), while \texttt{rpart\_callback.c} is architecturally isolated---it does not include \texttt{rpart.h} and implements its own version-compatibility logic for R~$<$~4.5.0 vs.\ R~$\geq$~4.5.0 using its own \texttt{compat\_getVar} shim. \texttt{xpred.c} (\texttt{xpred}) and \texttt{xval.c} (\texttt{xval}), the package's two cross-validation entry points, both dispatch through the \texttt{rp\_init} and \texttt{rp\_eval} function pointers rather than calling a method's functions directly---the same indirection that produced the two missing-dependency corrections to \texttt{xpred} described in Step~2 above.
 
 \section{Phase 2: R External Item Extraction from C Sources}
 \label{sec:phase2}
@@ -150,7 +214,28 @@ Per-file CSVs were saved to \texttt{r\_extern\_analysis/src/} with the schema \t
 
 The combined table contains 235 reference rows across 51 unique R external identifiers drawn from 16 source files (the remaining 19 files rely exclusively on project-internal headers and standard C primitives). The 51 identifiers are drawn from 10 R include headers, with \texttt{Rinternals.h} accounting for 165 of the 235 references. The category breakdown is 184 functions (78\%), 39 types (17\%), and 12 variables (5\%).
 
-Two files stand out architecturally. \texttt{rpart.c} and \texttt{xpred.c} are the most R-API-dense, making heavy use of \texttt{SEXP}, \texttt{PROTECT}/\texttt{UNPROTECT}, \texttt{allocVector}/\texttt{allocMatrix}, \texttt{INTEGER}, \texttt{REAL}, and list-construction functions. \texttt{rpart\_callback.c} is uniquely notable: it is the only file that calls R interpreter-level functions (\texttt{eval}, \texttt{findVar}, \texttt{findVarInFrame}, \texttt{install}, \texttt{R\_getVar}). These five symbols are required only when \texttt{rpart()} is called with a user-defined splitting method (\texttt{method=4}); all four standard methods (anova, poisson, class, exp) execute without them. This observation will become the basis for the Category~E design in Phase~3.
+\medskip
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+R Header & Reference Count \\
+\midrule
+\texttt{Rinternals.h} & 165 \\
+\texttt{R\_ext/Print.h} & 28 \\
+\texttt{R\_ext/Error.h} & 9 \\
+\texttt{R\_ext/Boolean.h} & 7 \\
+\texttt{R\_ext/Rdynload.h} & 6 \\
+\texttt{R\_ext/RS.h} & 6 \\
+\texttt{R\_ext/Arith.h} & 5 \\
+\texttt{Rversion.h} & 4 \\
+\texttt{R.h} & 3 \\
+\texttt{R\_ext/Utils.h} & 2 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\medskip
+
+Two files stand out architecturally. \texttt{rpart.c} and \texttt{xpred.c} are the most R-API-dense, making heavy use of \texttt{SEXP}, \texttt{PROTECT}/\texttt{UNPROTECT}, \texttt{allocVector}/\texttt{allocMatrix}, \texttt{INTEGER}, \texttt{REAL}, and list-construction functions. \texttt{print\_tree.c} contributes 26 rows from a single R external item (\texttt{Rprintf}), the highest single-function repetition in the dataset, reflecting its role as the package's plain-text tree-printing routine. \texttt{rpart\_callback.c} is uniquely notable: it is the only file that calls R interpreter-level functions (\texttt{eval}, \texttt{findVar}, \texttt{findVarInFrame}, \texttt{install}, \texttt{R\_getVar}). These five symbols are required only when \texttt{rpart()} is called with a user-defined splitting method (\texttt{method=4}); all four standard methods (anova, poisson, class, exp) execute without them. This observation will become the basis for the Category~E design in Phase~3.
 
 \section{Phase 3: Fake C++ Header Implementation Guides}
 \label{sec:phase3}
@@ -168,7 +253,7 @@ The \skillapp{generate-r-extern-fake-guides}{generate-r-extern-fake-guides} skil
 /generate-r-extern-fake-guides rpart/src/ r_extern_analysis/combined.csv r_extern_analysis/fake_guides/
 \end{lstlisting}
 
-The \texttt{@generate-r-extern-fake-guide} sub-agent was invoked sequentially for each of the 51 unique external items, in the order they appear in the pre-sorted CSV. Sequential processing is mandatory here because foundational definitions (the \texttt{SEXP} struct layout, the \texttt{SEXPTYPE} enum, the arena allocator) must be established before dependent items (\texttt{INTEGER}, \texttt{allocVector}, \texttt{error}) can reference them. Each agent read the relevant rpart source files and the real R include headers, and produced a Markdown guide named \texttt{<external\_item>.md} in \texttt{r\_extern\_analysis/fake\_guides/}.
+The \texttt{@generate-r-extern-fake-guide} sub-agent was invoked sequentially for each of the 51 unique external items, in the order they appear in the pre-sorted CSV. Sequential processing is mandatory here because foundational definitions (the \texttt{SEXP} struct layout, the \texttt{SEXPTYPE} enum, the arena allocator) must be established before dependent items (\texttt{INTEGER}, \texttt{allocVector}, \texttt{error}) can reference them. Each agent read the relevant rpart source files and the real R include headers, and produced a Markdown guide named \texttt{<external\_item>.md} in \texttt{r\_extern\_analysis/fake\_guides/}. The 51 resulting guides total approximately 1.07~MB, averaging roughly 21.5~KB per guide.
 
 \subsection{Classification of External Items}
 
@@ -193,9 +278,11 @@ E (5) & R interpreter item (Python function-pointer bridge) & \texttt{eval}, \te
 
 \subsection{Key Technical Decisions}
 
-\paragraph{Memory model.} The guides establish a two-tier memory model. Scratch allocations via \texttt{R\_alloc}/\texttt{ALLOC} delegate to a per-frame arena allocator (\texttt{ArenaFrame}) that is freed automatically when the \texttt{.Call} boundary wrapper returns. Persistent allocations for \texttt{SEXP} nodes and their data buffers live on the process heap and are freed explicitly via \texttt{R\_Free} or \texttt{free\_sexp()}.
+\paragraph{Memory model.} The guides establish a two-tier memory model. Scratch allocations via \texttt{R\_alloc}/\texttt{ALLOC} delegate to a per-frame arena allocator (\texttt{ArenaFrame}) that is freed automatically when the \texttt{.Call} boundary wrapper returns. Persistent allocations for \texttt{SEXP} nodes and their data buffers live on the process heap and are freed explicitly via \texttt{R\_Free} or \texttt{free\_sexp()}. The same heap tier also covers the package's own \texttt{Node} and \texttt{Split} structs, which are allocated via \texttt{CALLOC} (a local wrapper around \texttt{R\_chk\_calloc}) and persist for the lifetime of the call rather than being scoped to the arena.
 
 \paragraph{R version pinning.} \texttt{R\_VERSION} must be faked as \texttt{R\_Version(4,4,0) = 263168}. This value simultaneously satisfies two conflicting preprocessor guards: \texttt{R\_VERSION >= R\_Version(2,16,0)} in \texttt{init.c} (enabling the \texttt{R\_forceSymbols} branch) and \texttt{R\_VERSION < R\_Version(4,5,0)} in \texttt{rpart\_callback.c} (selecting the \texttt{compat\_getVar} shim instead of the native \texttt{R\_getVar} symbol, which would require \texttt{libR.so}).
+
+\paragraph{\texttt{R\_getVar} is a macro, not a symbol.} For R~$<$~4.5.0, \texttt{R\_getVar} expands to the local shim \texttt{compat\_getVar} rather than naming an importable library symbol, so no function-pointer stub is needed for \texttt{R\_getVar} itself. At runtime it always resolves to \texttt{findVarInFrame}, since all four call sites in \texttt{rpart\_callback.c} pass \texttt{inherits=FALSE}.
 
 \paragraph{Category E items.} The five R interpreter items (\texttt{eval}, \texttt{findVar}, \texttt{findVarInFrame}, \texttt{install}, \texttt{R\_getVar}) are only reachable when \texttt{rpart()} is called with \texttt{method=4} (user-defined splits). For the \texttt{install} function, the guides specify a self-contained C++ implementation using a \texttt{thread\_local std::unordered\_map<std::string, SEXP>} string-interning cache, which requires no Python registration for normal use. For the remaining three (\texttt{eval}, \texttt{findVar}, \texttt{findVarInFrame}), the guides specify a function-pointer bridge: Python registers a callback at startup, and the C code calls it when needed.
 
@@ -260,6 +347,8 @@ Bug & Files Modified & Root Cause and Fix \\
 7 & \texttt{DL\_FUNC.h} & \texttt{DL\_FUNC.h} declared \texttt{struct DllInfo \{\}} without setting \texttt{FAKE\_DLLINFO\_DEFINED}; \texttt{DllInfo.h} then attempted \texttt{typedef struct DllInfo\_fake DllInfo}, redefining \texttt{DllInfo} as a different type. Fixed by adding the guard definition. \\
 \end{longtable}
 
+\paragraph{A subtlety confirmed safe, not a bug.} The sentinel values \texttt{R\_NilValue}, \texttt{R\_UnboundValue}, and \texttt{R\_NamesSymbol} are each declared as TU-local \texttt{static SEXP} variables, initialized by a call to a small \texttt{inline} factory function (e.g.\ \texttt{make\_nil\_value()}) that itself contains a function-local \texttt{static SEXPREC} object. Because a \texttt{static} local variable inside an \texttt{inline} function has exactly one shared instance across all translation units in C++17, every TU's copy of \texttt{R\_NilValue} ultimately points at the same underlying \texttt{SEXPREC}, so pointer-equality comparisons such as \texttt{x == R\_NilValue} remain correct across the multi-TU build despite the outer variable being \texttt{static}. The companion scalar constants \texttt{R\_NaReal}, \texttt{R\_NaN}, \texttt{R\_PosInf}, \texttt{R\_NegInf}, and \texttt{R\_NaInt} are compared by value rather than by address, so their independent per-TU \texttt{static const} copies are likewise safe.
+
 After all fixes, the 53 headers in \texttt{r2py\_rpart/r\_fake\_headers/} are correct with respect to the ODR, guard consistency, linkage consistency, and multi-TU correctness.
 
 \section{Phase 5: Pure-C Entry-Point Generation and Fake-Header Migration}
@@ -285,6 +374,22 @@ The skill first scanned all \texttt{.R} files in \texttt{rpart/R/} for \texttt{.
 \item \texttt{ArenaFrame \_frame;} is declared as the first local variable to own all arena allocations made during the call.
 \item An exception boundary is implemented via \texttt{noexcept} plus catch blocks for \texttt{RError}, \texttt{std::bad\_alloc}, \texttt{std::exception}, and the catch-all \texttt{(...)}, each of which writes a null-terminated error string to the caller-supplied error buffer.
 \end{itemize}
+
+\medskip
+\begin{center}
+\begin{tabular}{lp{1.6cm}p{8cm}}
+\toprule
+File & Size & Key Design Decisions \\
+\midrule
+\texttt{pred\_rpart\_c.c} & 24~KB & 12-argument wrapper; \texttt{dimx}/\texttt{dimc} passed as 2-element \texttt{int*}; \texttt{csplit2} is nullable (\texttt{csplit2\_nrow=0} skips SEXP construction); returns \texttt{where} as a flat array of length \texttt{dimx[0]}. \\
+\texttt{init\_rpcallback\_c.c} & 24~KB & \texttt{rho}, \texttt{expr1}, \texttt{expr2} passed as opaque \texttt{void*} handles; requires pre-registration of \texttt{install} and \texttt{findVarInFrame} and a populated frame registry for the four ``back'' arrays before the call. \\
+\texttt{rpartexp2\_c.c} & 9.8~KB & 2-argument wrapper; \texttt{dtimes} passed by pointer with no copy; \texttt{eps} passed as a scalar \texttt{double} via a 1-element buffer; returns a \texttt{keep} flag array of length $n$. \\
+\texttt{xpred\_c.c} & 27~KB & 15-argument wrapper; \texttt{xmat} kept column-major (R's native layout) so \texttt{nrows()}/\texttt{ncols()} resolve correctly; \texttt{cp} is mutated in place, so the caller must pass a writable copy; returns a flat \texttt{double*} that the caller reshapes/transposes on the Python side. \\
+\texttt{rpart\_c.c} & 33~KB & 11-argument wrapper, 769 lines, the largest of the five; \texttt{parms} falls back to a zero scalar when \texttt{NULL}/empty; the return value is a list of 6--7 elements, with \texttt{csplit} included only when a \texttt{has\_csplit} flag is set; a \texttt{FREE\_INPUTS\_AND\_RETURN} macro centralizes cleanup on every error path. \\
+\bottomrule
+\end{tabular}
+\end{center}
+\medskip
 
 The \texttt{init\_rpcallback\_c.c} wrapper is the most architecturally complex: the \texttt{rho}, \texttt{expr1}, and \texttt{expr2} arguments (R environments and expressions) must be passed as opaque \texttt{void*} handles, since they represent R interpreter state that cannot be expressed as plain arrays. This is the point where the Python-side frame registry (described in Phase~9) must construct fake SEXP objects wrapping numpy buffers and register the Category~E function-pointer callbacks before the C function is called.
 
@@ -336,16 +441,51 @@ The pre-existing \texttt{dependency\_graph.py} and \texttt{dependency\_levels.py
 
 The full call graph contains 262 nodes (36 file nodes, 49 function nodes, 172 language-dependency nodes, 5 external-dependency nodes) and 745 edges. Only 5 of the 36 files contain \texttt{.Call()} invocations, confirming that the R-to-C interface is narrow.
 
-The 47 functions are stratified into 6 dependency levels. The two deepest utilities are \texttt{compress} (level~5, the subtree-overlap elimination algorithm inside \texttt{rpartco}) and \texttt{tree.depth} (level~5, computes node depth from binary node number via \texttt{floor(log2(node))}). The most widely referenced internal functions are \texttt{formatg} (called by all four method initialisers and \texttt{labels.rpart}), \texttt{na.rpart} (called by \texttt{model.frame.rpart}, \texttt{rpart}, and \texttt{xpred.rpart}), and \texttt{rpart.control}, \texttt{rpart.matrix}, and \texttt{rpartcallback} (each called by both \texttt{rpart} and \texttt{xpred.rpart}).
+\medskip
+\begin{center}
+\begin{tabular}{lrl}
+\toprule
+Level & Count & Description \\
+\midrule
+0 & 20 & Entry points; no other internal function calls these \\
+1 & 18 & Called by level-0 functions \\
+2 & 4 & Called by level-1 functions \\
+3 & 1 & Called by level-2 functions \\
+4 & 2 & Called by level-3 functions \\
+5 & 2 & Deepest leaves in the call DAG \\
+\bottomrule
+\end{tabular}
+\end{center}
+\medskip
 
-The \texttt{rpart} and \texttt{xpred.rpart} functions are the two primary orchestrators, each pulling in \texttt{na.rpart}, \texttt{rpart.matrix}, \texttt{rpartcallback}, and all four method-dispatch targets dynamically via \texttt{get(paste("rpart", method, sep="."))}.
+The 47 functions are stratified into these 6 dependency levels, of which 28 make no internal calls themselves. The two deepest utilities are \texttt{compress} (level~5, the subtree-overlap elimination algorithm inside \texttt{rpartco}) and \texttt{tree.depth} (level~5, computes node depth from binary node number via \texttt{floor(log2(node))}). The most widely referenced internal functions are \texttt{formatg} (called by all four method initialisers and \texttt{labels.rpart}), \texttt{na.rpart} (called by \texttt{model.frame.rpart}, \texttt{rpart}, and \texttt{xpred.rpart}), and \texttt{rpart.control}, \texttt{rpart.matrix}, and \texttt{rpartcallback} (each called by both \texttt{rpart} and \texttt{xpred.rpart}).
+
+The \texttt{rpart} and \texttt{xpred.rpart} functions are the two primary orchestrators, each pulling in \texttt{na.rpart}, \texttt{rpart.matrix}, \texttt{rpartcallback}, and all four method-dispatch targets dynamically via \texttt{get(paste("rpart", method, sep="."))}. \texttt{zzz.R} defines five package-utility functions (\texttt{tree.depth}, \texttt{string.bounding.box}, \texttt{node.match}, \texttt{descendants}, \texttt{.onUnload}) that are consumed by the visualization layer (\texttt{rpartco.R}, \texttt{text.rpart.R}, \texttt{path.rpart.R}) but carry no internal dependencies of their own.
 
 \section{Phase 7: Python Build Infrastructure}
 \label{sec:phase7}
 
 \subsection{Motivation}
 
-The C compilation infrastructure from Phases 4--5 must be integrated into a proper Python packaging workflow before any Python-level testing or distribution is possible. This phase establishes a working \texttt{pip install} flow for the \texttt{r2py\_rpart} package and designs the CI/CD pipeline for multi-platform wheel publication on PyPI. The reference design for the CI/CD infrastructure is the analogous project \texttt{r2py\_kernsmooth} at \texttt{python-KernSmooth/r2py\_kernsmooth/}.
+The C compilation infrastructure from Phases 4--5 must be integrated into a proper Python packaging workflow before any Python-level testing or distribution is possible. This phase establishes a working \texttt{pip install} flow for the \texttt{r2py\_rpart} package and designs the CI/CD pipeline for multi-platform wheel publication on PyPI. The reference design for the CI/CD infrastructure is the analogous project \texttt{r2py\_kernsmooth} at \texttt{python-KernSmooth/r2py\_kernsmooth/}, which builds and publishes wheels for a sibling R-to-Python conversion of the \texttt{KernSmooth} package. Although the two packages share a publication pipeline, their build architectures differ in every other respect:
+
+\medskip
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Aspect & \texttt{r2py\_kernsmooth} & \texttt{r2py\_rpart} \\
+\midrule
+Source language & Fortran & C (compiled as C++) \\
+Binding tool & f2py (NumPy built-in) & cffi (ABI mode, \texttt{dlopen}) \\
+Meson build target & \texttt{py.extension\_module()} & \texttt{shared\_library()} \\
+Python import & \texttt{from . import \_KernSmooth} & \texttt{ffi.dlopen(path)} \\
+External system dependency & OpenBLAS & none \\
+macOS linker flag & automatic & \texttt{-lc++} (explicit) \\
+Windows toolchain & GCC + Fortran + OpenBLAS & GCC only \\
+\bottomrule
+\end{tabular}
+\end{center}
+\medskip
 
 \subsection{Build System Bugs and Fixes}
 
@@ -368,7 +508,7 @@ else
 endif
 \end{lstlisting}
 
-After all four bug fixes, the package builds successfully with \texttt{pip install --no-build-isolation .} and the existing \texttt{rpartexp2} tests pass.
+After all four bug fixes, the package builds successfully with \texttt{pip install --no-build-isolation .} and the existing \texttt{rpartexp2} tests pass: \texttt{test\_rpartexp2\_basic} (input \texttt{[1.0, 2.0, 2.0, 3.0, 3.0, 3.0, 5.0]}, asserting a keep/drop array of matching length with values in $\{0,1\}$) and \texttt{test\_rpartexp2\_all\_unique} (input \texttt{[1.0, 2.0, 4.0, 8.0]}, asserting that every element is kept). The resulting wheel, \texttt{r2py\_rpart-0.1.0-cp314-cp314-linux\_x86\_64.whl} (179{,}418~bytes), installs \texttt{\_rpart\_core.so} into site-packages.
 
 \section{Phase 8: Language Dependency Analysis and Conversion Guide Generation}
 \label{sec:phase8}
@@ -395,7 +535,25 @@ The initial merge failed with a \texttt{pandas.errors.ParserError}. A diagnostic
 
 \subsubsection{Key Findings}
 
-The combined table contains 1,298 invocation records across 172 distinct language dependencies. The most frequently called base-R functions are \texttt{stop} (80 call sites), \texttt{c} (67), \texttt{length} (63), \texttt{is.null} (60), \texttt{cat} (41), and \texttt{match} (35). The \texttt{rpartcallback.R} file is the densest single-function file: 84 rows reflecting heavy use of \texttt{stop} (14 calls), \texttt{length} (13 calls), and \texttt{assign} (9 calls) for environment construction.
+The combined table contains 1,298 invocation records across 172 distinct language dependencies. The most frequently called base-R functions are \texttt{stop} (80 call sites), \texttt{c} (67), \texttt{length} (63), \texttt{is.null} (60), \texttt{cat} (41), \texttt{match} (35), \texttt{list} (34), \texttt{names} (34), \texttt{as.integer} (33), \texttt{format} (32), \texttt{matrix} (30), \texttt{missing} (30), \texttt{any} (27), \texttt{attr} (27), and \texttt{ncol} (26).
+
+\medskip
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+File & Rows \\
+\midrule
+\texttt{rpart.R} & 171 \\
+\texttt{xpred.rpart.R} & 98 \\
+\texttt{rpart.class.R} & 87 \\
+\texttt{summary.rpart.R} & 86 \\
+\texttt{rpart.exp.R} & 74 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\medskip
+
+The \texttt{rpartcallback.R} file is the densest single-function file: 84 rows reflecting heavy use of \texttt{stop} (14 calls), \texttt{length} (13 calls), and \texttt{assign} (9 calls) for environment construction.
 
 \subsection{Phase 8.2: Conversion Guide Generation}
 \label{sec:phase8.2}
@@ -419,7 +577,7 @@ Two guides are dot-prefixed (\texttt{.getXlevels.md} and \texttt{.checkMFClasses
 
 \subsubsection{Representative Guide Complexity}
 
-The guides cover a wide range of translation complexity. Simple constructs like \texttt{any} map directly to \texttt{np.any()}. Complex constructs require pattern-specific guidance: \texttt{tapply} requires three distinct translations depending on whether the grouping is a free-form factor, a factor with explicit levels for zero-filling, or dense integer bin indices. \texttt{t} (transpose) requires distinguishing between a pure orientation transpose (\texttt{.T} numpy view) and a transpose-for-C-call that must be followed by \texttt{.ravel()} to produce a column-major flat array. \texttt{unlist} requires four distinct patterns depending on whether the input is a list of arrays, a list with NULL slots, a column-major DataFrame, or a named scalar/array packing for a \texttt{.Call} argument.
+The guides cover a wide range of translation complexity. Simple constructs like \texttt{any} map directly to \texttt{np.any()}. Complex constructs require pattern-specific guidance: \texttt{tapply} requires three distinct translations depending on whether the grouping is a free-form factor, a factor with explicit levels for zero-filling, or dense integer bin indices. \texttt{t} (transpose) requires distinguishing between a pure orientation transpose (\texttt{.T} numpy view) and a transpose-for-C-call that must be followed by \texttt{.ravel()} to produce a column-major flat array. \texttt{unlist} requires four distinct patterns depending on whether the input is a list of arrays, a list with NULL slots, a column-major DataFrame, or a named scalar/array packing for a \texttt{.Call} argument. The \texttt{stop} guide alone documents eight distinct call-site scenarios across its 79 invocations---static string messages, \texttt{gettextf}-interpolated messages, object-class guards, input-shape and value guards, environment-state guards, and callback-validation guards---reflecting how heavily the package relies on this single function for input validation. The \texttt{switch} guide documents three patterns: string-to-string mapping (a plain \texttt{dict} lookup), side-effect block dispatch (an \texttt{if}/\texttt{elif} chain), and vectorised numeric dispatch (an \texttt{if}/\texttt{elif} chain built around \texttt{np.log}, \texttt{np.sqrt}, and \texttt{np.where}). The \texttt{x\$functions\$text} guide documents rpart's S3 named-callable dispatch idiom, translated to a two-level Python \texttt{dict}-of-callables access pattern, \texttt{x["functions"]["text"](...)}.
 
 \section{Phase 9: R-to-Python Function Conversion and Package Assembly}
 \label{sec:phase9}
@@ -459,6 +617,10 @@ R 1-based indexing & Python 0-based indexing throughout \\
 \texttt{cumsum(c(...))} & \texttt{np.cumsum(np.concatenate([...]))} \\
 \texttt{pmax}/\texttt{pmin} & \texttt{np.maximum}/\texttt{np.minimum} \\
 \texttt{tapply(wt, factor(y), sum)} & \texttt{pd.Series.groupby(pd.Categorical).sum()} \\
+\texttt{factor}/\texttt{levels} & \texttt{pd.Categorical} \\
+\texttt{outer(x, y, FUN)} & NumPy broadcasting \\
+\texttt{apply(m, 1, paste, collapse=sep)} & List comprehension with \texttt{str.join} over rows \\
+\texttt{attr(x, "terms")} & \texttt{x.attrs.get("terms")} \\
 Column-major matrix for \texttt{.Call} & \texttt{np.reshape(..., order='F')} \\
 \texttt{t(Y)} before \texttt{.Call} & \texttt{Y.T.ravel()} \\
 \texttt{.Call("C\_rpart")} & \texttt{from r2py\_rpart import \_rpart\_c} \\
@@ -476,6 +638,8 @@ Several functions required non-mechanical decisions. \texttt{compress} in \textt
 
 The largest function, \texttt{rpart()} (~300 lines), required careful handling of the ordered-factor categorical split matrix construction, classification probability vector normalization, and assembly of the final output dictionary. R's S3 class assignment \texttt{class(ans) <- "rpart"} was replaced with a sentinel entry \texttt{ans["\_rpart\_class"] = "rpart"}, and \texttt{attr()}-stored metadata was handled via \texttt{ans["\_xlevels"]} and \texttt{ans["\_ylevels"]}.
 
+\texttt{oval} and \texttt{rectangle} in \texttt{text.rpart.R} translate R's \texttt{polygon(x, y)} calls to matplotlib's \texttt{ax.fill(x, y)} (a filled polygon drawn against an \texttt{Axes} object), and \texttt{post.rpart}'s PostScript tree export---built on R's \texttt{postscript()} graphics device---was translated using matplotlib's \texttt{FigureCanvasPS} backend.
+
 The \texttt{eval.parent(model.frame(...))} pattern---which dynamically constructs a model frame from the parent call object---was identified as a hard boundary that cannot be faithfully reproduced in Python without a formula parser. All such sites were stubbed with \texttt{NotImplementedError}, to be filled in once patsy integration is available. The interactive \texttt{snip.rpart.mouse} function was also stubbed, as terminal interaction is not reproducible in Python.
 
 \subsection{Phase 9.2: Package Assembly, API Restructuring, and Test Validation}
@@ -492,7 +656,49 @@ The \skillapp{combine-python-functions-into-folder}{combine-python-functions-int
 /combine-python-functions-into-folder conversion_results/R/ r2py_rpart/r2py_rpart/ r2py_rpart/r2py_rpart/
 \end{lstlisting}
 
-A Python script read each conversion subdirectory's JSON files, deduplicated imports, prepended the \texttt{from \_\_future\_\_ import annotations} and \texttt{from typing import Any} boilerplate, and assembled functions as prototype-plus-body blocks. All 36 files were written successfully. Twenty-six of the 36 output filenames contained dots from R naming conventions (e.g., \texttt{labels.rpart.py}) and were renamed by replacing internal dots with underscores (e.g., \texttt{labels\_rpart.py}) to make them importable as Python modules.
+A Python script read each conversion subdirectory's JSON files, deduplicated imports, prepended the \texttt{from \_\_future\_\_ import annotations} and \texttt{from typing import Any} boilerplate, and assembled functions as prototype-plus-body blocks. All 36 files were written successfully. Twenty-six of the 36 output filenames contained dots from R naming conventions (e.g., \texttt{labels.rpart.py}) and were renamed by replacing internal dots with underscores (e.g., \texttt{labels\_rpart.py}) to make them importable as Python modules. The full renaming map:
+
+\medskip
+\begin{center}
+\begin{longtable}{ll}
+\toprule
+Original & Renamed \\
+\midrule
+\endfirsthead
+\toprule
+Original & Renamed \\
+\midrule
+\endhead
+\texttt{labels.rpart.py} & \texttt{labels\_rpart.py} \\
+\texttt{meanvar.rpart.py} & \texttt{meanvar\_rpart.py} \\
+\texttt{model.frame.rpart.py} & \texttt{model\_frame\_rpart.py} \\
+\texttt{na.rpart.py} & \texttt{na\_rpart.py} \\
+\texttt{path.rpart.py} & \texttt{path\_rpart.py} \\
+\texttt{plot.rpart.py} & \texttt{plot\_rpart.py} \\
+\texttt{post.rpart.py} & \texttt{post\_rpart.py} \\
+\texttt{pred.rpart.py} & \texttt{pred\_rpart.py} \\
+\texttt{predict.rpart.py} & \texttt{predict\_rpart.py} \\
+\texttt{print.rpart.py} & \texttt{print\_rpart.py} \\
+\texttt{prune.rpart.py} & \texttt{prune\_rpart.py} \\
+\texttt{residuals.rpart.py} & \texttt{residuals\_rpart.py} \\
+\texttt{roc.rpart.py} & \texttt{roc\_rpart.py} \\
+\texttt{rpart.anova.py} & \texttt{rpart\_anova.py} \\
+\texttt{rpart.branch.py} & \texttt{rpart\_branch.py} \\
+\texttt{rpart.class.py} & \texttt{rpart\_class.py} \\
+\texttt{rpart.control.py} & \texttt{rpart\_control.py} \\
+\texttt{rpart.exp.py} & \texttt{rpart\_exp.py} \\
+\texttt{rpart.matrix.py} & \texttt{rpart\_matrix.py} \\
+\texttt{rpart.poisson.py} & \texttt{rpart\_poisson.py} \\
+\texttt{rsq.rpart.py} & \texttt{rsq\_rpart.py} \\
+\texttt{snip.rpart.mouse.py} & \texttt{snip\_rpart\_mouse.py} \\
+\texttt{snip.rpart.py} & \texttt{snip\_rpart.py} \\
+\texttt{summary.rpart.py} & \texttt{summary\_rpart.py} \\
+\texttt{text.rpart.py} & \texttt{text\_rpart.py} \\
+\texttt{xpred.rpart.py} & \texttt{xpred\_rpart.py} \\
+\bottomrule
+\end{longtable}
+\end{center}
+\medskip
 
 Four categories of import-time errors were identified and fixed before tests could run:
 \begin{enumerate}
@@ -504,7 +710,30 @@ Four categories of import-time errors were identified and fixed before tests cou
 
 \subsubsection{API Restructuring}
 
-The original \texttt{\_\_init\_\_.py} exposed the four C-level wrapper functions as \texttt{rpart}, \texttt{pred\_rpart}, \texttt{xpred}, and \texttt{rpartexp2}. After assembly, the high-level Python interfaces from the converted modules claimed the same names. The C wrappers were renamed to private symbols (\texttt{\_rpart\_c}, \texttt{\_pred\_rpart\_c}, \texttt{\_xpred\_c}, \texttt{\_rpartexp2\_c}), and the high-level Python functions were promoted to the public API via \texttt{\_\_all\_\_}. The three modules that previously imported the C wrappers by their old public names were updated accordingly.
+The original \texttt{\_\_init\_\_.py} exposed the four C-level wrapper functions as \texttt{rpart}, \texttt{pred\_rpart}, \texttt{xpred}, and \texttt{rpartexp2}. After assembly, the high-level Python interfaces from the converted modules claimed the same names. The C wrappers were renamed to private symbols (\texttt{\_rpart\_c}, \texttt{\_pred\_rpart\_c}, \texttt{\_xpred\_c}, \texttt{\_rpartexp2\_c}), and the high-level Python functions were promoted to the public API via \texttt{\_\_all\_\_}. The three modules that previously imported the C wrappers by their old public names were updated accordingly. After restructuring, \texttt{r2py\_rpart.\_\_all\_\_} contains 49 entries; the primary user-facing exports are:
+
+\medskip
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Symbol & Source Module & R Equivalent \\
+\midrule
+\texttt{rpart} & \texttt{rpart.py} & \texttt{rpart::rpart()} \\
+\texttt{pred\_rpart} & \texttt{pred\_rpart.py} & \texttt{rpart:::pred.rpart()} \\
+\texttt{predict\_rpart} & \texttt{predict\_rpart.py} & \texttt{predict.rpart()} \\
+\texttt{xpred\_rpart} & \texttt{xpred\_rpart.py} & \texttt{rpart:::xpred.rpart()} \\
+\texttt{rpart\_control} & \texttt{rpart\_control.py} & \texttt{rpart::rpart.control()} \\
+\texttt{summary\_rpart} & \texttt{summary\_rpart.py} & \texttt{summary.rpart()} \\
+\texttt{plot\_rpart} & \texttt{plot\_rpart.py} & \texttt{plot.rpart()} \\
+\texttt{text\_rpart} & \texttt{text\_rpart.py} & \texttt{text.rpart()} \\
+\texttt{prune\_rpart} & \texttt{prune\_rpart.py} & \texttt{prune.rpart()} \\
+\texttt{importance} & \texttt{importance.py} & \texttt{rpart:::importance()} \\
+\bottomrule
+\end{tabular}
+\end{center}
+\medskip
+
+C wrappers retained as private symbols: \texttt{\_rpart\_c}, \texttt{\_pred\_rpart\_c}, \texttt{\_xpred\_c}, \texttt{\_rpartexp2\_c}.
 
 \subsubsection{Runtime Bugs in rpart.py}
 
@@ -558,6 +787,13 @@ Function & Signature & Purpose \\
 \end{tabular}
 \end{center}
 
+The five helpers operate directly on the \texttt{SEXPREC} layout established in Phase~4's \texttt{INTSXP.h}:
+\begin{lstlisting}[style=cpp]
+struct SEXPREC { int type; int length; int nrow; int ncol; void *data; };
+typedef SEXPREC *SEXP;
+\end{lstlisting}
+using the constants \texttt{REALSXP=14}, \texttt{INTSXP=13}, and \texttt{ENVSXP=4}.
+
 The function \texttt{call\_install} was \emph{not} added as a new C-level function: \texttt{install.h} already emits it as a weak (\texttt{W}) \texttt{extern "C" inline} symbol via \texttt{-fkeep-inline-functions}, and redefining it in a \texttt{.c} file would cause a duplicate-symbol linker error. The correct approach is to declare it in \texttt{ffi.cdef()} only, reusing the pre-existing weak symbol.
 
 \subsubsection{rpartcallback.py Rewrite}
@@ -584,7 +820,30 @@ A distinction that was explicitly preserved: the three helper functions \texttt{
 
 \subsubsection{Results}
 
-After the build (\texttt{pip install --no-build-isolation .}), symbol verification confirmed the presence of all expected symbols in \texttt{\_rpart\_core.so}: \texttt{make\_real\_sexp}, \texttt{make\_int\_sexp}, \texttt{make\_env\_sexp}, \texttt{free\_sexp\_helper} as strong (\texttt{T}) symbols from \texttt{interpreter\_helpers\_c.c}, and \texttt{call\_install} as a weak (\texttt{W}) symbol from \texttt{install.h}. All 11 regression tests continue to pass. The \texttt{method=4} user-defined splits code path is architecturally complete at the FFI layer; end-to-end testing with actual user-defined split functions has not yet been performed.
+After the build (\texttt{pip install --no-build-isolation .}), symbol verification confirmed the presence of all expected symbols in \texttt{\_rpart\_core.so}: \texttt{make\_real\_sexp}, \texttt{make\_int\_sexp}, \texttt{make\_env\_sexp}, \texttt{free\_sexp\_helper} as strong (\texttt{T}) symbols from \texttt{interpreter\_helpers\_c.c}, and \texttt{call\_install} as a weak (\texttt{W}) symbol from \texttt{install.h}.
+
+\medskip
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Symbol & Type & Source \\
+\midrule
+\texttt{make\_real\_sexp} & T (strong) & \texttt{interpreter\_helpers\_c.c} \\
+\texttt{make\_int\_sexp} & T (strong) & \texttt{interpreter\_helpers\_c.c} \\
+\texttt{make\_env\_sexp} & T (strong) & \texttt{interpreter\_helpers\_c.c} \\
+\texttt{free\_sexp\_helper} & T (strong) & \texttt{interpreter\_helpers\_c.c} \\
+\texttt{call\_install} & W (weak) & \texttt{install.h} (inline) \\
+\texttt{register\_eval\_fn} & T & \texttt{eval.h} \\
+\texttt{register\_install\_fn} & T & \texttt{R\_getVar.h} \\
+\texttt{register\_findVar\_fn} & T & \texttt{R\_getVar.h} \\
+\texttt{register\_findVarInFrame\_fn} & T & \texttt{R\_getVar.h} \\
+\texttt{get\_R\_UnboundValue} & T & \texttt{R\_UnboundValue.h} \\
+\bottomrule
+\end{tabular}
+\end{center}
+\medskip
+
+All 11 regression tests continue to pass. The \texttt{method=4} user-defined splits code path is architecturally complete at the FFI layer; end-to-end testing with actual user-defined split functions has not yet been performed.
 
 \appendix
 
