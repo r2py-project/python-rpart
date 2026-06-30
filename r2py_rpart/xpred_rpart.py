@@ -4,6 +4,9 @@ from typing import Any
 
 import numpy as np
 
+from .rpart_matrix import rpart_matrix
+from .rpartcallback import rpartcallback
+
 _MISSING = object()
 
 
@@ -15,12 +18,13 @@ def xpred_rpart(fit: dict[str, Any], xval: int | np.ndarray[Any, np.dtype[np.int
     method = fit['method']
     _xpred_methods = ['anova', 'poisson', 'class', 'user', 'exp']
     def _pmatch(x: str, table: list[str]) -> int | None:
-        matches = [i + 1 for i, s in enumerate(table) if s.startswith(x)]
-        if len(matches) == 1:
-            return matches[0]
+        # R's pmatch() prefers an exact match over a (unique) partial match.
         exact = [i + 1 for i, s in enumerate(table) if s == x]
         if len(exact) == 1:
             return exact[0]
+        matches = [i + 1 for i, s in enumerate(table) if s.startswith(x)]
+        if len(matches) == 1:
+            return matches[0]
         return None
     method_int = _pmatch(method, _xpred_methods)
     if method_int == 5:
@@ -74,7 +78,7 @@ def xpred_rpart(fit: dict[str, Any], xval: int | np.ndarray[Any, np.dtype[np.int
 
     # --- cats vector: number of levels per predictor variable ---
     cats = np.zeros(nvar, dtype=np.int32)
-    xlevels = fit.get('xlevels')
+    xlevels = fit.get('_xlevels')
     if xlevels is not None:
         col_names = list(X.col_names) if hasattr(X, 'col_names') else list(range(nvar))
         # filter xlevels to only those present in X columns
@@ -88,9 +92,11 @@ def xpred_rpart(fit: dict[str, Any], xval: int | np.ndarray[Any, np.dtype[np.int
 
     # --- cp default: derive geometric-mean cp values from cptable ---
     if cp is _MISSING:
-        cptable_col0 = np.array(fit['cptable'][:, 0], dtype=np.float64)
+        _cptable = fit['cptable']
+        _cptable = _cptable.to_numpy() if hasattr(_cptable, 'to_numpy') else _cptable
+        cptable_col0 = np.array(_cptable[:, 0], dtype=np.float64)
         cp_arr = np.sqrt(cptable_col0 * np.concatenate([[10.0], cptable_col0[:-1]]))
-        cp_arr[0] = (1.0 + float(fit['cptable'][0, 0])) / 2.0
+        cp_arr[0] = (1.0 + float(_cptable[0, 0])) / 2.0
     else:
         cp_arr = np.asarray(cp, dtype=np.float64)
 
@@ -155,11 +161,18 @@ def xpred_rpart(fit: dict[str, Any], xval: int | np.ndarray[Any, np.dtype[np.int
     wt_f64 = np.asarray(wt, dtype=np.float64)
 
     # --- parms to flat float64 array ---
+    # R's unlist(init$parms) flattens each component (prior/loss/split, etc.)
+    # in turn; a plain np.array(list(parms.values())) fails whenever the
+    # components have different shapes (e.g. classification's prior vector
+    # + loss matrix + scalar split code), so ravel-and-concatenate instead.
     if isinstance(parms, dict):
-        parms_vals = list(parms.values())
+        parms_source = list(parms.values())
     else:
-        parms_vals = list(parms) if parms is not None else []
-    parms_flat = np.array(parms_vals, dtype=np.float64) if len(parms_vals) > 0 else np.array([0.0], dtype=np.float64)
+        parms_source = list(parms) if parms is not None else []
+    _flat: list[float] = []
+    for v in parms_source:
+        _flat.extend(np.asarray(v, dtype=np.float64).ravel().tolist())
+    parms_flat = np.array(_flat, dtype=np.float64) if _flat else np.array([0.0], dtype=np.float64)
 
     # --- controls to flat float64 array ---
     if isinstance(controls, dict):

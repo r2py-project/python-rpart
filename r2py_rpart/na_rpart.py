@@ -10,7 +10,9 @@ import pandas as pd
 def na_rpart(x: pd.DataFrame) -> pd.DataFrame:
     Terms = x.attrs.get('terms')
     if Terms is not None:
-        yvar = Terms.attrs.get('response', 0)
+        # Terms is a plain dict (the package-wide convention, see rpart.py),
+        # mirroring R's attr(Terms, "response") integer attribute.
+        yvar = Terms.get('response', 0) if isinstance(Terms, dict) else 0
     else:
         yvar = 0
     if yvar == 0:

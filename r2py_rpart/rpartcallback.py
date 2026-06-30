@@ -2,9 +2,30 @@ from __future__ import annotations
 
 from typing import Any, Callable
 
+import weakref
+
 import numpy as np
 
 from . import ffi, _lib, _check_error, _cptr, _ERR_BUF_SIZE
+
+
+class _CallbackSession:
+    """Sentinel object whose garbage collection triggers release of the
+    C-heap fake-SEXP allocations (make_real_sexp/make_int_sexp/make_env_sexp)
+    backing one rpartcallback() session -- there is no Python equivalent of
+    R's GC-driven SEXP finalization, so this stands in for it."""
+
+
+def _free_sexp(sexp: Any) -> None:
+    if sexp is not None and int(ffi.cast("uintptr_t", sexp)) != 0:
+        _lib.free_sexp_helper(sexp)
+
+
+def _release_session_sexps(sexp_y: Any, sexp_w: Any, sexp_x: Any, sexp_n: Any,
+                            rho_sexp: Any, last_result: list[Any]) -> None:
+    _free_sexp(last_result[2])
+    for s in (sexp_y, sexp_w, sexp_x, sexp_n, rho_sexp):
+        _free_sexp(s)
 
 
 def rpartcallback(mlist: dict[str, Callable[..., Any]], nobs: int, init: dict[str, Any]) -> dict[str, Any]:
@@ -37,30 +58,55 @@ def rpartcallback(mlist: dict[str, Callable[..., Any]], nobs: int, init: dict[st
     rho["numresp"] = int(numresp)
     rho["parms"] = parms
 
+    # _pending_exception holds any error raised inside the user's split/eval
+    # functions (or our own return-shape validation below). Exceptions
+    # cannot cross the cffi callback boundary: rpart_callback1/2 (C) call
+    # isReal()/LENGTH()/REAL() on whatever SEXP _py_eval returns, and a raw
+    # null SEXP makes those calls dereference a null pointer and segfault
+    # the whole process. So eval1/eval2 catch their own exceptions, record
+    # them here, and return an all-zero array of the *expected* length
+    # (computed before calling user code, so it doesn't depend on the user
+    # function succeeding) -- the C side sees a well-formed-but-meaningless
+    # result and the tree-growing loop completes (or itself raises a
+    # same-process-safe RError), after which rpart.py re-raises the
+    # original Python exception once the C call returns.
+    rho["_pending_exception"] = [None]
+    _pending_exception = rho["_pending_exception"]
+
     # eval2 replaces expr2: node evaluation callback.
     # Called by rpart_callback1 with eval(expr2, rho).
     # Returns a REALSXP of length (1 + numresp): [deviance, *label].
     if numy == 1:
         def eval2() -> np.ndarray:
             nback = int(rho["nback"][0])
-            temp = user_eval(rho["yback"][:nback], rho["wback"][:nback], parms)
-            if len(temp["label"]) != numresp:
-                raise ValueError("User 'eval' function returned invalid label")
-            if np.asarray(temp["deviance"]).size != 1:
-                raise ValueError("User 'eval' function returned invalid deviance")
-            return np.concatenate([np.asarray(temp["deviance"]).ravel(),
-                                   np.asarray(temp["label"]).ravel()]).astype(np.float64)
+            expected_len = 1 + numresp
+            try:
+                temp = user_eval(rho["yback"][:nback], rho["wback"][:nback], parms)
+                if len(temp["label"]) != numresp:
+                    raise ValueError("User 'eval' function returned invalid label")
+                if np.asarray(temp["deviance"]).size != 1:
+                    raise ValueError("User 'eval' function returned invalid deviance")
+                return np.concatenate([np.asarray(temp["deviance"]).ravel(),
+                                       np.asarray(temp["label"]).ravel()]).astype(np.float64)
+            except Exception as exc:
+                _pending_exception[0] = exc
+                return np.zeros(max(expected_len, 0), dtype=np.float64)
     else:
         def eval2() -> np.ndarray:
             nback = int(rho["nback"][0])
-            tempy = rho["yback"][:nback * numy].reshape((nback, numy), order="F")
-            temp = user_eval(tempy, rho["wback"][:nback], parms)
-            if len(temp["label"]) != numresp:
-                raise ValueError("User 'eval' function returned invalid label")
-            if np.asarray(temp["deviance"]).size != 1:
-                raise ValueError("User 'eval' function returned invalid deviance")
-            return np.concatenate([np.asarray(temp["deviance"]).ravel(),
-                                   np.asarray(temp["label"]).ravel()]).astype(np.float64)
+            expected_len = 1 + numresp
+            try:
+                tempy = rho["yback"][:nback * numy].reshape((nback, numy), order="F")
+                temp = user_eval(tempy, rho["wback"][:nback], parms)
+                if len(temp["label"]) != numresp:
+                    raise ValueError("User 'eval' function returned invalid label")
+                if np.asarray(temp["deviance"]).size != 1:
+                    raise ValueError("User 'eval' function returned invalid deviance")
+                return np.concatenate([np.asarray(temp["deviance"]).ravel(),
+                                       np.asarray(temp["label"]).ravel()]).astype(np.float64)
+            except Exception as exc:
+                _pending_exception[0] = exc
+                return np.zeros(max(expected_len, 0), dtype=np.float64)
 
     # eval1 replaces expr1: split-goodness callback.
     # Called by rpart_callback2 with eval(expr1, rho).
@@ -71,41 +117,57 @@ def rpartcallback(mlist: dict[str, Callable[..., Any]], nobs: int, init: dict[st
             nback = int(rho["nback"][0])
             if nback < 0:
                 n2 = -nback
-                temp = user_split(rho["yback"][:n2], rho["wback"][:n2],
-                                  rho["xback"][:n2], parms, False)
                 ncat = len(np.unique(rho["xback"][:n2]))
-                if len(temp["goodness"]) != ncat - 1 or len(temp["direction"]) != ncat:
-                    raise ValueError("Invalid return from categorical 'split' function")
+                expected_len = 2 * ncat - 1
             else:
-                temp = user_split(rho["yback"][:nback], rho["wback"][:nback],
-                                  rho["xback"][:nback], parms, True)
-                if len(temp["goodness"]) != nback - 1:
-                    raise ValueError("User 'split' function returned invalid goodness")
-                if len(temp["direction"]) != nback - 1:
-                    raise ValueError("User 'split' function returned invalid direction")
-            return np.concatenate([np.asarray(temp["goodness"]).ravel(),
-                                   np.asarray(temp["direction"]).ravel()]).astype(np.float64)
+                expected_len = 2 * (nback - 1)
+            try:
+                if nback < 0:
+                    temp = user_split(rho["yback"][:n2], rho["wback"][:n2],
+                                      rho["xback"][:n2], parms, False)
+                    if len(temp["goodness"]) != ncat - 1 or len(temp["direction"]) != ncat:
+                        raise ValueError("Invalid return from categorical 'split' function")
+                else:
+                    temp = user_split(rho["yback"][:nback], rho["wback"][:nback],
+                                      rho["xback"][:nback], parms, True)
+                    if len(temp["goodness"]) != nback - 1:
+                        raise ValueError("User 'split' function returned invalid goodness")
+                    if len(temp["direction"]) != nback - 1:
+                        raise ValueError("User 'split' function returned invalid direction")
+                return np.concatenate([np.asarray(temp["goodness"]).ravel(),
+                                       np.asarray(temp["direction"]).ravel()]).astype(np.float64)
+            except Exception as exc:
+                _pending_exception[0] = exc
+                return np.zeros(max(expected_len, 0), dtype=np.float64)
     else:
         def eval1() -> np.ndarray:
             nback = int(rho["nback"][0])
             if nback < 0:
                 n2 = -nback
-                tempy = rho["yback"][:n2 * numy].reshape((n2, numy), order="F")
-                temp = user_split(tempy, rho["wback"][:n2],
-                                  rho["xback"][:n2], parms, False)
                 ncat = len(np.unique(rho["xback"][:n2]))
-                if len(temp["goodness"]) != ncat - 1 or len(temp["direction"]) != ncat:
-                    raise ValueError("Invalid return from categorical 'split' function")
+                expected_len = 2 * ncat - 1
             else:
-                tempy = rho["yback"][:nback * numy].reshape((nback, numy), order="F")
-                temp = user_split(tempy, rho["wback"][:nback],
-                                  rho["xback"][:nback], parms, True)
-                if len(temp["goodness"]) != nback - 1:
-                    raise ValueError("User 'split' function returned invalid goodness")
-                if len(temp["direction"]) != nback - 1:
-                    raise ValueError("User 'split' function returned invalid direction")
-            return np.concatenate([np.asarray(temp["goodness"]).ravel(),
-                                   np.asarray(temp["direction"]).ravel()]).astype(np.float64)
+                expected_len = 2 * (nback - 1)
+            try:
+                if nback < 0:
+                    tempy = rho["yback"][:n2 * numy].reshape((n2, numy), order="F")
+                    temp = user_split(tempy, rho["wback"][:n2],
+                                      rho["xback"][:n2], parms, False)
+                    if len(temp["goodness"]) != ncat - 1 or len(temp["direction"]) != ncat:
+                        raise ValueError("Invalid return from categorical 'split' function")
+                else:
+                    tempy = rho["yback"][:nback * numy].reshape((nback, numy), order="F")
+                    temp = user_split(tempy, rho["wback"][:nback],
+                                      rho["xback"][:nback], parms, True)
+                    if len(temp["goodness"]) != nback - 1:
+                        raise ValueError("User 'split' function returned invalid goodness")
+                    if len(temp["direction"]) != nback - 1:
+                        raise ValueError("User 'split' function returned invalid direction")
+                return np.concatenate([np.asarray(temp["goodness"]).ravel(),
+                                       np.asarray(temp["direction"]).ravel()]).astype(np.float64)
+            except Exception as exc:
+                _pending_exception[0] = exc
+                return np.zeros(max(expected_len, 0), dtype=np.float64)
 
     # --- C-level callback setup (mirrors .Call(C_init_rpcallback, ...)) ---
     #
@@ -122,7 +184,10 @@ def rpartcallback(mlist: dict[str, Callable[..., Any]], nobs: int, init: dict[st
     _symbol_nodes: dict[str, Any] = {}
 
     def _py_install(name_bytes: Any) -> Any:
-        name = ffi.string(name_bytes).decode()
+        # Called both as a registered C callback (name_bytes is cffi cdata)
+        # and directly from Python below with plain bytes literals
+        # (b"yback", ...); ffi.string() only accepts the former.
+        name = (name_bytes if isinstance(name_bytes, (bytes, bytearray)) else ffi.string(name_bytes)).decode()
         if name not in _symbol_handles:
             node = ffi.new("char[1]")
             _symbol_handles[name] = int(ffi.cast("uintptr_t", node))
@@ -210,9 +275,24 @@ def rpartcallback(mlist: dict[str, Callable[..., Any]], nobs: int, init: dict[st
     # eval(expr2, rho) -> rpart_callback1 (node evaluation)
     # eval(expr1, rho) -> rpart_callback2 (split goodness)
     # Return value must be a fake REALSXP whose REAL() pointer C can read.
-    _eval_result_keeper: list[Any] = []  # prevent GC until C has copied data
+    #
+    # rpart_callback1/2 read REAL(result) synchronously and copy out what
+    # they need before ever calling back into eval() again, so only the
+    # most recent result needs to stay alive -- keep a single-slot holder
+    # (freeing the previous C-heap sexp before replacing it) instead of an
+    # ever-growing list, which would otherwise leak one fake-SEXPREC node
+    # per node/split evaluation for the life of the rpart() call.
+    _last_result: list[Any] = [None, None, None]  # [result_arr, buf, sexp_result]
 
     def _py_eval(expr_p: Any, rho_p: Any) -> Any:
+        # eval1()/eval2() already catch their own exceptions and return a
+        # correctly-sized zero-filled fallback (see _pending_exception
+        # above), so this outer try/except is only a secondary safety net
+        # for failures in SEXP construction itself. It must still avoid
+        # returning a raw null pointer: rpart_callback1/2 (C) call
+        # isReal()/LENGTH()/REAL() unconditionally on whatever comes back,
+        # and dereferencing null there segfaults the whole process instead
+        # of surfacing a catchable Python error.
         try:
             expr_int = int(ffi.cast("uintptr_t", expr_p))
             if expr_int == _expr2_ptr:
@@ -220,14 +300,29 @@ def rpartcallback(mlist: dict[str, Callable[..., Any]], nobs: int, init: dict[st
             elif expr_int == _expr1_ptr:
                 result_arr = eval1()
             else:
-                return ffi.cast("void *", 0)
+                result_arr = np.zeros(1, dtype=np.float64)
             result_arr = np.ascontiguousarray(result_arr, dtype=np.float64)
             buf = ffi.from_buffer(result_arr)
             sexp_result = _lib.make_real_sexp(buf, result_arr.size)
-            _eval_result_keeper.append((result_arr, buf, sexp_result))
+            _free_sexp(_last_result[2])
+            _last_result[0], _last_result[1], _last_result[2] = result_arr, buf, sexp_result
             return sexp_result
-        except Exception:
-            return ffi.cast("void *", 0)
+        except Exception as exc:
+            if _pending_exception[0] is None:
+                _pending_exception[0] = exc
+            # Last-resort fallback: a 1-element zero SEXP. This may still
+            # trip the C side's own "wrong length" check and raise an
+            # RError, which is fine -- _pending_exception takes priority
+            # once control returns to rpart.py.
+            try:
+                fallback = np.zeros(1, dtype=np.float64)
+                buf = ffi.from_buffer(fallback)
+                sexp_result = _lib.make_real_sexp(buf, fallback.size)
+                _free_sexp(_last_result[2])
+                _last_result[0], _last_result[1], _last_result[2] = fallback, buf, sexp_result
+                return sexp_result
+            except Exception:
+                return ffi.cast("void *", 0)
 
     _eval_cb = ffi.callback("void *(void *, void *)", _py_eval)
     _lib.register_eval_fn(ffi.cast("void *", _eval_cb))
@@ -248,13 +343,25 @@ def rpartcallback(mlist: dict[str, Callable[..., Any]], nobs: int, init: dict[st
 
     # Store cffi callbacks and SEXP nodes in rho so they remain alive for
     # the duration of the callback session (cffi callbacks are freed when GC'd).
+    _session = _CallbackSession()
     rho["_cffi_keep_alive"] = [
         _install_cb, _findVarInFrame_cb, _findVar_cb, _eval_cb,
         _rho_sexp, _expr1_node, _expr2_node,
         sexp_y, sexp_w, sexp_x, sexp_n,
         _buf_y, _buf_w, _buf_x, _buf_n,
-        _eval_result_keeper,
+        _last_result,
         _symbol_nodes,
+        _session,
     ]
 
-    return {"eval1": eval1, "eval2": eval2, "rho": rho}
+    # sexp_y/w/x/n and _rho_sexp are heap-allocated fake SEXPREC nodes (via
+    # make_real_sexp/make_int_sexp/make_env_sexp) that must live for the
+    # whole session but, like _last_result's lingering entry, still need to
+    # be released eventually -- free them (and whatever the last _py_eval
+    # call left in _last_result) once the session sentinel is collected.
+    weakref.finalize(
+        _session, _release_session_sexps,
+        sexp_y, sexp_w, sexp_x, sexp_n, _rho_sexp, _last_result,
+    )
+
+    return {"eval1": eval1, "eval2": eval2, "rho": rho, "_pending_exception": _pending_exception}

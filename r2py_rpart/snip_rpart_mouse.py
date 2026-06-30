@@ -4,10 +4,13 @@ from typing import Any
 
 import numpy as np
 
+from .rpart_branch import rpart_branch
+from .rpartco import rpartco
+from .zzz import rpart_env
+
 
 
 def snip_rpart_mouse(tree: dict[str, Any], parms: dict[str, Any] | None = None) -> list[int] | None:
-    global rpart_env
     if parms is None:
         pn = 'device' + str(1)  # dev.cur() equivalent: fixed device id 1
         if pn not in rpart_env:

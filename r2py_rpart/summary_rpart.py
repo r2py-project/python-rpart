@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
+import builtins
 import sys
 import contextlib
 import numpy as np
@@ -46,7 +47,7 @@ def summary_rpart(object: dict[str, Any], cp: float = 0, digits: int | None = No
                 for _name, _val in zip(np.asarray(_idx)[_mask], _arr[_mask]):
                     print(f'{_name}: {_val}')
         ff = x['frame']
-        ylevel = object.get('ylevels')
+        ylevel = object.get('_ylevels')
         id = ff.index.astype(int).values
         parent_id = np.where(id == 1, 1, id // 2)
         _id_to_pos = {v: i for i, v in enumerate(id)}
@@ -80,7 +81,9 @@ def summary_rpart(object: dict[str, Any], cp: float = 0, digits: int | None = No
                     _lut = ['L', '-', 'R']
                     _letters = ''.join(_lut[int(v) - 1] for v in _csplit_vals)
                     cuts[i] = f'splits as {_letters}'
-            cuts = np.array(cuts, dtype=object)
+            # NB: `object` here must be builtins.object -- the `object`
+            # parameter name shadows the builtin type in this function's scope.
+            cuts = np.array(cuts, dtype=builtins.object)
             _continuous_mask = temp_col < 2
             if np.any(_continuous_mask):
                 _widths = np.array([len(s) for s in cuts[_continuous_mask]])
@@ -94,13 +97,16 @@ def summary_rpart(object: dict[str, Any], cp: float = 0, digits: int | None = No
                 s + (' to the right,') if temp_col[_ci] == 1 else
                 s + (' to the left, ')
                 for _ci, s in enumerate(cuts)
-            ], dtype=object)
+            ], dtype=builtins.object)
         else:
             sname = []
-            cuts = np.array([], dtype=object)
+            cuts = np.array([], dtype=builtins.object)
             temp_col = np.array([], dtype=float)
         if 'yval2' in ff.columns:
-            _tmp = ff['yval2'].values[rows]
+            # ff['yval2'] holds one array per row (object-dtype column);
+            # stack the selected rows into a true 2-D matrix, since
+            # summary_func implementations index yval.shape[1].
+            _tmp = np.array([np.asarray(v, dtype=float) for v in ff['yval2'].values[rows]])
         else:
             _tmp = ff['yval'].values[rows]
         tprint = x['functions']['summary'](_tmp, ff['dev'].values[rows], ff['wt'].values[rows], ylevel, digits)

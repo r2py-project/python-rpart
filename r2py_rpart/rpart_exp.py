@@ -77,14 +77,15 @@ def rpart_exp(y: np.ndarray[Any, np.dtype[np.float64]], offset: np.ndarray[Any, 
             raise ValueError("You must input a named list for parms")
         parms_names = ["method", "shrink"]
         def _pmatch_vec(x_vec, table, nomatch=0):
+            # R's pmatch() prefers an exact match over a (unique) partial match.
             result = []
             for x in x_vec:
+                exact = [i + 1 for i, s in enumerate(table) if s == x]
+                if len(exact) == 1:
+                    result.append(exact[0])
+                    continue
                 matches = [i + 1 for i, s in enumerate(table) if s.startswith(x)]
-                if len(matches) == 1:
-                    result.append(matches[0])
-                else:
-                    exact = [i + 1 for i, s in enumerate(table) if s == x]
-                    result.append(exact[0] if len(exact) == 1 else nomatch)
+                result.append(matches[0] if len(matches) == 1 else nomatch)
             return result
         indx = _pmatch_vec(list(parms.keys()), parms_names, nomatch=0)
         unmatched = [k for k, idx in zip(parms.keys(), indx) if idx == 0]
@@ -96,12 +97,12 @@ def rpart_exp(y: np.ndarray[Any, np.dtype[np.float64]], offset: np.ndarray[Any, 
             method = 1
         else:
             def _pmatch_scalar(x, table, nomatch=None):
-                matches = [i + 1 for i, s in enumerate(table) if s.startswith(x)]
-                if len(matches) == 1:
-                    return matches[0]
                 exact = [i + 1 for i, s in enumerate(table) if s == x]
                 if len(exact) == 1:
                     return exact[0]
+                matches = [i + 1 for i, s in enumerate(table) if s.startswith(x)]
+                if len(matches) == 1:
+                    return matches[0]
                 return nomatch
             method = _pmatch_scalar(parms["method"], ["deviance", "sqrt"])
             if method is None:

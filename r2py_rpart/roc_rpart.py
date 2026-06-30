@@ -8,16 +8,29 @@ import pandas as pd
 
 
 def roc_rpart(object: dict, plot_ok: bool = True, x_orient: int = 1) -> pd.DataFrame:
-    if object.get('_class') != 'rpart' or object.get('method') != 'class' or len(object.get('ylevels', [])) != 2:
+    if object.get('_rpart_class') != 'rpart' or object.get('method') != 'class' or len(object.get('_ylevels', [])) != 2:
         raise ValueError('Not legitimate "rpart" tree and endpoint not a 2 level-factor')
 
     frame = object['frame']
-    endnodes = frame['var'] == '<leaf>'
-    yval2 = object['frame']['yval2']
-    yprob = object['frame']['yprob']
+    # R's roc.rpart.R reads object$frame$splits/object$frame$yprob, but
+    # neither is ever a *column* of frame (frame only carries 'yval2'; the
+    # per-class probabilities live inside it, see rpart.py's
+    # frame['yval2'] = hstack([yval2, yprob, nodeprob])). Reading a missing
+    # column off frame is a no-op in R ($ on an absent name returns NULL,
+    # and NULL[,1] is again NULL), so in real R this function silently
+    # always operates on zero rows for every tree -- not a usable
+    # implementation. We instead wire 'truth'/leaf-probabilities from the
+    # yval2 block actually produced by rpart(), the equivalent data under
+    # the current (post rpart.R rewrite) frame schema this function's
+    # variable names (tpcp/tncp/tpcn/tncn) were clearly written against.
+    endnodes = (frame['var'] == '<leaf>').to_numpy()
+    yval2 = np.array(frame['yval2'].tolist(), dtype=float)
+    nclass = (yval2.shape[1] - 2) // 2
+    counts = yval2[:, 1:1 + nclass]            # per-node class counts
+    yprob_all = yval2[:, 1 + nclass:1 + 2 * nclass]  # per-node class probabilities
 
-    truth = yval2[endnodes.values]
-    leaf_probs = yprob[endnodes.values, 1]
+    truth = counts[endnodes]
+    leaf_probs = yprob_all[endnodes, 1]
 
     cutoffs = np.sort(np.unique(np.concatenate([[0.0], [1.0], leaf_probs])))
     pred_np = cutoffs[:, None] >= leaf_probs[None, :]

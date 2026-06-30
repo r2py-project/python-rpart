@@ -30,8 +30,13 @@ def importance(fit: dict) -> pd.Series:
         scaled_imp = improve_col[spri_py]
     for i in range(len(fpri)):
         if nsurr[i] > 0:
+            # R: indx <- spri[i] + ncompete[fpri[i]] + seq_len(nsurr[i])  (1-based,
+            # offsets 1..nsurr).  spri_py is already spri-1, so the 0-based
+            # equivalent keeps the +1..+nsurr offset (NOT 0..nsurr-1, which
+            # would shift onto the primary/competitor rows instead of the
+            # surrogate rows).
             base_offset = spri_py[i] + ff['ncompete'].values[fpri[i]]
-            indx = base_offset + np.arange(nsurr[i])
+            indx = base_offset + np.arange(1, nsurr[i] + 1)
             sname[i] = sdim[indx]
             sval[i] = scaled_imp[i] * adj_col[indx]
     sval_parts = [v for v in sval if v is not None]

@@ -4,11 +4,13 @@ from typing import Any
 
 import numpy as np
 
+from .zzz import rpart_env
+
 
 
 def rpart_branch(x: np.ndarray[Any, np.dtype[np.float64]], y: np.ndarray[Any, np.dtype[np.float64]], node: np.ndarray[Any, np.dtype[np.int64]], branch: float | None = None) -> dict[str, np.ndarray[Any, np.dtype[np.float64]]]:
     if branch is None:
-        pn = f"device{dev_cur()}"
+        pn = 'device' + str(1)  # dev.cur() equivalent: fixed device id 1
         if pn not in rpart_env:
             raise RuntimeError("no information available on parameters from previous call to plot()")
         parms = rpart_env[pn]

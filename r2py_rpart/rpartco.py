@@ -5,6 +5,8 @@ from typing import Any
 import numpy as np
 from collections import defaultdict
 
+from .zzz import rpart_env
+
 
 
 def compress(x: np.ndarray[Any, np.dtype[np.float64]], me: int, depth: int, is_leaf: np.ndarray[Any, np.dtype[np.bool_]], nspace: float) -> dict[str, Any]:
@@ -57,7 +59,6 @@ def compress(x: np.ndarray[Any, np.dtype[np.float64]], me: int, depth: int, is_l
 
 
 def rpartco(tree: dict[str, Any], parms: dict[str, Any] | None = None) -> dict[str, np.ndarray[Any, np.dtype[np.float64]]]:
-    global rpart_env
     if parms is None:
         pn = 'device' + str(1)  # dev.cur() equivalent: fixed device id 1
         if pn not in rpart_env:

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-
+from .prune_rpart import prune_rpart
 
 
 def prune(tree: dict[str, Any], **kwargs: Any) -> dict[str, Any]:

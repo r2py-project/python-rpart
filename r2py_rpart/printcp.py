@@ -8,7 +8,7 @@ import pandas as pd
 
 
 def printcp(x: dict, digits: int = 2) -> np.ndarray | pd.DataFrame:
-    if not (isinstance(x, dict) and x.get('__class__') == 'rpart'):
+    if not (isinstance(x, dict) and x.get('_rpart_class') == 'rpart'):
         raise TypeError('x must be an "rpart" object')
     _METHOD_HEADER = {
         'anova':   '\nRegression tree:\n',

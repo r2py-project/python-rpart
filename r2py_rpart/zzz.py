@@ -6,6 +6,14 @@ import numpy as np
 import warnings
 import unicodedata
 
+# Equivalent of R's rpart_env <- new.env() in zzz.R: a single shared
+# namespace used by plot_rpart/rpartco/rpart_branch/snip_rpart_mouse to
+# pass per-device plotting parameters between a plot_rpart() call and
+# later calls that need the same layout (rpartco, rpart_branch, the
+# interactive snip mouse picker). Must be imported (not copied) by those
+# modules so they all see the same dict.
+rpart_env: dict[str, Any] = {}
+
 
 
 def descendants(nodes: np.ndarray[Any, np.dtype[np.int64]], include: bool = True) -> np.ndarray[Any, np.dtype[np.bool_]]:

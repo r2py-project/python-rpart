@@ -250,46 +250,51 @@ void init_rpcallback_c(
      * standard precautionary measure for the entire callback subsystem. */
     ArenaFrame _frame;
 
-    /* Step 3: construct SEXP wrappers for each input */
-    SEXP s_rhox   = nullptr;
+    /* Step 3: construct SEXP wrappers for each input.
+     *
+     * BUGFIX: rho_ptr/expr1_ptr/expr2_ptr must be passed through to
+     * init_rpcallback() with their pointer IDENTITY preserved, because:
+     *   - Python registers rho_ptr as the key into its findVarInFrame
+     *     frame registry (_frame_registry[rho_ptr] = {...}) BEFORE this
+     *     call, and later receives whatever pointer init_rpcallback()
+     *     hands to findVarInFrame(rho, sym) as the lookup key.
+     *   - Python similarly dispatches eval(expr, rho) by comparing the
+     *     incoming expr pointer against the expr1_ptr/expr2_ptr identities
+     *     it recorded when rpartcallback() was set up.
+     * make_opaque_sexp() allocates a NEW SEXPREC node whose ->data field
+     * points at the original pointer -- but init_rpcallback() stores and
+     * later passes around the WRAPPER node itself (rho = rhox; expr1 =
+     * expr1x; ...), not rhox->data. That substitutes a fresh address that
+     * was never registered with Python, so every findVarInFrame/eval
+     * lookup misses and rpart_callback.c's compat_getVar always raises
+     * "variable not found". Since these three parameters are Category E
+     * opaque handles that init_rpcallback() never dereferences as actual
+     * SEXPREC structs (see R_getVar.h's own documentation: "(SEXP cast
+     * internally)"), a direct reinterpret-cast preserves identity and is
+     * sufficient -- no allocation needed, and therefore nothing to free
+     * for these three afterwards. */
+    SEXP s_rhox   = (SEXP) rho_ptr;
     SEXP s_ny     = nullptr;
     SEXP s_nr     = nullptr;
-    SEXP s_expr1  = nullptr;
-    SEXP s_expr2  = nullptr;
+    SEXP s_expr1  = (SEXP) expr1_ptr;
+    SEXP s_expr2  = (SEXP) expr2_ptr;
 
     /* Helper macro: free all input wrappers.
      * make_int_scalar wrappers (s_ny, s_nr): free node + private int[1] buffer.
-     * make_opaque_sexp wrappers (s_rhox, s_expr1, s_expr2): free only the
-     *   SEXPREC node; the opaque pointer in ->data is owned by the caller. */
+     * s_rhox/s_expr1/s_expr2 are the caller's raw pointers (see BUGFIX note
+     * above) -- not separately heap-allocated here, so must NOT be freed. */
 #define FREE_INPUT_WRAPPERS() do { \
-    if (s_rhox)  { free(s_rhox);          s_rhox  = nullptr; } \
     if (s_ny)    { free_int_scalar(s_ny); s_ny    = nullptr; } \
     if (s_nr)    { free_int_scalar(s_nr); s_nr    = nullptr; } \
-    if (s_expr1) { free(s_expr1);         s_expr1 = nullptr; } \
-    if (s_expr2) { free(s_expr2);         s_expr2 = nullptr; } \
 } while(0)
 
     try {
-        /* rho: Category E environment.  The C body stores rhox in the static
-         * global 'rho', then passes it to findVarInFrame via compat_getVar.
-         * We wrap the Python-supplied opaque pointer as ENVSXP. */
-        s_rhox = make_opaque_sexp(rho_ptr, ENVSXP);
-
         /* ny: scalar int.  init_rpcallback calls asInteger(ny) → ysave.
          * Wrapped as a 1-element INTSXP with a private int[1] data buffer. */
         s_ny = make_int_scalar(numy);
 
         /* nr: scalar int.  init_rpcallback calls asInteger(nr) → rsave. */
         s_nr = make_int_scalar(numresp);
-
-        /* expr1x: Category E language object.  The C body stores expr1x in
-         * the static global expr1 without dereferencing it.  eval(expr1, rho)
-         * is called later by rpart_callback2.  Wrapped as LANGSXP opaque. */
-        s_expr1 = make_opaque_sexp(expr1_ptr, LANGSXP);
-
-        /* expr2x: Category E language object.  Stored in static global expr2;
-         * called by rpart_callback1.  Wrapped as LANGSXP opaque. */
-        s_expr2 = make_opaque_sexp(expr2_ptr, LANGSXP);
 
     } catch (const RError &_e) {
         if (error_out && error_out_len > 0) {

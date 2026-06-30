@@ -9,9 +9,11 @@ import matplotlib.pyplot as plt
 
 
 def rsq_rpart(x: dict, fig: plt.Figure | None = None, ax: plt.Axes | None = None) -> None:
-    if not (isinstance(x, dict) and x.get('__class__') == 'rpart'):
+    if not (isinstance(x, dict) and x.get('_rpart_class') == 'rpart'):
         raise TypeError('Not a legitimate "rpart" object')
     p_rpart = x['cptable']
+    if hasattr(p_rpart, 'to_numpy'):
+        p_rpart = p_rpart.to_numpy()
     xstd = p_rpart[:, 4]
     xerror = p_rpart[:, 3]
     rel_error = p_rpart[:, 2]

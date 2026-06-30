@@ -13,7 +13,7 @@ def meanvar(tree: dict, **kwargs) -> dict[str, Any]:
 
 
 def meanvar_rpart(tree: dict, xlab: str = 'ave(y)', ylab: str = 'ave(deviance)', **kwargs) -> dict[str, np.ndarray[Any, np.dtype[np.float64]] | list[str]]:
-    if not (isinstance(tree, dict) and tree.get('__class__') == 'rpart'):
+    if not (isinstance(tree, dict) and tree.get('_rpart_class') == 'rpart'):
         raise ValueError('Not a legitimate "rpart" object')
     if tree['method'] != 'anova':
         raise ValueError('Plot not useful for classification or poisson trees')

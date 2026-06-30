@@ -6,10 +6,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.axes
 
+from .rpart_branch import rpart_branch
+from .rpartco import rpartco
+from .zzz import rpart_env
+
 
 
 def plot_rpart(x: dict[str, Any], uniform: bool = False, branch: float = 1, compress: bool = False, nspace: float | None = None, margin: float = 0, minbranch: float = 0.3, branch_col: int | str = 1, branch_lty: int = 1, branch_lwd: float = 1, ax: matplotlib.axes.Axes | None = None, **kwargs: Any) -> dict[str, np.ndarray[Any, np.dtype[np.float64]]]:
-    global rpart_env
     if not isinstance(x, dict) or 'frame' not in x:
         raise TypeError('Not a legitimate "rpart" object')
     if len(x['frame']) <= 1:
@@ -46,7 +49,9 @@ def plot_rpart(x: dict[str, Any], uniform: bool = False, branch: float = 1, comp
     temp = rpart_branch(xx, yy, node, branch)
 
     if branch > 0:
-        ax.text(xx[0], yy[0], '|', ha='center', va='bottom')
+        # R's text(xx[1L], yy[1L], "|") uses the default adj (centered both
+        # horizontally and vertically), not bottom-anchored.
+        ax.text(xx[0], yy[0], '|', ha='center', va='center')
 
     col_map: dict[int, str] = {0: 'white', 1: 'black', 2: 'red', 3: '#00CD00', 4: 'blue'}
     lty_map: dict[int, str] = {1: '-', 2: '--', 3: ':', 4: '-.'}

@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 
 from .importance import importance
+from .model_frame_rpart import _build_model_frame
 from .rpart_anova import rpart_anova
 from .rpart_class import rpart_class
 from .rpart_control import rpart_control
@@ -20,12 +21,13 @@ _MISSING = object()
 
 
 def rpart(formula: Any, data: pd.DataFrame | None = None, weights: np.ndarray[Any, np.dtype[np.float64]] | None = _MISSING, subset: np.ndarray[Any, np.dtype[np.bool_]] | None = _MISSING, na_action: Any = _MISSING, method: str | dict[str, Any] = _MISSING, model: bool | pd.DataFrame = False, x: bool = False, y: bool = True, parms: Any = _MISSING, control: dict[str, Any] = _MISSING, cost: np.ndarray[Any, np.dtype[np.float64]] = _MISSING, **kwargs: Any) -> dict[str, Any]:
-    # Store call info as a dict (match.call() equivalent)
+    # Store call info as a dict (match.call() equivalent); only arguments
+    # actually supplied are recorded, mirroring R's match.call().
     Call: dict[str, Any] = {
         "formula": formula,
         "data": data,
-        "weights": weights,
-        "subset": subset,
+        "weights": None if weights is _MISSING else weights,
+        "subset": None if subset is _MISSING else subset,
     }
 
     # Check if model is a DataFrame (pre-built model frame)
@@ -33,9 +35,20 @@ def rpart(formula: Any, data: pd.DataFrame | None = None, weights: np.ndarray[An
         m: pd.DataFrame = model
         model = False
     else:
-        # We cannot reproduce eval.parent(stats::model.frame(...)) in Python
-        raise NotImplementedError(
-            "model.frame construction requires patsy/formula integration not yet implemented"
+        # Equivalent of R's:
+        #   temp <- Call[c(1L, indx)]; temp$na.action <- na.action
+        #   temp[[1L]] <- quote(stats::model.frame); m <- eval.parent(temp)
+        if not isinstance(formula, str):
+            raise NotImplementedError(
+                "rpart() requires either a string formula with 'data=' or a "
+                "pre-built model frame passed via model="
+            )
+        m = _build_model_frame(
+            formula,
+            data,
+            weights=None if weights is _MISSING else weights,
+            subset=None if subset is _MISSING else subset,
+            na_action=None if na_action is _MISSING else na_action,
         )
 
     Terms: dict[str, Any] | None = m.attrs.get("terms")
@@ -79,6 +92,7 @@ def rpart(formula: Any, data: pd.DataFrame | None = None, weights: np.ndarray[An
         else:
             method = "anova"
 
+    keep: dict[str, Any] | None = None
     if isinstance(method, dict):
         # User-written split methods
         mlist: dict[str, Any] = method
@@ -94,14 +108,15 @@ def rpart(formula: Any, data: pd.DataFrame | None = None, weights: np.ndarray[An
         method_int: int = 4  # the fourth entry in func_table.h
         parms = init["parms"]
     else:
-        # Partial match method string
+        # Partial match method string. R's pmatch() prefers an exact match
+        # over a (unique) partial match.
         _method_table = ["anova", "poisson", "class", "exp"]
-        _matches = [i + 1 for i, s in enumerate(_method_table) if s.startswith(method)]
-        if len(_matches) == 1:
-            method_int = _matches[0]
+        _exact = [i + 1 for i, s in enumerate(_method_table) if s == method]
+        if len(_exact) == 1:
+            method_int = _exact[0]
         else:
-            _exact = [i + 1 for i, s in enumerate(_method_table) if s == method]
-            method_int = _exact[0] if len(_exact) == 1 else None
+            _matches = [i + 1 for i, s in enumerate(_method_table) if s.startswith(method)]
+            method_int = _matches[0] if len(_matches) == 1 else None
         if method_int is None:
             raise ValueError("Invalid method")
         method = _method_table[method_int - 1]
@@ -270,6 +285,16 @@ def rpart(formula: Any, data: pd.DataFrame | None = None, weights: np.ndarray[An
         ny=int(init["numy"]),
         cost=cost_arr,
     )
+
+    # method=4 (user-defined splits): if the user's split/eval callback
+    # raised or returned malformed data during the C fit, rpartcallback()
+    # substituted a harmless placeholder so the C call could return safely
+    # instead of crashing on a null SEXP -- the resulting rpfit is
+    # meaningless in that case, so surface the original error now instead.
+    if keep is not None:
+        _pending = keep.get("_pending_exception")
+        if _pending is not None and _pending[0] is not None:
+            raise _pending[0]
 
     nsplit: int = rpfit["isplit"].shape[0]  # total number of splits, primary and surrogate
     ncat_count: int = rpfit["csplit"].shape[0] if "csplit" in rpfit else 0
