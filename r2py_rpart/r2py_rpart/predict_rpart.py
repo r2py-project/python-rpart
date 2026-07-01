@@ -64,9 +64,33 @@ def predict_rpart(object: dict[str, Any], newdata: pd.DataFrame | None = None, t
         where: np.ndarray[Any, np.dtype[np.int32]] = object['where']
     else:
         # newdata provided: need to compute node assignments
-        # delete.response(object$terms) -> use object['terms'] directly (stub)
-        # model.frame stub: apply na_rpart or use newdata directly
-        # .checkMFClasses -> no-op stub
+        # if (is.null(attr(newdata, "terms"))) { Terms <- delete.response(...)
+        #     newdata <- model.frame(Terms, newdata, na.action=na.action,
+        #                            xlev = attr(object, "xlevels")) }
+        # A plain user-supplied newdata (e.g. a bare slice of the original
+        # training DataFrame) carries no `.attrs['terms']`, so it must be
+        # re-tagged with the *fitted* object's term labels/xlevels before
+        # rpart_matrix() can numerically encode it the same way the fit saw
+        # its own training columns (in particular, so a categorical/factor
+        # column reuses the fit's exact level->code mapping instead of
+        # rpart_matrix()'s "fresh data" fallback of re-sorting whatever
+        # levels merely happen to appear in the newdata subset).
+        if newdata.attrs.get('terms') is None:
+            fit_terms = object.get('terms') or {}
+            term_labels = list(fit_terms.get('term.labels', [])) if isinstance(fit_terms, dict) else []
+            xlevels = fit_terms.get('xlevels') if isinstance(fit_terms, dict) else None
+            newdata = newdata.copy()
+            if xlevels:
+                for colname, levels in xlevels.items():
+                    if colname in newdata.columns:
+                        col = newdata[colname]
+                        ordered = bool(getattr(getattr(col, 'cat', None), 'ordered', False))
+                        newdata[colname] = pd.Categorical(col, categories=levels, ordered=ordered)
+            newdata.attrs['terms'] = {
+                'term.labels': term_labels,
+                'variables': term_labels,
+                'order': [1] * len(term_labels),
+            }
         from .rpart_matrix import rpart_matrix
         from .pred_rpart import pred_rpart
         where = pred_rpart(object, rpart_matrix(newdata))

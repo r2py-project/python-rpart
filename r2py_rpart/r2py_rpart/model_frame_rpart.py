@@ -14,13 +14,51 @@ def _strip_backtick(name: str) -> str:
     return re.sub(r'^`(.*)`$', r'\1', name.strip())
 
 
+def _tokenize_rhs(rhs: str) -> list[tuple[str, str]]:
+    """Split a formula right-hand side into (sign, term) pairs on top-level
+    '+'/'-' operators.
+
+    'y ~ . - gear - carb' -> [('+', '.'), ('-', 'gear'), ('-', 'carb')].
+    A leading term with no explicit sign is treated as '+'. This mirrors
+    R's formula parser treating '+'/'-' as the (left-associative) term
+    union/removal operators at the top level of a model formula; nested
+    parentheses/interactions are not handled here since rpart only
+    supports main-effects formulas (see the interaction-term check in
+    rpart.py raising "Trees cannot handle interaction terms").
+    """
+    tokens: list[tuple[str, str]] = []
+    sign = '+'
+    buf = ''
+    for ch in rhs:
+        if ch in '+-':
+            term = buf.strip()
+            if term and term != '1':
+                tokens.append((sign, term))
+            sign = ch
+            buf = ''
+        else:
+            buf += ch
+    term = buf.strip()
+    if term and term != '1':
+        tokens.append((sign, term))
+    return tokens
+
+
 def _parse_formula_terms(formula: str, data: pd.DataFrame) -> tuple[str, list[str], list[int]]:
-    """Parse a simple R-style formula 'y ~ x1 + x2' or 'y ~ .'.
+    """Parse a simple R-style formula 'y ~ x1 + x2', 'y ~ .', or a formula
+    mixing '.' with '-term' exclusions such as 'y ~ . - gear - carb'.
 
     Only main-effects formulas are supported (matching what rpart itself
     accepts); ':'/'*' interaction terms are flagged via order=2 so the
     caller can raise "Trees cannot handle interaction terms", exactly as
     rpart.R does after building the terms object.
+
+    '.' expands to "every column of `data` other than the response",
+    exactly like R's terms()/model.frame() '.' expansion; a subsequent
+    '- name' (whether or not '.' is present) removes that variable from
+    the accumulated term set, matching R's formula '-' operator (see
+    "https://github.com/bethatkinson/rpart/issues/7" / rpart.R's comment
+    "If a formula contains '. -zed' on the right hand side...").
     """
     if '~' not in formula:
         raise ValueError("a 'formula' argument is required")
@@ -32,13 +70,27 @@ def _parse_formula_terms(formula: str, data: pd.DataFrame) -> tuple[str, list[st
         order = [1] * len(term_labels)
         return response_name, term_labels, order
 
-    raw_terms = [t.strip() for t in rhs.split('+')]
-    raw_terms = [t for t in raw_terms if t and t != '1']
-    term_labels = []
-    order = []
-    for t in raw_terms:
-        order.append(2 if (':' in t or '*' in t) else 1)
-        term_labels.append(_strip_backtick(t))
+    tokens = _tokenize_rhs(rhs)
+    # Ordered term list built up left-to-right, honoring '+'/'-': '.' adds
+    # every remaining data column (in data-column order); a plain name adds
+    # that one term; either preceded by '-' removes it instead.
+    term_labels: list[str] = []
+    for sign, raw in tokens:
+        term = _strip_backtick(raw)
+        if term == '.':
+            names = [c for c in data.columns if c != response_name]
+        else:
+            names = [term]
+        if sign == '+':
+            for name in names:
+                if name not in term_labels:
+                    term_labels.append(name)
+        else:
+            for name in names:
+                if name in term_labels:
+                    term_labels.remove(name)
+
+    order = [2 if (':' in t or '*' in t) else 1 for t in term_labels]
     return response_name, term_labels, order
 
 
@@ -109,15 +161,27 @@ def _build_model_frame(
         terms_meta["xlevels"] = xlevels
 
     m.attrs["terms"] = terms_meta
-    response_col = m[response_name]
-    m.attrs["response"] = (
-        response_col if isinstance(response_col.dtype, pd.CategoricalDtype) else response_col.to_numpy()
-    )
     if weights_arr is not None:
         m.attrs["weights"] = np.asarray(weights_arr, dtype=float)
 
     na_fn = na_action if na_action is not None else na_rpart
     m = na_fn(m)
+
+    # Cache the response column (mirroring R's model.response(m)) *after*
+    # na-filtering, not before: na_fn/na_rpart drops rows with missing
+    # response/all-missing predictors and returns a shorter DataFrame, but
+    # it does not (and should not, since it is response-agnostic) touch any
+    # already-cached `.attrs['response']` -- caching it beforehand left a
+    # stale, full-length array/Categorical silently out of sync with the
+    # (shorter) filtered frame whenever na_fn actually dropped any rows,
+    # corrupting every downstream weight/length-sensitive computation that
+    # assumes `len(response) == len(m)` (e.g. rpart_class's per-class
+    # weight sums). Re-deriving it from the (already filtered) `m` here
+    # keeps it exactly in sync with the frame's final row set.
+    response_col = m[response_name]
+    m.attrs["response"] = (
+        response_col if isinstance(response_col.dtype, pd.CategoricalDtype) else response_col.to_numpy()
+    )
     return m
 
 

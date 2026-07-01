@@ -11,6 +11,24 @@ from numpy import ndarray
 def pred_rpart(fit: dict[str, Any], x: pd.DataFrame) -> ndarray[Any, np.dtype[np.int32]]:
     from r2py_rpart import _pred_rpart_c as _C_pred_rpart
     frame: pd.DataFrame = fit["frame"]
+    # `x` is ordinarily the output of rpart_matrix(): either a plain
+    # pandas DataFrame (has `.columns`/`.index`) or an `RpartMatrix` (a
+    # numpy ndarray subclass carrying column names as `.col_names`, with
+    # no `.index` of its own) -- rpart_matrix() returns the latter for any
+    # DataFrame that has model-frame `.attrs['terms']` metadata attached
+    # (see rpart_matrix.py), which is the normal case for both training
+    # data and predict()'s re-encoded `newdata`. Normalize both shapes to
+    # a plain (column_names, row_index, 2-D float array) triple up front
+    # so the rest of this function can stay DataFrame-shaped throughout.
+    if hasattr(x, "columns"):
+        x_cols: list[Any] = list(x.columns)
+        x_index: pd.Index = x.index
+        x_arr: np.ndarray = x.to_numpy(dtype=np.float64)
+    else:
+        x_cols = list(getattr(x, "col_names", []))
+        x_index = pd.RangeIndex(x.shape[0])
+        x_arr = np.asarray(x, dtype=np.float64)
+    x = pd.DataFrame(x_arr, columns=x_cols, index=x_index)
     # Root-only tree: every observation falls in node 1
     if len(frame) == 1:
         result = np.ones(x.shape[0], dtype=np.int32)

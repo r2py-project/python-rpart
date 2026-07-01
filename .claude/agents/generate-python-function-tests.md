@@ -27,7 +27,7 @@ When provided with a target Python function name, a Python file path, and the or
 
 - Navigate to the documentation of the original R function (e.g., searching CRAN documentation or using R's internal `help()` documentation).
 - Extract key information about the function's expected behavior, input parameters, default arguments, return values, and any relevant side effects or constraints.
-- *Example:* For a function from the `KernSmooth` package, review its documentation at `https://cran.r-project.org/web/packages/KernSmooth/refman/KernSmooth.html`. Use this to understand the data types it accepts and exactly what output structures it returns.
+- *Example:* For a function from the `rpart` package, review its documentation at `https://cran.r-project.org/web/packages/rpart/refman/rpart.html`. Use this to understand the data types it accepts and exactly what output structures it returns.
 
 ### Step 3: Generate Positive Tests
 

@@ -234,34 +234,61 @@ def rpart(formula: Any, data: pd.DataFrame | None = None, weights: np.ndarray[An
     if init["parms"] is None:
         _parms_flat = np.array([0.0], dtype=np.float64)
     elif isinstance(init["parms"], dict):
-        # Flatten like R's unlist(): concatenate all values in insertion order
+        # Flatten like R's unlist(): concatenate all values in insertion order.
+        # R matrices (e.g. parms$loss) are always stored column-major, so
+        # unlist() on a list containing a matrix yields that matrix's
+        # underlying column-major storage vector directly. A 2-D numpy array
+        # here represents the same matrix but is stored row-major, so it must
+        # be raveled in Fortran (column-major) order to match R's unlist()
+        # byte-for-byte -- a plain (row-major) ravel() would transpose the
+        # matrix's flattened layout for any non-symmetric matrix (e.g. a
+        # classification loss matrix), corrupting what the C code receives.
         _flat: list[float] = []
         for v in init["parms"].values():
-            _flat.extend(np.asarray(v, dtype=np.float64).ravel().tolist())
+            _arr = np.asarray(v, dtype=np.float64)
+            _order = 'F' if _arr.ndim >= 2 else 'C'
+            _flat.extend(_arr.ravel(order=_order).tolist())
         _parms_flat = np.array(_flat, dtype=np.float64) if _flat else np.array([0.0], dtype=np.float64)
     else:
         _parms_flat = np.asarray(init["parms"], dtype=np.float64).ravel()
         if len(_parms_flat) == 0:
             _parms_flat = np.array([0.0], dtype=np.float64)
 
-    # Flatten controls to double array (order matches rpart.control return keys)
-    _controls_flat: np.ndarray[Any, np.dtype[np.float64]] = np.array([
-        float(controls["minsplit"]),
-        float(controls["minbucket"]),
-        float(controls["cp"]),
-        float(controls["maxcompete"]),
-        float(controls["maxsurrogate"]),
-        float(controls["usesurrogate"]),
-        float(controls["surrogatestyle"]),
-        float(controls["maxdepth"]),
-        float(controls["xval"]),
-    ], dtype=np.float64)
+    # Flatten controls to double array (order matches rpart.control return keys).
+    # Mirrors R's `as.double(unlist(controls))`: `controls` here is the
+    # *original* rpart.control() list (never mutated -- only the separate
+    # local `xval` variable above is reassigned to a scalar fold-count), so
+    # `controls$xval`/`controls["xval"]` can still be the full array the
+    # caller passed in (e.g. explicit xgroups). The C entry point
+    # (rpart.c) only ever reads opt[0..7] (minsplit..maxdepth) -- the
+    # trailing xval slot(s) are unused padding in both R and here -- so it
+    # is safe to append whatever `controls["xval"]` unlist()s to without
+    # needing it to be a single scalar.
+    _controls_flat = np.concatenate([
+        np.array([
+            float(controls["minsplit"]),
+            float(controls["minbucket"]),
+            float(controls["cp"]),
+            float(controls["maxcompete"]),
+            float(controls["maxsurrogate"]),
+            float(controls["usesurrogate"]),
+            float(controls["surrogatestyle"]),
+            float(controls["maxdepth"]),
+        ], dtype=np.float64),
+        np.atleast_1d(np.asarray(controls["xval"], dtype=np.float64)),
+    ])
 
-    # Transpose Y for column-major C layout: as.double(t(init$y))
+    # as.double(t(init$y)): R matrices are stored column-major, so
+    # flattening t(Y) (shape (ny, n)) column-major is equivalent to
+    # flattening Y (shape (n, ny)) row-major -- i.e. each observation's
+    # ny response values consecutive, exactly what the C code expects
+    # ("y is in row major order", see rpart.c). For ny==1 this collapses
+    # to a no-op ravel either way, which is why a previous transposed
+    # version of this line went unnoticed for single-column responses.
     _y_arr = np.asarray(Y, dtype=np.float64)
     if _y_arr.ndim == 1:
         _y_arr = _y_arr.reshape(-1, 1)
-    _y_t: np.ndarray[Any, np.dtype[np.float64]] = np.ascontiguousarray(_y_arr.T).ravel()
+    _y_t: np.ndarray[Any, np.dtype[np.float64]] = np.ascontiguousarray(_y_arr).ravel()
 
     # ncat * !isord  (ordered factor cols treated as continuous by C)
     _ncat_arr: np.ndarray[Any, np.dtype[np.int32]] = np.asarray(cats * (~isord), dtype=np.int32)

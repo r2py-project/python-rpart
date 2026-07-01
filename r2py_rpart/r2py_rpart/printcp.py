@@ -37,8 +37,11 @@ def printcp(x: dict, digits: int = 2) -> np.ndarray | pd.DataFrame:
     print()
     n = x['frame']['n']
     omit = x.get('na.action')
-    if omit is not None and len(omit) > 0:
-        n_omit = len(omit)
+    # `na.action` is a dict {'indices', 'names', 'class'} (see na_rpart.py);
+    # the observation count is len(omit['indices']), not len(omit) (which
+    # would wrongly always be 3, the fixed number of dict keys).
+    n_omit = len(omit['indices']) if omit is not None else 0
+    if omit is not None and n_omit > 0:
         noun = 'observation' if n_omit == 1 else 'observations'
         naprint_str = f'{n_omit} {noun} deleted due to missingness'
         print(f'n={n.iloc[0]} ({naprint_str})', end='\n\n')

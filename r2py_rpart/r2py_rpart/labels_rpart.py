@@ -145,6 +145,21 @@ def labels_rpart(object: dict[str, Any], digits: int = 4, minlength: 'int | obje
             cl = '' if minlength == 1 else ','
             levels_i = xlevels_abbrev_values[cindex[i]]
             levels_arr = np.array(levels_i)
+            # object['csplit'] is padded out to `maxcat` columns (the
+            # largest category count across ALL categorical predictors in
+            # the fit, e.g. 10 for a 10-level "Country" variable even on a
+            # row that actually encodes a 6-level "Type" split); padding
+            # columns beyond a given variable's own level count are always
+            # set to 2 ("-", i.e. "not used" -- see summary_rpart.py's
+            # ['L','-','R'] mapping for csplit values {1,2,3}), so they
+            # never match `== 1`/`== 3` below and are safe to drop. R's
+            # `(xlevels[[cindex[i]]])[splits == 1L]` gets away with the
+            # length mismatch only because R silently pads out-of-range
+            # logical-index positions with NA rather than raising; numpy's
+            # boolean indexing requires the mask and array to have the
+            # exact same length, so the row must be truncated to the
+            # variable's true level count first.
+            splits_row = splits_row[:len(levels_arr)]
             # R: lsplit[j] <- paste((xlevels[[cindex[i]]])[splits == 1L], collapse = cl)
             lsplit[j] = cl.join(levels_arr[splits_row == 1].tolist())
             # R: rsplit[j] <- paste((xlevels[[cindex[i]]])[splits == 3L], collapse = cl)

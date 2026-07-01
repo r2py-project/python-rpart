@@ -153,8 +153,18 @@ def xpred_rpart(fit: dict[str, Any], xval: int | np.ndarray[Any, np.dtype[np.int
         method_int = 4
 
     # --- coerce Y, X, wt to float64 ---
+    # R: `if (is.matrix(Y)) Y <- as.double(t(Y))`. R matrices are stored
+    # column-major, so flattening t(Y) (shape (ny, n)) column-major is
+    # equivalent to flattening Y (shape (n, ny)) row-major -- i.e. each
+    # observation's ny response values consecutive, exactly what the C code
+    # expects ("y is in row major order", see xpred.c). A plain
+    # Y.T.ravel() (C-order ravel of the transpose) is instead equivalent to
+    # a *column-major* ravel of Y itself, which transposes the per-
+    # observation response layout the C code expects whenever ny > 1 --
+    # mirrors the identical, already-fixed pattern in rpart.py's own
+    # `as.double(t(init$y))` translation (see its comment there).
     if isinstance(Y, np.ndarray) and Y.ndim == 2:
-        Y_flat = np.ascontiguousarray(Y.T, dtype=np.float64).ravel()
+        Y_flat = np.ascontiguousarray(Y, dtype=np.float64).ravel()
     else:
         Y_flat = np.asarray(Y, dtype=np.float64).ravel()
     X_f64 = np.asarray(X, dtype=np.float64)
@@ -165,20 +175,42 @@ def xpred_rpart(fit: dict[str, Any], xval: int | np.ndarray[Any, np.dtype[np.int
     # in turn; a plain np.array(list(parms.values())) fails whenever the
     # components have different shapes (e.g. classification's prior vector
     # + loss matrix + scalar split code), so ravel-and-concatenate instead.
-    if isinstance(parms, dict):
+    # `parms` may also be a bare scalar/array (e.g. a user-defined method's
+    # init() returning `parms=0`, as in rpart/tests/usersplits.R) rather than
+    # a dict -- R's unlist() accepts that too (returning it as a length-1+
+    # vector unchanged), but `list(0)` raises TypeError since a Python int
+    # isn't iterable. Mirror rpart.py's identical (dict / None / else)
+    # three-way parms-flattening branch here so both entry points agree.
+    if parms is None:
+        parms_flat = np.array([0.0], dtype=np.float64)
+    elif isinstance(parms, dict):
         parms_source = list(parms.values())
+        _flat: list[float] = []
+        for v in parms_source:
+            _flat.extend(np.asarray(v, dtype=np.float64).ravel().tolist())
+        parms_flat = np.array(_flat, dtype=np.float64) if _flat else np.array([0.0], dtype=np.float64)
     else:
-        parms_source = list(parms) if parms is not None else []
-    _flat: list[float] = []
-    for v in parms_source:
-        _flat.extend(np.asarray(v, dtype=np.float64).ravel().tolist())
-    parms_flat = np.array(_flat, dtype=np.float64) if _flat else np.array([0.0], dtype=np.float64)
+        parms_flat = np.asarray(parms, dtype=np.float64).ravel()
+        if len(parms_flat) == 0:
+            parms_flat = np.array([0.0], dtype=np.float64)
 
     # --- controls to flat float64 array ---
+    # Mirrors R's `as.double(unlist(controls))`: `controls$xval` here is the
+    # *stored* fitted-object control list, whose `xval` element may still be
+    # the full array the caller originally passed to rpart() (e.g. explicit
+    # xgroups) rather than a scalar fold-count -- unlist()/ravel()ing it
+    # keeps parity with R and avoids a hard failure from `float()` on an
+    # array-valued entry (see rpart.py's identical fix/comment for the main
+    # rpart() flattening of `controls`). The C entry point only reads the
+    # first 8 slots (minsplit..maxdepth) in any case.
     if isinstance(controls, dict):
-        controls_flat = np.array(list(controls.values()), dtype=np.float64)
+        _ctrl_values = controls.values()
     else:
-        controls_flat = np.asarray(controls, dtype=np.float64)
+        _ctrl_values = np.atleast_1d(controls)
+    _flat_ctrl: list[float] = []
+    for v in _ctrl_values:
+        _flat_ctrl.extend(np.atleast_1d(np.asarray(v, dtype=np.float64)).ravel().tolist())
+    controls_flat = np.array(_flat_ctrl, dtype=np.float64)
 
     # --- ncat: cats * !fit$ordered ---
     ordered = fit.get('ordered')
