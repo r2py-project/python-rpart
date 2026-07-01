@@ -71,8 +71,19 @@ def print_rpart(x: dict[str, Any], minlength: int = 0, spaces: int = 2, cp: 'flo
         # format(signif(frame$yval, digits))
         yval_arr = frame['yval'].values.astype(float)
         def _signif(arr: np.ndarray, d: int) -> np.ndarray:
-            return np.where(arr == 0, 0.0,
-                            np.round(arr, d - 1 - np.floor(np.log10(np.abs(np.where(arr == 0, 1.0, arr)))).astype(int)))
+            # R's signif(arr, d): round each element to d significant
+            # digits. Each element generally needs a *different* number of
+            # decimal places (decimals = d - 1 - floor(log10(|x|))), so
+            # numpy.round's single scalar `decimals` argument cannot do
+            # this in one vectorized call -- np.round(arr, decimals_array)
+            # raises "only integer scalar arrays can be converted to a
+            # scalar index" for any array with more than one distinct
+            # magnitude. Round element-by-element instead.
+            decimals = d - 1 - np.floor(np.log10(np.abs(np.where(arr == 0, 1.0, arr)))).astype(int)
+            return np.array(
+                [0.0 if v == 0 else np.round(v, int(dec)) for v, dec in zip(arr, decimals)],
+                dtype=float,
+            )
         yval_rounded = _signif(yval_arr, digits)
         yval_strs = [f'{v:.{digits}g}' for v in yval_rounded]
         max_yval_width = max(len(s) for s in yval_strs)
@@ -91,9 +102,17 @@ def print_rpart(x: dict[str, Any], minlength: int = 0, spaces: int = 2, cp: 'flo
     n = frame['n'].values
 
     # format(signif(frame$dev, digits))
+    # Per-element signif() rounding: see the identical fix/comment on the
+    # `_signif` helper above -- np.round's `decimals` argument must be a
+    # scalar, so an array of per-element decimal counts (one distinct value
+    # per order of magnitude in dev_arr) cannot be passed to a single
+    # vectorized np.round call.
     dev_arr = frame['dev'].values.astype(float)
-    dev_rounded = np.where(dev_arr == 0, 0.0,
-                           np.round(dev_arr, digits - 1 - np.floor(np.log10(np.abs(np.where(dev_arr == 0, 1.0, dev_arr)))).astype(int)))
+    _dev_decimals = digits - 1 - np.floor(np.log10(np.abs(np.where(dev_arr == 0, 1.0, dev_arr)))).astype(int)
+    dev_rounded = np.array(
+        [0.0 if v == 0 else np.round(v, int(dec)) for v, dec in zip(dev_arr, _dev_decimals)],
+        dtype=float,
+    )
     dev_strs = [f'{v:.{digits}g}' for v in dev_rounded]
     max_dev_width = max(len(s) for s in dev_strs)
     dev_strs_padded = [s.rjust(max_dev_width) for s in dev_strs]
@@ -108,8 +127,11 @@ def print_rpart(x: dict[str, Any], minlength: int = 0, spaces: int = 2, cp: 'flo
     # Print header
     omit = x.get('na.action', None)
     n0 = int(n[0])
-    if omit is not None and len(omit) > 0:
-        n_omit = len(omit)
+    # `na.action` is a dict {'indices', 'names', 'class'} (see na_rpart.py);
+    # the observation count is len(omit['indices']), not len(omit) (which
+    # would wrongly always be 3, the fixed number of dict keys).
+    n_omit = len(omit['indices']) if omit is not None else 0
+    if omit is not None and n_omit > 0:
         noun = 'observation' if n_omit == 1 else 'observations'
         naprint_str = f'{n_omit} {noun} deleted due to missingness'
         print(f'n={n0} ({naprint_str})\n')

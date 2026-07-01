@@ -24,8 +24,13 @@ def summary_rpart(object: dict[str, Any], cp: float = 0, digits: int | None = No
         omit = x.get('na.action')
         ff = x['frame']
         n = ff['n'].values
-        if omit is not None and len(omit) > 0:
-            _n_omit = len(omit)
+        # `na.action` here is a dict with keys {'indices', 'names', 'class'}
+        # (see na_rpart.py) mirroring R's na.action "omit" object, whose
+        # *R*-side length() is the count of dropped observations -- not
+        # the (fixed, ==3) number of dict keys, which `len(omit)` would
+        # wrongly report on the dict itself.
+        _n_omit = len(omit['indices']) if omit is not None else 0
+        if omit is not None and _n_omit > 0:
             _noun = 'observation' if _n_omit == 1 else 'observations'
             _naprint_str = f'{_n_omit} {_noun} deleted due to missingness'
             print(f'  n={n[0]} ({_naprint_str})\n')

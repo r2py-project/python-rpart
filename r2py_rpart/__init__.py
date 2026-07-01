@@ -343,14 +343,32 @@ def _rpart_c(
     wt_a   = _float64(wt)
     cost_a = _float64(cost)
 
-    # Pre-allocate output buffers (generous upper bounds)
+    # Pre-allocate output buffers (generous upper bounds).
+    #
+    # dsplit/isplit row count ("splitcount" in rpart.c, computed exactly by
+    # rpcountup() there after the tree is built): every internal node
+    # contributes up to (maxpri + maxsur) rows, where maxpri = maxcompete+1
+    # (the primary split plus its recorded competitors, opt[3]) and maxsur =
+    # maxsurrogate (opt[4]) -- see rpart.c's `rp.maxpri = (int) dptr[3] + 1`
+    # / `rp.maxsur = (int) dptr[4]`. A plain `n * 3` bound (element count,
+    # not row count) is far too small whenever maxcompete/maxsurrogate
+    # aren't tiny relative to n: e.g. n=50 with the rpart.control() defaults
+    # (maxcompete=4, maxsurrogate=5) needs up to 49 internal nodes * 10
+    # rows/node = 490 rows (1470 elements), not 150. There are at most n-1
+    # internal (non-leaf) nodes in a tree of n observations, so
+    # `(n - 1) * (maxpri + maxsur)` rows is a safe (if generous) upper
+    # bound; multiply by 3 columns for the flat element count below.
+    _maxpri = int(opt[3]) + 1 if len(opt) > 3 else 5
+    _maxsur = int(opt[4]) if len(opt) > 4 else 5
+    _max_split_rows = max(1, n - 1) * max(1, _maxpri + _maxsur)
+
     which_arr   = np.zeros(n,          dtype=np.int32)
     cptable_arr = np.zeros(5 * (n + 2), dtype=np.float64)
-    dsplit_arr  = np.zeros(n * 3,      dtype=np.float64)
-    isplit_arr  = np.zeros(n * 3,      dtype=np.int32)
+    dsplit_arr  = np.zeros(_max_split_rows * 3,      dtype=np.float64)
+    isplit_arr  = np.zeros(_max_split_rows * 3,      dtype=np.int32)
     dnode_arr   = np.zeros(n * (3 + max(ny, 1)) * 2, dtype=np.float64)
     inode_arr   = np.zeros(n * 6 * 2, dtype=np.int32)
-    csplit_arr  = np.zeros(n * nvar,   dtype=np.int32)
+    csplit_arr  = np.zeros(max(n, _max_split_rows) * nvar,   dtype=np.int32)
     err_buf     = np.zeros(_ERR_BUF_SIZE, dtype=np.uint8)
 
     which_len     = ffi.new("int *", 0)
