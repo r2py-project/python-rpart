@@ -267,29 +267,39 @@ rather than merely printed -- and all three verify *exactly* (to full
 floating-point precision) against fit4's own cptable/xpred_rpart output,
 with no tolerance relaxation needed anywhere in that test.
 
-A remaining unexplained numerical discrepancy (deep/unpruned cp=0 trees)
+A previously-unresolved numerical discrepancy, now root-caused and fixed
 ------------------------------------------------------------------------------
 fit1 and fit6 both use an explicit, fully deterministic `xval=xgroup`
-(fit1) / default `xval=xgroup` (fit6) cross-validation grouping, and their
-``cptable``'s CP/nsplit/rel-error columns (purely a function of the single
-deterministic full-tree fit, no cross-validation involved) match a live R
-rerun to full floating-point precision, as does the ``xerror``/``xstd`` for
-every row *except* the last one to three rows of each fit's cptable -- the
-deepest, most-fully-grown splits, reached only because fit1 passes cp=0 (so
-no pruning ever discards a split) and fit6's tree happens to fit exactly at
-rpart's default cp=0.01 floor. Those trailing rows show a small (roughly 0.01-0.03 in either direction)
-but completely reproducible discrepancy from R across independent re-runs. This was
-investigated at length (see comments on the affected assertions below): it
-was ruled out as a consequence of any of the several real bugs this
-conversion found and fixed (confirmed by testing with each fix individually
-reverted/bypassed), and ruled out as random/uninitialized-memory-dependent
-(bit-identical across repeated runs); the underlying `rpart.c`/`xval.c` C
-sources are byte-identical between the R package and r2py_rpart's compiled
-extension. The root cause was not further pinned down, as doing so is
-outside the scope of this test-conversion task -- the affected assertions
-below check the many unaffected rows/quantities at full precision and apply
-a much looser sanity bound to the few affected trailing values instead of
-either silently dropping the check or asserting a value known not to hold.
+(fit1) / default `xval=xgroup` (fit6) cross-validation grouping. Earlier
+revisions of this test found that their ``cptable``'s CP/nsplit/rel-error
+columns matched a live R rerun to full floating-point precision, but the
+``xerror``/``xstd`` values in the last one to three rows of each fit's
+cptable -- the deepest, most-fully-grown splits, reached only because fit1
+passes cp=0 (so no pruning ever discards a split) and fit6's tree happens to
+fit exactly at rpart's default cp=0.01 floor -- did not.
+
+This was root-caused via bit-level instrumentation of ``bsplit.c``/
+``partition.c`` in both the R package and r2py_rpart's compiled extension
+(confirming the shared C sources compute byte-identical candidate-split
+values at every node), which showed the two trees' cross-validation refits
+literally have a different number of nodes: Python was stopping certain very
+small (~20-observation) fold subtrees one split earlier than R. The cause
+was not in any C code at all, but in ``rpart_control()``
+(``r2py_rpart/rpart_control.py``): when neither ``minsplit`` nor
+``minbucket`` is supplied, the code computed ``minbucket``'s default (7) and
+then re-used that now-non-sentinel local variable to decide whether the
+*caller* had supplied ``minbucket`` -- incorrectly concluding they had, and
+back-deriving ``minsplit = minbucket * 3 = 21`` instead of leaving R's true
+default of ``minsplit = 20`` in place. A node with exactly 20 observations
+would then be split by R (``20 < 20`` is false) but not by Python
+(``20 < 21`` is true), and this exact boundary is only ever reached in
+maximally deep (cp=0-adjacent) trees -- which is why every other test in
+this suite, and the non-trailing rows of these two cptables, never surfaced
+it. Fixing the sentinel-handling bug (unrelated to any C code) makes every
+row of both cptables match R to full floating-point precision, and also
+resolves a second, previously-unexplained discrepancy in tree size under
+``usesurrogate=2`` (R: 10 splits, Python: 9 splits, for the same fit1
+configuration without ``usesurrogate=0``).
 
 ``options(digits=4)`` / ``set.seed(10)``
 --------------------------------------------
@@ -473,30 +483,24 @@ def test_fit1_poisson_survival_stagec() -> None:
     assert list(cptable["nsplit"].astype(int)) == expected_nsplit
 
     ## xerror/xstd are cross-validated (10-fold, per explicit xgroup)
-    ## quantities. A live R rerun (digits=10) confirms the first 6 of 9
-    ## rows match Python to ~1e-11 (floating-point-exact): xerror[0:6] =
-    ## 1.0120465613, 0.9219706200, 0.9728422392, 0.9731829662,
-    ## 0.9725475129, 0.9697979840. Rows 7-9 (the deepest/most-pruned
-    ## splits, where cp=0 keeps splits that rpart's default cp=0.01 would
-    ## have discarded) show a small but real, fully reproducible
-    ## discrepancy from R (e.g. row 7: Python 0.9861 vs R's reference
-    ## 0.9920) that does not stem from any of the several confirmed +
-    ## fixed bugs this test surfaced (opt-array padding, output-buffer
-    ## sizing, na-filtering-vs-response-caching ordering, label
-    ## cross-indexing) -- it was isolated (by testing byte-identical
-    ## inputs against the unmodified, shared rpart.c/xval.c C sources) to
-    ## some remaining, deeper numerical discrepancy specific to
-    ## cross-validating very deep/unpruned (cp=0) trees, outside the scope
-    ## of this test-conversion task to further root-cause. The first 6
-    ## rows are checked at high precision below; all 9 rows are checked
-    ## against a much looser sanity bound (cross-validated relative error
-    ## must be a plausible, positive, boundedly-close-to-1 quantity) so a
-    ## true regression (e.g. a wildly wrong xerror) would still fail.
+    ## quantities and match R to floating-point precision on all 9 rows
+    ## (verified against a live R rerun at digits=10). Rows 7-9 (the
+    ## deepest/most-pruned splits, where cp=0 keeps splits that rpart's
+    ## default cp=0.01 would have discarded) previously showed a small but
+    ## real discrepancy from R (e.g. row 7: Python 0.9861 vs R's reference
+    ## 0.9920); this was root-caused to an unrelated bug in
+    ## rpart_control() (`minsplit` defaulting to 21 instead of R's 20,
+    ## because the `minbucket` "was it explicitly supplied" sentinel got
+    ## clobbered by its own computed default before the later check that
+    ## reads it -- see git history for the fix), which made Python stop
+    ## growing certain very small (~20-observation) cross-validation-fold
+    ## subtrees one split earlier than R. Fixing that (a one-line change
+    ## unrelated to any C code) makes all 9 rows match R exactly.
     expected_xerror_precise = [1.0120465613, 0.9219706200, 0.9728422392,
-                                0.9731829662, 0.9725475129, 0.9697979840]
+                                0.9731829662, 0.9725475129, 0.9697979840,
+                                0.9920323780, 0.9852934906, 1.0077320000]
     xerror = cptable["xerror"].to_numpy()
-    assert np.allclose(xerror[:6], expected_xerror_precise, atol=1e-6)
-    assert np.all((xerror > 0.5) & (xerror < 1.5))
+    assert np.allclose(xerror, expected_xerror_precise, atol=1e-6)
 
     ## Variable importance (rounded to nearest %), from testall.Rout.save:
     ## grade 27, g2 27, gleason 23, ploidy 12, age 10, eet 1.
@@ -726,19 +730,16 @@ def test_fit6_classification_with_equal_priors_stagec() -> None:
     assert np.allclose(cptable["CP"].to_numpy(), expected_cp, atol=5e-5)
     assert list(cptable["nsplit"].astype(int)) == expected_nsplit
 
-    ## xerror: a live R rerun (digits=10) confirms the first 5 of 6 rows
-    ## match Python to ~1e-8 (floating-point-exact): xerror[0:5] =
-    ## 1.2081320451, 0.6678743961, 0.8377616747, 0.8856682770,
-    ## 0.8856682770. Row 6 (nsplit=9, the deepest/fully-grown tree) shows
-    ## the same kind of small, reproducible cp=0-adjacent cross-validation
-    ## discrepancy documented in test_fit1_poisson_survival_stagec above
-    ## (Python 0.8933 vs R's reference 0.8639) -- not a regression from any
-    ## of the bugs this test suite found/fixed, per the same investigation.
+    ## xerror: a live R rerun (digits=10) confirms all 6 rows match Python
+    ## to floating-point precision, including row 6 (nsplit=9, the
+    ## deepest/fully-grown tree) -- see the root-cause note on the
+    ## `minsplit` off-by-one bug in test_fit1_poisson_survival_stagec
+    ## above; fixing it made this row match R exactly too (0.8639291465,
+    ## not the previously-observed 0.8933172303).
     expected_xerror_precise = [1.2081320451, 0.6678743961, 0.8377616747,
-                                0.8856682770, 0.8856682770]
+                                0.8856682770, 0.8856682770, 0.8639291465]
     xerror = cptable["xerror"].to_numpy()
-    assert np.allclose(xerror[:5], expected_xerror_precise, atol=1e-6)
-    assert np.all((xerror > 0.5) & (xerror < 1.5))
+    assert np.allclose(xerror, expected_xerror_precise, atol=1e-6)
 
     ## Under a 0.5/0.5 prior (vs. fit5's empirical ~0.63/0.37 prior), the
     ## root node's predicted class still has expected loss 0.5 (P(node)=1,
