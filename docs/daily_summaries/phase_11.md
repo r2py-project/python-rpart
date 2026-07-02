@@ -200,3 +200,145 @@ Every artifact of this investigation was created under the session's scratchpad 
 #### 5.10 Updated status of the open item
 
 The "unresolved item" recorded at the end of §3 is updated as follows: the discrepancy is **conclusively confirmed to originate inside rpart's C cross-validation code** (not the Python port's data marshaling, formula parsing, or any of the seven bugs already fixed in §2.4 item 7), and is now understood to be **two compounding effects** rather than one: (A) a real, fixable-in-principle latent indexing bug in the shared `rundown.c`'s `oops:` fallback (affects only held-out observations that are themselves missing a deep split variable under `usesurrogate<2`), and (B) an unresolved, more fundamental floating-point tie-break sensitivity in the split-search comparison for very small, deep nodes in specific cross-validation folds, which affects both R and Python identically in kind (both are internally deterministic and reproducible) but not in which candidate split wins. Fixing Mechanism A in `r2py_rpart` would require deliberately *diverging* from R's C source (to fix a bug R itself still has), which is out of scope for a port whose goal is behavioral parity with R; fully explaining Mechanism B remains future work, with a concrete next step identified (§5.7) for whoever picks it up. The `usesurrogate=2`/`cp=0` tree-size discrepancy found in §5.8 is logged as a new, separate, not-yet-investigated item.
+
+---
+
+### 6. Second Addendum (same-day follow-up, 2026-07-02): Definitive Root-Cause of Mechanism B, and Retraction of Mechanism A as an Independent Explanation
+
+This addendum documents a third work session on the same investigation, conducted in direct response to a user request to (a) first explain the Phase 11 discrepancies in plain language, and then (b) "dive deeply" specifically into Mechanism B (the item explicitly flagged in §5.10 as "not yet fully root-caused") and find its actual root cause, with the user explicitly authorizing experimentation directly against the working tree ("we're currently at the latest commit in Git... you can simply revert to this point using Git") rather than requiring everything to be confined to the scratchpad as in the first addendum. The outcome **fully reverses the conclusion of §5.10**: Mechanism B is not a floating-point phenomenon at all, and Mechanism A — while a real, independently-verifiable code defect — is retracted as an explanation for any R-vs-Python divergence.
+
+#### 6.1 Plain-language framing given to the user first
+
+Before the deep dive, the user asked how two "logically identical" packages could produce different values at all, expressing skepticism that this was possible. The explanation given (later superseded in substance, but methodologically the right framing) covered two generic mechanisms: (a) reading uninitialized/stale memory — not really "the same computation producing different answers" but "reading garbage left over from an unrelated computation, which naturally differs between two separate processes" (mapped at the time to Mechanism A), and (b) floating-point non-associativity combined with independently-compiled binaries potentially rounding differently in the last bit, which can flip a near-tied `if (temp > best)` split comparison and cascade into a different tree (mapped at the time to Mechanism B). This framing turned out to be conceptually reasonable but empirically wrong about *which* mechanism was real, as the rest of this addendum shows.
+
+#### 6.2 Live reproduction harness (second instance)
+
+`git status --porcelain` was confirmed clean at the start (matching the end state of §5.9). A second scratch, debug-instrumented local build of R's `rpart` package was created (`rpart_dbg`, copied from the read-only `rpart/` tree, `chmod u+w`'d, installed via `R CMD INSTALL --no-multiarch --library=<scratch>/rlib`), following the same pattern as §5.6. This time, rather than confining changes to the scratchpad only, equivalent instrumentation was **also applied directly to `r2py_rpart/src/*.c`** in the working tree (per the user's explicit go-ahead to experiment against the live repo), on the understanding that it would be `git checkout`-ed away afterward regardless of what was found. Both builds targeted the exact `fit1` configuration from `test_testall.py` (`Surv(pgtime, pgstat) ~ age + eet + g2 + grade + gleason + ploidy`, `stagec`, `method="poisson"`, `usesurrogate=0`, `cp=0`, explicit `xval=xgroup` with `xgroup = rep(1:10, length.out=146)`), reproduced via a standalone `repro_fit1.R` (`library(rpart); library(survival)`, needed because `Surv()` requires the `survival` package to be loaded) and a standalone `repro_fit1.py` (importing `_load_stagec`/`_build_surv_model_frame` directly from `test_testall.py` and calling `r2py_rpart.rpart`), each driven by a new `RPART_XVALDBG_FOLD` environment variable read via `getenv()`/`atoi()` inside the instrumented `xval.c`, to target a single cross-validation fold's tree-build (fold index 3, matching the addendum's earlier-identified divergent fold) without flooding the log with the other 9 folds.
+
+#### 6.3 Dead end #1: glibc symbol-versioning of `log()` (tested and ruled out)
+
+Before returning to bit-level tree instrumentation, a new hypothesis was raised and fully tested: R's `rpart.so` and Python's `_rpart_core.so` might link against *different symbol versions* of libm's `log()` (used repeatedly in `poisson.c`'s split-search deviance calculation), and those versions might round differently. This was checked directly:
+- `readelf --dyn-syms` on both shared objects confirmed the hypothesis's premise was real: R's `rpart.so` references a bare, unversioned `log` (binds to whatever the dynamic linker treats as the base/default version), while Python's `_rpart_core.so` references the explicitly-versioned `log@GLIBC_2.29`; the same pattern held for `pow`. (`sqrt` was versioned identically in both, `GLIBC_2.2.5`, so not a candidate.)
+- `objdump -T /usr/lib64/libm.so.6` confirmed the system's libm genuinely exports two distinct implementations under these two version tags, `log@GLIBC_2.2.5` (offset `0x10290`) and `log@GLIBC_2.29` (offset `0x357f0`), at different addresses (confirmed via `dlvsym(handle, "log", "GLIBC_2.2.5")` vs `dlvsym(handle, "log", "GLIBC_2.29")` returning different function pointers) — so this was not a red herring at the ELF-metadata level.
+- However, a purpose-built C program (`logver.c`, then `logver2.c`) that `dlopen`s `libm.so.6` and calls both versions via `dlvsym` directly showed **zero bit-level differences** across a curated set of 21 "interesting" values (simple fractions, `log(2)`, values near 1, etc.) and, more decisively, across **50,000,000 random doubles** spanning roughly `1e-12` to `1e12` in magnitude (`logver2.c`, `srand(12345)`, ~4.5 seconds runtime): `0/50000000 differ. max ulp=0`. The glibc actually installed on this system is version 2.34 (`GNU C Library (GNU libc) stable release version 2.34`); on this build, the two versioned `log` symbols are evidently either identical algorithms exposed under two ABI tags, or differ only for inputs far outside the range ever produced by this dataset's rate computations. Either way, **this hypothesis was directly falsified by measurement**, not just deprioritized, and abandoned in favor of returning to direct bit-level tree instrumentation.
+
+#### 6.4 Dead end #2 (partial): disassembly comparison of `poisson()`'s split-search loop
+
+To check whether the compiler was reordering the accumulation loop in `poisson.c` (e.g. via `-O3`/`-ftree-vectorize` splitting the reduction across SIMD lanes, which would change rounding independent of any single operation's correctness — a different mechanism than the FMA-contraction test already run in §5.4), the `poisson()` function was located and disassembled (`objdump -d --no-show-raw-insn -M intel`) from both `rpart.so` (symbol `poisson`, offset `0x7940`, 867 disassembled lines) and `_rpart_core.so` (C++-mangled symbol `_Z7poissoniPPdS_iiS_S_PidS_`, offset `0x411c0`, 524 disassembled lines; located via `nm -C` demangling since the Python build's forced `-x c++` compilation mangles all C symbol names). Both disassemblies show exactly five `call log` sites, matching the five `log(...)` call expressions in `poisson.c`'s source (root deviance, plus two each in the continuous- and categorical-split branches). Side-by-side inspection of the core accumulation loop (`left_d += y[i][1]*wt[i]; right_d -= ...; left_time += y[i][0]*wt[i]; right_time -= ...;`) showed the two compiled versions use a **scalar, sequential, single-accumulator loop with no vectorization in either binary** — differing only in superficial register allocation and instruction scheduling choices (e.g. R's version reloads a value from memory a second time where Python's version keeps it live in a second register), never in the *order* of floating-point operations performed. Since register-allocation differences of this kind cannot change the bit-pattern of a `mulsd`/`addsd` result, this ruled out instruction-reordering/vectorization as a source of divergence in this specific function, and — combined with §6.3 — left no remaining floating-point-level candidate mechanism for the `poisson()` split search itself.
+
+#### 6.5 Bit-level candidate-split instrumentation of `bsplit.c` (the decisive step)
+
+`bsplit.c` was instrumented (in both the scratch R build and, per the user's authorization, directly in `r2py_rpart/src/bsplit.c`) to print, immediately after every `(*rp_choose)(...)` call, the fold index, a running node counter (reset per fold via a new `xval_dbg_node` global), the candidate variable index, the retained observation count `k`, and both `improve` and `split` in **exact hex-float form** (`%a` format specifier, which prints the precise binary significand/exponent with zero rounding ambiguity) alongside the usual `%.17g` decimal. `xval.c` was instrumented to set three new `extern` globals (`xval_dbg_on`, `xval_dbg_fold`, `xval_dbg_node`) immediately before/after the `partition(1, xtree, &temp, 0, k)` call for whichever fold matched the `RPART_XVALDBG_FOLD` environment variable, and to additionally dump the root node's `risk`/`response_est[0]` (hex + decimal) and the full retained-row order (`rp.sorts[0][...]`) at fold setup, to confirm the two languages started from an identical observation set/order before any node-level comparison began.
+
+Running both instrumented builds against fold 3 and diffing the resulting logs (`r_fit1_dbg.log`, 68 lines; `py_fit1_dbg.log`, 55 lines) showed the two logs were **byte-for-byte identical through node 7** (the SETUP line, the ROWORDER line, and every one of nodes 0 through 7's per-candidate hex-float `improve`/`split` values matched exactly, including e.g. node 7's five candidates `0x1.21ad21071f2p-2`, `0x1.221790b2b968p-1`, `0x1.ae7de2be9f3p+0`, `0x1.08c44382534p-3`, `0x1.6ba93f90e24cp+0`). The R log then continued with two more nodes (labeled node 8 and node 9 in the running counter) that **simply do not appear anywhere in the Python log**, which terminates after node 7. Since every individual candidate value up through node 7 was bit-identical, the winning split at node 7 (variable index 2 / `g2`, `improve≈1.68`, `split=13.475`) must also have been identical in both languages (the selection logic in `insert_split`/`bsplit.c`'s significance filter is a pure, order-preserving comparison over an already-bit-identical sequence) — so the divergence could not be in the split *search* at all. It had to be in the decision of whether to recurse into node 7's children.
+
+#### 6.6 Bit-level instrumentation of `partition.c`'s quit check
+
+`partition.c` was instrumented identically (both builds) to print, for every node, the fold, `partition()`'s internal `nodenum`, `n1`/`n2`, `me->num_obs`, `me->risk`, `me->complexity`, `tempcp`, `rp.alpha`, `rp.min_split`, and the boolean outcome of the "can I quit now?" test (`me->num_obs < rp.min_split || tempcp <= rp.alpha || nodenum > rp.maxnode`), all in hex-float plus decimal. Rerunning both builds and diffing (`r_fit1_dbg2.log`, 87 lines; `py_fit1_dbg2.log`, 70 lines) revealed the actual divergence immediately and unambiguously: **every single `PDBG` line in the R log reads `min_split=20`, and every single line in the Python log reads `min_split=21`** — a constant, node-independent, fold-independent integer difference of exactly 1, present from the very first line of the log. All other fields (`risk`, `complexity`, `tempcp`, `alpha`) matched bit-for-bit between the two logs at every node up through node 28 (`n1=62, n2=98`, `num_obs=36`, matching node 7 from §6.5) — but at node 56 (`n1=62, n2=82`, `num_obs=20`), R's check `20 < 20` evaluates false (continue splitting) while Python's check `20 < 21` evaluates true (stop, declare this node terminal) — exactly the node where the two languages' trees first diverge in shape. This conclusively reframed the entire investigation: **the discrepancy was never a floating-point phenomenon**. It is a plain integer off-by-one in a control parameter, `rp.min_split`, which is a simple `(int) dptr[0]` cast in `rpart.c`/`xpred.c` of a value computed entirely on the calling (R-script / Python-script) side, not inside the shared, byte-identical C sources at all.
+
+#### 6.7 Root cause: a sentinel-clobbering bug in `rpart_control.py`
+
+R's actual default-computation logic (`rpart/R/rpart.control.R`) is:
+```r
+function(minsplit = 20L, minbucket = round(minsplit/3), cp = 0.01, ...) {
+    ...
+    if (missing(minsplit) && !missing(minbucket)) minsplit <- minbucket * 3L
+    ...
+}
+```
+R's `missing()` inspects the original call site, so when neither argument is supplied, `missing(minsplit)` and `missing(minbucket)` are both `TRUE`, the back-derivation `if` is `TRUE && !TRUE = FALSE`, and `minsplit` is left at its literal default `20L` (with `minbucket` computed as `round(20/3) = 7` from the formal-parameter default expression, itself unaffected).
+
+`r2py_rpart/r2py_rpart/rpart_control.py`'s pre-fix logic emulated `missing()` with an `_MISSING` sentinel object, but had a control-flow bug:
+```python
+if minbucket is _MISSING:
+    _minsplit_val = 20 if minsplit is _MISSING else minsplit
+    minbucket = round(_minsplit_val / 3)          # minbucket reassigned to 7 here
+if minsplit is _MISSING and minbucket is not _MISSING:   # now always True when both were omitted!
+    minsplit = minbucket * 3                        # minsplit wrongly set to 21
+if minsplit is _MISSING:
+    minsplit = 20
+```
+When neither argument is supplied: the first `if` computes `minbucket = round(20/3) = 7` and, critically, **overwrites the `minbucket` local variable itself** with that computed value — destroying the only piece of state that the second `if` needed to correctly determine whether the *caller* had supplied `minbucket`. The second `if` then sees `minbucket is not _MISSING` (true, because it now holds `7`, not because the caller passed anything) and incorrectly executes the back-derivation branch, setting `minsplit = minbucket * 3 = 21`. The third `if` (`minsplit is _MISSING`) is now unreachable in this case, since `minsplit` was already (wrongly) set. Net result: `rpart_control()`/`rpart.control()`-equivalent calls with neither `minsplit` nor `minbucket` specified silently returned `minsplit=21` in Python versus R's correct `minsplit=20`, while `minbucket=7` matched in both — a purely internal Python-side logic bug wholly unconnected to the shared C sources, to any compiler, to glibc, or to floating-point arithmetic of any kind.
+
+This was confirmed directly and minimally, independent of the whole `rpart()`/xval machinery, with a one-line call: `rpart_control(usesurrogate=0, cp=0, xval=[1,2,3])['minsplit']` returned `21` before the fix, against R's `rpart.control(usesurrogate=0, cp=0, xval=c(1,2,3))$minsplit` returning `20`.
+
+#### 6.8 Why this exact bug explains every previously-documented symptom
+
+- It only manifests once a node's observation count sits exactly on the 20/21 boundary — a boundary only ever reached in maximally deep, lightly- or un-pruned (`cp=0`-adjacent) trees. This is precisely why `fit2` (default `control`, `cp=0.01`) was singled out in §5.1 as "every single row matches R exactly to 10 digits, including the deepest row" — its shallower, `cp`-pruned tree never got close enough to a 20-observation node for the off-by-one to matter, making it an accidentally perfect (and, in hindsight, informative) negative control.
+- It explains why the divergence in §5.6 was isolated to "columns 6 onward" (`nsplit` 7, 8, 9) — those are exactly the columns corresponding to the deepest splits, the only ones near the 20-observation boundary.
+- It explains why only 3 of 10 folds (`xgroup` 3, 6, 9) were affected in §5.6 — whether *any* node in a given fold's tree happens to land at exactly 20 (rather than, say, 19 or 24) observations depends on that fold's specific held-out subset, so only some folds trip the boundary.
+- It independently and fully explains the separate `usesurrogate=2` tree-size caveat logged in §5.8 (R: 10 splits, Python: 9 splits for the same `fit1` configuration without the explicit `usesurrogate=0`) — same mechanism, different code path exercising the same wrong `min_split`.
+- It explains why the two "mechanisms" described in §5.7 seemed different in character: Mechanism B's "genuinely different deep tree per affected fold" *is* this bug (a real, structural tree-shape difference, not a tie-break); Mechanism A's "stale buffer" symptom (§6.14 below) turns out to be *downstream fallout* of the same tree-shape difference, not an independent cause.
+
+#### 6.9 Verifying the fix
+
+The fix applied to `r2py_rpart/r2py_rpart/rpart_control.py` captures whether `minbucket` was originally missing into a separate boolean (`minbucket_missing`) *before* `minbucket` is reassigned to its computed default, and checks that captured boolean afterward instead of re-inspecting the now-mutated variable:
+```python
+minbucket_missing = minbucket is _MISSING
+if minbucket_missing:
+    _minsplit_val = 20 if minsplit is _MISSING else minsplit
+    minbucket = round(_minsplit_val / 3)
+if minsplit is _MISSING and not minbucket_missing:
+    minsplit = minbucket * 3
+if minsplit is _MISSING:
+    minsplit = 20
+```
+This is a minimal, three-line diff (add one assignment, change one condition) that changes no other behavior. It was verified against R across all four meaningfully distinct argument combinations, all matching exactly:
+
+| case | Python (fixed) `minsplit`, `minbucket` | R `minsplit`, `minbucket` |
+|---|---|---|
+| both omitted | 20, 7 | 20, 7 |
+| `minsplit=30` only | 30, 10 | 30, 10 |
+| `minbucket=5` only | 15, 5 | 15, 5 |
+| both given (`minsplit=15, minbucket=4`) | 15, 4 | 15, 4 |
+
+(Before the fix, the "both omitted" row alone was wrong: Python gave `21, 7`.)
+
+Before rebuilding with the fix, the C-level debug instrumentation added to `r2py_rpart/src/bsplit.c`, `r2py_rpart/src/xval.c`, and `r2py_rpart/src/partition.c` during §6.5–§6.6 was reverted with `git checkout -- r2py_rpart/src/bsplit.c r2py_rpart/src/xval.c r2py_rpart/src/partition.c`, confirmed via `git status --porcelain` (clean on those three paths), so that only the genuine `rpart_control.py` fix remained as a working-tree change. The extension was then rebuilt (`pip install --no-build-isolation .` from `r2py_rpart/`).
+
+With only the `rpart_control.py` fix applied, `fit1`'s full 9-row cptable was recomputed at full precision and compared against the exact reference figures already recorded in §5.1:
+
+| nsplit | Python before fix | Python after fix | R (reference, §5.1) |
+|---|---|---|---|
+| 7 | 0.9861181333 | **0.9920323780** | 0.9920323780 |
+| 8 | 0.9793792459 | **0.9852934906** | 0.9852934906 |
+| 9 | 1.0018354158 | **1.0077320000** | 1.0077320000 |
+
+All three previously-divergent rows now match R to the full 10 digits quoted in §5.1 — an exact match, not merely a closer approximation. `fit6`'s previously-divergent row (nsplit=9) was checked the same way and also now matches exactly: `xerror=0.8639291465` (Python, post-fix) versus R's reference `0.8639291465` from §5.1, superseding the pre-fix value of `0.8933172303`. The separate `usesurrogate=2`/`cp=0` tree-size caveat from §5.8 was also re-checked directly (re-running `fit1` with `usesurrogate` left at its default instead of explicitly `0`): Python now produces a 10-row cptable with `nsplit = [0, 1, 2, 3, 5, 6, 7, 8, 9, 10]`, identical in both row count and every `nsplit` value to a fresh R rerun of the equivalent call — resolving that caveat too, via the exact same one-line fix.
+
+The full existing test suite was rerun (`pytest tests/ -q` from `r2py_rpart/`) with the fix in place and passed **38/38**, confirming no regression anywhere else in the library from this change.
+
+#### 6.10 User decision: keep the fix
+
+The user was presented with the finding and asked whether to keep the `rpart_control.py` fix (a genuine correctness bug affecting any caller who omits both `minsplit` and `minbucket` — the library's own documented default — whenever a resulting tree is grown deep enough to reach a 20-observation node) or revert everything to the pristine pre-investigation state per the original framing of the request ("you can simply revert to this point using Git"). The user chose to **keep the fix** ("Keep the fix (Recommended)").
+
+#### 6.11 Test-suite updates made after the decision to keep the fix
+
+With the fix confirmed correct and authorized to remain, `r2py_rpart/tests/test_testall.py` was updated in two places to reflect the new, exact results instead of the previously-necessary loose sanity bounds:
+- `test_fit1_poisson_survival_stagec`'s `xerror` assertion was changed from checking only the first 6 of 9 rows at high precision (`atol=1e-6`) plus a loose `0.5 < xerror < 1.5` sanity bound on all 9, to checking **all 9 rows** at the same `atol=1e-6` precision against the now-exact reference array `[1.0120465613, 0.9219706200, 0.9728422392, 0.9731829662, 0.9725475129, 0.9697979840, 0.9920323780, 0.9852934906, 1.0077320000]`, with the surrounding comment rewritten to explain the resolved root cause (the `rpart_control()` sentinel bug) instead of describing it as an open, un-root-caused discrepancy.
+- `test_fit6_classification_with_equal_priors_stagec`'s analogous assertion was changed from checking only the first 5 of 6 rows plus a loose sanity bound, to checking **all 6 rows** against `[1.2081320451, 0.6678743961, 0.8377616747, 0.8856682770, 0.8856682770, 0.8639291465]`, with its comment likewise rewritten to point at the same root cause.
+- The module-level docstring section formerly titled "A remaining unexplained numerical discrepancy (deep/unpruned cp=0 trees)" was rewritten in place (retitled "A previously-unresolved numerical discrepancy, now root-caused and fixed") to narrate the actual mechanism (the `minsplit` sentinel bug, the 20-vs-21 boundary, why it only ever showed up in `cp=0`-adjacent deep trees) in place of the earlier, accurate-at-the-time but now-superseded description of an un-root-caused C-level discrepancy.
+
+`pytest tests/ -q` was rerun after these test-file edits and again passed **38/38**, confirming the tightened, exact assertions hold in practice and not just in the one-off verification scripts.
+
+Final working-tree state at the end of this addendum: exactly two files modified relative to the start of the session — `r2py_rpart/r2py_rpart/rpart_control.py` (the fix, 3 lines net changed) and `r2py_rpart/tests/test_testall.py` (58 insertions / 56 deletions, entirely assertion-tightening and comment/docstring rewrites, no new test cases added or removed) — confirmed via `git status --porcelain` and `git diff --stat`. All scratch R builds, reproduction scripts, and standalone verification scripts used throughout §6.2–6.9 were confined to the session's scratchpad directory and were never part of the repository.
+
+#### 6.12 Retraction of Mechanism A as an independent explanation
+
+In a follow-up exchange, the user separately questioned whether "Mechanism A" (the `rundown.c` `oops:`-fallback stale-buffer bug described in §5.7) was still a valid, standalone explanation for anything, given that Mechanism B had just been shown to be a mundane integer bug rather than the floating-point tie-break sensitivity originally suspected. `rundown.c` was re-read directly (not merely re-summarized) to check this:
+
+```c
+oops:;
+    if (rp.usesurrogate < 2) {  /* must have hit a missing value */
+	for (; i < rp.num_unique_cp; i++)
+	    xpred[i] = otree->response_est[0];
+	xtemp[i] = (*rp_error) (rp.ydata[obs2], otree->response_est);
+	return;
+    }
+```
+
+The code-level defect described in §5.7 was re-confirmed as genuinely real on careful re-derivation: after the `for` loop exits, `i == rp.num_unique_cp`; since `xtemp`, `xpred`, `cp` are three `num_unique_cp`-sized contiguous slices of one `CALLOC(3*num_unique_cp, ...)` block (`xpred = xtemp + n`, `cp = xpred + n`), the trailing `xtemp[i] = ...` statement — written outside and after the loop, evidently intended to mirror the just-completed `xpred[]` loop but mistakenly left as a single, mis-indexed assignment — writes to `xtemp[num_unique_cp]`, which is pointer-arithmetic-equivalent to `xpred[0]`, not to any of the genuinely-needed trailing `xtemp[i_original..num_unique_cp-1]` slots. Those real slots are consequently left unwritten by this call and retain whatever an *earlier, unrelated observation's* `rundown()` call last wrote there, since `xtemp` is a single buffer allocated once per fold in `xval.c` and reused, unreset, across every observation in that fold's held-out set. This is confirmed to be present verbatim in both R's and `r2py_rpart`'s byte-identical `rundown.c`.
+
+However, the specific *claim* Mechanism A was invoked to support in §5.7 — that "different allocation/call histories leave different leftover bit patterns in the reused buffer" *between R and Python* — does not survive the discovery in this addendum. The identity of "which earlier observation's stale value ends up in this slot" is entirely determined by tree shape and per-fold call order, both of which are now known to have differed between R and Python **only** because of the `rpart_control.py` `minsplit` bug (§6.6–§6.7), not for any reason intrinsic to `rundown.c` itself or to the two languages' independent builds. Once that bug is fixed, R and Python build identical trees and process each fold's held-out observations in identical order, so even if this `rundown.c` defect still fires (it is unmodified in either package, and was never in scope to fix, since doing so would mean deliberately diverging from R's own, still-buggy behavior), it now leaves *identical* stale garbage in both languages' shared buffers rather than divergent garbage — and therefore can no longer produce, and now demonstrably does not produce, any visible difference between the R and Python `xerror`/`xstd` outputs. This is not merely argued but directly evidenced: `fit1` uses `usesurrogate=0` explicitly (exactly the condition, `rp.usesurrogate < 2`, that is required for this fallback branch to execute at all), and its full 9-row cptable was shown in §6.9 to match R exactly on every row after only the `minsplit` fix — with no change whatsoever to `rundown.c` in either package. Had Mechanism A been a genuine, independent second source of R-vs-Python divergence, that exact, all-rows match could not have occurred.
+
+**Conclusion:** Mechanism A, as a piece of code, is a real and independently verifiable defect in rpart's shared C source (present in both R and `r2py_rpart` identically, and out of scope to fix in the Python port for behavioral-parity reasons, per §5.10's original reasoning, which still holds on that narrow point). But Mechanism A is **retracted as an explanation for any part of the observed Phase 11 R-vs-Python discrepancy**. The entire observed discrepancy — both the `xerror`/`xstd` trailing-row mismatches and the `usesurrogate=2` tree-size mismatch — is fully and exclusively explained by the single `rpart_control.py` sentinel bug documented in §6.6–§6.9. The "two compounding effects" framing in §5.10 is superseded: there was only ever one effect (the `minsplit` bug) with two visible symptoms, plus one genuine-but-irrelevant-to-the-comparison latent defect (Mechanism A) that was misattributed a causal role it did not have.

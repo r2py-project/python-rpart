@@ -9,10 +9,11 @@ _MISSING = object()
 
 
 def rpart_control(minsplit: int | float = _MISSING, minbucket: int | float = _MISSING, cp: float = 0.01, maxcompete: int = 4, maxsurrogate: int = 5, usesurrogate: int = 2, xval: int | np.ndarray[Any, np.dtype[np.int_]] = 10, surrogatestyle: int = 0, maxdepth: int = 30, **kwargs: Any) -> dict[str, int | float | np.ndarray[Any, np.dtype[np.int_]]]:
-    if minbucket is _MISSING:
+    minbucket_missing = minbucket is _MISSING
+    if minbucket_missing:
         _minsplit_val = 20 if minsplit is _MISSING else minsplit
         minbucket = round(_minsplit_val / 3)
-    if minsplit is _MISSING and minbucket is not _MISSING:
+    if minsplit is _MISSING and not minbucket_missing:
         minsplit = minbucket * 3
     if minsplit is _MISSING:
         minsplit = 20
