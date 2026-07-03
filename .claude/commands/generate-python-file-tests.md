@@ -18,7 +18,7 @@ When provided with a target Python file path and its corresponding R package doc
 
 ### Step 2: Filter Public Interfaces via R Documentation
 
-* Navigate to the documentation of the original R package (e.g., via CRAN, local `.Rd` files, or the package's reference manual).
+* Navigate to the documentation of the original R package (e.g., via CRAN, local `.Rd` files, or the package's reference manual). *Example:* For the `rpart` package, review its documentation at `https://cran.r-project.org/web/packages/rpart/refman/rpart.html`. Use this to identify all the public interfaces of the R package.
 * Cross-reference the comprehensive list of Python functions from Step 1 against the exported (public) functions detailed in the R documentation.
 * Filter the list to retain *only* the functions that are documented as public interfaces in the original R package. Discard internal or private helper functions from the execution queue.
 
