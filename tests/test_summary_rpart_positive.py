@@ -15,9 +15,9 @@ the shared machinery used throughout:
     list of lines, its return value), via pytest's `capsys` fixture.
   - `summary_rpart_find_n_line(lines)` -- the "n=..." header line.
   - `summary_rpart_variable_importance_dict_r`/`_py(lines)` -- parse the
-    "Variable importance" block (R: a 2-line column-aligned named-vector
-    print; python: one "Name: Value" line per variable) into a plain
-    `{name: value}` dict.
+    "Variable importance" block (both sides: a 2-line column-aligned
+    named-vector print, matching R's own `print(temp[temp > 0])` layout --
+    see gap (3)'s note below) into a plain `{name: value}` dict.
   - `assert_summary_node_blocks_match(py_lines, r_lines)` -- asserts every
     "Node number ..." block agrees between the two sides, modulo
     `normalize_summary_line`'s cosmetic (trailing-whitespace /
@@ -26,39 +26,47 @@ the shared machinery used throughout:
     straight off the *R* fit object (bypassing any print formatting at all),
     for numeric-only cross-checks against r2py_rpart's own fit dict.
 
-KNOWN, PERMANENT FORMATTING-PARITY GAPS
-----------------------------------------
-Three sections of summary.rpart's printed output can never textually match
-R, for reasons unrelated to any single test's inputs -- each is documented
-once here and demonstrated by a dedicated test at the end of this file
-(following the same convention test_printcp_positive.py already
-established for its own analogous gaps), rather than repeated per test:
+KNOWN, PERMANENT FORMATTING-PARITY GAP
+---------------------------------------
+Of the three formatting-parity gaps this module originally documented, two
+have since been closed by reimplementing summary_rpart.py's number/vector
+formatting to match R's own `format()`/`print.default()` rules in full
+(see summary_rpart.py's `_r_format_matrix_column`/`_r_format_cptable`/
+`_print_r_named_vector`); only the R-call echo remains permanent:
 
 (1) R-call echo. Identical to printcp's/print.rpart's own gap 1: R's
-    `dput(x$call, control=NULL)` pretty-prints the parsed call in one or two
-    lines; summary_rpart.py's `print(repr(x.get('call')))` instead dumps a
-    plain python dict whose `"data"` entry is the *entire* input DataFrame's
-    repr. See `test_summary_rpart_call_echo_is_a_known_formatting_gap`.
+    `dput(x$call, control=NULL)` pretty-prints the *unevaluated call
+    expression* (preserving the caller's own source text, e.g. the
+    variable name `df`, the unexpanded `rpart.control(xval = 0)` sub-call);
+    r2py_rpart.rpart()'s `Call` dict instead records already-*evaluated*
+    argument values (e.g. `"data"` holds the actual DataFrame, with no
+    record of the caller's variable name at all). Python has no
+    equivalent of R's unevaluated-language-object/promise mechanism, and
+    summary_rpart.py's print-formatting alone cannot reconstruct one --
+    see `test_summary_rpart_call_echo_is_a_known_formatting_gap`
+    (`xfail(strict=True)`) for the full reasoning.
 
-(2) cp-table numeric formatting/alignment. Identical to printcp's gap 4:
-    R's `print(x$cptable, digits=digits)` column-aligns/pads every row to a
-    shared decimal width; `pd.DataFrame(x['cptable']).to_string()` formats
-    independently, with pandas' own default precision (not `digits`-driven
-    at all -- summary_rpart.py never actually threads `digits` into the
-    cp-table's own `to_string()` call). Every positive test below instead
-    verifies the cp-table's *underlying numeric values* by pulling
-    `x['cptable']` and R's `fit$cptable` directly (via `extract_r_fit`),
-    sidestepping the print layout entirely. See
-    `test_summary_rpart_cptable_print_format_is_a_known_formatting_gap`.
+(2) [CLOSED] cp-table numeric formatting/alignment. R's `print(x$cptable,
+    digits=digits)` column-aligns/pads every column to a shared decimal
+    width (or a shared scientific-notation width, whichever is narrower);
+    summary_rpart.py now reproduces that exact per-column rule (see
+    `_r_format_cptable`) instead of `pandas.DataFrame.to_string()`'s
+    independent, non-`digits`-driven default precision. Every positive
+    test below still *also* verifies the cp-table's underlying numeric
+    values directly (via `extract_r_fit`), independent of print layout,
+    but `test_summary_rpart_cptable_print_format_is_a_known_formatting_gap`
+    now additionally confirms the *printed* CP-column line matches R's
+    exactly.
 
-(3) "Variable importance" block layout. R's `print(temp[temp > 0])` prints
-    a named-vector layout (a names line, then a values line, both
-    column-aligned); summary_rpart.py instead prints one "name: value" line
-    per variable. These can never match as raw text, so every test below
-    that has a non-empty variable-importance block instead compares the
-    *parsed* `{name: value}` dict via
-    `summary_rpart_variable_importance_dict_r`/`_py`. See
-    `test_summary_rpart_variable_importance_layout_is_a_known_formatting_gap`.
+(3) [CLOSED] "Variable importance" block layout. R's `print(temp[temp >
+    0])` prints a named-vector layout (a names line, then a values line,
+    both column-aligned); summary_rpart.py now reproduces that same
+    layout (see `_print_r_named_vector`) instead of one "name: value" line
+    per variable, so
+    `test_summary_rpart_variable_importance_layout_is_a_known_formatting_gap`
+    now compares the raw printed block line-for-line (not just the parsed
+    dict every other test here already checked via
+    `_assert_variable_importance_matches`).
 
 Every other section of the output (the "n=" header and every per-node
 "Node number ..." block, including "Primary splits:"/"Surrogate splits:")
@@ -366,11 +374,45 @@ def test_summary_rpart_cp_and_digits_combined(capsys):
 # ---------------------------------------------------------------------------
 # 10. KNOWN GAP (1): the R-call echo. Demonstrates explicitly (once) that
 #     summary_rpart.py's `print(repr(x.get('call')))` can never match R's
-#     `dput()`-based call echo for any r2py_rpart.rpart()-built fit. This
-#     assertion is *expected to fail*; kept in place (per this test suite's
-#     established convention) to document the gap rather than deleted.
+#     `dput()`-based call echo for any r2py_rpart.rpart()-built fit.
+#
+#     Investigated as part of closing gaps (2)/(3) below: unlike those two
+#     (pure print-formatting choices, fully fixable inside summary_rpart.py
+#     alone), this one is not practically fixable from summary_rpart.py.
+#     R's `dput(x$call, control=NULL)` pretty-prints the *unevaluated call
+#     expression* captured by `match.call()` -- e.g. the literal source
+#     text `data = df` (the caller's variable name), not the DataFrame's
+#     contents, and `control = rpart.control(xval = 0)` as the literal
+#     unevaluated sub-call, not the individual control values it expands
+#     to. r2py_rpart.rpart() (rpart.py, out of scope for this fix -- see
+#     this test module's owning task) instead records its `Call` dict with
+#     already-*evaluated* argument values (`"data": data` -- the actual
+#     DataFrame object, with no record of the caller's variable name at
+#     all; `control=` is consumed into `rpart.control()`'s expanded fields
+#     before `Call` is even built). Python has no built-in equivalent of R's
+#     promise/unevaluated-language-object mechanism, and reconstructing one
+#     would require capturing source text at every `rpart()` call site
+#     (e.g. via `inspect`), a change to rpart.py's own call-recording logic
+#     -- well outside summary_rpart.py's print-formatting responsibility.
+#     This assertion is therefore kept, `xfail(strict=True)`, as a
+#     permanent, deliberately-undismissed documentation of the gap (per
+#     this test suite's established convention for such cases).
 # ---------------------------------------------------------------------------
 
+@pytest.mark.xfail(
+    reason=(
+        "R's dput()-based call echo pretty-prints the unevaluated call "
+        "expression (match.call()), preserving the caller's own source "
+        "text (e.g. the variable name 'df', the unexpanded "
+        "'rpart.control(xval = 0)' sub-call); r2py_rpart.rpart() records "
+        "its Call dict with already-evaluated argument values instead (no "
+        "variable-name or unevaluated-expression capture at all), which "
+        "summary_rpart.py's print-formatting alone cannot reconstruct. "
+        "Fixing this would require rpart.py to capture call-site source "
+        "text (e.g. via inspect), out of scope for a summary_rpart.py-only fix."
+    ),
+    strict=True,
+)
 def test_summary_rpart_call_echo_is_a_known_formatting_gap(capsys):
     run_r("data(car.test.frame)")
     df = from_r_dataframe("car.test.frame")
@@ -392,11 +434,11 @@ def test_summary_rpart_call_echo_is_a_known_formatting_gap(capsys):
 
 
 # ---------------------------------------------------------------------------
-# 11. KNOWN GAP (2): the cp-table's printed formatting. Demonstrates that
-#     even though the *underlying* cp-table values agree exactly (already
-#     checked via `_assert_cptable_values_match` in every test above), the
-#     printed text itself does not. Expected to fail; kept in place per
-#     convention.
+# 11. FORMER KNOWN GAP (2), now closed: the cp-table's printed formatting.
+#     Confirms that, in addition to the *underlying* cp-table values
+#     already agreeing exactly (checked via `_assert_cptable_values_match`
+#     in every test above), the printed CP-column text now matches R's
+#     exactly too (see `_r_format_cptable` in summary_rpart.py).
 # ---------------------------------------------------------------------------
 
 def test_summary_rpart_cptable_print_format_is_a_known_formatting_gap(capsys):
@@ -413,16 +455,18 @@ def test_summary_rpart_cptable_print_format_is_a_known_formatting_gap(capsys):
 
     r_cp_line = next(line for line in r_lines if line.strip().startswith("CP"))
     py_cp_line = next(line for line in py_lines if line.strip().startswith("CP"))
-    # KNOWN GAP (2): expected to fail -- column alignment/precision differs.
+    # Gap closed: column alignment/precision now matches R exactly.
     assert py_cp_line == r_cp_line
 
 
 # ---------------------------------------------------------------------------
-# 12. KNOWN GAP (3): the "Variable importance" block's raw text layout.
-#     Demonstrates that even though the *parsed* {name: value} dicts agree
-#     exactly (already checked via `_assert_variable_importance_matches` in
-#     tests 1/2/6 above), the raw printed lines never match. Expected to
-#     fail; kept in place per convention.
+# 12. FORMER KNOWN GAP (3), now closed: the "Variable importance" block's
+#     raw text layout. summary_rpart.py used to print one "Name: Value"
+#     line per variable; it now prints R's own 2-line column-aligned
+#     named-vector layout (see `_print_r_named_vector` in summary_rpart.py),
+#     so both the *parsed* {name: value} dicts (already checked via
+#     `_assert_variable_importance_matches` in tests 1/2/6 above) and the
+#     raw printed lines agree exactly -- confirmed empirically below.
 # ---------------------------------------------------------------------------
 
 def test_summary_rpart_variable_importance_layout_is_a_known_formatting_gap(capsys):
@@ -438,8 +482,12 @@ def test_summary_rpart_variable_importance_layout_is_a_known_formatting_gap(caps
 
     r_idx = r_lines.index("Variable importance")
     py_idx = py_lines.index("Variable importance")
+    # Both sides' block is now exactly 3 lines: the header, the
+    # column-aligned names line, and the column-aligned values line (the
+    # old python-side slice of 4 lines was sized for the retired
+    # one-"Name: Value"-line-per-variable layout).
     r_block = r_lines[r_idx : r_idx + 3]
-    py_block = py_lines[py_idx : py_idx + 4]
-    # KNOWN GAP (3): expected to fail -- R uses a 2-line column-aligned
-    # named-vector layout; python uses one "Name: Value" line per variable.
+    py_block = py_lines[py_idx : py_idx + 3]
+    # Gap closed: both sides now use the same 2-line column-aligned
+    # named-vector layout.
     assert py_block == r_block

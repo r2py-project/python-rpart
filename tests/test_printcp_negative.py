@@ -205,21 +205,17 @@ def test_printcp_digits_negative_raises():
 
 
 # ---------------------------------------------------------------------------
-# 11. KNOWN GAP: `digits=0`. R's format() explicitly rejects 0 ("invalid
-#     value 0 for 'digits' argument" -- R requires digits >= 1). Python's
-#     `format(v, '.0g')` is a *valid* format spec (Python's '%g'-style
-#     formatting silently treats a requested precision of 0 as 1
-#     significant digit -- confirmed empirically: `format(1354.6, '.0g')`
-#     succeeds and returns "1e+03"), so printcp.py does NOT raise for
-#     digits=0 at all -- it happily prints a (low-precision) cp table.
-#     This is a genuine, real divergence (one side raises, the other
-#     doesn't), not just a message-wording difference, so
-#     `assert_python_and_r_errors_agree`'s pass condition (documented in
-#     tests/_r_rpart_helpers.py: "R did not raise" is the only hard
-#     failure it enforces, besides message-text warnings) cannot be used
-#     to paper over it -- the assertion below explicitly requires both
-#     sides to raise, and is *expected to fail*, per this test suite's
-#     established KNOWN GAP convention (kept in place, not weakened).
+# 11. Formerly KNOWN GAP: `digits=0`. R's format() explicitly rejects 0
+#     ("invalid value 0 for 'digits' argument" -- R requires digits >= 1).
+#     printcp.py used to format via Python's `format(v, '.0g')`, a *valid*
+#     format spec (Python's '%g'-style formatting silently treats a
+#     requested precision of 0 as 1 significant digit), so printcp.py did
+#     NOT raise for digits=0 at all -- it happily printed a (low-precision)
+#     cp table. printcp.py now explicitly validates `digits` the way R's
+#     format() does (see `_validate_digits` in printcp.py: must coerce to
+#     a whole number >= 1), so it raises for digits=0 just like R. The test
+#     name is kept as-is (it is the identifier this test suite/tooling
+#     tracks it by) even though the gap it documents is fixed.
 # ---------------------------------------------------------------------------
 
 def test_printcp_digits_zero_known_gap():
@@ -238,6 +234,5 @@ def test_printcp_digits_zero_known_gap():
     except Exception:
         py_raised = True
 
-    # KNOWN GAP: expected to fail -- R raises for digits=0, but
-    # printcp.py's Python '.0g' format spec is valid and does not raise.
-    assert py_raised, "KNOWN GAP: printcp.py does not raise for digits=0, unlike R"
+    # Gap fixed: printcp.py now raises for digits=0, matching R.
+    assert py_raised, "printcp.py does not raise for digits=0, unlike R"

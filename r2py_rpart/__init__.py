@@ -362,13 +362,20 @@ def _rpart_c(
     _maxsur = int(opt[4]) if len(opt) > 4 else 5
     _max_split_rows = max(1, n - 1) * max(1, _maxpri + _maxsur)
 
+    # Even a degenerate 0-observation fit (e.g. an empty data frame, or every
+    # row dropped because a predictor column is entirely NaN) still produces
+    # a 1-row root-only output tree from the underlying C fit -- so the
+    # node-output buffers must always have room for at least 1 node's worth
+    # of data, never 0, regardless of how small `n` is. Use `max(n, 1)` as
+    # the basis for those formulas instead of `n` directly.
+    _n_floor    = max(n, 1)
     which_arr   = np.zeros(n,          dtype=np.int32)
     cptable_arr = np.zeros(5 * (n + 2), dtype=np.float64)
     dsplit_arr  = np.zeros(_max_split_rows * 3,      dtype=np.float64)
     isplit_arr  = np.zeros(_max_split_rows * 3,      dtype=np.int32)
-    dnode_arr   = np.zeros(n * (3 + max(ny, 1)) * 2, dtype=np.float64)
-    inode_arr   = np.zeros(n * 6 * 2, dtype=np.int32)
-    csplit_arr  = np.zeros(max(n, _max_split_rows) * nvar,   dtype=np.int32)
+    dnode_arr   = np.zeros(_n_floor * (3 + max(ny, 1)) * 2, dtype=np.float64)
+    inode_arr   = np.zeros(_n_floor * 6 * 2, dtype=np.int32)
+    csplit_arr  = np.zeros(max(_n_floor, _max_split_rows) * nvar,   dtype=np.int32)
     err_buf     = np.zeros(_ERR_BUF_SIZE, dtype=np.uint8)
 
     which_len     = ffi.new("int *", 0)

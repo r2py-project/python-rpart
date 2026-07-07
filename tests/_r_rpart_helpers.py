@@ -3069,10 +3069,14 @@ def summary_rpart_variable_importance_dict_r(r_lines: list[str]) -> dict[str, in
 
 def summary_rpart_variable_importance_dict_py(py_lines: list[str]) -> dict[str, int] | None:
     """Extract the {name: value} mapping from r2py_rpart.summary_rpart's own
-    "Variable importance" block, if present -- printed as one "Name: Value"
-    line per variable (see module docstring). Returns ``None`` if no such
-    header line is present (mirrors `summary_rpart_variable_importance_dict_r`'s
-    None case)."""
+    "Variable importance" block, if present. summary_rpart.py now mirrors
+    R's own `print(temp[temp > 0])` named-vector layout exactly (a
+    (names-line, values-line) pair, column-aligned, wrapping across
+    multiple pairs only if a row would exceed console width) -- see
+    `summary_rpart_variable_importance_dict_r`'s identical parsing logic,
+    which this now shares in every respect but the input list. Returns
+    ``None`` if no such header line is present (mirrors
+    `summary_rpart_variable_importance_dict_r`'s None case)."""
     header_idx = None
     for i, line in enumerate(py_lines):
         if line.strip() == _VAR_IMPORTANCE_HEADER:
@@ -3082,10 +3086,12 @@ def summary_rpart_variable_importance_dict_py(py_lines: list[str]) -> dict[str, 
         return None
     out: dict[str, int] = {}
     j = header_idx + 1
-    while j < len(py_lines) and py_lines[j].strip() != "":
-        name, value = py_lines[j].split(":")
-        out[name.strip()] = int(round(float(value.strip())))
-        j += 1
+    while j + 1 < len(py_lines) and py_lines[j].strip() != "":
+        names = py_lines[j].split()
+        values = py_lines[j + 1].split()
+        for name, value in zip(names, values):
+            out[name] = int(round(float(value)))
+        j += 2
     return out
 
 

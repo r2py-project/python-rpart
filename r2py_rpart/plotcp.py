@@ -1,11 +1,73 @@
 from __future__ import annotations
 
+import decimal
 from typing import Any
 
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker
 
+
+def r_format_double(v: float) -> str:
+    """Render a single double the way R's ``as.character()``/``format()``
+    would, i.e. reproduce R's fixed-vs-scientific notation decision.
+
+    R picks between the two candidate renderings by comparing their
+    *character width* (governed by ``options(scipen)``, default 0): the
+    narrower representation wins, and ties favor fixed notation. This is a
+    fundamentally different rule from Python's ``str()``/``repr()``, which
+    switches to scientific notation purely based on the value's exponent
+    (e.g. < -4), independent of how many significant digits are present.
+
+    The number of significant digits used for each candidate is the
+    minimal count needed to round-trip the double exactly, obtained via
+    Python's own shortest-round-trip ``repr()``. That matches what R's
+    formatter converges on for values that have already been rounded to a
+    handful of significant figures via ``signif()`` (as ``plotcp.R`` always
+    does before formatting its ``cp`` axis labels) -- this helper is meant
+    to be reusable wherever a Python port needs an R-``format()``-equivalent
+    string for an already-rounded double (see e.g. printcp.py, print_rpart.py,
+    summary_rpart.py, rpart_class.py, which have the same formatting gap for
+    other call sites and may adopt this helper in follow-up fixes).
+    """
+    v = float(v)  # normalize numpy scalar types (e.g. np.float64) to plain
+    # python float, since their repr() (e.g. "np.float64(0.0003)" on
+    # numpy>=2.0) is not a valid decimal.Decimal literal.
+    if v != v:  # NaN
+        return "NaN"
+    if v in (float("inf"), float("-inf")):
+        return "-Inf" if v < 0 else "Inf"
+    if v == 0:
+        return "0"
+
+    sign = "-" if v < 0 else ""
+    a = abs(v)
+
+    d = decimal.Decimal(repr(a)).normalize()
+    _sign_d, digits, exponent = d.as_tuple()
+    if digits == (0,):
+        return "0"
+    nsig = len(digits)
+    digit_str = "".join(str(dd) for dd in digits)
+    # power-of-ten exponent of the leading significant digit
+    lead_exp = exponent + nsig - 1
+
+    # -- scientific candidate: d[.ddd]e±EE (R uses >= 2 exponent digits) --
+    mantissa = digit_str if nsig == 1 else f"{digit_str[0]}.{digit_str[1:]}"
+    exp_sign = "+" if lead_exp >= 0 else "-"
+    sci = f"{mantissa}e{exp_sign}{abs(lead_exp):02d}"
+
+    # -- fixed candidate --
+    if lead_exp >= 0:
+        if nsig <= lead_exp + 1:
+            fixed = digit_str + "0" * (lead_exp + 1 - nsig)
+        else:
+            fixed = digit_str[: lead_exp + 1] + "." + digit_str[lead_exp + 1 :]
+    else:
+        fixed = "0." + "0" * (-lead_exp - 1) + digit_str
+
+    # Narrower representation wins; ties favor fixed (R's scipen=0 default).
+    return sign + (fixed if len(fixed) <= len(sci) else sci)
 
 
 def plotcp(x: dict[str, Any], minline: bool = True, lty: int | str = 3, col: int | str = 1, upper: str = 'size', ax: plt.Axes | None = None, **kwargs: Any) -> None:
@@ -29,9 +91,30 @@ def plotcp(x: dict[str, Any], minline: bool = True, lty: int | str = 3, col: int
         ylim = (float(np.min(xerror - xstd)) - 0.1, float(np.max(xerror + xstd)) + 0.1)
     else:
         ylim = kwargs.pop('ylim')
-    _lty_map = {1: '-', 2: '--', 3: ':', 4: '-.'}
+    # R's base graphics `lty=` parameter accepts any of the integers 0-6
+    # (cycling/clamping beyond that range) as well as their named aliases
+    # ("blank","solid","dashed","dotted","dotdash","longdash","twodash"); all
+    # seven are always valid and never raise in R (see `?par`'s "lty" entry).
+    # matplotlib's Line2D/axhline, by contrast, only accepts a small fixed
+    # set of linestyle spellings ('-','--','-.',':','None') or an explicit
+    # (offset, (on_off_seq)) dash tuple -- it has no "5"/"6"/"dotdash"/etc.
+    # built-in, and raises for anything else. Map every one of R's 7
+    # int/name codes to a valid matplotlib linestyle (using custom dash
+    # tuples for the two codes -- 5/"longdash" and 6/"twodash" -- that have
+    # no direct matplotlib named equivalent) so that any lty value R itself
+    # accepts is likewise accepted here, instead of silently falling through
+    # to an unmapped raw int/name that matplotlib then rejects.
+    _lty_map = {
+        0: 'None', 'blank': 'None',
+        1: '-', 'solid': '-',
+        2: '--', 'dashed': '--',
+        3: ':', 'dotted': ':',
+        4: '-.', 'dotdash': '-.',
+        5: (0, (10, 6)), 'longdash': (0, (10, 6)),
+        6: (0, (5, 2, 2, 2)), 'twodash': (0, (5, 2, 2, 2)),
+    }
     _col_map = {1: 'black', 2: 'red', 3: 'green', 4: 'blue'}
-    linestyle = _lty_map.get(lty, lty) if isinstance(lty, int) else lty
+    linestyle = _lty_map.get(lty, lty)
     color = _col_map.get(col, 'black') if isinstance(col, int) else col
     if ax is None:
         _fig, ax = plt.subplots()
@@ -53,7 +136,7 @@ def plotcp(x: dict[str, Any], minline: bool = True, lty: int | str = 3, col: int
         # count to hit `digits` significant figures).
         decimals = (digits - 1 - magnitude).astype(int)
         return np.array([round(float(v), int(d)) for v, d in zip(arr, decimals)])
-    cp_labels = [str(v) for v in _signif(cp, 2)]
+    cp_labels = [r_format_double(v) for v in _signif(cp, 2)]
     ax.set_xticks(ns)
     ax.set_xticklabels(cp_labels)
     if upper in ('size', 'splits'):

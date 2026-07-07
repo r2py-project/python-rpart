@@ -17,8 +17,25 @@ def _yval2_matrix(frame: pd.DataFrame) -> np.ndarray[Any, np.dtype[np.float64]]:
 
 
 def _naresid(na_action: dict[str, Any] | None, pred: Any) -> Any:
-    """Re-insert NA rows removed by na.action, matching R's naresid()."""
+    """Re-insert NA rows removed by na.action, matching R's naresid().
+
+    naresid() is an S3 generic in R. rpart's default na.action constructor,
+    na.rpart (see rpart/R/na.rpart.R), tags the dropped-row info with
+    class c("na.rpart", "omit"). Base R ships naresid.default (a no-op:
+    it returns its argument unchanged) and naresid.exclude (which actually
+    re-inserts NA rows), but there is no naresid.omit/naresid.na.rpart
+    method, so dispatch on a na.rpart/omit-classed object falls through to
+    naresid.default -- i.e. for rpart's *actual* na.action object,
+    naresid() is a no-op and the prediction stays at the reduced
+    (NA-rows-dropped) length. Only an "exclude"-classed na.action (from
+    na.exclude(), which this package does not otherwise construct) would
+    take the re-expansion path via naresid.exclude. Mirror that dispatch
+    here rather than unconditionally re-expanding.
+    """
     if na_action is None:
+        return pred
+    action_class = na_action.get('class', ()) if isinstance(na_action, dict) else ()
+    if 'exclude' not in action_class:
         return pred
     dropped = sorted(int(i) for i in na_action.get('indices', []))
     if not dropped:
@@ -122,6 +139,20 @@ def predict_rpart(object: dict[str, Any], newdata: pd.DataFrame | None = None, t
     elif type == 'matrix':
         # pred <- frame$yval2[where, ]
         # dimnames(pred) <- list(names(where), NULL)
+        #
+        # R quirk: `frame$yval2[where, ]` is a plain matrix-index with no
+        # `drop = FALSE`, so whenever `where` has exactly one element R's
+        # own `[` silently drops the result to a dimension-less vector.
+        # The very next line, `dimnames(pred) <- list(...)`, then fails
+        # with "'dimnames' applied to non-array" because a plain vector
+        # has no dimensions to assign names to. This means R's own
+        # predict.rpart() cannot serve type="matrix" for a single
+        # observation -- reproduce that failure here rather than quietly
+        # returning a 1-row result, since that would be a genuine
+        # behavioral divergence from R rather than "Python being more
+        # robust".
+        if where_0.shape[0] == 1:
+            raise ValueError("'dimnames' applied to non-array")
         yval2: np.ndarray[Any, np.dtype[np.float64]] = _yval2_matrix(frame)
         pred_mat: np.ndarray[Any, np.dtype[np.float64]] = yval2[where_0, :]
         if obs_names is not None:

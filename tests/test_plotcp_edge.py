@@ -134,15 +134,17 @@ def test_plotcp_very_small_cp_magnitudes_scientific_notation_labels():
 
 # ---------------------------------------------------------------------------
 # 4. `cp0 == 0` exactly in the last row (a legitimate rpart cptable can have
-#    a final CP of 0 when `control$cp` is set to 0): the *known* cp-label
-#    formatting gap (R's `as.character(0)` == "0"; python's
-#    `str(round(0.0, ...))` == "0.0") is demonstrated explicitly here
-#    (rather than just silently tolerated via
-#    plotcp_cp_labels_match_modulo_known_gap), in addition to confirming
-#    every other derived quantity still agrees.
+#    a final CP of 0 when `control$cp` is set to 0): previously a *known*
+#    cp-label formatting gap (R's `as.character(0)` == "0"; python's old
+#    `str(round(0.0, ...))` == "0.0"). This gap is now closed: plotcp.py
+#    formats cp labels via `r_format_double()`, which special-cases exact
+#    zero to "0" (matching R's `as.character(0)`) instead of falling
+#    through to python's `str()`. Kept as an explicit exact-match assertion
+#    (rather than folding it back into the "known gap" tolerance) to guard
+#    against regressing this specific case.
 # ---------------------------------------------------------------------------
 
-def test_plotcp_exact_zero_cp_known_label_formatting_gap():
+def test_plotcp_exact_zero_cp_label_formatting_matches():
     cptable = np.array(
         [
             [0.5, 0, 1.0, 1.0, 0.05],
@@ -153,9 +155,7 @@ def test_plotcp_exact_zero_cp_known_label_formatting_gap():
     py_out = call_plotcp_and_extract({"cptable": cptable})
 
     assert r_out["cp_labels"][-1] == "0"
-    # KNOWN GAP: python's float-to-str always keeps a trailing ".0" for a
-    # whole-valued float, where R's character coercion does not.
-    assert py_out["cp_labels"][-1] == "0.0"
+    assert py_out["cp_labels"][-1] == "0"
     assert plotcp_cp_labels_match_modulo_known_gap(py_out["cp_labels"], r_out["cp_labels"])
     _assert_matches_derivation(py_out, r_out)
 
@@ -261,27 +261,32 @@ def test_plotcp_many_rows_large_cptable():
 
 
 # ---------------------------------------------------------------------------
-# 9. KNOWN GAP: the `cp`-label scientific-notation *threshold* itself
-#    differs between R's `as.character()` and python's `str()`, even when
-#    both start from the exact same `signif(cp, 2)`-rounded double value.
-#    R's `as.character(3e-04)` is `"3e-04"`; python's `str(round(0.0003,
-#    ...))` (== `str(0.0003)`) is `"0.0003"` -- both represent the identical
-#    number, but R switches to scientific notation at a smaller-magnitude
-#    threshold than python's default float formatting does. Discovered
-#    while developing test 8 above (a 25-row cptable incidentally produced
-#    a `cp` value landing exactly on this threshold). This is a third,
-#    distinct cp-label formatting gap beyond the two documented in
-#    test_plotcp_positive.py ("Inf"/"inf" and "0"/"0.0") -- kept as its own
-#    explicit, expected-to-fail assertion per this suite's KNOWN GAP
-#    convention, rather than silently folded into
-#    plotcp_cp_labels_match_modulo_known_gap()'s tolerance.
+# 9. The `cp`-label scientific-notation *threshold* itself: previously a
+#    KNOWN GAP between R's `as.character()` and python's old `str()`-based
+#    rendering, even when both started from the exact same
+#    `signif(cp, 2)`-rounded double value. R's `as.character(3e-04)` is
+#    "3e-04"; python's old `str(round(0.0003, ...))` (== `str(0.0003)`) was
+#    "0.0003" -- both represent the identical number, but R switches to
+#    scientific notation at a smaller-magnitude threshold than python's
+#    default float formatting does (R picks the *narrower* of the fixed vs.
+#    scientific renderings by character width; python's `str()` switches
+#    based on the exponent alone). Discovered while developing test 8 above
+#    (a 25-row cptable incidentally produced a `cp` value landing exactly
+#    on this threshold).
+#
+#    This gap is now closed: plotcp.py formats cp labels via
+#    `r_format_double()`, which implements R's width-comparison
+#    fixed-vs-scientific decision directly, so python now also renders
+#    0.0003 as "3e-04". Kept as its own explicit exact-match assertion
+#    (rather than silently folded into
+#    plotcp_cp_labels_match_modulo_known_gap()'s tolerance) to guard against
+#    regressing this specific formatting-threshold case.
 # ---------------------------------------------------------------------------
 
-def test_plotcp_cp_label_scientific_notation_threshold_known_gap():
+def test_plotcp_cp_label_scientific_notation_threshold_matches():
     # cp0 identical on both rows -> cp[1] = sqrt(cp0[1] * cp0[0]) == cp0
     # exactly (0.0003), landing precisely on the threshold where R's
-    # as.character() switches to scientific notation but python's str()
-    # does not.
+    # as.character() switches to scientific notation.
     t = 0.0003
     cptable = np.array(
         [
@@ -293,12 +298,10 @@ def test_plotcp_cp_label_scientific_notation_threshold_known_gap():
     py_out = call_plotcp_and_extract({"cptable": cptable})
 
     assert r_out["cp_labels"][-1] == "3e-04"
-    assert py_out["cp_labels"][-1] == "0.0003"
-    # The underlying rounded *value* is identical either way...
+    assert py_out["cp_labels"][-1] == "3e-04"
+    # The underlying rounded *value* agrees...
     assert plotcp_cp_labels_numerically_close(py_out["cp_labels"], r_out["cp_labels"])
-    # ...but the raw text is not, and is not covered by
-    # plotcp_cp_labels_match_modulo_known_gap()'s narrower tolerance.
-    # KNOWN GAP: expected to fail.
+    # ...and now so does the raw text.
     assert plotcp_cp_labels_match_modulo_known_gap(py_out["cp_labels"], r_out["cp_labels"])
 
 

@@ -45,7 +45,7 @@ def compress(x: np.ndarray[Any, np.dtype[np.float64]], me: int, depth: int, is_l
         tempr = left["right"].copy()
         tempr[0:mind] = np.maximum(tempr[0:mind], right["right"] - slide)
     else:
-        templ = left["left"].copy() - slide
+        templ = right["left"].copy() - slide
         tempr = right["right"].copy() - slide
         templ[0:mind] = np.minimum(templ[0:mind], left["left"])
 
