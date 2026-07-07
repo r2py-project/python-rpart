@@ -355,13 +355,16 @@ def test_printcp_non_default_digits_value(capsys):
 
 
 # ---------------------------------------------------------------------------
-# 6. KNOWN GAP (7): calling both sides with their own *implicit* digits=
-#    default demonstrates that printcp.py's hardcoded `digits=2` default
-#    does not match R's actual `getOption("digits") - 2L` default (5 in a
-#    stock R session) -- so even the "Root node error" line (let alone the
-#    cp table) disagrees when neither side passes digits= explicitly. This
-#    assertion is *expected to fail*; kept in place (not weakened) to
-#    document the gap, per this test suite's established convention.
+# 6. Formerly KNOWN GAP (7): calling both sides with their own *implicit*
+#    digits= default used to demonstrate that printcp.py's hardcoded
+#    `digits=2` default did not match R's actual
+#    `getOption("digits") - 2L` default (5 in a stock R session).
+#    printcp.py's default is now `digits=5` (see printcp.py), matching R's
+#    stock-session default exactly, so both the "Root node error" line and
+#    the returned numeric default now agree with no explicit `digits=`
+#    passed on either side. The test name is kept as-is (it is the
+#    identifier this test suite/tooling tracks it by) even though the gap
+#    it documents is fixed.
 # ---------------------------------------------------------------------------
 
 def test_printcp_default_digits_value_is_a_known_gap(capsys):
@@ -377,12 +380,11 @@ def test_printcp_default_digits_value_is_a_known_gap(capsys):
     assert r_root_line == "Root node error: 1354.6/60 = 22.576"
 
     py_fit = rpart("Mileage ~ Weight", data=df, method="anova", control={"xval": 0})
-    py_lines, py_retval = capture_printcp_lines_and_result(capsys, py_fit)  # digits omitted -> python default (2)
+    py_lines, py_retval = capture_printcp_lines_and_result(capsys, py_fit)  # digits omitted -> python default (now 5)
     py_root_line = py_lines[printcp_find_line(py_lines, "Root node error:")]
-    assert py_root_line == "Root node error: 1.4e+03/60 = 23"
+    assert py_root_line == "Root node error: 1354.6/60 = 22.576"
 
-    # KNOWN GAP (7): expected to fail -- the two defaults are simply
-    # different numeric precisions (2 vs. 5 significant digits).
+    # Gap fixed: printcp.py's default digits= now matches R's default.
     assert py_root_line == r_root_line
 
 
@@ -478,15 +480,46 @@ def test_printcp_numeric_response_as_class_kyphosis(capsys):
 
 
 # ---------------------------------------------------------------------------
-# 10. KNOWN GAP (1): the R-call echo line(s). Demonstrates explicitly (once,
-#     rather than repeating the note in every test above) that printcp.py's
-#     `print(repr(x['call']))` can never match R's `dput()`-based call echo
-#     for any r2py_rpart.rpart()-built fit, since `x['call']['data']` holds
-#     the entire input DataFrame rather than an unevaluated call expression.
-#     This assertion is *expected to fail*; kept in place to document the
-#     gap rather than deleted.
+# 10. KNOWN, PERMANENT GAP (1): the R-call echo line(s). Demonstrates
+#     explicitly (once, rather than repeating the note in every test above)
+#     that printcp.py's `print(repr(x['call']))` can never match R's
+#     `dput()`-based call echo for any r2py_rpart.rpart()-built fit, since
+#     `x['call']['data']` holds the entire *evaluated* input DataFrame
+#     object rather than an unevaluated call expression.
+#
+#     This was investigated as part of the printcp.py digits-formatting
+#     fix (see printcp.py's `_r_format`/`_validate_digits`) but is NOT
+#     fixable there, or anywhere within r2py_rpart's normal runtime: R's
+#     `dput(cl, control=NULL)` pretty-prints the *unevaluated parse tree* of
+#     the original call (e.g. literally the source token `df`, the
+#     caller's variable name for the data argument), which R can do because
+#     `match.call()` captures call expressions unevaluated, before any
+#     argument is looked up/evaluated. Python has no equivalent -- by the
+#     time `rpart(formula, data=df, ...)` runs, `data` is already bound to
+#     the evaluated DataFrame *object*; the token "df" was discarded by the
+#     interpreter at the call site and is not recoverable from within
+#     rpart()'s body (short of unreliable source/AST introspection via the
+#     caller's stack frame, which would only work for a bare-variable
+#     argument, not arbitrary expressions, and is out of scope for
+#     printcp.py -- rpart()'s own call-recording lives in rpart.py, a
+#     different file). So this is a fundamental representation difference
+#     (unevaluated call vs. evaluated object), not a printcp.py formatting
+#     bug -- marked xfail(strict=True) rather than left as a bare failing
+#     assertion, so a regression that accidentally "fixes" it (and
+#     therefore stops raising) would itself be flagged as a test failure.
 # ---------------------------------------------------------------------------
 
+@pytest.mark.xfail(
+    reason=(
+        "R's dput()-based call echo prints the unevaluated call expression "
+        "(e.g. the literal source token 'df'); Python has no equivalent -- "
+        "rpart()'s stored call dict holds the already-evaluated DataFrame "
+        "object, with the caller's original variable name irrecoverably "
+        "lost. Not fixable within printcp.py (or without fragile stack/AST "
+        "introspection elsewhere in the codebase)."
+    ),
+    strict=True,
+)
 def test_printcp_call_echo_is_a_known_formatting_gap(capsys):
     run_r("data(car.test.frame)")
     df = from_r_dataframe("car.test.frame")

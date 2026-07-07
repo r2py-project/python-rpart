@@ -33,6 +33,7 @@ from r2py_rpart import print_rpart, rpart
 
 from _r_rpart_helpers import (
     assert_python_and_r_errors_agree,
+    capture_print_rpart_lines,
     cu_summary_df,
     from_r_dataframe,
     kyphosis_df,
@@ -41,6 +42,7 @@ from _r_rpart_helpers import (
     r_error_message,
     r_fit_rpart,
     r_print_rpart_error,
+    r_print_rpart_lines,
     run_r,
 )
 
@@ -172,30 +174,34 @@ def test_print_rpart_nsmall_non_numeric_classification_raises():
 
 
 # ---------------------------------------------------------------------------
-# 10. KNOWN GAP: `cp=[]` (an empty list, R's `cp=list()`). R's
-#     `ff$complexity <= cp` with a zero-length `cp` silently produces a
-#     zero-length logical result, so `toss` ends up empty and
-#     prune.rpart() returns the tree unchanged -- no error, no pruning
-#     (confirmed empirically: `print(z, cp=list())` prints the full,
-#     unpruned tree). print_rpart.py's translation instead calls
-#     `ff['complexity'].values <= cp` with `cp=[]`, and numpy refuses to
-#     broadcast a length-7 float array against a length-0 list, raising
-#     ValueError. This test asserts the (documented) protocol's pass
-#     condition -- both sides raise -- and is therefore *expected to fail*
-#     until prune_rpart()/print_rpart() special-case an empty/`None`-like
-#     `cp` the way R's vectorized comparison does implicitly.
+# 10. `cp=[]` (an empty list, R's `cp=list()`). R's `ff$complexity <= cp`
+#     with a zero-length `cp` silently produces a zero-length logical
+#     result, so `toss` ends up empty and prune.rpart() returns the tree
+#     unchanged -- no error, no pruning (confirmed empirically:
+#     `print(z, cp=list())` prints the full, unpruned tree). This is
+#     therefore NOT an error-raising test at all (despite living in this
+#     "negative-path" module): print_rpart.py special-cases an empty `cp`
+#     to skip the prune_rpart() call entirely, matching R's silent
+#     no-op-pruning behavior instead of letting numpy's broadcast of a
+#     length-7 complexity column against a length-0 `cp` raise ValueError.
+#     Asserts full line-for-line output parity, like the positive-path
+#     tests, rather than the raise/raise agreement the other tests in this
+#     module check.
 # ---------------------------------------------------------------------------
 
-def test_print_rpart_cp_empty_list_known_gap():
+def test_print_rpart_cp_empty_list_known_gap(capsys):
     run_r("data(car.test.frame)")
     df = from_r_dataframe("car.test.frame")
     r_dataframe_assign("df", df)
     r_fit = r_fit_rpart("Mileage ~ Weight", control="rpart.control(xval=0)")
-    r_assign("print_fit_tmp", r_fit)
-    r_message = r_error_message(lambda: run_r("rpart:::print.rpart(print_fit_tmp, cp=list())"))
+    # cp=[] renders as R's `cp=c()` (i.e. `cp=NULL`), confirmed empirically
+    # to print identically to `cp=list()` (both zero-length) -- R doesn't
+    # distinguish them here since `missing(cp)` only checks whether the
+    # argument was supplied, and `ff$complexity <= cp` broadcasts a
+    # zero-length `cp` the same way regardless of its exact empty type.
+    r_lines = r_print_rpart_lines(r_fit, cp=[])
 
     py_fit = rpart("Mileage ~ Weight", data=df, method="anova", control={"xval": 0})
-    with pytest.raises(Exception) as exc_info:
-        print_rpart(py_fit, cp=[])
+    py_lines = capture_print_rpart_lines(capsys, py_fit, cp=[])
 
-    assert_python_and_r_errors_agree(str(exc_info.value), r_message, context="cp=[] (empty list)")
+    assert py_lines == r_lines

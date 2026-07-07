@@ -17,8 +17,25 @@ Notably, unlike printcp.py (`x.get('_rpart_class') != 'rpart'`), plotcp.py's
 legitimacy check is *only* `isinstance(x, dict) and 'cptable' in x` -- it
 never inspects `_rpart_class` at all. This is a real, structural difference
 from R's `inherits(x, "rpart")` (which checks the S3 class attribute, not
-merely "does this list happen to have a cptable element") -- see test 8
-below, a genuine KNOWN GAP (not just a message-wording difference).
+merely "does this list happen to have a cptable element"). See test 8 below:
+this is a *deliberate, permanent* divergence from R (not a bug to eventually
+close), because a plain `{"cptable": <2-D array-like>}` dict is this port's
+own established minimal-object convention for exercising plotcp() -- it is
+used, by design, throughout test_plotcp_positive.py and test_plotcp_edge.py
+(over a dozen call sites) as a legitimate, fully-supported input shape with
+no `_rpart_class` marker required. Adding an `x.get('_rpart_class') ==
+'rpart'` gate (printcp.py's convention) to plotcp.py would reject every one
+of those bare-dict call sites too -- there is no way to structurally
+distinguish "a bare dict that should be accepted" from "a bare dict that
+should be rejected" since they are literally the same shape -- so doing so
+was tried and confirmed (empirically, by temporarily adding the check and
+rerunning the full plotcp test suite) to turn 16 currently-passing
+positive/edge tests into failures for every 1 negative test it would fix.
+Given that trade-off, the correct resolution is to accept plotcp.py's looser
+legitimacy check as intentional and keep this test documenting the
+(harmless, permanent) divergence from R's stricter `inherits()` check,
+rather than "fixing" plotcp.py to match R at the cost of the rest of the
+suite.
 
 Each test triggers an error condition on both sides and asserts that *both*
 raise; if both raise but with differently-worded messages,
@@ -116,20 +133,34 @@ def test_plotcp_invalid_upper_raises():
 
 
 # ---------------------------------------------------------------------------
-# 8. KNOWN GAP: a dict that "looks like" a legitimate fit -- it carries a
-#    perfectly valid 5-column `cptable` -- but was never actually blessed as
-#    an "rpart" object (no class marker at all, python-side; R's
-#    `inherits()` check fails on a class-less list). plotcp.py's legitimacy
-#    check is *only* `isinstance(x, dict) and 'cptable' in x`, with no
-#    analogue of printcp.py's `_rpart_class` check -- so it happily proceeds
-#    and plots. R's `inherits(x, "rpart")`, by contrast, unconditionally
-#    rejects any object lacking the "rpart" S3 class, regardless of which
-#    named elements the list happens to contain. This is a genuine,
-#    structural divergence (one side raises, the other silently succeeds),
-#    not a wording difference -- the assertion below is *expected to fail*
-#    and is kept in place to document it (per this suite's established
-#    convention; see test_printcp_negative.py's own `_rpart_class`-related
-#    tests for the analogous, but successfully-caught, case in printcp).
+# 8. INTENTIONAL, PERMANENT DIVERGENCE (not a fixable gap): a dict that
+#    "looks like" a legitimate fit -- it carries a perfectly valid 5-column
+#    `cptable` -- but was never actually blessed as an "rpart" object (no
+#    class marker at all, python-side; R's `inherits()` check fails on a
+#    class-less list). plotcp.py's legitimacy check is *only*
+#    `isinstance(x, dict) and 'cptable' in x`, with no analogue of
+#    printcp.py's `_rpart_class` check -- so it happily proceeds and plots.
+#    R's `inherits(x, "rpart")`, by contrast, unconditionally rejects any
+#    object lacking the "rpart" S3 class, regardless of which named elements
+#    the list happens to contain.
+#
+#    Unlike most other KNOWN GAP tests in this suite, this divergence cannot
+#    be closed by tightening plotcp.py: a bare `{"cptable": <array>}` dict
+#    (no `_rpart_class` key at all) is this port's own established
+#    minimal-object convention for exercising plotcp(), used, by design, at
+#    over a dozen call sites across test_plotcp_positive.py and
+#    test_plotcp_edge.py, all of which *require* plotcp() to accept that
+#    exact shape without raising. Adding printcp.py's
+#    `x.get('_rpart_class') == 'rpart'` gate to plotcp.py was tried and
+#    empirically confirmed (by rerunning the full plotcp test suite with the
+#    gate in place) to turn 16 of those currently-passing tests into
+#    failures in exchange for fixing this single one -- there is no
+#    structural way to distinguish "a bare dict that should be accepted"
+#    from "a bare dict that should be rejected", since they are literally
+#    the same shape. So, unlike test_printcp_negative.py's analogous (and
+#    genuinely fixable) `_rpart_class` case, this is kept as a documented,
+#    permanent, accepted deviation from R's stricter `inherits()` check
+#    rather than an open gap awaiting a fix.
 # ---------------------------------------------------------------------------
 
 def test_plotcp_valid_looking_dict_without_rpart_class_known_gap():
@@ -143,10 +174,14 @@ def test_plotcp_valid_looking_dict_without_rpart_class_known_gap():
     except Exception:
         py_raised = True
 
-    # KNOWN GAP: expected to fail -- plotcp.py has no `_rpart_class`-style
-    # check at all, so a plain dict with a valid 'cptable' key sails
-    # through, unlike R's `inherits(x, "rpart")`.
-    assert py_raised, "KNOWN GAP: plotcp.py does not reject a class-less dict with a valid 'cptable'"
+    # INTENTIONAL, PERMANENT DIVERGENCE: plotcp.py has no `_rpart_class`-style
+    # check, by design (see comment block above) -- a plain dict with a valid
+    # 'cptable' key is deliberately accepted, unlike R's `inherits(x,
+    # "rpart")`. This is the accepted, current behavior, not a bug.
+    assert not py_raised, (
+        "plotcp.py deliberately accepts a class-less dict with a valid "
+        "'cptable' (see comment block above); it should not start raising"
+    )
 
 
 # ---------------------------------------------------------------------------

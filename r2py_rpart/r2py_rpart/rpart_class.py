@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 
 from .formatg import formatg
+from .print_rpart import r_format_vector
 
 
 
@@ -101,20 +102,24 @@ def rpart_class(y: np.ndarray[Any, np.dtype[Any]], offset: np.ndarray[Any, np.dt
             temp = np.array([str(ylevel[int(v) - 1]) for v in yval[:, 0]])
         yprob_sub = yval[:, 1 + nclass: 1 + nclass + nclass].astype(float)
         if nclass < 5:
-            from math import floor, log10
-            def fmt_val(v):
-                if np.isnan(v):
-                    return 'NA'
-                if v == 0.0:
-                    return f'{v:.{nsmall}f}'
-                magnitude = floor(log10(abs(v))) if v != 0 else 0
-                sig_decimals = max(digits - 1 - magnitude, 0)
-                decimals = max(sig_decimals, nsmall)
-                return f'{v:.{decimals}f}'
-            yprob_str = np.vectorize(fmt_val)(yprob_sub)
-            flat = yprob_str.ravel(order='F')
-            max_width = max((len(s) for s in flat), default=0)
-            yprob_str = np.array([s.rjust(max_width) for s in flat], dtype=object).reshape(yprob_sub.shape, order='F')
+            # R: format(yval[, 1L + nclass + 1L:nclass], digits=digits,
+            # nsmall=nsmall) -- R's format() applied to the *whole* matrix
+            # (every node's probabilities for every class at once), which
+            # picks one common number of decimal places across ALL of
+            # those values so they all line up on the decimal point (see
+            # r_format_vector's docstring in print_rpart.py for the full
+            # derivation/rationale). The previous hand-rolled
+            # `magnitude = floor(log10(|v|))` formula computed each
+            # element's own decimal count in isolation and never aligned
+            # it against the rest of the matrix, so it silently produced
+            # one-too-few decimals whenever some other node's probability
+            # needed one more decimal place than the row being formatted
+            # (e.g. root node 0.79012346/0.20987654 need 8 decimals only
+            # because a sibling node's 6/62=0.09677419... does, at
+            # digits=nsmall=7).
+            flat = yprob_sub.ravel(order='F')
+            formatted = r_format_vector(flat, digits, nsmall)
+            yprob_str = np.array(formatted, dtype=object).reshape(yprob_sub.shape, order='F')
         else:
             yprob_flat = yprob_sub.ravel(order='F')
             yprob_str = np.vectorize(lambda v: '%.2g' % v)(yprob_flat).reshape(yprob_sub.shape, order='F')

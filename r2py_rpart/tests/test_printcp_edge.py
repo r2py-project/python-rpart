@@ -148,14 +148,17 @@ def test_printcp_single_row_cptable_values_match_but_padding_does_not(capsys):
 
 
 # ---------------------------------------------------------------------------
-# 3. KNOWN GAP: `digits=1`, the smallest value R accepts without raising
-#    (see test_printcp_negative.py's digits=0 KNOWN GAP, where R *does*
-#    raise). Python's `format(1354.6, '.1g')` switches to scientific
-#    notation ("1e+03") because '%g'-style formatting switches to
-#    scientific whenever the value's decimal exponent >= the requested
-#    precision; R's `format(1354.6, digits=1)` stays in fixed notation
-#    ("1355"). Confirmed empirically first. Expected to fail; kept in
-#    place to document the gap.
+# 3. `digits=1`, the smallest value R accepts without raising (see
+#    test_printcp_negative.py's digits=0 case, where R *does* raise).
+#    Formerly a KNOWN GAP: printcp.py used to format via Python's
+#    `format(1354.6, '.1g')`, which switches to scientific notation
+#    ("1e+03") because '%g'-style formatting switches to scientific
+#    whenever the value's decimal exponent >= the requested precision;
+#    R's `format(1354.6, digits=1)` stays in fixed notation ("1355").
+#    printcp.py now reproduces R's own fixed-vs-scientific width-comparison
+#    algorithm (see `_r_format` in printcp.py), so this now matches R
+#    exactly; the test name is kept as-is (it is the identifier this test
+#    suite/tooling tracks it by) even though the gap it documents is fixed.
 # ---------------------------------------------------------------------------
 
 def test_printcp_digits_minimal_known_gap(capsys):
@@ -170,10 +173,9 @@ def test_printcp_digits_minimal_known_gap(capsys):
     py_fit = rpart("Mileage ~ Weight", data=df, method="anova", control={"xval": 0})
     py_lines, py_retval = capture_printcp_lines_and_result(capsys, py_fit, digits=1)
     py_root_line = py_lines[printcp_find_line(py_lines, "Root node error:")]
-    assert py_root_line == "Root node error: 1e+03/60 = 2e+01"
+    assert py_root_line == "Root node error: 1355/60 = 23"
 
-    # KNOWN GAP: expected to fail -- Python's '.1g' format goes scientific
-    # here; R's format(digits=1) does not.
+    # Gap fixed: printcp.py's R-equivalent formatting now agrees with R.
     assert py_root_line == r_root_line
 
 
