@@ -70,6 +70,47 @@ def r_format_double(v: float) -> str:
     return sign + (fixed if len(fixed) <= len(sci) else sci)
 
 
+def _thin_overlapping_ticklabels(*axes_list: plt.Axes, pad_px: float = 2.0) -> None:
+    """Make x-tick labels that would visually overlap the previously-kept
+    label render as fully transparent, mirroring R's axis() behaviour: R's
+    `axis(1, at=ns, labels=...)` silently omits whichever of the (many,
+    densely-spaced) requested labels would collide on the rendered device,
+    while still drawing every tick mark -- confirmed empirically (a 30-tick
+    axis with an explicit 1:30 label vector renders only every other
+    label). matplotlib's set_xticklabels() has no such built-in collision
+    avoidance, so without this the cp-table plot's tick labels (one per cp
+    value, often 50+) overlap into an unreadable smear.
+
+    Overlapping labels are made invisible via `Text.set_alpha(0)` rather
+    than `Text.set_visible(False)` or blanking their text: matplotlib's own
+    `Axis.get_majorticklabels()` (which backs `Axes.get_xticklabels()`)
+    filters out any tick label with `get_visible() is False`, and would
+    therefore make `set_visible(False)`-hidden labels vanish entirely from
+    that API -- breaking callers (including this package's own tests) that
+    read back the full, untouched label set via `get_xticklabels()`.
+    Setting alpha to 0 leaves `get_visible()`/`get_text()` unchanged while
+    still rendering nothing.
+    """
+    if not axes_list:
+        return
+    fig = axes_list[0].get_figure()
+    try:
+        fig.canvas.draw()
+        renderer = fig.canvas.get_renderer()
+    except Exception:
+        return
+    for ax_obj in axes_list:
+        last_right: float | None = None
+        for lbl in ax_obj.get_xticklabels():
+            if not lbl.get_text():
+                continue
+            bbox = lbl.get_window_extent(renderer=renderer)
+            if last_right is None or bbox.x0 >= last_right + pad_px:
+                last_right = bbox.x1
+            else:
+                lbl.set_alpha(0.0)
+
+
 def plotcp(x: dict[str, Any], minline: bool = True, lty: int | str = 3, col: int | str = 1, upper: str = 'size', ax: plt.Axes | None = None, **kwargs: Any) -> None:
     _UPPER_CHOICES = ('size', 'splits', 'none')
     if upper not in _UPPER_CHOICES:
@@ -118,7 +159,10 @@ def plotcp(x: dict[str, Any], minline: bool = True, lty: int | str = 3, col: int
     color = _col_map.get(col, 'black') if isinstance(col, int) else col
     if ax is None:
         _fig, ax = plt.subplots()
-    ax.plot(ns, xerror, marker='o', linestyle='-', color=color)
+    # R's default point character (pch=1) is a hollow/open circle -- a
+    # filled marker (matplotlib's implicit markerfacecolor=color) reads as
+    # a different, solid-dot style plot.
+    ax.plot(ns, xerror, marker='o', linestyle='-', color=color, markerfacecolor='none', markeredgecolor=color)
     ax.set_ylim(*ylim)
     ax.set_xlabel('cp')
     ax.set_ylabel('X-val Relative Error')
@@ -149,6 +193,9 @@ def plotcp(x: dict[str, Any], minline: bool = True, lty: int | str = 3, col: int
         else:
             ax_top.set_xticklabels([str(int(v)) for v in nsplit])
             ax_top.set_xlabel('number of splits', labelpad=12)
+        _thin_overlapping_ticklabels(ax, ax_top)
+    else:
+        _thin_overlapping_ticklabels(ax)
     minpos = int(np.min(np.where(xerror == np.min(xerror))))
     if minline:
         ax.axhline(y=float((xerror + xstd)[minpos]), linestyle=linestyle, color=color)

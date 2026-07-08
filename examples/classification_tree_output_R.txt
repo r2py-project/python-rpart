@@ -1,0 +1,87 @@
+
+[34mr$>[0m load("iris_jun.RData")
+
+[34mr$>[0m ######### decision tree
+[34mr$>[0m #install.packages("rpart")
+[34mr$>[0m library("rpart")
+
+[34mr$>[0m set.seed(10)	# This seed is for CV, not tree itself
+
+[34mr$>[0m # usually, we need to set cp to be really small to start so that the minimal cv error is achieved.
+[34mr$>[0m # This method="class" mea .... [TRUNCATED] 
+
+[34mr$>[0m print(tree.full)
+n= 150 
+
+node), split, n, loss, yval, (yprob)
+      * denotes terminal node
+
+ 1) root 150 100 se (0.33333333 0.33333333 0.33333333)  
+   2) pl< 2.45 50   0 se (1.00000000 0.00000000 0.00000000) *
+   3) pl>=2.45 100  50 ve (0.00000000 0.50000000 0.50000000)  
+     6) pw< 1.75 54   5 ve (0.00000000 0.90740741 0.09259259)  
+      12) pl< 4.95 48   1 ve (0.00000000 0.97916667 0.02083333) *
+      13) pl>=4.95 6   2 vi (0.00000000 0.33333333 0.66666667)  
+        26) pw>=1.55 3   1 ve (0.00000000 0.66666667 0.33333333) *
+        27) pw< 1.55 3   0 vi (0.00000000 0.00000000 1.00000000) *
+     7) pw>=1.75 46   1 vi (0.00000000 0.02173913 0.97826087) *
+
+[34mr$>[0m pdf("classification_tree_iris_tree_R.pdf", width=8, height=8)
+
+[34mr$>[0m plot(tree.full)
+
+[34mr$>[0m text(tree.full)
+
+[34mr$>[0m dev.off()
+null device 
+          1 
+
+[34mr$>[0m # explain the "root node error", "rel error", and "xerror"
+[34mr$>[0m printcp(tree.full) # There is no need to prune this tree
+
+Classification tree:
+rpart(formula = tp ~ ., data = iris, method = "class", control = rpart.control(cp = 1e-04, 
+    minsplit = 5))
+
+Variables actually used in tree construction:
+[1] pl pw
+
+Root node error: 100/150 = 0.66667
+
+n= 150 
+
+      CP nsplit rel error xerror     xstd
+1 0.5000      0      1.00   1.16 0.051277
+2 0.4400      1      0.50   0.65 0.060690
+3 0.0200      2      0.06   0.08 0.027520
+4 0.0100      3      0.04   0.08 0.027520
+5 0.0001      4      0.03   0.05 0.021985
+
+[34mr$>[0m #######################################################################
+[34mr$>[0m #	Just in case if we decide to prune it, here is how .... [TRUNCATED] 
+
+[34mr$>[0m print(tree.pruned)
+n= 150 
+
+node), split, n, loss, yval, (yprob)
+      * denotes terminal node
+
+1) root 150 100 se (0.33333333 0.33333333 0.33333333)  
+  2) pl< 2.45 50   0 se (1.00000000 0.00000000 0.00000000) *
+  3) pl>=2.45 100  50 ve (0.00000000 0.50000000 0.50000000)  
+    6) pw< 1.75 54   5 ve (0.00000000 0.90740741 0.09259259) *
+    7) pw>=1.75 46   1 vi (0.00000000 0.02173913 0.97826087) *
+
+[34mr$>[0m pdf("classification_tree_iris_pruned_R.pdf", width=8, height=8)
+
+[34mr$>[0m plot(tree.pruned, main = "Pruned decision Tree")
+
+[34mr$>[0m text(tree.pruned)
+
+[34mr$>[0m dev.off()
+null device 
+          1 
+
+[34mr$>[0m #######################################################################
+[34mr$>[0m #	Stop redirecting console output
+[34mr$>[0m sink( .... [TRUNCATED] 
