@@ -845,6 +845,248 @@ Symbol & Type & Source \\
 
 All 11 regression tests continue to pass. The \texttt{method=4} user-defined splits code path is architecturally complete at the FFI layer; end-to-end testing with actual user-defined split functions has not yet been performed.
 
+\section{Phase 10: Full Equivalence Audit and Callback Bridge Repair}
+\label{sec:phase10}
+
+\subsection{Motivation}
+
+Phase 9 closed with a package that built, installed, and passed an 11-test regression suite exercising the primary \texttt{rpart()} entry point on two synthetic datasets. Passing a small, hand-written suite is a necessary but not sufficient condition for behavioral equivalence with R: the public surface of \texttt{rpart} spans nineteen documented functions covering fitting, prediction, pruning, cross-validation, printing, and four distinct plotting routines, and the Phase~9.1 conversion agents worked function-by-function from R source and 172 language-construct guides without ever running the fully assembled package end-to-end against a live R session. Before any further work is layered on top of the port, this phase performs a systematic, file-by-file audit of every converted module against its R counterpart, and simultaneously closes out the single documented outstanding limitation carried over from Phase~9.3: the \texttt{method=4} (user-defined split) code path, which was architecturally wired at the FFI layer but had never been exercised with an actual user-supplied splitting function.
+
+\subsection{A Six-Way Parallel Audit}
+
+Rather than one agent reading all 36 R/Python file pairs sequentially, the audit was partitioned by subsystem and dispatched as six \texttt{general-purpose} sub-agents running in parallel---Claude Code's built-in, project-agnostic agent type, used here in place of a bespoke project skill/agent pair of the kind employed in Phases 1--9, because exhaustive line-by-line comparison of an R file against its Python translation is a generic reading-and-reasoning task rather than a repeatable pipeline step that would benefit from being encoded as a reusable command. Each agent was given the R sources, the corresponding Python modules, and any relevant C sources for one subsystem, and was instructed to report discrepancies by file and line number together with a severity rating.
+
+\medskip
+\begin{center}
+\begin{tabular}{p{0.28\textwidth}p{0.60\textwidth}}
+\toprule
+Subsystem & Files Audited \\
+\midrule
+Core fit pipeline & \texttt{rpart.py}/\texttt{rpart.R}, \texttt{rpart\_matrix.py}, \texttt{na\_rpart.py}, \texttt{model\_frame\_rpart.py}, \texttt{rpart\_control.py}, the cffi bridge in \texttt{\_\_init\_\_.py}, \texttt{c\_entry\_points/rpart\_c.c} vs.\ \texttt{src/rpart.c} \\
+Callback/method dispatch & \texttt{rpartcallback.py}, \texttt{rpart\_anova.py}, \texttt{rpart\_poisson.py}, \texttt{rpart\_class.py}, \texttt{rpart\_exp.py}, \texttt{c\_entry\_points/init\_rpcallback\_c.c}, \texttt{c\_entry\_points/interpreter\_helpers\_c.c} \\
+Prediction & \texttt{predict\_rpart.py}, \texttt{pred\_rpart.py}, \texttt{c\_entry\_points/pred\_rpart\_c.c}, \texttt{src/rundown.c}/\texttt{rundown2.c} \\
+Pruning/CP/cross-validation & \texttt{prune.py}, \texttt{prune\_rpart.py}, \texttt{printcp.py}, \texttt{plotcp.py}, \texttt{xpred\_rpart.py}, \texttt{snip\_rpart.py}, \texttt{snip\_rpart\_mouse.py}, \texttt{c\_entry\_points/xpred\_c.c} \\
+Display/plotting & \texttt{print\_rpart.py}, \texttt{plot\_rpart.py}, \texttt{text\_rpart.py}, \texttt{post.py}/\texttt{post\_rpart.py}, \texttt{rpartco.py}, \texttt{labels\_rpart.py}, \texttt{rpart\_branch.py} \\
+Misc.\ statistical utilities & \texttt{formatg.py}, \texttt{importance.py}, \texttt{meanvar\_rpart.py}, \texttt{path\_rpart.py}, \texttt{residuals\_rpart.py}, \texttt{roc\_rpart.py}, \texttt{rsq\_rpart.py}, \texttt{summary\_rpart.py}, \texttt{zzz.py} \\
+\bottomrule
+\end{tabular}
+\end{center}
+\medskip
+
+One agent stalled mid-run on the pruning/cross-validation cluster and was resumed via \texttt{SendMessage} rather than restarted. Findings were spot-checked before acceptance---most notably, a claimed column-major/row-major corruption in the cffi marshaling layer was independently reproduced with a standalone NumPy byte-comparison script---and the six reports were synthesized into one consolidated, severity-ranked findings document, which was presented to the user for approval before any source file was modified.
+
+\subsection{Comprehensive Bug-Fix Pass}
+
+Following approval, every finding was fixed directly in the Python sources under a \texttt{TodoWrite}-tracked checklist, with the package rebuilt (\texttt{pip install --no-build-isolation .}) and the test suite re-run after each individual change, per the user's explicit constraint that \texttt{r2py\_rpart/src/}---the literal, compiled-from-R C sources---must never be modified. Selected fixes, in rough order of severity, are summarized in Table~\ref{tab:phase10bugs}.
+
+\begin{longtable}{p{2.6cm}p{9.9cm}}
+\caption{Selected bugs fixed during the Phase 10 equivalence audit.\label{tab:phase10bugs}} \\
+\toprule
+File(s) & Defect and Fix \\
+\midrule
+\endfirsthead
+\toprule
+File(s) & Defect and Fix \\
+\midrule
+\endhead
+\midrule
+\multicolumn{2}{r}{\textit{Continued on next page}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+\texttt{\_\_init\_\_.py} & \texttt{np.ascontiguousarray(arr, dtype=...)} inside \texttt{\_int32}/\texttt{\_float64} silently flattened Fortran-ordered 2-D inputs back to C order, corrupting every multi-row, multi-column matrix (\texttt{xmat}, \texttt{nodes2}, \texttt{split2}, \texttt{csplit2}, \texttt{xdata2}, \texttt{xmiss2}) passed to the C core; replaced with an order-preserving \texttt{np.asarray(..., order="K")} plus an explicit contiguity fallback, and added explicit buffer-capacity checks before every output reshape. \\
+\texttt{rpart.py}, \texttt{model\_frame\_rpart.py} & The documented \texttt{rpart(formula, data=df)} call pattern raised \texttt{NotImplementedError} outright; implemented a from-scratch, regex-based R-style formula parser (\texttt{"y \textasciitilde\ x1 + x2"}, \texttt{"y \textasciitilde\ ."}) and the main branch of \texttt{model\_frame\_rpart()}, which mirrors R's own \texttt{model.frame.rpart.R} by re-invoking \texttt{rpart()} with the stored call's subset/method overridden. \\
+\texttt{rpart\_matrix.py} & An incorrect \texttt{patsy.dmatrix()}-based one-hot expansion of categorical predictors was removed and replaced with one numeric column per term, since rpart's C core natively handles multi-level categorical splits from a single integer-coded column---exactly as R's own \texttt{as.numeric(factor(x))} does, not \texttt{model.matrix}-style dummy coding. \\
+Six files (\texttt{meanvar\_rpart.py}, \texttt{printcp.py}, \texttt{snip\_rpart.py}, \texttt{rsq\_rpart.py}, \texttt{text\_rpart.py}, \texttt{path\_rpart.py}) & Each checked a fitted tree's class identity via the literal Python dunder \texttt{'\_\_class\_\_'} as a dict key (always \texttt{None}); corrected to the actual sentinel key, \texttt{'\_rpart\_class'}, that \texttt{rpart.py} sets. \\
+Eight files (\texttt{predict\_rpart.py}, \texttt{residuals\_rpart.py}, \texttt{roc\_rpart.py}, \texttt{summary\_rpart.py}, \texttt{print\_rpart.py}, \texttt{text\_rpart.py}, \texttt{labels\_rpart.py}, \texttt{xpred\_rpart.py}) & All looked up \texttt{'ylevels'}/\texttt{'xlevels'} while \texttt{rpart.py} stores these under the R-attribute-style keys \texttt{'\_ylevels'}/\texttt{'\_xlevels'}; corrected uniformly, restoring classification-tree reporting and prediction across the board. \\
+\texttt{rpartcallback.py} & An unbounded \texttt{\_eval\_result\_keeper} list leaked one heap-allocated \texttt{SEXPREC} per node/split evaluation for the lifetime of every \texttt{method=4} fit; converted to a single-slot holder that frees the previous entry before storing a new one, with a \texttt{weakref.finalize}-driven session sentinel releasing the long-lived callback buffers once garbage-collected. \\
+\texttt{importance.py} & An off-by-one in the surrogate-split row index misattributed surrogate-split importance to the wrong predictor whenever \texttt{maxsurrogate>0} (the default); corrected to match R's 1-based \texttt{seq\_len(nsurr[i])}. \\
+\texttt{roc\_rpart.py} & Referenced \texttt{frame\$splits}/\texttt{frame\$yprob} columns that do not exist on \texttt{frame} in either language (confirmed empirically that the literal upstream R function silently operates on zero rows for every tree); rewritten to derive \texttt{truth}/\texttt{leaf\_probs} directly from the \texttt{yval2} block that \texttt{rpart()} actually produces. \\
+\texttt{predict\_rpart.py}, \texttt{print\_rpart.py}, \texttt{text\_rpart.py} & \texttt{frame['yval2'].values} always returns a 1-D object array of per-row arrays---a pandas \texttt{Series.ndim} is always 1 regardless of contents---so every \texttt{type='matrix'}/\texttt{'prob'} prediction and every non-scalar print path silently failed; replaced with \texttt{np.array(frame['yval2'].tolist(), dtype=float)} at every call site. \\
+DataFrame-vs-ndarray mismatches & \texttt{rsq\_rpart.py}, \texttt{plotcp.py}, \texttt{prune\_rpart.py}, \texttt{labels\_rpart.py}, and \texttt{snip\_rpart.py} all performed NumPy-style positional indexing on \texttt{cptable}/\texttt{splits}, which \texttt{rpart.py} constructs as \texttt{pandas.DataFrame} objects; corrected to \texttt{.to\_numpy()}/\texttt{.iloc[]}, with \texttt{prune\_rpart.py}'s pruned-\texttt{cptable} reconstruction additionally preserving original row labels via \texttt{.iloc[keep,:]}. \\
+Missing cross-module imports & Ten modules called sibling-module functions without importing them (R's package namespace made them available automatically), producing \texttt{NameError} on first use; all imports added and verified acyclic. \\
+\texttt{zzz.py}, \texttt{rpartco.py}, \texttt{rpart\_branch.py}, \texttt{plot\_rpart.py}, \texttt{snip\_rpart\_mouse.py} & \texttt{rpart\_env}, R's package-level environment for passing per-device plotting parameters between the four plotting-family functions, was declared via \texttt{global rpart\_env} in four modules with no backing definition anywhere; defined once as a shared \texttt{dict} in \texttt{zzz.py} and imported by the other four. \\
+\texttt{snip\_rpart.py} & A pandas Copy-on-Write chained-assignment bug (\texttt{ff['ncompete'].iloc[newleaf] = 0}) silently mutated a throwaway copy, never updating \texttt{ff}, corrupting \texttt{importance()}'s post-prune accounting; fixed via single-step \texttt{.iloc[newleaf, ff.columns.get\_loc('ncompete')] = 0}. \\
+\texttt{summary\_rpart.py} & The R-mirroring parameter name \texttt{object} shadows Python's builtin \texttt{object} type; three internal \texttt{np.array(..., dtype=object)} calls were silently passing the fitted-tree dict as a NumPy dtype specification; fixed via \texttt{import builtins} and \texttt{dtype=builtins.object}. \\
+\end{longtable}
+
+Live execution during verification surfaced roughly sixteen further issues beyond the six audited-and-approved categories above---missing imports, DataFrame/ndarray type mismatches, pandas Copy-on-Write semantics, and R-value-semantics violations---none of which had been flagged by the static six-agent read, underscoring that dynamic verification (actually running the code) catches a materially different class of defect than static comparison alone. In total the pass touched 37 files (36 Python, 1 C) and fixed 28 distinct bug classes spanning 4 critical, roughly 8 high-severity, and roughly 16 issues found only through live execution.
+
+\subsection{The User-Defined Split Callback Bridge Repair}
+
+With the general audit complete, the user requested that the one remaining known limitation---\texttt{method=4} failing inside \texttt{init\_rpcallback\_c} with \texttt{RuntimeError: variable '(null)' not found}---be root-caused and fixed. Tracing the literal error string led to \texttt{compat\_getVar}'s \texttt{error()} call inside \texttt{src/rpart\_callback.c}, a file explicitly off-limits for modification. The actual defect, however, was one layer up: \texttt{c\_entry\_points/init\_rpcallback\_c.c} re-wrapped the opaque identity tokens \texttt{rho\_ptr}, \texttt{expr1\_ptr}, and \texttt{expr2\_ptr}---the very pointers Python registers as dictionary keys in \texttt{rpartcallback.py} \emph{before} calling into C---via \texttt{make\_opaque\_sexp()}, a helper that allocates a brand-new \texttt{SEXPREC} whose data field merely points at the original value. Because \texttt{init\_rpcallback()} in the unmodifiable C source stores and later passes around the \emph{new wrapper's own address}, every subsequent \texttt{findVarInFrame}/\texttt{eval} callback received an address that matched nothing in Python's lookup tables, regardless of how correctly the token had been registered. Since \texttt{SEXP} is simply a typedef for \texttt{struct SEXPREC *} and neither \texttt{rho} nor \texttt{expr1}/\texttt{expr2} are ever dereferenced as real structs on this call path---only passed through opaquely to Python---a direct pointer cast is semantically sufficient, and was in fact the documented original intent of the file's own parameter-map comment. The fix removed the three \texttt{make\_opaque\_sexp()} calls in favor of direct \texttt{(SEXP)} casts and removed their now-incorrect \texttt{free()} calls from the cleanup macro, since these are caller-owned pointers, not allocations made by this function.
+
+Reproducing the original failure confirmed it resolved, but testing with a synthetic three-function user method (custom \texttt{init}/\texttt{split}/\texttt{eval} implementing an ANOVA-equivalent rule) immediately surfaced a segmentation fault inside \texttt{usersplit()}. The proximate trigger was a malformed, too-short \texttt{direction} array returned by the deliberately-broken test callback, but the underlying defect was in \texttt{rpartcallback.py} itself: \texttt{\_py\_eval()} caught all exceptions, including its own length-validation \texttt{ValueError}s, and returned a raw null SEXP that the unmodifiable C code dereferences unconditionally, crashing the interpreter instead of raising a catchable error. The fix hardens \texttt{eval1()}/\texttt{eval2()} to pre-compute the C-side-expected return length before invoking user code, so that any exception can be answered with a correctly-sized all-zero fallback array rather than an ill-formed one, while recording the exception in a \texttt{rho["\_pending\_exception"]} slot that \texttt{rpart.py} checks and re-raises immediately after the C call returns---turning a process crash into a normal Python traceback.
+
+A third bug surfaced only when a realistic multi-step workflow (fit, then \texttt{printcp}, then \texttt{summary\_rpart}, then \texttt{prune}, then \texttt{xpred\_rpart}, all on the same object in one process) was run end to end: a \texttt{double free or corruption} abort, isolated by bisection to calling \texttt{xpred\_rpart} after \texttt{prune}. The root cause was that \texttt{prune\_rpart()}/\texttt{snip\_rpart()} mutated the input tree dictionary in place and returned the same object, violating R's copy-on-modify value semantics; the original fit's cached \texttt{x}/\texttt{y} arrays, sized for the full dataset, became inconsistent with the now-pruned \texttt{frame}/\texttt{splits}/\texttt{csplit}, and \texttt{xpred\_c}'s buffer-size assumptions---computed from that inconsistent state---corrupted the heap. The fix made \texttt{snip\_rpart.py} copy the top-level dict and its \texttt{frame}, \texttt{splits}, \texttt{csplit}, and \texttt{where} entries independently at function entry, before any mutation, so neither \texttt{snip\_rpart} nor, transitively, \texttt{prune\_rpart} ever mutates a caller-visible object again.
+
+After all three fixes, the full \texttt{pytest} suite (12/12) and an extensive manual regression script covering classification, regression, categorical predictors, pruning, prediction, plotting, cross-validation, and user-defined splits all passed, and \texttt{git status} confirmed that \texttt{r2py\_rpart/src/} had never been touched---the sole C-level change was confined to \texttt{c\_entry\_points/init\_rpcallback\_c.c}, a directory the user had explicitly sanctioned for modification.
+
+\section{Phase 11: R Test-Suite Conversion and a Latent Control-Parameter Bug}
+\label{sec:phase11}
+
+\subsection{Motivation}
+
+\texttt{rpart}'s own CRAN distribution ships thirteen R test scripts under \texttt{rpart/tests/}, covering formula edge cases, cost-weighted classification, case-weight scaling, user-defined splits, and cross-validated prediction---none of which had yet been ported to the Python side. Beyond simply growing test coverage, converting a package's own historical regression tests is a distinctively powerful correctness check: these scripts were written by the original package authors specifically to pin down numerically exact behavior (\texttt{all.equal()} assertions to full floating-point precision) rather than to merely smoke-test the happy path, so translating them was expected to--and did--surface defects invisible to the more casual testing performed in Phases 9 and 10.
+
+\subsection{Methodology}
+
+The \skillapp{convert-r-tests-to-python}{convert-r-tests-to-python} skill was invoked:
+\begin{lstlisting}[style=skill]
+/convert-r-tests-to-python rpart/tests/ rpart/ r2py_rpart/ r2py_rpart/tests/
+\end{lstlisting}
+in the \texttt{r-to-python} conda environment. The skill discovered 13 R files (\texttt{backticks.R}, \texttt{cost.R}, \texttt{cptest.R}, \texttt{minus\_in\_formula.R}, \texttt{priors.R}, \texttt{rescale.R}, \texttt{testall.R}, \texttt{treble.R}, \texttt{treble2.R}, \texttt{treble3.R}, \texttt{treble4.R}, \texttt{usersplits.R}, \texttt{xpred1.R}, \texttt{xpred2.R}) and dispatched the \texttt{@convert-r-test-to-python} agent once per file, deliberately sequentially rather than in parallel, so that each conversion could build on the fixtures and bug fixes established by the ones before it and so that shared library-state mutations during test execution would not race across concurrent agent processes. Each prompt supplied the R test path, the R library path, the Python package root, the output directory, the running list of already-created fixtures, and the running list of library fixes already applied, to prevent duplicated fixtures or accidental regressions. Midway through the batch (the \texttt{priors.R} conversion), an agent discovered that the \texttt{r-to-python} conda environment held a stale, non-editable installation of \texttt{r2py\_rpart} that predated even earlier fixes made in this same session; every subsequent invocation was instructed to reinstall via \texttt{pip install --no-build-isolation .} as a standard first step before trusting any test result.
+
+\subsection{Per-File Conversion Highlights}
+
+Six of the thirteen conversions surfaced genuine, previously undetected library bugs; the remainder confirmed existing behavior correct. Table~\ref{tab:phase11conversions} summarizes each file.
+
+\begin{longtable}{p{2.1cm}p{2.6cm}p{7.6cm}}
+\caption{Per-file outcomes of the Phase 11 R test-suite conversion.\label{tab:phase11conversions}} \\
+\toprule
+R File & Dataset & Outcome \\
+\midrule
+\endfirsthead
+\toprule
+R File & Dataset & Outcome \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\textit{Continued on next page}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+\texttt{backticks.R} & synthetic iris & Confirmed \texttt{model\_frame\_rpart.py}'s existing backtick-stripping regex already mirrors R's; no library change needed. \\
+\texttt{cost.R} & \texttt{survival::lung} & \textbf{Bug:} \texttt{rpart.py}'s \texttt{ymat} construction used \texttt{Y.T.ravel()} where R's \texttt{as.double(t(init\$y))} is algebraically a plain row-major \texttt{Y.ravel()}; the erroneous transpose silently scrambled multi-column (\texttt{ny>1}) response pairing, invisible to every prior single-column-response test. \\
+\texttt{cptest.R} & \texttt{mystate} & Verified \texttt{cp} scales correctly with dataset size across a 20$\times$ replicated variant; no bug. \\
+\texttt{minus\_in\_formula.R} & \texttt{mtcars} & \textbf{Bug:} the formula parser only supported bare \texttt{"y \textasciitilde\ ."} or plain term lists; \texttt{"."} combined with \texttt{"-"} exclusions raised \texttt{KeyError}. Fixed with a top-level tokenizer implementing R's formula algebra. \\
+\texttt{priors.R} & synthetic, 15 rows & \textbf{Bug:} \texttt{init["parms"]} was flattened with a plain row-major \texttt{.ravel()}; R's \texttt{unlist()} on a list containing a matrix uses the matrix's native column-major order, so a non-symmetric \texttt{loss} matrix was silently transposed before reaching \texttt{giniinit()}, corrupting the root node's predicted class. \\
+\texttt{rescale.R} & synthetic, 9 obs. & Verified \texttt{rpart\_exp}'s cumulative-hazard rescaling against a hand-computed table; no bug. \\
+\texttt{testall.R} & \texttt{stagec}, \texttt{mystate}, \texttt{cu.summary} & \textbf{Seven bugs}, spanning \texttt{xval} scalar-vs-array handling, undersized C output buffers, a response cached before NA-filtering, categorical \texttt{newdata} re-encoding in prediction, per-element rounding, an NA-count reporting bug in three files, and \texttt{csplit} row truncation for multi-level categorical predictors. \\
+\texttt{treble.R} & \texttt{stagec} & Verified weight-scaling of \texttt{frame\$wt}/\texttt{dev}/\texttt{yval2}/\texttt{improve} on the hand-built \texttt{Surv} model-frame path; no bug. \\
+\texttt{treble2.R} & \texttt{mystate} & Verified the formula+\texttt{data=}+\texttt{weights=} path's weight scaling, including a careful distinction between R's \texttt{rep(x,n)} tile semantics and \texttt{rep(x,length.out=n)} resize semantics; no bug. \\
+\texttt{treble3.R} & \texttt{cu.summary} & Verified 10-class \texttt{yval2} column layout under weight scaling; no bug. \\
+\texttt{treble4.R} & \texttt{kyphosis} & Verified a non-symmetric \texttt{loss} matrix's column-major fill under weight scaling; no bug. \\
+\texttt{usersplits.R} & \texttt{mystate} & \textbf{Bug:} \texttt{xpred\_rpart.py}'s parms-flattening handled only \texttt{dict}/\texttt{None}, raising \texttt{TypeError} whenever a user-defined \texttt{init()} returns a bare scalar \texttt{parms}, matching the built-in anova method's own convention. \\
+\texttt{xpred1.R} & synthetic, 12 rows & Verified \texttt{return\_all=True} on the anova (\texttt{numresp==1}) path; no bug. \\
+\texttt{xpred2.R} & \texttt{stagec} (poisson) & \textbf{Bug:} the same row/column-major flattening defect as \texttt{cost.R}, recurring independently in \texttt{xpred\_rpart.py}'s separate cross-validation code path, silently producing degenerate, root-node-constant output for any multi-column-response method. \\
+\end{longtable}
+
+After all fourteen agent invocations (\texttt{testall.R} alone contributed six pytest functions), the Python test suite had grown from 12 to 38 passing tests, with six new CSV fixtures (\texttt{lung.csv}, \texttt{mystate.csv}, \texttt{mtcars.csv}, \texttt{stagec.csv}, \texttt{cu\_summary.csv}, \texttt{kyphosis.csv}) exported once from live R via \texttt{write.csv} to remove any runtime R dependency from the Python test suite. One item was left explicitly documented but unresolved at session end: a small, reproducible divergence in the trailing rows of cross-validated \texttt{xerror}/\texttt{xstd} in two of \texttt{testall.R}'s six fits, encoded in the test file as a loose sanity bound rather than an exact assertion, and investigated at length without a conclusive root cause---since the underlying \texttt{rpart.c}/\texttt{xval.c} C sources were confirmed byte-identical between the two packages.
+
+\subsection{Forensic Root-Cause Investigation of the Cross-Validation Discrepancy}
+
+The unresolved discrepancy documented above was pursued as a same-day follow-up, and its resolution is documented here in full because the investigative path---and the eventual, deliberately counter-intuitive conclusion---is itself instructive about the risks of attributing numerical divergence to floating-point non-determinism before ruling out simpler explanations.
+
+\subsubsection{Hypotheses Eliminated}
+
+Both a live R session and a live Python session were used side by side to reproduce the exact divergent cptable rows at ten-digit precision, confirming that \texttt{fit1} (poisson, \texttt{usesurrogate=0}, \texttt{cp=0}) matched R exactly through six of nine rows before diverging, and that \texttt{fit2}, built with the shallower default \texttt{cp=0.01} control, matched R exactly on every row including the deepest---an important early clue that the defect was specific to very deep, lightly-pruned trees rather than a general property of the cross-validation code. A sequence of increasingly specific hypotheses were tested and eliminated with direct evidence rather than argument: (1) precision loss in the checked-in CSV fixture, ruled out by an exact byte-for-byte comparison against R's live in-memory dataset; (2) divergence between the two packages' C sources, ruled out by \texttt{diff -q} on \texttt{xval.c}, \texttt{rpart.c}, and \texttt{mysort.c}; (3) FMA (fused multiply-add) instruction contraction from differing compiler flags, ruled out by disassembling a minimal reproduction under all four flag combinations and finding no fused instructions were emitted in any case, since the toolchain's baseline instruction set predates FMA3 entirely; and (4), decisively, compiler optimization level and target-architecture flags in general, ruled out by temporarily rebuilding the actual Python extension with R's exact real compiler flags and observing the discrepancy was completely unchanged. A parallel check confirmed the deterministic, non-cross-validated full tree for \texttt{fit1} matched R node-for-node to the deepest leaf, confining the defect entirely to the cross-validation refit loop.
+
+\subsubsection{Bit-Level Instrumentation}
+
+With source-level and compiler-level causes eliminated, the investigation moved to binary-level instrumentation. Identical debug print statements were added to both a scratch, debug-instrumented local rebuild of R's own \texttt{rpart} package and to \texttt{r2py\_rpart}'s copy of the same file, first in \texttt{xval.c} (dumping every fold's per-observation prediction-error array) and then, after finding that only 3 of 10 cross-validation folds diverged and only from a specific cp-column onward, in \texttt{bsplit.c} (dumping every candidate split's \texttt{improve}/\texttt{split} value in exact hex-float form) and finally in \texttt{partition.c} (dumping the boolean outcome, and every input to, the per-node ``can I stop splitting now?'' test). This last step was decisive: every logged field matched bit-for-bit between the two languages at every node, except one---every single line in the R log read \texttt{min\_split=20}, and every single line in the Python log read \texttt{min\_split=21}, a constant, node-independent, fold-independent integer difference of exactly one, present from the very first instrumented line. At the specific node where R's \texttt{20 < 20} test evaluates false (continue splitting) while Python's \texttt{20 < 21} test evaluates true (stop), the two languages' trees first diverge in shape---which fully explains every previously observed symptom in numerical terms, since divergence downstream of a differently-shaped tree in a numerically ill-conditioned cross-validation fold looks, superficially, exactly like floating-point noise.
+
+\subsubsection{Root Cause: A Sentinel-Clobbering Bug in the Control-Parameter Defaults}
+
+R's \texttt{rpart.control()} computes \texttt{minsplit}/\texttt{minbucket} defaults with \texttt{missing()}, which inspects the original call site: when neither argument is supplied, R leaves \texttt{minsplit} at its literal default of 20. \texttt{r2py\_rpart}'s pre-fix emulation of \texttt{missing()} used an \texttt{\_MISSING} sentinel object, but its three-branch control flow had a subtle defect: the first branch, computing \texttt{minbucket}'s default, reassigned the \texttt{minbucket} local variable to its newly-computed value before the second branch checked whether \texttt{minbucket} had originally been supplied---so the second branch always saw a non-sentinel value and incorrectly executed the back-derivation \texttt{minsplit = minbucket * 3}, yielding \texttt{minsplit=21} instead of R's \texttt{20} whenever a caller supplied neither argument, the library's own documented default. The fix captures whether \texttt{minbucket} was originally missing into a separate boolean before it is reassigned, and checks that captured boolean afterward instead of re-inspecting the now-mutated variable---a minimal, three-line diff verified against R across all four meaningfully distinct argument combinations. This single defect fully explains why the discrepancy only ever appeared in maximally deep, \texttt{cp=0}-adjacent trees (only such trees ever reach a node with exactly 20 observations, the boundary the off-by-one affects), why only specific cross-validation folds were affected (whether any node in a given fold's held-out subset happens to land at exactly 20 rather than 19 or 24 observations is data-dependent), and why a separate, previously logged \texttt{usesurrogate=2} tree-size discrepancy (R producing 10 splits against Python's 9 for an otherwise identical fit) disappeared once the same one-line fix was applied.
+
+\subsubsection{Resolution and Retraction of a Secondary Hypothesis}
+
+Before the true root cause was found, a distinct latent defect had also been identified and provisionally treated as a contributing cause: \texttt{rundown.c}'s \texttt{oops:} fallback branch, reached when a held-out cross-validation observation is missing its split variable and \texttt{usesurrogate<2} forbids a surrogate fallback, correctly back-fills the \texttt{xpred[]} array for all remaining cp columns but only ever writes a single, mis-indexed \texttt{xtemp[]} element after the loop that was meant to cover it---leaving the true remaining \texttt{xtemp[]} slots holding stale values from whichever earlier, unrelated observation's call last wrote to the same shared buffer. This is confirmed to be a genuine defect present verbatim in both R's and \texttt{r2py\_rpart}'s byte-identical \texttt{rundown.c}, and was initially credited with explaining why two of the thirteen originally-divergent (observation, fold) pairs disagreed between R and Python. Once the \texttt{minsplit} sentinel bug was fixed, however, R and Python build identical trees and process every fold's held-out observations in identical order, so even though the \texttt{rundown.c} defect still fires under the same conditions as before, it now leaves identical stale garbage in both languages' buffers rather than divergent garbage, and therefore produces no visible R-versus-Python difference at all---a conclusion directly confirmed by \texttt{fit1}'s full cptable matching R exactly on every row after only the \texttt{rpart\_control.py} fix, with no change whatsoever to \texttt{rundown.c}. The \texttt{rundown.c} defect is accordingly retracted as an explanation for any part of the Phase 11 discrepancy---though it remains a real, independently verifiable latent bug in rpart's own upstream C source, and is deliberately left unfixed in \texttt{r2py\_rpart} for the reasons given in the following paragraph.
+
+The user was presented with the finding and the choice to keep the fix or revert to the pristine pre-investigation state, and chose to keep it. \texttt{test\_testall.py}'s two previously loose sanity-bound assertions were tightened to check every cptable row at high precision against the now-exact reference values, and the module's explanatory docstring was rewritten to narrate the actual mechanism in place of the earlier, accurate-at-the-time but now-superseded description of an unresolved discrepancy. The full suite was reconfirmed at 38/38 after both the fix and the test-file tightening. Fixing the \texttt{rundown.c} defect itself was and remains out of scope: doing so would mean deliberately diverging from R's own, still-buggy behavior, which conflicts with a port whose stated goal is behavioral parity with R, bugs included.
+
+\section{Phase 12: Public-Interface Test Generation and Systematic Bug Resolution}
+\label{sec:phase12}
+
+\subsection{Phase 12.1: R-Benchmarked Test Generation for the Public Interface}
+\label{sec:phase12.1}
+
+\subsubsection{Motivation}
+
+Phases 10 and 11 fixed every bug that a manual audit or a historical R test suite happened to expose. Neither approach guarantees exhaustive coverage of the package's public interface: a systematic, per-function, R-benchmarked test generation pass closes that gap by producing positive, negative, and edge-case tests for every publicly documented entry point, each one verified directly against a live R session via \texttt{rpy2} rather than against a hand-derived expectation.
+
+\subsubsection{Scope Determination}
+
+The command was invoked against \texttt{r2py\_rpart/r2py\_rpart/\_\_init\_\_.py} and \texttt{rpart/}, but a preliminary scan revealed a scoping ambiguity worth resolving before generating any tests: \texttt{\_\_init\_\_.py} itself only literally \texttt{def}ines 12 underscore-prefixed, low-level cffi/C-ABI wrapper functions, none of which correspond by name to any documented R public interface---they are the raw bindings underlying \texttt{rpart()}, \texttt{predict.rpart()}, \texttt{xpred.rpart()}, and \texttt{rpart.exp()}, not the public interfaces themselves. The file's actual \texttt{\_\_all\_\_} (36 entries) and its roughly 35 \texttt{from .module import name} statements re-export the true public surface from dedicated sibling modules. An \texttt{AskUserQuestion} was raised offering three interpretations of scope---testing only the four C wrappers with an R documentation counterpart, testing all 12 literal definitions regardless of R-doc match, or testing the roughly 35 imported public functions matching \texttt{rpart/man/*.Rd}---and the user selected the third. Cross-referencing the remaining candidates against \texttt{rpart/man/rpart-internal.Rd} (which explicitly marks \texttt{pred.rpart}, \texttt{rpart.matrix}, \texttt{rpart.class}, \texttt{rpart.anova}, \texttt{rpart.poisson}, and \texttt{rpartco} as internal) and a commented-out \texttt{rpartcallback} alias in \texttt{rpart.Rd} narrowed the set to 23 confirmed public functions.
+
+\subsubsection{Methodology}
+
+The \skillapp{generate-python-file-tests}{generate-python-file-tests} skill was invoked:
+\begin{lstlisting}[style=skill]
+/generate-python-file-tests r2py_rpart/r2py_rpart/__init__.py rpart/
+\end{lstlisting}
+The \texttt{@generate-python-function-tests} agent was then invoked once per function, sequentially and in the foreground, over the 23-function filtered list, each run extending a single shared helper module, \texttt{r2py\_rpart/tests/\_r\_rpart\_helpers.py}, with dataset loaders, R/Python type-marshaling helpers, per-function R-oracle derivation replicas, and \texttt{Axes}-data-extraction utilities for the plotting-family functions, rather than each duplicating this infrastructure independently. A \texttt{tests/conftest.py} was added during the \texttt{plotcp} run to force matplotlib's non-interactive \texttt{Agg} backend package-wide. For the two generic/S3-method pairs where a wrapper is a literal one-line forward (\texttt{post}/\texttt{post\_rpart}, \texttt{prune}/\texttt{prune\_rpart}, \texttt{meanvar}/\texttt{meanvar\_rpart}), the second agent in each pair correctly recognized the near-total overlap with the first and scoped itself down to only the behavior unreachable through the thin wrapper, chiefly positional-argument dispatch order, rather than duplicating test content.
+
+\subsubsection{Key Findings}
+
+The 23 runs produced 846 new tests across 69 files (804 passing outright, 42 intentionally failing, each a verified, documented R-vs-Python behavioral divergence rather than a flawed test). At least nine genuine library defects were identified and left unfixed for a dedicated follow-up pass, summarized in the table below.
+
+\medskip
+\begin{center}
+\begin{tabular}{p{2.6cm}p{9.9cm}}
+\toprule
+Function & Defect Documented \\
+\midrule
+\texttt{rpart} & \texttt{RuntimeError: internal output buffer 'dnode' was undersized} on 0-row data or an all-NaN predictor column, instead of R's degenerate 1-row-frame output. \\
+\texttt{predict\_rpart} & \texttt{type="matrix"} on single-row \texttt{newdata} silently succeeds where R errors (NumPy never drops the row dimension); \texttt{\_naresid()} over-expands rows even when R's actual dispatched \texttt{na.action} method is a documented no-op. \\
+\texttt{print\_rpart}, \texttt{printcp}, \texttt{summary\_rpart}, \texttt{rpart\_class} & Systemic decimal-padding and digit-rounding gaps: R's column-wide \texttt{format(signif(x,digits))} common-decimal-place alignment has no Python analogue in the port. \\
+\texttt{rpartco.py}'s \texttt{compress()} & A copy-paste defect (\texttt{left["left"]} instead of \texttt{right["left"]}) corrupting boundary-vector lengths for deep, asymmetric trees, propagating into \texttt{plot\_rpart} and \texttt{post}. \\
+\texttt{post\_rpart} & Default plot title indexes \texttt{tree['terms']['variables'][1]} (first predictor) instead of \texttt{[0]} (the response variable). \\
+\texttt{residuals\_rpart} & Classification \texttt{pearson}/\texttt{deviance} residuals crash via the same \texttt{yval2}-as-1-D-Series defect already worked around elsewhere. \\
+\texttt{text\_rpart} & \texttt{fancy=True} mode selects split-edge labels with mismatched masks against R's \texttt{!is.na()}-based selection, producing the wrong \emph{values}, not merely a shape error. \\
+\texttt{xpred\_rpart} & A memory-corruption/segfault risk in the C bridge reachable via a bare-scalar \texttt{cp=} argument, isolated into a subprocess-based regression test to protect the main pytest process. \\
+\bottomrule
+\end{tabular}
+\end{center}
+\medskip
+
+One process-resilience incident occurred: the \texttt{rsq\_rpart} agent hit a transient API overload error mid-run and was resumed via \texttt{SendMessage} to the same agent identifier, completing cleanly rather than requiring a full restart.
+
+\subsection{Phase 12.2: Resolution of All Documented Bugs}
+\label{sec:phase12.2}
+
+\subsubsection{Motivation}
+
+Phase 12.1 deliberately deferred every fix to keep test generation and bug fixing as separate, independently reviewable steps. This phase closes that loop, driving the 846-test suite to a full pass by resolving the root cause of every failure rather than weakening any assertion.
+
+\subsubsection{Methodology}
+
+The \skillapp{fix-bugs-found-in-tests}{fix-bugs-found-in-tests} skill was invoked:
+\begin{lstlisting}[style=skill]
+/fix-bugs-found-in-tests r2py_rpart/tests/ r2py_rpart/ rpart/
+\end{lstlisting}
+The single highest-priority failure, \texttt{rpartco.py}'s \texttt{compress()} defect from Phase 12.1, was fixed directly by hand rather than delegated, since its root cause (\texttt{templ} built from the wrong branch's \texttt{left} array, confirmed against R's own \texttt{rpartco.R:127}) was already fully understood. A read-only \texttt{general-purpose} research agent was then dispatched to read every remaining failing test alongside its R source counterpart and produce a root-cause diagnosis grouped by shared underlying defect, yielding ten groups (A--J). The most consequential, Group A, was a single missing capability---no Python equivalent of R's \texttt{format()}/\texttt{as.character()} fixed-versus-scientific-notation decision procedure, which compares the rendered character width of both candidate representations rather than Python's exponent-based rule---manifesting independently across five separate files. Six \texttt{@fix-bug-found-in-test} agents were then dispatched together against disjoint file sets to permit safe concurrent execution, each fixing one cluster: \texttt{plotcp.py} (lty-code mapping and a deliberate design-choice correction to a test rather than the library), \texttt{printcp.py} (digit formatting, corrected default \texttt{digits}, input validation, an unconditionally-printed header), \texttt{print\_rpart.py}/\texttt{rpart\_class.py} (vector-wide decimal alignment, discovered by disassembling R's own bytecode via \texttt{Rscript} to find that R's \texttt{dev}/\texttt{yval} formatting call omits an explicit \texttt{digits=} argument on its outer \texttt{format()}), \texttt{summary\_rpart.py} (the same formatting primitive applied to cut-points, complexity values, and the variable-importance block), \texttt{residuals\_rpart.py} (a general NULL-propagation helper reproducing R's \texttt{frame[[column]][object\$where]} semantics), \texttt{predict\_rpart.py} (correct S3-dispatch-aware \texttt{naresid()} behavior and a reproduced R singleton-matrix quirk), and \texttt{\_\_init\_\_.py} (a buffer-size floor guaranteeing space for at least one degenerate root-only node regardless of input size).
+
+\subsubsection{Key Findings}
+
+A reusable formatting primitive emerged organically during this pass: the first agent's \texttt{r\_format\_double()}---an R-\texttt{format()}-equivalent width-comparison routine for a single value---was independently extended by three subsequent agents into \texttt{printcp.py}'s \texttt{\_r\_format()}, \texttt{print\_rpart.py}'s vector-and-common-decimal-place \texttt{r\_format\_vector()}, and \texttt{summary\_rpart.py}'s \texttt{\_r\_format\_signif()}/\texttt{\_r\_format\_matrix\_column()}, avoiding four independent reimplementations of the same algorithm. One process incident occurred: an agent's own git-hygiene check misidentified the already-applied, in-scope \texttt{rpartco.py} fix as stray noise from an unrelated prior session and reverted it via \texttt{git checkout --}; this was caught immediately from a system-provided diff snapshot and reapplied before any further work propagated, after which every subsequent agent prompt explicitly fenced off files outside its own assigned scope. Two tests were determined, after empirical verification against live R, to be flawed rather than the library, and were corrected in place instead of changing library behavior to match them.
+
+The final state, verified across four repeated full-suite runs including one against a freshly rebuilt, non-editable install, is 844 passed, 2 \texttt{xfail}ed, 0 failed. The two permanent \texttt{xfail(strict=True)} tests document a single, structurally unfixable divergence: R's \texttt{print.rpart}/\texttt{summary.rpart} call-echo relies on \texttt{dput()} rendering the \emph{unevaluated} call expression captured by \texttt{match.call()} (the literal source token a caller typed, such as a bare variable name or an unexpanded sub-call), whereas \texttt{r2py\_rpart.rpart()}'s stored \texttt{Call} dictionary necessarily holds already-\emph{evaluated} argument values with no record of the caller's original source text---a gap that would require call-site source capture inside \texttt{rpart.py} itself (for instance via \texttt{inspect}/AST introspection) to close, and was judged out of scope for this pass. A subsequent gap audit, run at the user's request, additionally catalogued roughly 94 further "soft" divergences that emit a warning but do not fail any test---cases where both languages correctly reject the same invalid input but describe the rejection in each language's own native error vocabulary---grouped into seven themes (missing required arguments, low-level Python exceptions versus R's validation-flavored messages, invalid enum strings, non-numeric arguments to numeric operations, out-of-range indexing, plotting-internal error asymmetries, and miscellaneous unrelated-root-cause pairs), none of which represent an accept/reject behavioral defect on either side.
+
+\section{Phase 13: Example-Script Translation and Rendering-Parity Fixes}
+\label{sec:phase13}
+
+\subsection{Motivation}
+
+With the library itself verified correct to 844/846 passing tests, this phase turns to a different kind of validation: translating two complete, realistic \texttt{rpart} demonstration workflows from R to Python and comparing their rendered output side by side. Unit tests verify individual functions in isolation against numeric or structural assertions; end-to-end example scripts instead exercise the full user-facing pipeline---data loading, formula-based fitting, cross-validated pruning, and PDF plotting---in the sequence an actual user would follow, and are uniquely suited to catching visual/rendering defects that no numeric assertion would ever check.
+
+\subsection{Translating the Example Scripts}
+
+\texttt{r2py\_rpart/examples/regression\_tree.R} reads a fourteen-column dataset with missing values, converts eight columns to factors, fits an anova tree with \texttt{cp=.0005}, selects a pruning cp via both the minimum-cross-validated-error rule and the 1-SE rule, and repeats the fit/prune/plot cycle on a bootstrap resample. Translating it to \texttt{regression\_tree.py} surfaced one bug at the example-script (not package) level: naively casting the eight predictor columns to \texttt{"category"} dtype after they had been elevated to \texttt{float64} by NaNs elsewhere in the frame produced float-valued category labels (\texttt{"1.0"}, \texttt{"2.0"}, \ldots), whereas R's \texttt{as.factor()} on a numeric column stringifies via \texttt{as.character()} and never produces a trailing \texttt{.0}; this broke \texttt{labels\_rpart.py}'s string-join logic downstream and was fixed by mapping each non-null value through \texttt{str(int(v))} before categorization. A newly authored \texttt{classification\_tree.R}, fitting a classification tree on a renamed variant of Fisher's iris data stored in an R-only \texttt{iris\_jun.RData} binary file, was translated identically; since no R-to-pandas binary reader was available in the target environment, the dataset was exported once via \texttt{write.csv} to a checked-in \texttt{iris\_jun.csv} companion file, mirroring the role \texttt{income.data} already played for the regression example. At the user's request, both language pairs were standardized on a common output convention: every artifact filename prefixed with the script's base name and suffixed \texttt{\_R}/\texttt{\_Python}, and all console output redirected to a matching \texttt{*\_output\_\{R,Python\}.txt} file (via R's \texttt{sink()} and Python's \texttt{contextlib.redirect\_stdout} respectively).
+
+\subsection{Visual-Parity Bug Discovery and Fixes}
+
+The user independently regenerated both languages' PDFs and, by visual comparison, reported four rendering defects: overlapping, illegible x-axis tick labels on the cp-table plot; solid point markers where R renders hollow circles; split-condition text rendered to the right of each branch point rather than centered above it; and a bold title overlapping the tree drawing rather than sitting cleanly above it. With no PDF-to-image tool available except Ghostscript, both languages' PDFs were rasterized to PNG for direct visual inspection throughout this investigation. Root-causing each issue required going beyond the R source text to R's actual graphics-engine behavior: printing \texttt{rpart:::plotcp}'s live R source confirmed it contains no label-thinning logic at all, and a minimal, unrelated reproduction (plotting 30 points with 30 requested axis labels) confirmed the skipping of overlapping labels is an emergent behavior of R's low-level axis renderer, not something any \texttt{rpart} function implements; similarly, printing \texttt{rpart:::plot.rpart}'s live source confirmed that R's automatic axis padding is applied by the underlying \texttt{plot()} call regardless of \texttt{plot.rpart}'s own arguments, and is unrelated to the title-overlap symptom, which instead traced to \texttt{plot\_rpart.py} having no title parameter at all and callers instead relying on matplotlib's much smaller default title padding.
+
+Four fixes were applied at the package level. \texttt{plotcp.py} gained \texttt{\_thin\_overlapping\_ticklabels()}, a helper that measures each tick label's rendered pixel extent via the matplotlib renderer and suppresses any label that would overlap the previous kept one; an initial implementation using \texttt{set\_visible(False)} was replaced with \texttt{set\_alpha(0.0)} after discovering, by reading matplotlib's own source, that \texttt{Axes.get\_xticklabels()} silently drops---rather than merely renders invisibly---any label with \texttt{get\_visible()} false, which would have broken this project's own test helpers that read back the full label set. The same file's point markers were switched to \texttt{markerfacecolor='none'}, reproducing R's hollow \texttt{pch=1} circle. \texttt{text\_rpart.py}'s default label-drawing closure was given \texttt{ha='center'}, matching R's centered default text alignment; this was confirmed to carry zero regression risk since every existing test in that file supplies its own custom label-capturing closure specifically to bypass the default one. \texttt{plot\_rpart.py} gained a new, previously absent \texttt{main} parameter that, when supplied, sets a bold axes title with generous padding, resolving the overlap without touching any axis-limit computation.
+
+A candidate fix for the title-overlap issue---replicating R's roughly 4\%-per-side automatic axis padding directly inside \texttt{plot\_rpart.py}'s \texttt{set\_xlim}/\texttt{set\_ylim} calls---was considered and deliberately rejected, because doing so would change the actual values returned by \texttt{ax.get\_xlim()}/\texttt{ax.get\_ylim()}, against which several pre-existing Phase 12.1 tests assert exact equality to a tight-bounding-box arithmetic replica that intentionally omits real device-rendering padding. Grepping the existing test files for any reference to a title confirmed that adding a wholly new, previously nonexistent parameter was a strictly additive, zero-regression-risk fix, whereas altering axis limits was not---illustrating a recurring tension in this project between visual fidelity to R's rendered output and numerical fidelity to R's documented, testable return values, resolved here in favor of the fix that could not regress the latter.
+
+\subsection{Verification}
+
+The three directly affected test files were run first (106 passed, 0 failed after the \texttt{set\_alpha} correction), followed by the full repository suite (844 passed, 2 \texttt{xfail}ed, 0 failed, matching the Phase 12.2 baseline exactly). A user question, "Did you reinstall the package?", surfaced a workflow gap: interim verification had been performed against a copy of \texttt{r2py\_rpart} shadowed in from the repository source directory by an accident of the shell's working directory, rather than the actually-installed site-packages distribution that \texttt{pip\_install.sh} produces. A clean \texttt{pip install --no-build-isolation .} reinstall was performed and re-verified from a shadowing-immune \texttt{/tmp} working directory via direct introspection of the installed copy's source, and the full suite was re-run once more to confirm the identical 844/2/0 result. All four affected example PDFs were regenerated, rasterized, and visually re-confirmed to match their R-generated reference renders.
+
 \appendix
 
 \section{Phase 1: C Dependency Analysis}
@@ -1007,5 +1249,44 @@ All 11 regression tests continue to pass. The \texttt{method=4} user-defined spl
 \label{app:agent:add-r-interpreter-items}
 
 \lstinputlisting[style=appendixmd]{../../.claude/agents/add-r-interpreter-items.md}
+
+\section{Phase 11: R Test-Suite Conversion}
+\label{app:phase11}
+
+\subsection{Skill: \texttt{/convert-r-tests-to-python}}
+\label{app:skill:convert-r-tests-to-python}
+
+\lstinputlisting[style=appendixmd]{../../.claude/commands/convert-r-tests-to-python.md}
+
+\subsection{Agent: \texttt{@convert-r-test-to-python}}
+\label{app:agent:convert-r-test-to-python}
+
+\lstinputlisting[style=appendixmd]{../../.claude/agents/convert-r-test-to-python.md}
+
+\section{Phase 12.1: Public-Interface Test Generation}
+\label{app:phase12.1}
+
+\subsection{Skill: \texttt{/generate-python-file-tests}}
+\label{app:skill:generate-python-file-tests}
+
+\lstinputlisting[style=appendixmd]{../../.claude/commands/generate-python-file-tests.md}
+
+\subsection{Agent: \texttt{@generate-python-function-tests}}
+\label{app:agent:generate-python-function-tests}
+
+\lstinputlisting[style=appendixmd]{../../.claude/agents/generate-python-function-tests.md}
+
+\section{Phase 12.2: Bug Resolution}
+\label{app:phase12.2}
+
+\subsection{Skill: \texttt{/fix-bugs-found-in-tests}}
+\label{app:skill:fix-bugs-found-in-tests}
+
+\lstinputlisting[style=appendixmd]{../../.claude/commands/fix-bugs-found-in-tests.md}
+
+\subsection{Agent: \texttt{@fix-bug-found-in-test}}
+\label{app:agent:fix-bug-found-in-test}
+
+\lstinputlisting[style=appendixmd]{../../.claude/agents/fix-bug-found-in-test.md}
 
 \end{document}

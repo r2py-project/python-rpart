@@ -1,9 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.18)  30 JUN 2026 14:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.18)  8 JUL 2026 14:34
 entering extended mode
  restricted \write18 enabled.
+ file:line:error style messages enabled.
  %&-line parsing enabled.
-**main.tex
-(./main.tex
+**/users/ycai9/Yufei/python-rpart/docs/report/main.tex
+(/users/ycai9/Yufei/python-rpart/docs/report/main.tex
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-04-28>
 (/software/t/texlive/2026/texmf-dist/tex/latex/base/article.cls
@@ -22,18 +23,14 @@ File: size12.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
 \abovecaptionskip=\skip49
 \belowcaptionskip=\skip50
 \bibindent=\dimen150
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/geometry/geometry.sty
+) (/software/t/texlive/2026/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2026/03/07 v6.0 Page Geometry
-
-(/software/t/texlive/2026/texmf-dist/tex/latex/graphics/keyval.sty
+ (/software/t/texlive/2026/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks17
-)
-(/software/t/texlive/2026/texmf-dist/tex/generic/iftex/ifvtex.sty
+) (/software/t/texlive/2026/texmf-dist/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
-
-(/software/t/texlive/2026/texmf-dist/tex/generic/iftex/iftex.sty
+ (/software/t/texlive/2026/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2024/12/12 v1.0g TeX engine tests
 ))
 \Gm@cnth=\count284
@@ -48,19 +45,15 @@ Package: iftex 2024/12/12 v1.0g TeX engine tests
 \Gm@layouthoffset=\dimen157
 \Gm@layoutvoffset=\dimen158
 \Gm@dimlist=\toks18
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/base/fontenc.sty
+) (/software/t/texlive/2026/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/base/inputenc.sty
+) (/software/t/texlive/2026/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2024/02/08 v1.3d Input encoding file
 \inpenc@prehook=\toks19
 \inpenc@posthook=\toks20
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/microtype/microtype.sty
+) (/software/t/texlive/2026/texmf-dist/tex/latex/microtype/microtype.sty
 Package: microtype 2026/03/01 v3.2d Micro-typographical refinements (RS)
-
-(/software/t/texlive/2026/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+ (/software/t/texlive/2026/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count287
 )
@@ -76,22 +69,18 @@ LaTeX Info: Redefining \textls on input line 1449.
 LaTeX Info: Redefining \microtypecontext on input line 2053.
 LaTeX Info: Redefining \textmicrotypecontext on input line 2070.
 \MT@listname@count=\count289
-
-(/software/t/texlive/2026/texmf-dist/tex/latex/microtype/microtype-pdftex.def
+ (/software/t/texlive/2026/texmf-dist/tex/latex/microtype/microtype-pdftex.def
 File: microtype-pdftex.def 2026/03/01 v3.2d Definitions specific to pdftex (RS)
-
 LaTeX Info: Redefining \lsstyle on input line 944.
 LaTeX Info: Redefining \lslig on input line 944.
 \MT@outer@space=\skip51
 )
 Package microtype Info: Loading configuration file microtype.cfg.
-
-(/software/t/texlive/2026/texmf-dist/tex/latex/microtype/microtype.cfg
+ (/software/t/texlive/2026/texmf-dist/tex/latex/microtype/microtype.cfg
 File: microtype.cfg 2026/03/01 v3.2d microtype main configuration file (RS)
 )
 LaTeX Info: Redefining \microtypesetup on input line 3065.
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/booktabs/booktabs.sty
+) (/software/t/texlive/2026/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \heavyrulewidth=\dimen160
 \lightrulewidth=\dimen161
@@ -110,8 +99,7 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@thisruleclass=\count292
 \@lastruleclass=\count293
 \@thisrulewidth=\dimen172
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/tools/array.sty
+) (/software/t/texlive/2026/texmf-dist/tex/latex/tools/array.sty
 Package: array 2025/09/25 v2.6n Tabular extension package (FMi)
 \col@sep=\dimen173
 \ar@mcellbox=\box54
@@ -120,19 +108,15 @@ Package: array 2025/09/25 v2.6n Tabular extension package (FMi)
 \extratabsurround=\skip52
 \backup@length=\skip53
 \ar@cellbox=\box55
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/xcolor/xcolor.sty
+) (/software/t/texlive/2026/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
-
-(/software/t/texlive/2026/texmf-dist/tex/latex/graphics-cfg/color.cfg
+ (/software/t/texlive/2026/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 274.
-
-(/software/t/texlive/2026/texmf-dist/tex/latex/graphics-def/pdftex.def
+ (/software/t/texlive/2026/texmf-dist/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+) (/software/t/texlive/2026/texmf-dist/tex/latex/graphics/mathcolor.ltx)
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
 Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
 Package xcolor Info: Model `RGB' extended on input line 1365.
@@ -142,8 +126,7 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/listings/listings.sty
+) (/software/t/texlive/2026/texmf-dist/tex/latex/listings/listings.sty
 \lst@mode=\count294
 \lst@gtempboxa=\box56
 \lst@token=\toks24
@@ -156,17 +139,14 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
 \lst@newlines=\count298
 \lst@lineno=\count299
 \lst@maxwidth=\dimen178
-
-(/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstpatch.sty
+ (/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstpatch.sty
 File: lstpatch.sty 2025/11/14 1.11b (Carsten Heinz)
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstmisc.sty
+) (/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
 \c@lstnumber=\count300
 \lst@skipnumbers=\count301
 \lst@framebox=\box57
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/listings/listings.cfg
+) (/software/t/texlive/2026/texmf-dist/tex/latex/listings/listings.cfg
 File: listings.cfg 2025/11/14 1.11b listings configuration
 ))
 Package: listings 2025/11/14 1.11b (Carsten Heinz)
@@ -195,37 +175,29 @@ Package: longtable 2025-10-13 v4.24 Multi-page Table package (DPC)
 \c@LT@tables=\count305
 \c@LT@chunks=\count306
 \LT@p@ftn=\toks25
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/parskip/parskip.sty
+) (/software/t/texlive/2026/texmf-dist/tex/latex/parskip/parskip.sty
 Package: parskip 2021-03-14 v2.0h non-zero parskip adjustments
-
-(/software/t/texlive/2026/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+ (/software/t/texlive/2026/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
-
-(/software/t/texlive/2026/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+ (/software/t/texlive/2026/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+) (/software/t/texlive/2026/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
 Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
-)))
-(/software/t/texlive/2026/texmf-dist/tex/latex/amsmath/amsmath.sty
+))) (/software/t/texlive/2026/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2025/07/09 v2.17z AMS math features
 \@mathmargin=\skip58
 
 For additional information on amsmath, use the `?' option.
 (/software/t/texlive/2026/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2024/11/17 v2.01 AMS text
-
-(/software/t/texlive/2026/texmf-dist/tex/latex/amsmath/amsgen.sty
+ (/software/t/texlive/2026/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks26
 \ex@=\dimen180
-))
-(/software/t/texlive/2026/texmf-dist/tex/latex/amsmath/amsbsy.sty
+)) (/software/t/texlive/2026/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen181
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/amsmath/amsopn.sty
+) (/software/t/texlive/2026/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
 \inf@bad=\count307
@@ -275,75 +247,58 @@ LaTeX Info: Redefining \Relbar on input line 970.
 \mathdisplay@stack=\toks30
 LaTeX Info: Redefining \[ on input line 2950.
 LaTeX Info: Redefining \] on input line 2951.
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/graphics/graphicx.sty
+) (/software/t/texlive/2026/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
-
-(/software/t/texlive/2026/texmf-dist/tex/latex/graphics/graphics.sty
+ (/software/t/texlive/2026/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
-
-(/software/t/texlive/2026/texmf-dist/tex/latex/graphics/trig.sty
+ (/software/t/texlive/2026/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+) (/software/t/texlive/2026/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 106.
 )
 \Gin@req@height=\dimen189
 \Gin@req@width=\dimen190
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/hyperref/hyperref.sty
+) (/software/t/texlive/2026/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2026-04-24 v7.01q Hypertext links for LaTeX
-
-(/software/t/texlive/2026/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+ (/software/t/texlive/2026/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
 ) (/software/t/texlive/2026/texmf-dist/tex/generic/pdfescape/pdfescape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
-
-(/software/t/texlive/2026/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
-Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
-)
-
-(/software/t/texlive/2026/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+ (/software/t/texlive/2026/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+ (/software/t/texlive/2026/texmf-dist/tex/generic/infwarerr/infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-))
-(/software/t/texlive/2026/texmf-dist/tex/latex/hycolor/hycolor.sty
+)) (/software/t/texlive/2026/texmf-dist/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/hyperref/nameref.sty
+) (/software/t/texlive/2026/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2026-01-29 v2.58 Cross-referencing by name of section
-
-(/software/t/texlive/2026/texmf-dist/tex/latex/refcount/refcount.sty
+ (/software/t/texlive/2026/texmf-dist/tex/latex/refcount/refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
-)
-(/software/t/texlive/2026/texmf-dist/tex/generic/gettitlestring/gettitlestring.
-sty
+) (/software/t/texlive/2026/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count319
 ) (/software/t/texlive/2026/texmf-dist/tex/generic/stringenc/stringenc.sty
-Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
-)
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
 )
 \@linkdim=\dimen191
 \Hy@linkcounter=\count320
 \Hy@pagecounter=\count321
-(/software/t/texlive/2026/texmf-dist/tex/latex/hyperref/pd1enc.def
+ (/software/t/texlive/2026/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2026-04-24 v7.01q Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
-)
-(/software/t/texlive/2026/texmf-dist/tex/generic/intcalc/intcalc.sty
+) (/software/t/texlive/2026/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
 \Hy@SavedSpaceFactor=\count322
-
-(/software/t/texlive/2026/texmf-dist/tex/latex/hyperref/puenc.def
+ (/software/t/texlive/2026/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2026-04-24 v7.01q Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
@@ -356,20 +311,16 @@ Package hyperref Info: Backreferencing OFF on input line 4219.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4466.
 \c@Hy@tempcnt=\count323
-
-(/software/t/texlive/2026/texmf-dist/tex/latex/url/url.sty
+ (/software/t/texlive/2026/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip18
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4805.
 \XeTeXLinkMargin=\dimen192
-
-(/software/t/texlive/2026/texmf-dist/tex/generic/bitset/bitset.sty
+ (/software/t/texlive/2026/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
-
-(/software/t/texlive/2026/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
-Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
-)
+ (/software/t/texlive/2026/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 ))
 \Fld@menulength=\count324
 \Field@Width=\dimen193
@@ -386,30 +337,22 @@ Package hyperref Info: PDF/A mode OFF on input line 6121.
 \c@Hfootnote=\count327
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
-
-(/software/t/texlive/2026/texmf-dist/tex/latex/hyperref/hpdftex.def
+ (/software/t/texlive/2026/texmf-dist/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2026-04-24 v7.01q Hyperref driver for pdfTeX
 \Fld@listcount=\count328
 \c@bookmark@seq@number=\count329
-
-(/software/t/texlive/2026/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.st
-y
+ (/software/t/texlive/2026/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
-
-(/software/t/texlive/2026/texmf-dist/tex/generic/uniquecounter/uniquecounter.st
-y
+ (/software/t/texlive/2026/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
-Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
-84.
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 284.
 )
 \Hy@SectionHShift=\skip61
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+) (/software/t/texlive/2026/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2026-02-18 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count330
-)
-(./main.aux)
+) (./main.aux)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 73.
@@ -483,10 +426,8 @@ Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
 (/software/t/texlive/2026/texmf-dist/tex/latex/microtype/mt-cmr.cfg
-File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
-(RS)
-)
-(/software/t/texlive/2026/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
+) (/software/t/texlive/2026/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count331
 \scratchdimen=\dimen195
@@ -501,16 +442,13 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 \everyMPtoPDFconversion=\toks32
 ) (/software/t/texlive/2026/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
-85.
-(/software/t/texlive/2026/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (/software/t/texlive/2026/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 \c@lstlisting=\count337
 Package hyperref Info: Link coloring OFF on input line 73.
-
-(./main.out) (./main.out)
+ (./main.out) (./main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
 
@@ -520,16 +458,13 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
  (./main.toc [1
 
-{/software/t/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/softwa
-re/t/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}] [2])
+{/software/t/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/software/t/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}] [2] [3])
 \tf@toc=\write4
 \openout4 = `main.toc'.
 
- [3] [4] [5] [6]
+ [4] [5] [6] [7]
 Overfull \hbox (51.84813pt too wide) in paragraph at lines 106--107
-\T1/cmr/m/n/12 (-20) tion-ally man-aged as a git sub-tree linked to a sep-a-rat
-e repos-i-tory at \T1/cmtt/m/n/12 github.com/caiyufei8/r2py_rpart\T1/cmr/m/n/12
- (-20) ,
+\T1/cmr/m/n/12 (-20) tion-ally man-aged as a git sub-tree linked to a sep-a-rate repos-i-tory at \T1/cmtt/m/n/12 github.com/caiyufei8/r2py_rpart\T1/cmr/m/n/12 (-20) ,
  []
 
 
@@ -539,8 +474,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 115--116
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 115--116
-\T1/cmtt/m/n/12 github.com/caiyufei8/r2py_rpart\T1/cmr/m/n/12 (+20) ; the in-st
-al-
+\T1/cmtt/m/n/12 github.com/caiyufei8/r2py_rpart\T1/cmr/m/n/12 (+20) ; the in-stal-
  []
 
 
@@ -550,8 +484,7 @@ Underfull \hbox (badness 1248) in paragraph at lines 117--118
 
 
 Underfull \hbox (badness 3579) in paragraph at lines 117--118
-\T1/cmr/m/n/12 (+20) guides from Phases 2--4 (\T1/cmtt/m/n/12 src/\T1/cmr/m/n/1
-2 (+20) , \T1/cmtt/m/n/12 fake_guides/\T1/cmr/m/n/12 (+20) ,
+\T1/cmr/m/n/12 (+20) guides from Phases 2--4 (\T1/cmtt/m/n/12 src/\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 fake_guides/\T1/cmr/m/n/12 (+20) ,
  []
 
 
@@ -569,15 +502,14 @@ Overfull \hbox (1.0624pt too wide) in paragraph at lines 126--126
 []|\T1/cmtt/m/n/12 install_environments.sh| 
  []
 
-[7]
+[8]
 Underfull \hbox (badness 10000) in paragraph at lines 141--141
 []|\T1/cmr/m/n/12 (+20) Path (rel-a-tive to
  []
 
 
 Underfull \hbox (badness 7704) in paragraph at lines 147--148
-[]|\T1/cmr/m/n/12 (+20) Meson build def-i-ni-tion: com-piles \T1/cmtt/m/n/12 sr
-c/ \T1/cmr/m/n/12 (+20) and
+[]|\T1/cmr/m/n/12 (+20) Meson build def-i-ni-tion: com-piles \T1/cmtt/m/n/12 src/ \T1/cmr/m/n/12 (+20) and
  []
 
 
@@ -587,14 +519,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 148--149
 
 
 Underfull \hbox (badness 4193) in paragraph at lines 148--149
-\T1/cmr/m/n/12 (+20) (\T1/cmtt/m/n/12 meson-python\T1/cmr/m/n/12 (+20) ), and t
-he \T1/cmtt/m/n/12 [tool.cibuildwheel]
+\T1/cmr/m/n/12 (+20) (\T1/cmtt/m/n/12 meson-python\T1/cmr/m/n/12 (+20) ), and the \T1/cmtt/m/n/12 [tool.cibuildwheel]
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 149--150
-[]|\T1/cmr/m/n/12 (+20) The \T1/cmtt/m/n/12 pytest \T1/cmr/m/n/12 (+20) suite, 
-in-clud-ing \T1/cmtt/m/n/12 test_rpart.py
+[]|\T1/cmr/m/n/12 (+20) The \T1/cmtt/m/n/12 pytest \T1/cmr/m/n/12 (+20) suite, in-clud-ing \T1/cmtt/m/n/12 test_rpart.py
  []
 
 
@@ -607,92 +537,74 @@ Overfull \hbox (81.3178pt too wide) in paragraph at lines 151--151
 []|\T1/cmtt/m/n/12 .github/workflows/python-publish.yml| 
  []
 
-[8] [9]
+[9] [10]
 Overfull \hbox (8.27084pt too wide) in paragraph at lines 183--184
-\T1/cmr/m/n/12 (-20) dency of \T1/cmtt/m/n/12 init_rpcallback\T1/cmr/m/n/12 (-2
-0) ; it is only called in-side \T1/cmtt/m/n/12 compat_getVar\T1/cmr/m/n/12 (-20
-) , not \T1/cmtt/m/n/12 init_rpcallback
+\T1/cmr/m/n/12 (-20) dency of \T1/cmtt/m/n/12 init_rpcallback\T1/cmr/m/n/12 (-20) ; it is only called in-side \T1/cmtt/m/n/12 compat_getVar\T1/cmr/m/n/12 (-20) , not \T1/cmtt/m/n/12 init_rpcallback
  []
 
-[10]
+[11]
 Overfull \hbox (55.49533pt too wide) in paragraph at lines 193--194
-\T1/cmr/m/n/12 (-20) external-dependency nodes) and 255 edges. The topo-log-i-c
-al level dis-tri-bu-tion in \T1/cmtt/m/n/12 dependency_levels.csv
+\T1/cmr/m/n/12 (-20) external-dependency nodes) and 255 edges. The topo-log-i-cal level dis-tri-bu-tion in \T1/cmtt/m/n/12 dependency_levels.csv
  []
 
-[11] [12]
+[12] [13]
 Underfull \hbox (badness 7012) in paragraph at lines 266--267
-\T1/cmtt/m/n/12 DL_FUNC\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 DllInfo\T1/cmr/m/
-n/12 (+20) , \T1/cmtt/m/n/12 R_CallMethodDef\T1/cmr/m/n/12 (+20) ,
+\T1/cmtt/m/n/12 DL_FUNC\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 DllInfo\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_CallMethodDef\T1/cmr/m/n/12 (+20) ,
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 266--267
-\T1/cmtt/m/n/12 Rboolean\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 TRUE\T1/cmr/m/n/
-12 (+20) , \T1/cmtt/m/n/12 FALSE\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_VERSIO
-N\T1/cmr/m/n/12 (+20) ,
+\T1/cmtt/m/n/12 Rboolean\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 TRUE\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 FALSE\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_VERSION\T1/cmr/m/n/12 (+20) ,
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 266--267
-\T1/cmtt/m/n/12 R_Version\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_NilValue\T1/c
-mr/m/n/12 (+20) ,
+\T1/cmtt/m/n/12 R_Version\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_NilValue\T1/cmr/m/n/12 (+20) ,
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 266--267
-\T1/cmtt/m/n/12 R_NamesSymbol\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_UnboundVa
-lue\T1/cmr/m/n/12 (+20) ,
+\T1/cmtt/m/n/12 R_NamesSymbol\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_UnboundValue\T1/cmr/m/n/12 (+20) ,
  []
 
 
 Underfull \hbox (badness 2237) in paragraph at lines 266--267
-\T1/cmtt/m/n/12 R_forceSymbols\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_register
-Routines\T1/cmr/m/n/12 (+20) ,
+\T1/cmtt/m/n/12 R_forceSymbols\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_registerRoutines\T1/cmr/m/n/12 (+20) ,
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 268--269
-[]|\T1/cmtt/m/n/12 INTEGER\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 REAL\T1/cmr/m/
-n/12 (+20) , \T1/cmtt/m/n/12 CHAR\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 PROTECT
-\T1/cmr/m/n/12 (+20) ,
+[]|\T1/cmtt/m/n/12 INTEGER\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 REAL\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 CHAR\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 PROTECT\T1/cmr/m/n/12 (+20) ,
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 268--269
-\T1/cmtt/m/n/12 UNPROTECT\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 LENGTH\T1/cmr/m
-/n/12 (+20) , \T1/cmtt/m/n/12 PRINTNAME\T1/cmr/m/n/12 (+20) ,
+\T1/cmtt/m/n/12 UNPROTECT\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 LENGTH\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 PRINTNAME\T1/cmr/m/n/12 (+20) ,
  []
 
 
 Underfull \hbox (badness 1939) in paragraph at lines 268--269
-\T1/cmtt/m/n/12 ISNAN\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_FINITE\T1/cmr/m/n
-/12 (+20) , \T1/cmtt/m/n/12 asInteger\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 asR
-eal\T1/cmr/m/n/12 (+20) ,
+\T1/cmtt/m/n/12 ISNAN\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_FINITE\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 asInteger\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 asReal\T1/cmr/m/n/12 (+20) ,
  []
 
 
 Underfull \hbox (badness 5119) in paragraph at lines 270--271
-[]|\T1/cmtt/m/n/12 allocVector\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 allocMatri
-x\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_alloc\T1/cmr/m/n/12 (+20) ,
+[]|\T1/cmtt/m/n/12 allocVector\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 allocMatrix\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_alloc\T1/cmr/m/n/12 (+20) ,
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 270--271
-\T1/cmtt/m/n/12 R_chk_calloc\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_Free\T1/cm
-r/m/n/12 (+20) , \T1/cmtt/m/n/12 mkChar\T1/cmr/m/n/12 (+20) ,
+\T1/cmtt/m/n/12 R_chk_calloc\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_Free\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 mkChar\T1/cmr/m/n/12 (+20) ,
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 272--273
-[]|\T1/cmtt/m/n/12 error\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 warning\T1/cmr/m
-/n/12 (+20) , \T1/cmtt/m/n/12 Rprintf\T1/cmr/m/n/12 (+20) ,
+[]|\T1/cmtt/m/n/12 error\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 warning\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 Rprintf\T1/cmr/m/n/12 (+20) ,
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 274--275
-[]|\T1/cmtt/m/n/12 eval\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 findVar\T1/cmr/m/
-n/12 (+20) , \T1/cmtt/m/n/12 findVarInFrame\T1/cmr/m/n/12 (+20) ,
+[]|\T1/cmtt/m/n/12 eval\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 findVar\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 findVarInFrame\T1/cmr/m/n/12 (+20) ,
  []
 
 
@@ -700,15 +612,14 @@ Overfull \hbox (93.2196pt too wide) in paragraph at lines 262--277
  [] 
  []
 
-[13]
+[14]
 Overfull \hbox (41.61786pt too wide) in paragraph at lines 283--284
-\T1/cmr/m/n/12 (-20) value si-mul-ta-ne-ously sat-is-fies two con-flict-ing pre
--pro-ces-sor guards: \T1/cmtt/m/n/12 R_VERSION >= R_Version(2,16,0)
+\T1/cmr/m/n/12 (-20) value si-mul-ta-ne-ously sat-is-fies two con-flict-ing pre-pro-ces-sor guards: \T1/cmtt/m/n/12 R_VERSION >= R_Version(2,16,0)
  []
 
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <12> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 285.
-[14] [15] (/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
+[15] [16] (/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 ) (/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
@@ -734,8 +645,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 343--344
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 343--344
-\T1/cmr/m/n/12 (+20) used \T1/cmtt/m/n/12 FAKE_RBOOLEAN_DEFINED\T1/cmr/m/n/12 (
-+20) ;
+\T1/cmr/m/n/12 (+20) used \T1/cmtt/m/n/12 FAKE_RBOOLEAN_DEFINED\T1/cmr/m/n/12 (+20) ;
  []
 
 
@@ -760,14 +670,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 344--345
 
 
 Overfull \hbox (14.07085pt too wide) in paragraph at lines 344--345
-\T1/cmtt/m/n/12 R_ProtectWithIndex\T1/cmr/m/n/12 (-20) /\T1/cmtt/m/n/12 R_Repro
-tect
+\T1/cmtt/m/n/12 R_ProtectWithIndex\T1/cmr/m/n/12 (-20) /\T1/cmtt/m/n/12 R_Reprotect
  []
 
 
 Underfull \hbox (badness 1694) in paragraph at lines 344--345
-\T1/cmr/m/n/12 (+20) is \T1/cmtt/m/n/12 typedef int\T1/cmr/m/n/12 (+20) , so ty
-pes are
+\T1/cmr/m/n/12 (+20) is \T1/cmtt/m/n/12 typedef int\T1/cmr/m/n/12 (+20) , so types are
  []
 
 
@@ -797,8 +705,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 346--347
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 347--348
-[]|\T1/cmtt/m/n/12 DL_FUNC.h \T1/cmr/m/n/12 (+20) de-clared \T1/cmtt/m/n/12 str
-uct
+[]|\T1/cmtt/m/n/12 DL_FUNC.h \T1/cmr/m/n/12 (+20) de-clared \T1/cmtt/m/n/12 struct
  []
 
 
@@ -808,8 +715,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 347--348
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 347--348
-\T1/cmr/m/n/12 (+20) ting \T1/cmtt/m/n/12 FAKE_DLLINFO_DEFINED\T1/cmr/m/n/12 (+
-20) ;
+\T1/cmr/m/n/12 (+20) ting \T1/cmtt/m/n/12 FAKE_DLLINFO_DEFINED\T1/cmr/m/n/12 (+20) ;
  []
 
 
@@ -823,31 +729,25 @@ Underfull \hbox (badness 10000) in paragraph at lines 347--348
  []
 
 
-ignored: Infinite glue shrinkage found in box being split [16]
-ignored: Infinite glue shrinkage fo
-und in box being split [17]
+ignored: Infinite glue shrinkage found in box being split [17]
+ignored: Infinite glue shrinkage found in box being split [18]
 Overfull \hbox (1.7011pt too wide) in paragraph at lines 350--351
- []\T1/cmr/bx/n/12 (-20) A sub-tlety con-firmed safe, not a bug.[] \T1/cmr/m/n/
-12 (-20) The sen-tinel val-ues \T1/cmtt/m/n/12 R_NilValue\T1/cmr/m/n/12 (-20) ,
- \T1/cmtt/m/n/12 R_UnboundValue\T1/cmr/m/n/12 (-20) ,
+ []\T1/cmr/bx/n/12 (-20) A sub-tlety con-firmed safe, not a bug.[] \T1/cmr/m/n/12 (-20) The sen-tinel val-ues \T1/cmtt/m/n/12 R_NilValue\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 R_UnboundValue\T1/cmr/m/n/12 (-20) ,
  []
 
-[18]
+[19]
 Underfull \hbox (badness 1540) in paragraph at lines 384--385
-\T1/cmr/m/n/12 (+20) as 2-element \T1/cmtt/m/n/12 int*\T1/cmr/m/n/12 (+20) ; \T
-1/cmtt/m/n/12 csplit2 \T1/cmr/m/n/12 (+20) is nul-lable
+\T1/cmr/m/n/12 (+20) as 2-element \T1/cmtt/m/n/12 int*\T1/cmr/m/n/12 (+20) ; \T1/cmtt/m/n/12 csplit2 \T1/cmr/m/n/12 (+20) is nul-lable
  []
 
 
 Underfull \hbox (badness 1721) in paragraph at lines 386--387
-[]|\T1/cmr/m/n/12 (+20) 2-argument wrap-per; \T1/cmtt/m/n/12 dtimes \T1/cmr/m/n
-/12 (+20) passed by
+[]|\T1/cmr/m/n/12 (+20) 2-argument wrap-per; \T1/cmtt/m/n/12 dtimes \T1/cmr/m/n/12 (+20) passed by
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 387--388
-[]|\T1/cmr/m/n/12 (+20) 15-argument wrap-per; \T1/cmtt/m/n/12 xmat \T1/cmr/m/n/
-12 (+20) kept
+[]|\T1/cmr/m/n/12 (+20) 15-argument wrap-per; \T1/cmtt/m/n/12 xmat \T1/cmr/m/n/12 (+20) kept
  []
 
 
@@ -855,76 +755,56 @@ Underfull \hbox (badness 10000) in paragraph at lines 387--388
 \T1/cmr/m/n/12 (+20) column-major (R's na-tive lay-out) so
  []
 
-[19{/software/t/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.e
-nc}] [20]
+[20{/software/t/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] [21]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10.95> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 408.
- [21]
+ [22]
 Overfull \hbox (90.68765pt too wide) in paragraph at lines 438--439
-\T1/cmr/m/n/12 (-20) pro-duce the graph vi-su-al-iza-tion and the topo-log-i-ca
-l level CSV \T1/cmtt/m/n/12 structural_analysis/dependency_levels.csv\T1/cmr/m/
-n/12 (-20) . 
+\T1/cmr/m/n/12 (-20) pro-duce the graph vi-su-al-iza-tion and the topo-log-i-cal level CSV \T1/cmtt/m/n/12 structural_analysis/dependency_levels.csv\T1/cmr/m/n/12 (-20) . 
  []
 
 
 Overfull \hbox (30.58865pt too wide) in paragraph at lines 470--471
-\T1/cmr/m/n/12 (-20) fras-truc-ture is the anal-o-gous project \T1/cmtt/m/n/12 
-r2py_kernsmooth \T1/cmr/m/n/12 (-20) at \T1/cmtt/m/n/12 python-KernSmooth/r2py_
-kernsmooth/\T1/cmr/m/n/12 (-20) ,
- []
-
-[22]
-Overfull \hbox (11.05098pt too wide) in paragraph at lines 496--497
- []\T1/cmr/bx/n/12 (-20) Bug 3: \T1/cmtt/m/n/12 _find_lib() \T1/cmr/bx/n/12 (-2
-0) searched the source tree.[] \T1/cmr/m/n/12 (-20) The \T1/cmtt/m/n/12 _find_l
-ib() \T1/cmr/m/n/12 (-20) func-tion in \T1/cmtt/m/n/12 __init__.py
+\T1/cmr/m/n/12 (-20) fras-truc-ture is the anal-o-gous project \T1/cmtt/m/n/12 r2py_kernsmooth \T1/cmr/m/n/12 (-20) at \T1/cmtt/m/n/12 python-KernSmooth/r2py_kernsmooth/\T1/cmr/m/n/12 (-20) ,
  []
 
 [23]
-Overfull \hbox (15.18904pt too wide) in paragraph at lines 511--512
-[]\T1/cmr/m/n/12 (-20) After all four bug fixes, the pack-age builds suc-cess-f
-ully with \T1/cmtt/m/n/12 pip install --no-build-isolation
+Overfull \hbox (11.05098pt too wide) in paragraph at lines 496--497
+ []\T1/cmr/bx/n/12 (-20) Bug 3: \T1/cmtt/m/n/12 _find_lib() \T1/cmr/bx/n/12 (-20) searched the source tree.[] \T1/cmr/m/n/12 (-20) The \T1/cmtt/m/n/12 _find_lib() \T1/cmr/m/n/12 (-20) func-tion in \T1/cmtt/m/n/12 __init__.py
  []
 
-[24] [25] [26]
+[24]
+Overfull \hbox (15.18904pt too wide) in paragraph at lines 511--512
+[]\T1/cmr/m/n/12 (-20) After all four bug fixes, the pack-age builds suc-cess-fully with \T1/cmtt/m/n/12 pip install --no-build-isolation
+ []
+
+[25] [26] [27]
 Overfull \hbox (17.25694pt too wide) in paragraph at lines 607--633
  [] 
  []
 
-[27] [28]
-ignored: Infinite glue shrinkage found in box being split [29]
+[28] [29]
+ignored: Infinite glue shrinkage found in box being split [30]
 Overfull \hbox (43.3132pt too wide) in paragraph at lines 705--706
-[]\T1/cmr/bx/n/12 (-20) Undefined \T1/cmtt/m/n/12 _MISSING \T1/cmr/bx/n/12 (-20
-) sen-tinel \T1/cmr/m/n/12 (-20) in four files: \T1/cmtt/m/n/12 rpart.py\T1/cmr
-/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_control.py\T1/cmr/m/n/12 (-20) , \T1/cmtt
-/m/n/12 summary_rpart.py\T1/cmr/m/n/12 (-20) ,
+[]\T1/cmr/bx/n/12 (-20) Undefined \T1/cmtt/m/n/12 _MISSING \T1/cmr/bx/n/12 (-20) sen-tinel \T1/cmr/m/n/12 (-20) in four files: \T1/cmtt/m/n/12 rpart.py\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_control.py\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 summary_rpart.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
 Overfull \hbox (48.8933pt too wide) in paragraph at lines 708--709
-\T1/cmr/m/n/12 (-20) called \T1/cmtt/m/n/12 rpart_anova\T1/cmr/m/n/12 (-20) , \
-T1/cmtt/m/n/12 rpart_class\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_control\
-T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_exp\T1/cmr/m/n/12 (-20) , \T1/cmtt/
-m/n/12 rpart_matrix\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_poisson\T1/cmr/
-m/n/12 (-20) ,
+\T1/cmr/m/n/12 (-20) called \T1/cmtt/m/n/12 rpart_anova\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_class\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_control\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_exp\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_matrix\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_poisson\T1/cmr/m/n/12 (-20) ,
  []
 
-[30]
+[31]
 Overfull \hbox (3.5894pt too wide) in paragraph at lines 736--737
-[]\T1/cmr/m/n/12 (-20) C wrap-pers re-tained as pri-vate sym-bols: \T1/cmtt/m/n
-/12 _rpart_c\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 _pred_rpart_c\T1/cmr/m/n/12 
-(-20) , \T1/cmtt/m/n/12 _xpred_c\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 _rpartex
-p2_c\T1/cmr/m/n/12 (-20) . 
+[]\T1/cmr/m/n/12 (-20) C wrap-pers re-tained as pri-vate sym-bols: \T1/cmtt/m/n/12 _rpart_c\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 _pred_rpart_c\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 _xpred_c\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 _rpartexp2_c\T1/cmr/m/n/12 (-20) . 
  []
 
 
 Overfull \hbox (26.91652pt too wide) in paragraph at lines 743--744
-[]\T1/cmtt/m/n/12 parms \T1/cmr/bx/n/12 (-20) dict se-ri-al-iza-tion for clas-s
-i-fi-ca-tion method. \T1/cmtt/m/n/12 rpart_class \T1/cmr/m/n/12 (-20) re-turns 
-\T1/cmtt/m/n/12 init["parms"]
+[]\T1/cmtt/m/n/12 parms \T1/cmr/bx/n/12 (-20) dict se-ri-al-iza-tion for clas-si-fi-ca-tion method. \T1/cmtt/m/n/12 rpart_class \T1/cmr/m/n/12 (-20) re-turns \T1/cmtt/m/n/12 init["parms"]
  []
 
-[31]
+[32]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 755.
 
@@ -934,81 +814,552 @@ Overfull \hbox (15.0979pt too wide) in paragraph at lines 777--788
 
 (/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
+) (/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
-)
-(/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstmisc.sty
+) (/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
-) [32]
+) [33]
 Overfull \hbox (60.47139pt too wide) in paragraph at lines 803--815
  [] 
  []
 
-[33]
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 856.
- (../../.claude/commands/analyze-c-folder-dependencies.md [34])
-(../../.claude/agents/analyze-c-file-dependencies.md [35])
-(../../.claude/commands/extract-c-folder-r-extern-items.md [36])
-(../../.claude/agents/extract-c-file-r-extern-items.md [37] [38])
-(../../.claude/commands/generate-r-extern-fake-guides.md [39])
-(../../.claude/agents/generate-r-extern-fake-guide.md [40] [41] [42] [43]
-[44] [45] [46]) (../../.claude/commands/generate-r-extern-fake-headers.md
-[47] [48]) (../../.claude/agents/generate-r-extern-fake-header.md [49] [50]
-[51] [52]) (../../.claude/commands/generate-r-extern-raw-entry-points.md
-[53]) [54] (../../.claude/agents/generate-r-extern-raw-entry-point.md [55]
-[56] [57] [58] [59] [60] [61])
-(../../.claude/commands/modify-c-folder-with-fake-headers.md [62] [63] [64]
-[65]) (../../.claude/agents/modify-c-file-with-fake-headers.md [66] [67]
-[68] [69] [70]) (../../.claude/commands/analyze-r-folder-dependencies.md
-[71]) (../../.claude/agents/analyze-r-file-dependencies.md [72])
-(../../.claude/commands/extract-r-folder-language-dependencies.md [73])
-(../../.claude/agents/extract-r-file-language-dependencies.md [74] [75])
-(../../.claude/commands/generate-language-dependency-conversion-guides.md
-[76]) (../../.claude/agents/generate-language-dependency-conversion-guide.md
-[77] [78]) (../../.claude/commands/convert-r-folder-to-python.md [79] [80])
-(../../.claude/commands/convert-r-file-to-python.md [81]) [82]
-(../../.claude/agents/convert-r-function-to-python.md [83])
-(../../.claude/commands/combine-python-functions-into-folder.md [84] [85]
-[86]) (../../.claude/commands/combine-python-functions-into-file.md [87]
-[88]) (../../.claude/commands/add-r-interpreter-items.md [89] [90])
-(../../.claude/agents/add-r-interpreter-items.md [91] [92] [93] [94] [95]
-[96] [97]) [98] (./main.aux)
+[34] [35]
+Underfull \hbox (badness 10000) in paragraph at lines 866--866
+[]|\T1/cmr/m/n/12 (+20) Callback/method dis-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 866--867
+[]|\T1/cmtt/m/n/12 rpartcallback.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 rpart_anova.py\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 866--867
+\T1/cmtt/m/n/12 c_entry_points/init_rpcallback_c.c\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 867--868
+[]|\T1/cmtt/m/n/12 predict_rpart.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 pred_rpart.py\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 867--868
+\T1/cmtt/m/n/12 c_entry_points/pred_rpart_c.c\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 868--868
+[]|\T1/cmr/m/n/12 (+20) Pruning/CP/cross-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 868--869
+[]|\T1/cmtt/m/n/12 prune.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 prune_rpart.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 printcp.py\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 868--869
+\T1/cmtt/m/n/12 plotcp.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 xpred_rpart.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 snip_rpart.py\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Underfull \hbox (badness 5592) in paragraph at lines 869--870
+[]|\T1/cmtt/m/n/12 print_rpart.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 plot_rpart.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 text_rpart.py\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 869--870
+\T1/cmtt/m/n/12 post.py\T1/cmr/m/n/12 (+20) /\T1/cmtt/m/n/12 post_rpart.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 rpartco.py\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 870--871
+[]|\T1/cmtt/m/n/12 formatg.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 importance.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 meanvar_rpart.py\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Underfull \hbox (badness 6978) in paragraph at lines 897--898
+[]|\T1/cmtt/m/n/12 np.ascontiguousarray(arr, dtype=...) \T1/cmr/m/n/12 (+20) in-side
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 898--898
+[]|\T1/cmtt/m/n/12 rpart.py\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Overfull \hbox (49.49252pt too wide) in paragraph at lines 898--898
+\T1/cmtt/m/n/12 model_frame_rpart.py| 
+ []
+
+
+Underfull \hbox (badness 1253) in paragraph at lines 898--899
+\T1/cmr/m/n/12 (+20) tern raised \T1/cmtt/m/n/12 NotImplementedError \T1/cmr/m/n/12 (+20) out-right; im-ple-
+ []
+
+
+Underfull \hbox (badness 1406) in paragraph at lines 898--899
+\T1/cmr/m/n/12 (+20) of \T1/cmtt/m/n/12 model_frame_rpart()\T1/cmr/m/n/12 (+20) , which mir-rors R's own
+ []
+
+
+Overfull \hbox (18.62506pt too wide) in paragraph at lines 899--899
+[]|\T1/cmtt/m/n/12 rpart_matrix.py| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 900--900
+[]|\T1/cmr/m/n/12 (+20) Six files
+ []
+
+
+Overfull \hbox (29.46605pt too wide) in paragraph at lines 900--900
+\T1/cmr/m/n/12 (-20) (\T1/cmtt/m/n/12 meanvar_rpart.py\T1/cmr/m/n/12 (-20) ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 900--900
+\T1/cmtt/m/n/12 printcp.py\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Overfull \hbox (7.84303pt too wide) in paragraph at lines 900--900
+\T1/cmtt/m/n/12 snip_rpart.py\T1/cmr/m/n/12 (-20) ,
+ []
+
+
+Overfull \hbox (1.66954pt too wide) in paragraph at lines 900--900
+\T1/cmtt/m/n/12 rsq_rpart.py\T1/cmr/m/n/12 (-20) ,
+ []
+
+
+Overfull \hbox (7.84303pt too wide) in paragraph at lines 900--900
+\T1/cmtt/m/n/12 text_rpart.py\T1/cmr/m/n/12 (-20) ,
+ []
+
+
+Overfull \hbox (10.75504pt too wide) in paragraph at lines 900--900
+\T1/cmtt/m/n/12 path_rpart.py\T1/cmr/m/n/12 (-20) )| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 901--901
+[]|\T1/cmr/m/n/12 (+20) Eight files
+ []
+
+
+Overfull \hbox (29.46605pt too wide) in paragraph at lines 901--901
+\T1/cmr/m/n/12 (-20) (\T1/cmtt/m/n/12 predict_rpart.py\T1/cmr/m/n/12 (-20) ,
+ []
+
+
+Overfull \hbox (38.7105pt too wide) in paragraph at lines 901--901
+\T1/cmtt/m/n/12 residuals_rpart.py\T1/cmr/m/n/12 (-20) ,
+ []
+
+
+Overfull \hbox (1.66954pt too wide) in paragraph at lines 901--901
+\T1/cmtt/m/n/12 roc_rpart.py\T1/cmr/m/n/12 (-20) ,
+ []
+
+
+Overfull \hbox (26.36351pt too wide) in paragraph at lines 901--901
+\T1/cmtt/m/n/12 summary_rpart.py\T1/cmr/m/n/12 (-20) ,
+ []
+
+
+Overfull \hbox (14.01653pt too wide) in paragraph at lines 901--901
+\T1/cmtt/m/n/12 print_rpart.py\T1/cmr/m/n/12 (-20) ,
+ []
+
+
+Overfull \hbox (7.84303pt too wide) in paragraph at lines 901--901
+\T1/cmtt/m/n/12 text_rpart.py\T1/cmr/m/n/12 (-20) ,
+ []
+
+
+Overfull \hbox (20.19002pt too wide) in paragraph at lines 901--901
+\T1/cmtt/m/n/12 labels_rpart.py\T1/cmr/m/n/12 (-20) ,
+ []
+
+
+Overfull \hbox (16.61986pt too wide) in paragraph at lines 901--901
+\T1/cmtt/m/n/12 xpred_rpart.py\T1/cmr/m/n/12 (-20) )| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 901--902
+\T1/cmr/m/n/12 (+20) stores these un-der the R-attribute-style keys
+ []
+
+
+Overfull \hbox (24.79855pt too wide) in paragraph at lines 902--902
+[]|\T1/cmtt/m/n/12 rpartcallback.py| 
+ []
+
+
+Overfull \hbox (6.27808pt too wide) in paragraph at lines 903--903
+[]|\T1/cmtt/m/n/12 importance.py| 
+ []
+
+
+Overfull \hbox (26.36351pt too wide) in paragraph at lines 905--905
+[]|\T1/cmtt/m/n/12 predict_rpart.py\T1/cmr/m/n/12 (-20) ,
+ []
+
+
+Overfull \hbox (14.01653pt too wide) in paragraph at lines 905--905
+\T1/cmtt/m/n/12 print_rpart.py\T1/cmr/m/n/12 (-20) ,
+ []
+
+
+Overfull \hbox (6.27808pt too wide) in paragraph at lines 905--905
+\T1/cmtt/m/n/12 text_rpart.py| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 906--906
+[]|\T1/cmr/m/n/12 (+20) DataFrame-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 906--906
+\T1/cmr/m/n/12 (+20) vs-ndarray
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 906--907
+[]|\T1/cmtt/m/n/12 rsq_rpart.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 plotcp.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 prune_rpart.py\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Underfull \hbox (badness 2828) in paragraph at lines 906--907
+\T1/cmr/m/n/12 (+20) which \T1/cmtt/m/n/12 rpart.py \T1/cmr/m/n/12 (+20) con-structs as \T1/cmtt/m/n/12 pandas.DataFrame
+ []
+
+
+Underfull \hbox (badness 1584) in paragraph at lines 906--907
+\T1/cmr/m/n/12 (+20) ob-jects; cor-rected to \T1/cmtt/m/n/12 .to_numpy()\T1/cmr/m/n/12 (+20) /\T1/cmtt/m/n/12 .iloc[]\T1/cmr/m/n/12 (+20) , with
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 906--907
+\T1/cmtt/m/n/12 prune_rpart.py\T1/cmr/m/n/12 (+20) 's pruned-\T1/cmtt/m/n/12 cptable \T1/cmr/m/n/12 (+20) re-con-struc-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 906--907
+\T1/cmr/m/n/12 (+20) ad-di-tion-ally pre-serv-ing orig-i-nal row la-bels via
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 907--907
+[]|\T1/cmr/m/n/12 (+20) Missing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 907--907
+\T1/cmr/m/n/12 (+20) cross-module
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 908--908
+[]|\T1/cmtt/m/n/12 zzz.py\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 908--908
+\T1/cmtt/m/n/12 rpartco.py\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Overfull \hbox (20.19002pt too wide) in paragraph at lines 908--908
+\T1/cmtt/m/n/12 rpart_branch.py\T1/cmr/m/n/12 (-20) ,
+ []
+
+
+Overfull \hbox (7.84303pt too wide) in paragraph at lines 908--908
+\T1/cmtt/m/n/12 plot_rpart.py\T1/cmr/m/n/12 (-20) ,
+ []
+
+
+Overfull \hbox (43.31903pt too wide) in paragraph at lines 908--908
+\T1/cmtt/m/n/12 snip_rpart_mouse.py| 
+ []
+
+
+Overfull \hbox (6.27808pt too wide) in paragraph at lines 909--909
+[]|\T1/cmtt/m/n/12 snip_rpart.py| 
+ []
+
+
+Underfull \hbox (badness 2359) in paragraph at lines 909--910
+[]|\T1/cmr/m/n/12 (+20) A pan-das Copy-on-Write chained-assignment bug
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 909--910
+\T1/cmr/m/n/12 (+20) (\T1/cmtt/m/n/12 ff['ncompete'].iloc[newleaf] = 0\T1/cmr/m/n/12 (+20) ) silently
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 909--910
+\T1/cmr/m/n/12 (+20) mu-tated a throw-away copy, never up-dat-ing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 909--910
+\T1/cmtt/m/n/12 ff\T1/cmr/m/n/12 (+20) , cor-rupt-ing \T1/cmtt/m/n/12 importance()\T1/cmr/m/n/12 (+20) 's post-prune ac-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 909--910
+\T1/cmr/m/n/12 (+20) count-ing; fixed via single-step \T1/cmtt/m/n/12 .iloc[newleaf,
+ []
+
+
+Overfull \hbox (24.79855pt too wide) in paragraph at lines 910--910
+[]|\T1/cmtt/m/n/12 summary_rpart.py| 
+ []
+
+
+Underfull \hbox (badness 4595) in paragraph at lines 910--911
+[]|\T1/cmr/m/n/12 (+20) The R-mirroring pa-ram-e-ter name \T1/cmtt/m/n/12 object \T1/cmr/m/n/12 (+20) shad-
+ []
+
+
+Underfull \hbox (badness 1038) in paragraph at lines 910--911
+\T1/cmr/m/n/12 (+20) ows Python's builtin \T1/cmtt/m/n/12 object \T1/cmr/m/n/12 (+20) type; three in-ter-nal
+ []
+
+
+Underfull \hbox (badness 3942) in paragraph at lines 910--911
+\T1/cmtt/m/n/12 np.array(..., dtype=object) \T1/cmr/m/n/12 (+20) calls were silently
+ []
+
+
+Underfull \hbox (badness 2717) in paragraph at lines 910--911
+\T1/cmr/m/n/12 (+20) pass-ing the fitted-tree dict as a NumPy dtype
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 910--911
+\T1/cmr/m/n/12 (+20) spec-i-fi-ca-tion; fixed via \T1/cmtt/m/n/12 import builtins \T1/cmr/m/n/12 (+20) and
+ []
+
+[36]
+ignored: Infinite glue shrinkage found in box being split [37]
+ignored: Infinite glue shrinkage found in box being split [38]
+Overfull \hbox (2.12856pt too wide) in paragraph at lines 917--918
+\T1/cmtt/m/n/12 method=4 \T1/cmr/m/n/12 (-20) fail-ing in-side \T1/cmtt/m/n/12 init_rpcallback_c \T1/cmr/m/n/12 (-20) with \T1/cmtt/m/n/12 RuntimeError: variable '(null)' not
+ []
+
+[39]
+Overfull \hbox (156.04951pt too wide) in paragraph at lines 923--924
+\T1/cmtt/m/n/12 r2py_rpart/src/ \T1/cmr/m/n/12 (-20) had never been touched---the sole C-level change was con-fined to \T1/cmtt/m/n/12 c_entry_points/init_rpcallback_c.c\T1/cmr/m/n/12 (-20) ,
+ []
+
+[40]
+Overfull \hbox (94.71152pt too wide) in paragraph at lines 938--939
+\T1/cmtt/m/n/12 treble3.R\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 treble4.R\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 usersplits.R\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 xpred1.R\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 xpred2.R\T1/cmr/m/n/12 (-20) ) and dis-patched the \T1/cmtt/m/n/12 @convert-r-test-to-python
+ []
+
+
+Overfull \hbox (8.15747pt too wide) in paragraph at lines 959--959
+[]|\T1/cmtt/m/n/12 backticks.R| 
+ []
+
+
+Overfull \hbox (12.45157pt too wide) in paragraph at lines 960--960
+[]|\T1/cmtt/m/n/12 survival::lung| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 960--961
+[]|\T1/cmr/bx/n/12 (+20) Bug: \T1/cmtt/m/n/12 rpart.py\T1/cmr/m/n/12 (+20) 's \T1/cmtt/m/n/12 ymat \T1/cmr/m/n/12 (+20) con-struc-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 960--961
+\T1/cmr/m/n/12 (+20) tion used \T1/cmtt/m/n/12 Y.T.ravel() \T1/cmr/m/n/12 (+20) where R's
+ []
+
+
+Overfull \hbox (51.37192pt too wide) in paragraph at lines 962--962
+[]|\T1/cmtt/m/n/12 minus_in_formula.R| 
+ []
+
+
+Underfull \hbox (badness 3118) in paragraph at lines 963--963
+[]|\T1/cmr/m/n/12 (+20) synthetic, 15
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 964--964
+[]|\T1/cmr/m/n/12 (+20) synthetic, 9
+ []
+
+
+Underfull \hbox (badness 1072) in paragraph at lines 964--965
+[]|\T1/cmr/m/n/12 (+20) Verified \T1/cmtt/m/n/12 rpart_exp\T1/cmr/m/n/12 (+20) 's cumulative-hazard
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 965--965
+[]|\T1/cmtt/m/n/12 stagec\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 965--965
+\T1/cmtt/m/n/12 mystate\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Underfull \hbox (badness 2961) in paragraph at lines 965--966
+\T1/cmr/m/n/12 (+20) array han-dling, un-der-sized C out-put
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 966--967
+[]|\T1/cmr/m/n/12 (+20) Verified weight-scaling of
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 966--967
+\T1/cmtt/m/n/12 frame$wt\T1/cmr/m/n/12 (+20) /\T1/cmtt/m/n/12 dev\T1/cmr/m/n/12 (+20) /\T1/cmtt/m/n/12 yval2\T1/cmr/m/n/12 (+20) /\T1/cmtt/m/n/12 improve \T1/cmr/m/n/12 (+20) on the
+ []
+
+
+Underfull \hbox (badness 3623) in paragraph at lines 967--968
+[]|\T1/cmr/m/n/12 (+20) Verified the for-mula+\T1/cmtt/m/n/12 data=\T1/cmr/m/n/12 (+20) +\T1/cmtt/m/n/12 weights=
+ []
+
+
+Overfull \hbox (14.33096pt too wide) in paragraph at lines 970--970
+[]|\T1/cmtt/m/n/12 usersplits.R| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 970--971
+\T1/cmr/m/n/12 (+20) han-dled only \T1/cmtt/m/n/12 dict\T1/cmr/m/n/12 (+20) /\T1/cmtt/m/n/12 None\T1/cmr/m/n/12 (+20) , rais-ing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 970--971
+\T1/cmtt/m/n/12 TypeError \T1/cmr/m/n/12 (+20) when-ever a user-defined
+ []
+
+
+Underfull \hbox (badness 3189) in paragraph at lines 970--971
+\T1/cmtt/m/n/12 init() \T1/cmr/m/n/12 (+20) re-turns a bare scalar \T1/cmtt/m/n/12 parms\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Underfull \hbox (badness 3118) in paragraph at lines 971--971
+[]|\T1/cmr/m/n/12 (+20) synthetic, 12
+ []
+
+
+Underfull \hbox (badness 1983) in paragraph at lines 972--972
+[]|\T1/cmtt/m/n/12 stagec \T1/cmr/m/n/12 (+20) (pois-
+ []
+
+
+ignored: Infinite glue shrinkage found in box being split [41]
+ignored: Infinite glue shrinkage found in box being split [42] [43] [44] [45] [46]
+Underfull \hbox (badness 10000) in paragraph at lines 1031--1032
+[]|\T1/cmtt/m/n/12 RuntimeError: internal output buffer 'dnode'
+ []
+
+
+Overfull \hbox (6.27808pt too wide) in paragraph at lines 1032--1032
+[]|\T1/cmtt/m/n/12 predict_rpart| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1033--1033
+[]|\T1/cmtt/m/n/12 print_rpart\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1033--1033
+\T1/cmtt/m/n/12 printcp\T1/cmr/m/n/12 (+20) ,
+ []
+
+
+Overfull \hbox (7.84303pt too wide) in paragraph at lines 1033--1033
+\T1/cmtt/m/n/12 summary_rpart\T1/cmr/m/n/12 (-20) ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1034--1034
+[]|\T1/cmtt/m/n/12 rpartco.py\T1/cmr/m/n/12 (+20) 's
+ []
+
+
+Underfull \hbox (badness 7397) in paragraph at lines 1034--1035
+[]|\T1/cmr/m/n/12 (+20) A copy-paste de-fect (\T1/cmtt/m/n/12 left["left"] \T1/cmr/m/n/12 (+20) in-stead of
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1035--1036
+[]|\T1/cmr/m/n/12 (+20) Default plot ti-tle in-dexes
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1035--1036
+\T1/cmtt/m/n/12 tree['terms']['variables'][1] \T1/cmr/m/n/12 (+20) (first pre-dic-
+ []
+
+
+Overfull \hbox (18.62506pt too wide) in paragraph at lines 1036--1036
+[]|\T1/cmtt/m/n/12 residuals_rpart| 
+ []
+
+[47]
+Overfull \hbox (1.67505pt too wide) in paragraph at lines 1063--1064
+\T1/cmtt/m/n/12 r_format_double()\T1/cmr/m/n/12 (-20) ---an R-\T1/cmtt/m/n/12 format()\T1/cmr/m/n/12 (-20) -equivalent width-comparison rou-tine for a sin-gle value---
+ []
+
+
+Overfull \hbox (39.08234pt too wide) in paragraph at lines 1063--1064
+\T1/cmtt/m/n/12 print_rpart.py\T1/cmr/m/n/12 (-20) 's vector-and-common-decimal-place \T1/cmtt/m/n/12 r_format_vector()\T1/cmr/m/n/12 (-20) , and \T1/cmtt/m/n/12 summary_rpart.py\T1/cmr/m/n/12 (-20) 's
+ []
+
+[48]
+Overfull \hbox (106.40971pt too wide) in paragraph at lines 1065--1066
+\T1/cmtt/m/n/12 xfail(strict=True) \T1/cmr/m/n/12 (-20) tests doc-u-ment a sin-gle, struc-turally un-fix-able di-ver-gence: R's \T1/cmtt/m/n/12 print.rpart\T1/cmr/m/n/12 (-20) /\T1/cmtt/m/n/12 summary.rpart
+ []
+
+[49]
+Overfull \hbox (28.71144pt too wide) in paragraph at lines 1082--1083
+[]\T1/cmr/m/n/12 (-20) Four fixes were ap-plied at the pack-age level. \T1/cmtt/m/n/12 plotcp.py \T1/cmr/m/n/12 (-20) gained \T1/cmtt/m/n/12 _thin_overlapping_ticklabels()\T1/cmr/m/n/12 (-20) ,
+ []
+
+[50]
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 1098.
+ (../../.claude/commands/analyze-c-folder-dependencies.md [51]) (../../.claude/agents/analyze-c-file-dependencies.md [52]) [53] (../../.claude/commands/extract-c-folder-r-extern-items.md) [54] (../../.claude/agents/extract-c-file-r-extern-items.md [55]) (../../.claude/commands/generate-r-extern-fake-guides.md [56] [57]) (../../.claude/agents/generate-r-extern-fake-guide.md [58] [59] [60] [61] [62] [63]) (../../.claude/commands/generate-r-extern-fake-headers.md [64] [65]) (../../.claude/agents/generate-r-extern-fake-header.md [66] [67] [68] [69]) (../../.claude/commands/generate-r-extern-raw-entry-points.md [70] [71]) (../../.claude/agents/generate-r-extern-raw-entry-point.md [72] [73] [74] [75] [76] [77] [78]) (../../.claude/commands/modify-c-folder-with-fake-headers.md [79] [80] [81] [82]) (../../.claude/agents/modify-c-file-with-fake-headers.md [83] [84] [85] [86] [87]) (../../.claude/commands/analyze-r-folder-dependencies.md [88]) (../../.claude/agents/analyze-r-file-dependencies.md [89]) [90] (../../.claude/commands/extract-r-folder-language-dependencies.md [91]) (../../.claude/agents/extract-r-file-language-dependencies.md [92]) (../../.claude/commands/generate-language-dependency-conversion-guides.md [93]) (../../.claude/agents/generate-language-dependency-conversion-guide.md [94] [95]) (../../.claude/commands/convert-r-folder-to-python.md [96] [97] [98]) (../../.claude/commands/convert-r-file-to-python.md [99]) (../../.claude/agents/convert-r-function-to-python.md [100]) (../../.claude/commands/combine-python-functions-into-folder.md [101] [102] [103] [104]) (../../.claude/commands/combine-python-functions-into-file.md [105]) (../../.claude/commands/add-r-interpreter-items.md [106] [107]) (../../.claude/agents/add-r-interpreter-items.md [108] [109] [110] [111] [112] [113] [114]) (../../.claude/commands/convert-r-tests-to-python.md [115]) (../../.claude/agents/convert-r-test-to-python.md [116]) (../../.claude/commands/generate-python-file-tests.md [117]) (../../.claude/agents/generate-python-function-tests.md [118] [119]) [120] (../../.claude/commands/fix-bugs-found-in-tests.md) [121] (../../.claude/agents/fix-bug-found-in-test.md [122]) [123] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-04-28>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: D073517D9B74D0894C5ED1C109C785BE;21424.
+(rerunfilecheck)             Checksum: F7B8B68ADB571E91C3C2AA7D05E96F82;30255.
  ) 
 Here is how much of TeX's memory you used:
- 22609 strings out of 467341
- 339003 string characters out of 5414848
- 1634246 words of memory out of 5000000
- 48710 multiletter control sequences out of 15000+600000
- 647135 words of font info for 154 fonts, out of 8000000 for 9000
+ 23433 strings out of 467341
+ 351904 string characters out of 5414848
+ 1667660 words of memory out of 5000000
+ 49203 multiletter control sequences out of 15000+600000
+ 647420 words of font info for 158 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 69i,9n,79p,1722b,2124s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</software/t/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pf
-b></software/t/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
-></software/t/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
-></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb>
-</software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb><
-/software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></
-software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></s
-oftware/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></so
-ftware/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb></sof
-tware/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></soft
-ware/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></softw
-are/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb></softwa
-re/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb></softwar
-e/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1440.pfb></software
-/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt2074.pfb>
-Output written on main.pdf (98 pages, 745841 bytes).
+ 69i,9n,79p,2235b,2127s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</software/t/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1440.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt2074.pfb>
+Output written on main.pdf (123 pages, 846919 bytes).
 PDF statistics:
- 3968 PDF objects out of 4296 (max. 8388607)
- 3799 compressed objects within 38 object streams
- 2587 named destinations out of 2984 (max. 500000)
- 38193 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 4578 PDF objects out of 5155 (max. 8388607)
+ 4378 compressed objects within 44 object streams
+ 2891 named destinations out of 2984 (max. 500000)
+ 38497 words of extra memory for PDF output out of 42996 (max. 10000000)
 
