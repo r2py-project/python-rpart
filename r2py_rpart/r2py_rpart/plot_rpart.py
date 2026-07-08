@@ -12,7 +12,7 @@ from .zzz import rpart_env
 
 
 
-def plot_rpart(x: dict[str, Any], uniform: bool = False, branch: float = 1, compress: bool = False, nspace: float | None = None, margin: float = 0, minbranch: float = 0.3, branch_col: int | str = 1, branch_lty: int = 1, branch_lwd: float = 1, ax: matplotlib.axes.Axes | None = None, **kwargs: Any) -> dict[str, np.ndarray[Any, np.dtype[np.float64]]]:
+def plot_rpart(x: dict[str, Any], uniform: bool = False, branch: float = 1, compress: bool = False, nspace: float | None = None, margin: float = 0, minbranch: float = 0.3, branch_col: int | str = 1, branch_lty: int = 1, branch_lwd: float = 1, ax: matplotlib.axes.Axes | None = None, main: str | None = None, **kwargs: Any) -> dict[str, np.ndarray[Any, np.dtype[np.float64]]]:
     if not isinstance(x, dict) or 'frame' not in x:
         raise TypeError('Not a legitimate "rpart" object')
     if len(x['frame']) <= 1:
@@ -65,5 +65,17 @@ def plot_rpart(x: dict[str, Any], uniform: bool = False, branch: float = 1, comp
         linestyle=linestyle,
         linewidth=branch_lwd,
     )
+
+    if main is not None:
+        # R's plot(..., main=...) draws the title in bold (par("font.main")
+        # defaults to 2) inside a top margin reserved outside the plot box,
+        # well clear of the tree itself. text_rpart()'s split-condition
+        # labels are drawn slightly above each node's y-coordinate via
+        # ax.text(), which is unclipped by default -- for the root node
+        # (sitting at the very top of the data range) that label can render
+        # right up to the axes' top edge. A title with only matplotlib's
+        # default ~6pt pad can end up overlapping it; a larger pad
+        # reproduces R's clearly-separated title placement.
+        ax.set_title(main, fontweight='bold', pad=20)
 
     return {'x': xx, 'y': yy}

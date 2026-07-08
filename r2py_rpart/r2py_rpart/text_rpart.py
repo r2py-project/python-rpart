@@ -80,8 +80,15 @@ def text_rpart(x: dict[str, Any], splits: bool = True, label: Any = _text_rpart_
     if srt is not None and srt == 90:
         cxy = (cxy[1], cxy[0])
 
-    # Default FUN: draw text using matplotlib ax.text (vectorised wrapper)
+    # Default FUN: draw text using matplotlib ax.text (vectorised wrapper).
+    # R's text() defaults adj=NULL, which centers the label on (x, y) both
+    # horizontally and vertically; matplotlib's ax.text() defaults to
+    # left/baseline anchoring instead, which left split-condition labels
+    # dangling to the right of their branch point rather than centered
+    # above it. Default to centered horizontal alignment (unless the
+    # caller already specified one) to match R's placement.
     def _default_fun(xs: np.ndarray[Any, np.dtype[np.float64]], ys: np.ndarray[Any, np.dtype[np.float64]], labels: list[str | None], _ax: 'matplotlib.axes.Axes' = ax, **kw: Any) -> None:
+        kw.setdefault('ha', 'center')
         for xi, yi, lab in zip(xs, ys, labels):
             if lab is not None and not (isinstance(lab, float) and np.isnan(lab)):
                 _ax.text(float(xi), float(yi), str(lab), **kw)
