@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.18)  8 JUL 2026 14:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.18)  9 JUL 2026 14:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -458,357 +458,391 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
  (./main.toc [1
 
-{/software/t/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/software/t/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}] [2] [3])
+{/software/t/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/software/t/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}] [2] [3] [4])
 \tf@toc=\write4
 \openout4 = `main.toc'.
 
- [4] [5] [6] [7]
-Overfull \hbox (51.84813pt too wide) in paragraph at lines 106--107
+ [5] [6] [7] [8]
+Overfull \hbox (51.84813pt too wide) in paragraph at lines 113--114
 \T1/cmr/m/n/12 (-20) tion-ally man-aged as a git sub-tree linked to a sep-a-rate repos-i-tory at \T1/cmtt/m/n/12 github.com/caiyufei8/r2py_rpart\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 115--116
+Underfull \hbox (badness 10000) in paragraph at lines 122--123
 []|\T1/cmr/m/n/12 (+20) Git sub-tree linked to
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 115--116
+Underfull \hbox (badness 10000) in paragraph at lines 122--123
 \T1/cmtt/m/n/12 github.com/caiyufei8/r2py_rpart\T1/cmr/m/n/12 (+20) ; the in-stal-
  []
 
 
-Underfull \hbox (badness 1248) in paragraph at lines 117--118
+Underfull \hbox (badness 1248) in paragraph at lines 124--125
 \T1/cmr/m/n/12 (+20) ple-men-ta-tion guides, and fake-header con-ver-sion
  []
 
 
-Underfull \hbox (badness 3579) in paragraph at lines 117--118
+Underfull \hbox (badness 3579) in paragraph at lines 124--125
 \T1/cmr/m/n/12 (+20) guides from Phases 2--4 (\T1/cmtt/m/n/12 src/\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 fake_guides/\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 4673) in paragraph at lines 118--119
+Underfull \hbox (badness 4673) in paragraph at lines 125--126
 []|\T1/cmr/m/n/12 (+20) R struc-tural de-pen-dency anal-y-sis JSONs and
  []
 
 
-Overfull \hbox (38.10335pt too wide) in paragraph at lines 119--119
+Overfull \hbox (38.10335pt too wide) in paragraph at lines 126--126
 []|\T1/cmtt/m/n/12 language_dependency_analysis/| 
  []
 
 
-Overfull \hbox (1.0624pt too wide) in paragraph at lines 126--126
+Overfull \hbox (1.0624pt too wide) in paragraph at lines 133--133
 []|\T1/cmtt/m/n/12 install_environments.sh| 
  []
 
-[8]
-Underfull \hbox (badness 10000) in paragraph at lines 141--141
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 148--148
 []|\T1/cmr/m/n/12 (+20) Path (rel-a-tive to
  []
 
 
-Underfull \hbox (badness 7704) in paragraph at lines 147--148
+Underfull \hbox (badness 7704) in paragraph at lines 154--155
 []|\T1/cmr/m/n/12 (+20) Meson build def-i-ni-tion: com-piles \T1/cmtt/m/n/12 src/ \T1/cmr/m/n/12 (+20) and
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 148--149
+Underfull \hbox (badness 10000) in paragraph at lines 155--156
 []|\T1/cmr/m/n/12 (+20) Package meta-data, build-system dec-la-ra-tion
  []
 
 
-Underfull \hbox (badness 4193) in paragraph at lines 148--149
+Underfull \hbox (badness 4193) in paragraph at lines 155--156
 \T1/cmr/m/n/12 (+20) (\T1/cmtt/m/n/12 meson-python\T1/cmr/m/n/12 (+20) ), and the \T1/cmtt/m/n/12 [tool.cibuildwheel]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 149--150
+Underfull \hbox (badness 10000) in paragraph at lines 156--157
 []|\T1/cmr/m/n/12 (+20) The \T1/cmtt/m/n/12 pytest \T1/cmr/m/n/12 (+20) suite, in-clud-ing \T1/cmtt/m/n/12 test_rpart.py
  []
 
 
-Underfull \hbox (badness 1137) in paragraph at lines 150--151
+Underfull \hbox (badness 10000) in paragraph at lines 157--158
+[]|\T1/cmr/m/n/12 (+20) Two paired end-to-end R/Python ex-am-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 157--158
+\T1/cmr/m/n/12 (+20) ple work-flows and their fix-ture data:
+ []
+
+
+Underfull \hbox (badness 1348) in paragraph at lines 157--158
+\T1/cmr/m/n/12 (+20) fix-ture) and \T1/cmtt/m/n/12 classification_tree.{R,py} \T1/cmr/m/n/12 (+20) (with
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 157--158
+\T1/cmr/m/n/12 (+20) the \T1/cmtt/m/n/12 iris_jun.{RData,csv} \T1/cmr/m/n/12 (+20) fix-ture), to-gether
+ []
+
+
+Underfull \hbox (badness 1874) in paragraph at lines 157--158
+\T1/cmr/m/n/12 (+20) with the \T1/cmtt/m/n/12 *_R\T1/cmr/m/n/12 (+20) /\T1/cmtt/m/n/12 *_Python\T1/cmr/m/n/12 (+20) -suffixed PDF plots and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 157--158
+\T1/cmtt/m/n/12 *_output_{R,Python}.txt \T1/cmr/m/n/12 (+20) console-output pairs
+ []
+
+
+Underfull \hbox (badness 1776) in paragraph at lines 157--158
+\T1/cmr/m/n/12 (+20) each script pro-duces, used for the side-by-side
+ []
+
+
+Underfull \hbox (badness 1137) in paragraph at lines 158--159
 []|\T1/cmr/m/n/12 (+20) Cluster batch script for a non-editable de-vel-op-
  []
 
 
-Overfull \hbox (81.3178pt too wide) in paragraph at lines 151--151
+Overfull \hbox (81.3178pt too wide) in paragraph at lines 159--159
 []|\T1/cmtt/m/n/12 .github/workflows/python-publish.yml| 
  []
 
-[9] [10]
-Overfull \hbox (8.27084pt too wide) in paragraph at lines 183--184
+[10] [11] [12]
+Overfull \hbox (8.27084pt too wide) in paragraph at lines 193--194
 \T1/cmr/m/n/12 (-20) dency of \T1/cmtt/m/n/12 init_rpcallback\T1/cmr/m/n/12 (-20) ; it is only called in-side \T1/cmtt/m/n/12 compat_getVar\T1/cmr/m/n/12 (-20) , not \T1/cmtt/m/n/12 init_rpcallback
  []
 
-[11]
-Overfull \hbox (55.49533pt too wide) in paragraph at lines 193--194
+
+Overfull \hbox (55.49533pt too wide) in paragraph at lines 203--204
 \T1/cmr/m/n/12 (-20) external-dependency nodes) and 255 edges. The topo-log-i-cal level dis-tri-bu-tion in \T1/cmtt/m/n/12 dependency_levels.csv
  []
 
-[12] [13]
-Underfull \hbox (badness 7012) in paragraph at lines 266--267
+[13] [14] [15]
+Underfull \hbox (badness 7012) in paragraph at lines 276--277
 \T1/cmtt/m/n/12 DL_FUNC\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 DllInfo\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_CallMethodDef\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 266--267
+Underfull \hbox (badness 10000) in paragraph at lines 276--277
 \T1/cmtt/m/n/12 Rboolean\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 TRUE\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 FALSE\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_VERSION\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 266--267
+Underfull \hbox (badness 10000) in paragraph at lines 276--277
 \T1/cmtt/m/n/12 R_Version\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_NilValue\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 266--267
+Underfull \hbox (badness 10000) in paragraph at lines 276--277
 \T1/cmtt/m/n/12 R_NamesSymbol\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_UnboundValue\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 2237) in paragraph at lines 266--267
+Underfull \hbox (badness 2237) in paragraph at lines 276--277
 \T1/cmtt/m/n/12 R_forceSymbols\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_registerRoutines\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 268--269
+Underfull \hbox (badness 10000) in paragraph at lines 278--279
 []|\T1/cmtt/m/n/12 INTEGER\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 REAL\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 CHAR\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 PROTECT\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 268--269
+Underfull \hbox (badness 10000) in paragraph at lines 278--279
 \T1/cmtt/m/n/12 UNPROTECT\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 LENGTH\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 PRINTNAME\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 1939) in paragraph at lines 268--269
+Underfull \hbox (badness 1939) in paragraph at lines 278--279
 \T1/cmtt/m/n/12 ISNAN\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_FINITE\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 asInteger\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 asReal\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 5119) in paragraph at lines 270--271
+Underfull \hbox (badness 5119) in paragraph at lines 280--281
 []|\T1/cmtt/m/n/12 allocVector\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 allocMatrix\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_alloc\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 270--271
+Underfull \hbox (badness 10000) in paragraph at lines 280--281
 \T1/cmtt/m/n/12 R_chk_calloc\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 R_Free\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 mkChar\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 272--273
+Underfull \hbox (badness 10000) in paragraph at lines 282--283
 []|\T1/cmtt/m/n/12 error\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 warning\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 Rprintf\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 274--275
+Underfull \hbox (badness 10000) in paragraph at lines 284--285
 []|\T1/cmtt/m/n/12 eval\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 findVar\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 findVarInFrame\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Overfull \hbox (93.2196pt too wide) in paragraph at lines 262--277
+Overfull \hbox (93.2196pt too wide) in paragraph at lines 272--287
  [] 
  []
 
-[14]
-Overfull \hbox (41.61786pt too wide) in paragraph at lines 283--284
+[16]
+Overfull \hbox (41.61786pt too wide) in paragraph at lines 293--294
 \T1/cmr/m/n/12 (-20) value si-mul-ta-ne-ously sat-is-fies two con-flict-ing pre-pro-ces-sor guards: \T1/cmtt/m/n/12 R_VERSION >= R_Version(2,16,0)
  []
 
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <12> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 285.
-[15] [16] (/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 295.
+[17] (/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 ) (/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
-Underfull \hbox (badness 10000) in paragraph at lines 341--342
+Underfull \hbox (badness 10000) in paragraph at lines 351--352
 []|\T1/cmtt/m/n/12 Rf_warning \T1/cmr/m/n/12 (+20) de-fined with-out
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 341--342
+Underfull \hbox (badness 10000) in paragraph at lines 351--352
 \T1/cmtt/m/n/12 FAKE_RF_WARNING_DEFINED \T1/cmr/m/n/12 (+20) in
  []
 
 
-Underfull \hbox (badness 1975) in paragraph at lines 342--343
+Underfull \hbox (badness 1975) in paragraph at lines 352--353
 []|\T1/cmr/m/n/12 (+20) Function pointer vari-ables de-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 343--344
+Underfull \hbox (badness 10000) in paragraph at lines 353--354
 []|\T1/cmtt/m/n/12 DL_FUNC.h \T1/cmr/m/n/12 (+20) used guard
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 343--344
+Underfull \hbox (badness 10000) in paragraph at lines 353--354
 \T1/cmr/m/n/12 (+20) used \T1/cmtt/m/n/12 FAKE_RBOOLEAN_DEFINED\T1/cmr/m/n/12 (+20) ;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 344--345
+Underfull \hbox (badness 10000) in paragraph at lines 354--355
 []|\T1/cmtt/m/n/12 PROTECT.h \T1/cmr/m/n/12 (+20) used two sep-a-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 344--345
+Underfull \hbox (badness 10000) in paragraph at lines 354--355
 \T1/cmr/m/n/12 (+20) rate guards per func-tion;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 344--345
+Underfull \hbox (badness 10000) in paragraph at lines 354--355
 \T1/cmtt/m/n/12 SEXP.h \T1/cmr/m/n/12 (+20) used one uni-fied
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 344--345
+Underfull \hbox (badness 10000) in paragraph at lines 354--355
 \T1/cmr/m/n/12 (+20) guard; mis-match caused
  []
 
 
-Overfull \hbox (14.07085pt too wide) in paragraph at lines 344--345
+Overfull \hbox (14.07085pt too wide) in paragraph at lines 354--355
 \T1/cmtt/m/n/12 R_ProtectWithIndex\T1/cmr/m/n/12 (-20) /\T1/cmtt/m/n/12 R_Reprotect
  []
 
 
-Underfull \hbox (badness 1694) in paragraph at lines 344--345
+Underfull \hbox (badness 1694) in paragraph at lines 354--355
 \T1/cmr/m/n/12 (+20) is \T1/cmtt/m/n/12 typedef int\T1/cmr/m/n/12 (+20) , so types are
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 344--345
+Underfull \hbox (badness 10000) in paragraph at lines 354--355
 \T1/cmr/m/n/12 (+20) identical---pure guard er-ror).
  []
 
 
-Underfull \hbox (badness 3514) in paragraph at lines 344--345
+Underfull \hbox (badness 3514) in paragraph at lines 354--355
 \T1/cmr/m/n/12 (+20) Fixed by uni-fy-ing guards in
  []
 
 
-Underfull \hbox (badness 1189) in paragraph at lines 345--346
+Underfull \hbox (badness 1189) in paragraph at lines 355--356
 \T1/cmr/m/n/12 (+20) out any guard; \T1/cmtt/m/n/12 R_NilValue.h
  []
 
 
-Underfull \hbox (badness 1783) in paragraph at lines 346--347
+Underfull \hbox (badness 1783) in paragraph at lines 356--357
 \T1/cmr/m/n/12 (+20) con-flict is ill-formed in C++.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 346--347
+Underfull \hbox (badness 10000) in paragraph at lines 356--357
 \T1/cmtt/m/n/12 FAKE_R_*_DEFINED \T1/cmr/m/n/12 (+20) lines in
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 347--348
+Underfull \hbox (badness 10000) in paragraph at lines 357--358
 []|\T1/cmtt/m/n/12 DL_FUNC.h \T1/cmr/m/n/12 (+20) de-clared \T1/cmtt/m/n/12 struct
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 347--348
+Underfull \hbox (badness 10000) in paragraph at lines 357--358
 \T1/cmtt/m/n/12 DllInfo {} \T1/cmr/m/n/12 (+20) with-out set-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 347--348
+Underfull \hbox (badness 10000) in paragraph at lines 357--358
 \T1/cmr/m/n/12 (+20) ting \T1/cmtt/m/n/12 FAKE_DLLINFO_DEFINED\T1/cmr/m/n/12 (+20) ;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 347--348
+Underfull \hbox (badness 10000) in paragraph at lines 357--358
 \T1/cmtt/m/n/12 DllInfo.h \T1/cmr/m/n/12 (+20) then at-tempted
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 347--348
+Underfull \hbox (badness 10000) in paragraph at lines 357--358
 \T1/cmtt/m/n/12 typedef struct DllInfo_fake
  []
 
-
-ignored: Infinite glue shrinkage found in box being split [17]
-ignored: Infinite glue shrinkage found in box being split [18]
-Overfull \hbox (1.7011pt too wide) in paragraph at lines 350--351
+[18]
+ignored: Infinite glue shrinkage found in box being split [19]
+Overfull \hbox (1.7011pt too wide) in paragraph at lines 360--361
  []\T1/cmr/bx/n/12 (-20) A sub-tlety con-firmed safe, not a bug.[] \T1/cmr/m/n/12 (-20) The sen-tinel val-ues \T1/cmtt/m/n/12 R_NilValue\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 R_UnboundValue\T1/cmr/m/n/12 (-20) ,
  []
 
-[19]
-Underfull \hbox (badness 1540) in paragraph at lines 384--385
+[20]
+Underfull \hbox (badness 1540) in paragraph at lines 394--395
 \T1/cmr/m/n/12 (+20) as 2-element \T1/cmtt/m/n/12 int*\T1/cmr/m/n/12 (+20) ; \T1/cmtt/m/n/12 csplit2 \T1/cmr/m/n/12 (+20) is nul-lable
  []
 
 
-Underfull \hbox (badness 1721) in paragraph at lines 386--387
+Underfull \hbox (badness 1721) in paragraph at lines 396--397
 []|\T1/cmr/m/n/12 (+20) 2-argument wrap-per; \T1/cmtt/m/n/12 dtimes \T1/cmr/m/n/12 (+20) passed by
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 387--388
+Underfull \hbox (badness 10000) in paragraph at lines 397--398
 []|\T1/cmr/m/n/12 (+20) 15-argument wrap-per; \T1/cmtt/m/n/12 xmat \T1/cmr/m/n/12 (+20) kept
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 387--388
+Underfull \hbox (badness 10000) in paragraph at lines 397--398
 \T1/cmr/m/n/12 (+20) column-major (R's na-tive lay-out) so
  []
 
-[20{/software/t/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] [21]
+[21{/software/t/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] [22]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 408.
- [22]
-Overfull \hbox (90.68765pt too wide) in paragraph at lines 438--439
-\T1/cmr/m/n/12 (-20) pro-duce the graph vi-su-al-iza-tion and the topo-log-i-cal level CSV \T1/cmtt/m/n/12 structural_analysis/dependency_levels.csv\T1/cmr/m/n/12 (-20) . 
- []
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 417.
 
-
-Overfull \hbox (30.58865pt too wide) in paragraph at lines 470--471
-\T1/cmr/m/n/12 (-20) fras-truc-ture is the anal-o-gous project \T1/cmtt/m/n/12 r2py_kernsmooth \T1/cmr/m/n/12 (-20) at \T1/cmtt/m/n/12 python-KernSmooth/r2py_kernsmooth/\T1/cmr/m/n/12 (-20) ,
+Overfull \hbox (75.89595pt too wide) in paragraph at lines 438--439
+[]\T1/cmr/m/n/12 (-20) As in Phase 1's anal-o-gous treat-ment of the C source layer (Sec-tion []2[]), the \T1/cmtt/m/n/12 /analyze-r-folder-dependencies
  []
 
 [23]
-Overfull \hbox (11.05098pt too wide) in paragraph at lines 496--497
+Overfull \hbox (90.68765pt too wide) in paragraph at lines 449--450
+\T1/cmr/m/n/12 (-20) pro-duce the graph vi-su-al-iza-tion and the topo-log-i-cal level CSV \T1/cmtt/m/n/12 structural_analysis/dependency_levels.csv\T1/cmr/m/n/12 (-20) . 
+ []
+
+[24] [25]
+Overfull \hbox (11.05098pt too wide) in paragraph at lines 511--512
  []\T1/cmr/bx/n/12 (-20) Bug 3: \T1/cmtt/m/n/12 _find_lib() \T1/cmr/bx/n/12 (-20) searched the source tree.[] \T1/cmr/m/n/12 (-20) The \T1/cmtt/m/n/12 _find_lib() \T1/cmr/m/n/12 (-20) func-tion in \T1/cmtt/m/n/12 __init__.py
  []
 
-[24]
-Overfull \hbox (15.18904pt too wide) in paragraph at lines 511--512
+
+Overfull \hbox (15.18904pt too wide) in paragraph at lines 526--527
 []\T1/cmr/m/n/12 (-20) After all four bug fixes, the pack-age builds suc-cess-fully with \T1/cmtt/m/n/12 pip install --no-build-isolation
  []
 
-[25] [26] [27]
-Overfull \hbox (17.25694pt too wide) in paragraph at lines 607--633
+[26] [27] [28] [29] [30]
+Overfull \hbox (17.25694pt too wide) in paragraph at lines 630--656
  [] 
  []
 
-[28] [29]
-ignored: Infinite glue shrinkage found in box being split [30]
-Overfull \hbox (43.3132pt too wide) in paragraph at lines 705--706
+[31] [32]
+ignored: Infinite glue shrinkage found in box being split [33]
+Overfull \hbox (43.3132pt too wide) in paragraph at lines 728--729
 []\T1/cmr/bx/n/12 (-20) Undefined \T1/cmtt/m/n/12 _MISSING \T1/cmr/bx/n/12 (-20) sen-tinel \T1/cmr/m/n/12 (-20) in four files: \T1/cmtt/m/n/12 rpart.py\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_control.py\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 summary_rpart.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Overfull \hbox (48.8933pt too wide) in paragraph at lines 708--709
+Overfull \hbox (48.8933pt too wide) in paragraph at lines 731--732
 \T1/cmr/m/n/12 (-20) called \T1/cmtt/m/n/12 rpart_anova\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_class\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_control\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_exp\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_matrix\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 rpart_poisson\T1/cmr/m/n/12 (-20) ,
  []
 
-[31]
-Overfull \hbox (3.5894pt too wide) in paragraph at lines 736--737
+[34]
+Overfull \hbox (3.5894pt too wide) in paragraph at lines 759--760
 []\T1/cmr/m/n/12 (-20) C wrap-pers re-tained as pri-vate sym-bols: \T1/cmtt/m/n/12 _rpart_c\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 _pred_rpart_c\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 _xpred_c\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 _rpartexp2_c\T1/cmr/m/n/12 (-20) . 
  []
 
 
-Overfull \hbox (26.91652pt too wide) in paragraph at lines 743--744
+Overfull \hbox (26.91652pt too wide) in paragraph at lines 766--767
 []\T1/cmtt/m/n/12 parms \T1/cmr/bx/n/12 (-20) dict se-ri-al-iza-tion for clas-si-fi-ca-tion method. \T1/cmtt/m/n/12 rpart_class \T1/cmr/m/n/12 (-20) re-turns \T1/cmtt/m/n/12 init["parms"]
  []
 
-[32]
+[35]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 755.
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 778.
 
-Overfull \hbox (15.0979pt too wide) in paragraph at lines 777--788
+Overfull \hbox (15.0979pt too wide) in paragraph at lines 800--811
  [] 
  []
 
@@ -818,548 +852,547 @@ File: lstlang1.sty 2025/11/14 1.11b listings language file
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 ) (/software/t/texlive/2026/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
-) [33]
-Overfull \hbox (60.47139pt too wide) in paragraph at lines 803--815
+) [36]
+Overfull \hbox (60.47139pt too wide) in paragraph at lines 826--838
  [] 
  []
 
-[34] [35]
-Underfull \hbox (badness 10000) in paragraph at lines 866--866
+[37] [38]
+Underfull \hbox (badness 10000) in paragraph at lines 889--889
 []|\T1/cmr/m/n/12 (+20) Callback/method dis-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 866--867
+Underfull \hbox (badness 10000) in paragraph at lines 889--890
 []|\T1/cmtt/m/n/12 rpartcallback.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 rpart_anova.py\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 866--867
+Underfull \hbox (badness 10000) in paragraph at lines 889--890
 \T1/cmtt/m/n/12 c_entry_points/init_rpcallback_c.c\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 867--868
+Underfull \hbox (badness 10000) in paragraph at lines 890--891
 []|\T1/cmtt/m/n/12 predict_rpart.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 pred_rpart.py\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 867--868
+Underfull \hbox (badness 10000) in paragraph at lines 890--891
 \T1/cmtt/m/n/12 c_entry_points/pred_rpart_c.c\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 868--868
+Underfull \hbox (badness 10000) in paragraph at lines 891--891
 []|\T1/cmr/m/n/12 (+20) Pruning/CP/cross-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 868--869
+Underfull \hbox (badness 10000) in paragraph at lines 891--892
 []|\T1/cmtt/m/n/12 prune.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 prune_rpart.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 printcp.py\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 868--869
+Underfull \hbox (badness 10000) in paragraph at lines 891--892
 \T1/cmtt/m/n/12 plotcp.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 xpred_rpart.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 snip_rpart.py\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 5592) in paragraph at lines 869--870
+Underfull \hbox (badness 5592) in paragraph at lines 892--893
 []|\T1/cmtt/m/n/12 print_rpart.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 plot_rpart.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 text_rpart.py\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 869--870
+Underfull \hbox (badness 10000) in paragraph at lines 892--893
 \T1/cmtt/m/n/12 post.py\T1/cmr/m/n/12 (+20) /\T1/cmtt/m/n/12 post_rpart.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 rpartco.py\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 870--871
+Underfull \hbox (badness 10000) in paragraph at lines 893--894
 []|\T1/cmtt/m/n/12 formatg.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 importance.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 meanvar_rpart.py\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 6978) in paragraph at lines 897--898
+Underfull \hbox (badness 6978) in paragraph at lines 920--921
 []|\T1/cmtt/m/n/12 np.ascontiguousarray(arr, dtype=...) \T1/cmr/m/n/12 (+20) in-side
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 898--898
+Underfull \hbox (badness 10000) in paragraph at lines 921--921
 []|\T1/cmtt/m/n/12 rpart.py\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Overfull \hbox (49.49252pt too wide) in paragraph at lines 898--898
+Overfull \hbox (49.49252pt too wide) in paragraph at lines 921--921
 \T1/cmtt/m/n/12 model_frame_rpart.py| 
  []
 
 
-Underfull \hbox (badness 1253) in paragraph at lines 898--899
+Underfull \hbox (badness 1253) in paragraph at lines 921--922
 \T1/cmr/m/n/12 (+20) tern raised \T1/cmtt/m/n/12 NotImplementedError \T1/cmr/m/n/12 (+20) out-right; im-ple-
  []
 
 
-Underfull \hbox (badness 1406) in paragraph at lines 898--899
+Underfull \hbox (badness 1406) in paragraph at lines 921--922
 \T1/cmr/m/n/12 (+20) of \T1/cmtt/m/n/12 model_frame_rpart()\T1/cmr/m/n/12 (+20) , which mir-rors R's own
  []
 
 
-Overfull \hbox (18.62506pt too wide) in paragraph at lines 899--899
+Overfull \hbox (18.62506pt too wide) in paragraph at lines 922--922
 []|\T1/cmtt/m/n/12 rpart_matrix.py| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 900--900
+Underfull \hbox (badness 10000) in paragraph at lines 923--923
 []|\T1/cmr/m/n/12 (+20) Six files
  []
 
 
-Overfull \hbox (29.46605pt too wide) in paragraph at lines 900--900
+Overfull \hbox (29.46605pt too wide) in paragraph at lines 923--923
 \T1/cmr/m/n/12 (-20) (\T1/cmtt/m/n/12 meanvar_rpart.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 900--900
+Underfull \hbox (badness 10000) in paragraph at lines 923--923
 \T1/cmtt/m/n/12 printcp.py\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Overfull \hbox (7.84303pt too wide) in paragraph at lines 900--900
+Overfull \hbox (7.84303pt too wide) in paragraph at lines 923--923
 \T1/cmtt/m/n/12 snip_rpart.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Overfull \hbox (1.66954pt too wide) in paragraph at lines 900--900
+Overfull \hbox (1.66954pt too wide) in paragraph at lines 923--923
 \T1/cmtt/m/n/12 rsq_rpart.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Overfull \hbox (7.84303pt too wide) in paragraph at lines 900--900
+Overfull \hbox (7.84303pt too wide) in paragraph at lines 923--923
 \T1/cmtt/m/n/12 text_rpart.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Overfull \hbox (10.75504pt too wide) in paragraph at lines 900--900
+Overfull \hbox (10.75504pt too wide) in paragraph at lines 923--923
 \T1/cmtt/m/n/12 path_rpart.py\T1/cmr/m/n/12 (-20) )| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 901--901
+Underfull \hbox (badness 10000) in paragraph at lines 924--924
 []|\T1/cmr/m/n/12 (+20) Eight files
  []
 
 
-Overfull \hbox (29.46605pt too wide) in paragraph at lines 901--901
+Overfull \hbox (29.46605pt too wide) in paragraph at lines 924--924
 \T1/cmr/m/n/12 (-20) (\T1/cmtt/m/n/12 predict_rpart.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Overfull \hbox (38.7105pt too wide) in paragraph at lines 901--901
+Overfull \hbox (38.7105pt too wide) in paragraph at lines 924--924
 \T1/cmtt/m/n/12 residuals_rpart.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Overfull \hbox (1.66954pt too wide) in paragraph at lines 901--901
+Overfull \hbox (1.66954pt too wide) in paragraph at lines 924--924
 \T1/cmtt/m/n/12 roc_rpart.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Overfull \hbox (26.36351pt too wide) in paragraph at lines 901--901
+Overfull \hbox (26.36351pt too wide) in paragraph at lines 924--924
 \T1/cmtt/m/n/12 summary_rpart.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Overfull \hbox (14.01653pt too wide) in paragraph at lines 901--901
+Overfull \hbox (14.01653pt too wide) in paragraph at lines 924--924
 \T1/cmtt/m/n/12 print_rpart.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Overfull \hbox (7.84303pt too wide) in paragraph at lines 901--901
+Overfull \hbox (7.84303pt too wide) in paragraph at lines 924--924
 \T1/cmtt/m/n/12 text_rpart.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Overfull \hbox (20.19002pt too wide) in paragraph at lines 901--901
+Overfull \hbox (20.19002pt too wide) in paragraph at lines 924--924
 \T1/cmtt/m/n/12 labels_rpart.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Overfull \hbox (16.61986pt too wide) in paragraph at lines 901--901
+Overfull \hbox (16.61986pt too wide) in paragraph at lines 924--924
 \T1/cmtt/m/n/12 xpred_rpart.py\T1/cmr/m/n/12 (-20) )| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 901--902
+Underfull \hbox (badness 10000) in paragraph at lines 924--925
 \T1/cmr/m/n/12 (+20) stores these un-der the R-attribute-style keys
  []
 
 
-Overfull \hbox (24.79855pt too wide) in paragraph at lines 902--902
+Overfull \hbox (24.79855pt too wide) in paragraph at lines 925--925
 []|\T1/cmtt/m/n/12 rpartcallback.py| 
  []
 
 
-Overfull \hbox (6.27808pt too wide) in paragraph at lines 903--903
+Overfull \hbox (6.27808pt too wide) in paragraph at lines 926--926
 []|\T1/cmtt/m/n/12 importance.py| 
  []
 
 
-Overfull \hbox (26.36351pt too wide) in paragraph at lines 905--905
+Overfull \hbox (26.36351pt too wide) in paragraph at lines 928--928
 []|\T1/cmtt/m/n/12 predict_rpart.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Overfull \hbox (14.01653pt too wide) in paragraph at lines 905--905
+Overfull \hbox (14.01653pt too wide) in paragraph at lines 928--928
 \T1/cmtt/m/n/12 print_rpart.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Overfull \hbox (6.27808pt too wide) in paragraph at lines 905--905
+Overfull \hbox (6.27808pt too wide) in paragraph at lines 928--928
 \T1/cmtt/m/n/12 text_rpart.py| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 906--906
+Underfull \hbox (badness 10000) in paragraph at lines 929--929
 []|\T1/cmr/m/n/12 (+20) DataFrame-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 906--906
+Underfull \hbox (badness 10000) in paragraph at lines 929--929
 \T1/cmr/m/n/12 (+20) vs-ndarray
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 906--907
+Underfull \hbox (badness 10000) in paragraph at lines 929--930
 []|\T1/cmtt/m/n/12 rsq_rpart.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 plotcp.py\T1/cmr/m/n/12 (+20) , \T1/cmtt/m/n/12 prune_rpart.py\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 2828) in paragraph at lines 906--907
+Underfull \hbox (badness 2828) in paragraph at lines 929--930
 \T1/cmr/m/n/12 (+20) which \T1/cmtt/m/n/12 rpart.py \T1/cmr/m/n/12 (+20) con-structs as \T1/cmtt/m/n/12 pandas.DataFrame
  []
 
 
-Underfull \hbox (badness 1584) in paragraph at lines 906--907
+Underfull \hbox (badness 1584) in paragraph at lines 929--930
 \T1/cmr/m/n/12 (+20) ob-jects; cor-rected to \T1/cmtt/m/n/12 .to_numpy()\T1/cmr/m/n/12 (+20) /\T1/cmtt/m/n/12 .iloc[]\T1/cmr/m/n/12 (+20) , with
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 906--907
+Underfull \hbox (badness 10000) in paragraph at lines 929--930
 \T1/cmtt/m/n/12 prune_rpart.py\T1/cmr/m/n/12 (+20) 's pruned-\T1/cmtt/m/n/12 cptable \T1/cmr/m/n/12 (+20) re-con-struc-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 906--907
+Underfull \hbox (badness 10000) in paragraph at lines 929--930
 \T1/cmr/m/n/12 (+20) ad-di-tion-ally pre-serv-ing orig-i-nal row la-bels via
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 907--907
+Underfull \hbox (badness 10000) in paragraph at lines 930--930
 []|\T1/cmr/m/n/12 (+20) Missing
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 907--907
+Underfull \hbox (badness 10000) in paragraph at lines 930--930
 \T1/cmr/m/n/12 (+20) cross-module
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 908--908
+Underfull \hbox (badness 10000) in paragraph at lines 931--931
 []|\T1/cmtt/m/n/12 zzz.py\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 908--908
+Underfull \hbox (badness 10000) in paragraph at lines 931--931
 \T1/cmtt/m/n/12 rpartco.py\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Overfull \hbox (20.19002pt too wide) in paragraph at lines 908--908
+Overfull \hbox (20.19002pt too wide) in paragraph at lines 931--931
 \T1/cmtt/m/n/12 rpart_branch.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Overfull \hbox (7.84303pt too wide) in paragraph at lines 908--908
+Overfull \hbox (7.84303pt too wide) in paragraph at lines 931--931
 \T1/cmtt/m/n/12 plot_rpart.py\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Overfull \hbox (43.31903pt too wide) in paragraph at lines 908--908
+Overfull \hbox (43.31903pt too wide) in paragraph at lines 931--931
 \T1/cmtt/m/n/12 snip_rpart_mouse.py| 
  []
 
 
-Overfull \hbox (6.27808pt too wide) in paragraph at lines 909--909
+Overfull \hbox (6.27808pt too wide) in paragraph at lines 932--932
 []|\T1/cmtt/m/n/12 snip_rpart.py| 
  []
 
 
-Underfull \hbox (badness 2359) in paragraph at lines 909--910
+Underfull \hbox (badness 2359) in paragraph at lines 932--933
 []|\T1/cmr/m/n/12 (+20) A pan-das Copy-on-Write chained-assignment bug
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 909--910
+Underfull \hbox (badness 10000) in paragraph at lines 932--933
 \T1/cmr/m/n/12 (+20) (\T1/cmtt/m/n/12 ff['ncompete'].iloc[newleaf] = 0\T1/cmr/m/n/12 (+20) ) silently
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 909--910
+Underfull \hbox (badness 10000) in paragraph at lines 932--933
 \T1/cmr/m/n/12 (+20) mu-tated a throw-away copy, never up-dat-ing
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 909--910
+Underfull \hbox (badness 10000) in paragraph at lines 932--933
 \T1/cmtt/m/n/12 ff\T1/cmr/m/n/12 (+20) , cor-rupt-ing \T1/cmtt/m/n/12 importance()\T1/cmr/m/n/12 (+20) 's post-prune ac-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 909--910
+Underfull \hbox (badness 10000) in paragraph at lines 932--933
 \T1/cmr/m/n/12 (+20) count-ing; fixed via single-step \T1/cmtt/m/n/12 .iloc[newleaf,
  []
 
 
-Overfull \hbox (24.79855pt too wide) in paragraph at lines 910--910
+Overfull \hbox (24.79855pt too wide) in paragraph at lines 933--933
 []|\T1/cmtt/m/n/12 summary_rpart.py| 
  []
 
 
-Underfull \hbox (badness 4595) in paragraph at lines 910--911
+Underfull \hbox (badness 4595) in paragraph at lines 933--934
 []|\T1/cmr/m/n/12 (+20) The R-mirroring pa-ram-e-ter name \T1/cmtt/m/n/12 object \T1/cmr/m/n/12 (+20) shad-
  []
 
 
-Underfull \hbox (badness 1038) in paragraph at lines 910--911
+Underfull \hbox (badness 1038) in paragraph at lines 933--934
 \T1/cmr/m/n/12 (+20) ows Python's builtin \T1/cmtt/m/n/12 object \T1/cmr/m/n/12 (+20) type; three in-ter-nal
  []
 
 
-Underfull \hbox (badness 3942) in paragraph at lines 910--911
+Underfull \hbox (badness 3942) in paragraph at lines 933--934
 \T1/cmtt/m/n/12 np.array(..., dtype=object) \T1/cmr/m/n/12 (+20) calls were silently
  []
 
 
-Underfull \hbox (badness 2717) in paragraph at lines 910--911
+Underfull \hbox (badness 2717) in paragraph at lines 933--934
 \T1/cmr/m/n/12 (+20) pass-ing the fitted-tree dict as a NumPy dtype
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 910--911
+Underfull \hbox (badness 10000) in paragraph at lines 933--934
 \T1/cmr/m/n/12 (+20) spec-i-fi-ca-tion; fixed via \T1/cmtt/m/n/12 import builtins \T1/cmr/m/n/12 (+20) and
  []
 
-[36]
-ignored: Infinite glue shrinkage found in box being split [37]
-ignored: Infinite glue shrinkage found in box being split [38]
-Overfull \hbox (2.12856pt too wide) in paragraph at lines 917--918
+[39]
+ignored: Infinite glue shrinkage found in box being split [40]
+ignored: Infinite glue shrinkage found in box being split [41]
+Overfull \hbox (2.12856pt too wide) in paragraph at lines 940--941
 \T1/cmtt/m/n/12 method=4 \T1/cmr/m/n/12 (-20) fail-ing in-side \T1/cmtt/m/n/12 init_rpcallback_c \T1/cmr/m/n/12 (-20) with \T1/cmtt/m/n/12 RuntimeError: variable '(null)' not
  []
 
-[39]
-Overfull \hbox (156.04951pt too wide) in paragraph at lines 923--924
+[42]
+Overfull \hbox (156.04951pt too wide) in paragraph at lines 946--947
 \T1/cmtt/m/n/12 r2py_rpart/src/ \T1/cmr/m/n/12 (-20) had never been touched---the sole C-level change was con-fined to \T1/cmtt/m/n/12 c_entry_points/init_rpcallback_c.c\T1/cmr/m/n/12 (-20) ,
  []
 
-[40]
-Overfull \hbox (94.71152pt too wide) in paragraph at lines 938--939
+[43]
+Overfull \hbox (94.71152pt too wide) in paragraph at lines 963--964
 \T1/cmtt/m/n/12 treble3.R\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 treble4.R\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 usersplits.R\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 xpred1.R\T1/cmr/m/n/12 (-20) , \T1/cmtt/m/n/12 xpred2.R\T1/cmr/m/n/12 (-20) ) and dis-patched the \T1/cmtt/m/n/12 @convert-r-test-to-python
  []
 
 
-Overfull \hbox (8.15747pt too wide) in paragraph at lines 959--959
+Overfull \hbox (8.15747pt too wide) in paragraph at lines 984--984
 []|\T1/cmtt/m/n/12 backticks.R| 
  []
 
 
-Overfull \hbox (12.45157pt too wide) in paragraph at lines 960--960
+Overfull \hbox (12.45157pt too wide) in paragraph at lines 985--985
 []|\T1/cmtt/m/n/12 survival::lung| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 960--961
+Underfull \hbox (badness 10000) in paragraph at lines 985--986
 []|\T1/cmr/bx/n/12 (+20) Bug: \T1/cmtt/m/n/12 rpart.py\T1/cmr/m/n/12 (+20) 's \T1/cmtt/m/n/12 ymat \T1/cmr/m/n/12 (+20) con-struc-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 960--961
+Underfull \hbox (badness 10000) in paragraph at lines 985--986
 \T1/cmr/m/n/12 (+20) tion used \T1/cmtt/m/n/12 Y.T.ravel() \T1/cmr/m/n/12 (+20) where R's
  []
 
 
-Overfull \hbox (51.37192pt too wide) in paragraph at lines 962--962
+Overfull \hbox (51.37192pt too wide) in paragraph at lines 987--987
 []|\T1/cmtt/m/n/12 minus_in_formula.R| 
  []
 
 
-Underfull \hbox (badness 3118) in paragraph at lines 963--963
+Underfull \hbox (badness 3118) in paragraph at lines 988--988
 []|\T1/cmr/m/n/12 (+20) synthetic, 15
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 964--964
+Underfull \hbox (badness 10000) in paragraph at lines 989--989
 []|\T1/cmr/m/n/12 (+20) synthetic, 9
  []
 
 
-Underfull \hbox (badness 1072) in paragraph at lines 964--965
+Underfull \hbox (badness 1072) in paragraph at lines 989--990
 []|\T1/cmr/m/n/12 (+20) Verified \T1/cmtt/m/n/12 rpart_exp\T1/cmr/m/n/12 (+20) 's cumulative-hazard
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 965--965
+Underfull \hbox (badness 10000) in paragraph at lines 990--990
 []|\T1/cmtt/m/n/12 stagec\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 965--965
+Underfull \hbox (badness 10000) in paragraph at lines 990--990
 \T1/cmtt/m/n/12 mystate\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 2961) in paragraph at lines 965--966
+Underfull \hbox (badness 2961) in paragraph at lines 990--991
 \T1/cmr/m/n/12 (+20) array han-dling, un-der-sized C out-put
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 966--967
+Underfull \hbox (badness 10000) in paragraph at lines 991--992
 []|\T1/cmr/m/n/12 (+20) Verified weight-scaling of
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 966--967
+Underfull \hbox (badness 10000) in paragraph at lines 991--992
 \T1/cmtt/m/n/12 frame$wt\T1/cmr/m/n/12 (+20) /\T1/cmtt/m/n/12 dev\T1/cmr/m/n/12 (+20) /\T1/cmtt/m/n/12 yval2\T1/cmr/m/n/12 (+20) /\T1/cmtt/m/n/12 improve \T1/cmr/m/n/12 (+20) on the
  []
 
 
-Underfull \hbox (badness 3623) in paragraph at lines 967--968
+Underfull \hbox (badness 3623) in paragraph at lines 992--993
 []|\T1/cmr/m/n/12 (+20) Verified the for-mula+\T1/cmtt/m/n/12 data=\T1/cmr/m/n/12 (+20) +\T1/cmtt/m/n/12 weights=
  []
 
 
-Overfull \hbox (14.33096pt too wide) in paragraph at lines 970--970
+Overfull \hbox (14.33096pt too wide) in paragraph at lines 995--995
 []|\T1/cmtt/m/n/12 usersplits.R| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 970--971
+Underfull \hbox (badness 10000) in paragraph at lines 995--996
 \T1/cmr/m/n/12 (+20) han-dled only \T1/cmtt/m/n/12 dict\T1/cmr/m/n/12 (+20) /\T1/cmtt/m/n/12 None\T1/cmr/m/n/12 (+20) , rais-ing
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 970--971
+Underfull \hbox (badness 10000) in paragraph at lines 995--996
 \T1/cmtt/m/n/12 TypeError \T1/cmr/m/n/12 (+20) when-ever a user-defined
  []
 
 
-Underfull \hbox (badness 3189) in paragraph at lines 970--971
+Underfull \hbox (badness 3189) in paragraph at lines 995--996
 \T1/cmtt/m/n/12 init() \T1/cmr/m/n/12 (+20) re-turns a bare scalar \T1/cmtt/m/n/12 parms\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 3118) in paragraph at lines 971--971
+Underfull \hbox (badness 3118) in paragraph at lines 996--996
 []|\T1/cmr/m/n/12 (+20) synthetic, 12
  []
 
 
-Underfull \hbox (badness 1983) in paragraph at lines 972--972
+Underfull \hbox (badness 1983) in paragraph at lines 997--997
 []|\T1/cmtt/m/n/12 stagec \T1/cmr/m/n/12 (+20) (pois-
  []
 
-
-ignored: Infinite glue shrinkage found in box being split [41]
-ignored: Infinite glue shrinkage found in box being split [42] [43] [44] [45] [46]
-Underfull \hbox (badness 10000) in paragraph at lines 1031--1032
+[44]
+ignored: Infinite glue shrinkage found in box being split [45] [46] [47] [48] [49]
+Underfull \hbox (badness 10000) in paragraph at lines 1062--1063
 []|\T1/cmtt/m/n/12 RuntimeError: internal output buffer 'dnode'
  []
 
 
-Overfull \hbox (6.27808pt too wide) in paragraph at lines 1032--1032
+Overfull \hbox (6.27808pt too wide) in paragraph at lines 1063--1063
 []|\T1/cmtt/m/n/12 predict_rpart| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1033--1033
+Underfull \hbox (badness 10000) in paragraph at lines 1064--1064
 []|\T1/cmtt/m/n/12 print_rpart\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1033--1033
+Underfull \hbox (badness 10000) in paragraph at lines 1064--1064
 \T1/cmtt/m/n/12 printcp\T1/cmr/m/n/12 (+20) ,
  []
 
 
-Overfull \hbox (7.84303pt too wide) in paragraph at lines 1033--1033
+Overfull \hbox (7.84303pt too wide) in paragraph at lines 1064--1064
 \T1/cmtt/m/n/12 summary_rpart\T1/cmr/m/n/12 (-20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1034--1034
+Underfull \hbox (badness 10000) in paragraph at lines 1065--1065
 []|\T1/cmtt/m/n/12 rpartco.py\T1/cmr/m/n/12 (+20) 's
  []
 
 
-Underfull \hbox (badness 7397) in paragraph at lines 1034--1035
+Underfull \hbox (badness 7397) in paragraph at lines 1065--1066
 []|\T1/cmr/m/n/12 (+20) A copy-paste de-fect (\T1/cmtt/m/n/12 left["left"] \T1/cmr/m/n/12 (+20) in-stead of
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1035--1036
+Underfull \hbox (badness 10000) in paragraph at lines 1066--1067
 []|\T1/cmr/m/n/12 (+20) Default plot ti-tle in-dexes
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1035--1036
+Underfull \hbox (badness 10000) in paragraph at lines 1066--1067
 \T1/cmtt/m/n/12 tree['terms']['variables'][1] \T1/cmr/m/n/12 (+20) (first pre-dic-
  []
 
 
-Overfull \hbox (18.62506pt too wide) in paragraph at lines 1036--1036
+Overfull \hbox (18.62506pt too wide) in paragraph at lines 1067--1067
 []|\T1/cmtt/m/n/12 residuals_rpart| 
  []
 
-[47]
-Overfull \hbox (1.67505pt too wide) in paragraph at lines 1063--1064
+[50] [51]
+Overfull \hbox (1.67505pt too wide) in paragraph at lines 1094--1095
 \T1/cmtt/m/n/12 r_format_double()\T1/cmr/m/n/12 (-20) ---an R-\T1/cmtt/m/n/12 format()\T1/cmr/m/n/12 (-20) -equivalent width-comparison rou-tine for a sin-gle value---
  []
 
 
-Overfull \hbox (39.08234pt too wide) in paragraph at lines 1063--1064
+Overfull \hbox (39.08234pt too wide) in paragraph at lines 1094--1095
 \T1/cmtt/m/n/12 print_rpart.py\T1/cmr/m/n/12 (-20) 's vector-and-common-decimal-place \T1/cmtt/m/n/12 r_format_vector()\T1/cmr/m/n/12 (-20) , and \T1/cmtt/m/n/12 summary_rpart.py\T1/cmr/m/n/12 (-20) 's
  []
 
-[48]
-Overfull \hbox (106.40971pt too wide) in paragraph at lines 1065--1066
+
+Overfull \hbox (106.40971pt too wide) in paragraph at lines 1096--1097
 \T1/cmtt/m/n/12 xfail(strict=True) \T1/cmr/m/n/12 (-20) tests doc-u-ment a sin-gle, struc-turally un-fix-able di-ver-gence: R's \T1/cmtt/m/n/12 print.rpart\T1/cmr/m/n/12 (-20) /\T1/cmtt/m/n/12 summary.rpart
  []
 
-[49]
-Overfull \hbox (28.71144pt too wide) in paragraph at lines 1082--1083
+[52] [53]
+Overfull \hbox (28.71144pt too wide) in paragraph at lines 1113--1114
 []\T1/cmr/m/n/12 (-20) Four fixes were ap-plied at the pack-age level. \T1/cmtt/m/n/12 plotcp.py \T1/cmr/m/n/12 (-20) gained \T1/cmtt/m/n/12 _thin_overlapping_ticklabels()\T1/cmr/m/n/12 (-20) ,
  []
 
-[50]
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 1098.
- (../../.claude/commands/analyze-c-folder-dependencies.md [51]) (../../.claude/agents/analyze-c-file-dependencies.md [52]) [53] (../../.claude/commands/extract-c-folder-r-extern-items.md) [54] (../../.claude/agents/extract-c-file-r-extern-items.md [55]) (../../.claude/commands/generate-r-extern-fake-guides.md [56] [57]) (../../.claude/agents/generate-r-extern-fake-guide.md [58] [59] [60] [61] [62] [63]) (../../.claude/commands/generate-r-extern-fake-headers.md [64] [65]) (../../.claude/agents/generate-r-extern-fake-header.md [66] [67] [68] [69]) (../../.claude/commands/generate-r-extern-raw-entry-points.md [70] [71]) (../../.claude/agents/generate-r-extern-raw-entry-point.md [72] [73] [74] [75] [76] [77] [78]) (../../.claude/commands/modify-c-folder-with-fake-headers.md [79] [80] [81] [82]) (../../.claude/agents/modify-c-file-with-fake-headers.md [83] [84] [85] [86] [87]) (../../.claude/commands/analyze-r-folder-dependencies.md [88]) (../../.claude/agents/analyze-r-file-dependencies.md [89]) [90] (../../.claude/commands/extract-r-folder-language-dependencies.md [91]) (../../.claude/agents/extract-r-file-language-dependencies.md [92]) (../../.claude/commands/generate-language-dependency-conversion-guides.md [93]) (../../.claude/agents/generate-language-dependency-conversion-guide.md [94] [95]) (../../.claude/commands/convert-r-folder-to-python.md [96] [97] [98]) (../../.claude/commands/convert-r-file-to-python.md [99]) (../../.claude/agents/convert-r-function-to-python.md [100]) (../../.claude/commands/combine-python-functions-into-folder.md [101] [102] [103] [104]) (../../.claude/commands/combine-python-functions-into-file.md [105]) (../../.claude/commands/add-r-interpreter-items.md [106] [107]) (../../.claude/agents/add-r-interpreter-items.md [108] [109] [110] [111] [112] [113] [114]) (../../.claude/commands/convert-r-tests-to-python.md [115]) (../../.claude/agents/convert-r-test-to-python.md [116]) (../../.claude/commands/generate-python-file-tests.md [117]) (../../.claude/agents/generate-python-function-tests.md [118] [119]) [120] (../../.claude/commands/fix-bugs-found-in-tests.md) [121] (../../.claude/agents/fix-bug-found-in-test.md [122]) [123] (./main.aux)
+[54] [55] [56] [57]
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 1163.
+ (../../.claude/commands/analyze-c-folder-dependencies.md) (../../.claude/agents/analyze-c-file-dependencies.md [58] [59]) (../../.claude/commands/extract-c-folder-r-extern-items.md [60]) (../../.claude/agents/extract-c-file-r-extern-items.md [61]) [62] (../../.claude/commands/generate-r-extern-fake-guides.md [63]) (../../.claude/agents/generate-r-extern-fake-guide.md [64] [65] [66] [67] [68] [69]) (../../.claude/commands/generate-r-extern-fake-headers.md [70] [71]) [72] (../../.claude/agents/generate-r-extern-fake-header.md [73] [74] [75]) [76] (../../.claude/commands/generate-r-extern-raw-entry-points.md [77]) (../../.claude/agents/generate-r-extern-raw-entry-point.md [78] [79] [80] [81] [82] [83] [84]) (../../.claude/commands/modify-c-folder-with-fake-headers.md [85] [86] [87] [88]) [89] (../../.claude/agents/modify-c-file-with-fake-headers.md [90] [91] [92] [93] [94]) (../../.claude/commands/analyze-r-folder-dependencies.md) [95] (../../.claude/agents/analyze-r-file-dependencies.md [96]) (../../.claude/commands/extract-r-folder-language-dependencies.md [97]) (../../.claude/agents/extract-r-file-language-dependencies.md [98]) (../../.claude/commands/generate-language-dependency-conversion-guides.md [99] [100]) (../../.claude/agents/generate-language-dependency-conversion-guide.md [101]) (../../.claude/commands/convert-r-folder-to-python.md [102] [103] [104]) (../../.claude/commands/convert-r-file-to-python.md [105]) (../../.claude/agents/convert-r-function-to-python.md [106] [107]) (../../.claude/commands/combine-python-functions-into-folder.md [108] [109] [110]) (../../.claude/commands/combine-python-functions-into-file.md [111]) [112] (../../.claude/commands/add-r-interpreter-items.md [113] [114]) (../../.claude/agents/add-r-interpreter-items.md [115] [116] [117] [118] [119] [120] [121]) (../../.claude/commands/convert-r-tests-to-python.md [122]) (../../.claude/agents/convert-r-test-to-python.md [123]) (../../.claude/commands/generate-python-file-tests.md [124]) (../../.claude/agents/generate-python-function-tests.md [125] [126]) (../../.claude/commands/fix-bugs-found-in-tests.md [127]) (../../.claude/agents/fix-bug-found-in-test.md [128]) [129] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-04-28>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: F7B8B68ADB571E91C3C2AA7D05E96F82;30255.
+(rerunfilecheck)             Checksum: 184ADA5769DEABDD8250714ED2B47E7B;30727.
  ) 
 Here is how much of TeX's memory you used:
- 23433 strings out of 467341
- 351904 string characters out of 5414848
- 1667660 words of memory out of 5000000
- 49203 multiletter control sequences out of 15000+600000
- 647420 words of font info for 158 fonts, out of 8000000 for 9000
+ 23464 strings out of 467341
+ 352242 string characters out of 5414848
+ 1644770 words of memory out of 5000000
+ 49208 multiletter control sequences out of 15000+600000
+ 648147 words of font info for 165 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 69i,9n,79p,2235b,2127s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 69i,9n,79p,2323b,2127s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </software/t/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1440.pfb></software/t/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt2074.pfb>
-Output written on main.pdf (123 pages, 846919 bytes).
+Output written on main.pdf (129 pages, 873673 bytes).
 PDF statistics:
- 4578 PDF objects out of 5155 (max. 8388607)
- 4378 compressed objects within 44 object streams
- 2891 named destinations out of 2984 (max. 500000)
- 38497 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 4635 PDF objects out of 5155 (max. 8388607)
+ 4428 compressed objects within 45 object streams
+ 2903 named destinations out of 2984 (max. 500000)
+ 38521 words of extra memory for PDF output out of 42996 (max. 10000000)
 

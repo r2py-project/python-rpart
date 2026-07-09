@@ -1,152 +1,155 @@
 \contentsline {section}{Abstract}{6}{section*.2}%
 \contentsline {section}{\numberline {1}Introduction}{7}{section.1}%
-\contentsline {subsection}{\numberline {1.1}Package Architecture}{7}{subsection.1.1}%
-\contentsline {subsection}{\numberline {1.2}Repository Structure}{8}{subsection.1.2}%
-\contentsline {subsection}{\numberline {1.3}Target Package Layout}{9}{subsection.1.3}%
-\contentsline {subsection}{\numberline {1.4}Automated Workflow Infrastructure}{10}{subsection.1.4}%
-\contentsline {section}{\numberline {2}Phase 1: C Source Dependency Analysis}{11}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Motivation}{11}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}Methodology}{11}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Key Findings}{12}{subsection.2.3}%
-\contentsline {section}{\numberline {3}Phase 2: R External Item Extraction from C Sources}{12}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Motivation}{12}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Methodology}{12}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Key Findings}{13}{subsection.3.3}%
-\contentsline {section}{\numberline {4}Phase 3: Fake C++ Header Implementation Guides}{14}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Motivation}{14}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Methodology}{14}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Classification of External Items}{14}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Key Technical Decisions}{15}{subsection.4.4}%
-\contentsline {paragraph}{Memory model.}{15}{section*.3}%
-\contentsline {paragraph}{R version pinning.}{15}{section*.4}%
-\contentsline {paragraph}{\texttt {R\_getVar} is a macro, not a symbol.}{15}{section*.5}%
-\contentsline {paragraph}{Category E items.}{16}{section*.6}%
-\contentsline {paragraph}{\texttt {PROTECT}/\texttt {UNPROTECT}.}{16}{section*.7}%
-\contentsline {paragraph}{The header architecture.}{16}{section*.8}%
-\contentsline {section}{\numberline {5}Phase 4: Fake C++ Header Generation and Compilation Bug Audit}{16}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Motivation}{16}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Header Generation}{16}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Post-Generation Bug Audit}{17}{subsection.5.3}%
-\contentsline {paragraph}{A subtlety confirmed safe, not a bug.}{19}{section*.9}%
-\contentsline {section}{\numberline {6}Phase 5: Pure-C Entry-Point Generation and Fake-Header Migration}{19}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Motivation}{19}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Phase 5A: Entry-Point Generation}{19}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}Phase 5B: Bulk Fake-Header Migration}{21}{subsection.6.3}%
-\contentsline {paragraph}{Anonymous struct fix.}{22}{section*.10}%
-\contentsline {section}{\numberline {7}Phase 6: R Package Structural Dependency Analysis}{22}{section.7}%
-\contentsline {subsection}{\numberline {7.1}Motivation}{22}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Methodology}{22}{subsection.7.2}%
-\contentsline {subsection}{\numberline {7.3}Key Findings}{23}{subsection.7.3}%
-\contentsline {section}{\numberline {8}Phase 7: Python Build Infrastructure}{23}{section.8}%
-\contentsline {subsection}{\numberline {8.1}Motivation}{23}{subsection.8.1}%
-\contentsline {subsection}{\numberline {8.2}Build System Bugs and Fixes}{24}{subsection.8.2}%
-\contentsline {paragraph}{Bug 1: C++17 math built-in undefined references.}{24}{section*.11}%
-\contentsline {paragraph}{Bug 2: Math library not linked.}{24}{section*.12}%
-\contentsline {paragraph}{Bug 3: \texttt {\_find\_lib()} searched the source tree.}{24}{section*.13}%
-\contentsline {paragraph}{Bug 4: \texttt {\_check\_error()} received a numpy array.}{24}{section*.14}%
-\contentsline {subsection}{\numberline {8.3}CI/CD Pipeline}{24}{subsection.8.3}%
-\contentsline {section}{\numberline {9}Phase 8: Language Dependency Analysis and Conversion Guide Generation}{25}{section.9}%
-\contentsline {subsection}{\numberline {9.1}Phase 8.1: Language Dependency Extraction}{25}{subsection.9.1}%
-\contentsline {subsubsection}{\numberline {9.1.1}Motivation}{25}{subsubsection.9.1.1}%
-\contentsline {subsubsection}{\numberline {9.1.2}Methodology}{25}{subsubsection.9.1.2}%
-\contentsline {subsubsection}{\numberline {9.1.3}CSV Encoding Defect}{26}{subsubsection.9.1.3}%
-\contentsline {subsubsection}{\numberline {9.1.4}Key Findings}{26}{subsubsection.9.1.4}%
-\contentsline {subsection}{\numberline {9.2}Phase 8.2: Conversion Guide Generation}{26}{subsection.9.2}%
-\contentsline {subsubsection}{\numberline {9.2.1}Motivation}{26}{subsubsection.9.2.1}%
-\contentsline {subsubsection}{\numberline {9.2.2}Methodology}{26}{subsubsection.9.2.2}%
-\contentsline {subsubsection}{\numberline {9.2.3}Verification Edge Case}{27}{subsubsection.9.2.3}%
-\contentsline {subsubsection}{\numberline {9.2.4}Representative Guide Complexity}{27}{subsubsection.9.2.4}%
-\contentsline {section}{\numberline {10}Phase 9: R-to-Python Function Conversion and Package Assembly}{28}{section.10}%
-\contentsline {subsection}{\numberline {10.1}Phase 9.1: Batch R-to-Python Function Conversion}{28}{subsection.10.1}%
-\contentsline {subsubsection}{\numberline {10.1.1}Motivation}{28}{subsubsection.10.1.1}%
-\contentsline {subsubsection}{\numberline {10.1.2}Methodology}{28}{subsubsection.10.1.2}%
-\contentsline {subsubsection}{\numberline {10.1.3}Cross-Cutting Translation Decisions}{28}{subsubsection.10.1.3}%
-\contentsline {subsubsection}{\numberline {10.1.4}Notable Per-File Decisions}{29}{subsubsection.10.1.4}%
-\contentsline {subsection}{\numberline {10.2}Phase 9.2: Package Assembly, API Restructuring, and Test Validation}{30}{subsection.10.2}%
-\contentsline {subsubsection}{\numberline {10.2.1}Motivation}{30}{subsubsection.10.2.1}%
-\contentsline {subsubsection}{\numberline {10.2.2}Package Assembly}{30}{subsubsection.10.2.2}%
-\contentsline {subsubsection}{\numberline {10.2.3}API Restructuring}{31}{subsubsection.10.2.3}%
-\contentsline {subsubsection}{\numberline {10.2.4}Runtime Bugs in rpart.py}{32}{subsubsection.10.2.4}%
-\contentsline {subsubsection}{\numberline {10.2.5}Build System Fix}{32}{subsubsection.10.2.5}%
-\contentsline {subsubsection}{\numberline {10.2.6}Test Results}{33}{subsubsection.10.2.6}%
-\contentsline {subsection}{\numberline {10.3}Phase 9.3: R Interpreter Item Bridge and \texttt {cffi} Migration}{33}{subsection.10.3}%
-\contentsline {subsubsection}{\numberline {10.3.1}Motivation}{33}{subsubsection.10.3.1}%
-\contentsline {subsubsection}{\numberline {10.3.2}Methodology}{33}{subsubsection.10.3.2}%
-\contentsline {subsubsection}{\numberline {10.3.3}C Helper File}{33}{subsubsection.10.3.3}%
-\contentsline {subsubsection}{\numberline {10.3.4}rpartcallback.py Rewrite}{34}{subsubsection.10.3.4}%
-\contentsline {subsubsection}{\numberline {10.3.5}Results}{34}{subsubsection.10.3.5}%
-\contentsline {section}{\numberline {11}Phase 10: Full Equivalence Audit and Callback Bridge Repair}{35}{section.11}%
-\contentsline {subsection}{\numberline {11.1}Motivation}{35}{subsection.11.1}%
-\contentsline {subsection}{\numberline {11.2}A Six-Way Parallel Audit}{35}{subsection.11.2}%
-\contentsline {subsection}{\numberline {11.3}Comprehensive Bug-Fix Pass}{36}{subsection.11.3}%
-\contentsline {subsection}{\numberline {11.4}The User-Defined Split Callback Bridge Repair}{39}{subsection.11.4}%
-\contentsline {section}{\numberline {12}Phase 11: R Test-Suite Conversion and a Latent Control-Parameter Bug}{40}{section.12}%
-\contentsline {subsection}{\numberline {12.1}Motivation}{40}{subsection.12.1}%
-\contentsline {subsection}{\numberline {12.2}Methodology}{41}{subsection.12.2}%
-\contentsline {subsection}{\numberline {12.3}Per-File Conversion Highlights}{41}{subsection.12.3}%
-\contentsline {subsection}{\numberline {12.4}Forensic Root-Cause Investigation of the Cross-Validation Discrepancy}{43}{subsection.12.4}%
-\contentsline {subsubsection}{\numberline {12.4.1}Hypotheses Eliminated}{43}{subsubsection.12.4.1}%
-\contentsline {subsubsection}{\numberline {12.4.2}Bit-Level Instrumentation}{44}{subsubsection.12.4.2}%
-\contentsline {subsubsection}{\numberline {12.4.3}Root Cause: A Sentinel-Clobbering Bug in the Control-Parameter Defaults}{44}{subsubsection.12.4.3}%
-\contentsline {subsubsection}{\numberline {12.4.4}Resolution and Retraction of a Secondary Hypothesis}{45}{subsubsection.12.4.4}%
-\contentsline {section}{\numberline {13}Phase 12: Public-Interface Test Generation and Systematic Bug Resolution}{46}{section.13}%
-\contentsline {subsection}{\numberline {13.1}Phase 12.1: R-Benchmarked Test Generation for the Public Interface}{46}{subsection.13.1}%
-\contentsline {subsubsection}{\numberline {13.1.1}Motivation}{46}{subsubsection.13.1.1}%
-\contentsline {subsubsection}{\numberline {13.1.2}Scope Determination}{46}{subsubsection.13.1.2}%
-\contentsline {subsubsection}{\numberline {13.1.3}Methodology}{46}{subsubsection.13.1.3}%
-\contentsline {subsubsection}{\numberline {13.1.4}Key Findings}{47}{subsubsection.13.1.4}%
-\contentsline {subsection}{\numberline {13.2}Phase 12.2: Resolution of All Documented Bugs}{48}{subsection.13.2}%
-\contentsline {subsubsection}{\numberline {13.2.1}Motivation}{48}{subsubsection.13.2.1}%
-\contentsline {subsubsection}{\numberline {13.2.2}Methodology}{48}{subsubsection.13.2.2}%
-\contentsline {subsubsection}{\numberline {13.2.3}Key Findings}{48}{subsubsection.13.2.3}%
-\contentsline {section}{\numberline {14}Phase 13: Example-Script Translation and Rendering-Parity Fixes}{49}{section.14}%
-\contentsline {subsection}{\numberline {14.1}Motivation}{49}{subsection.14.1}%
-\contentsline {subsection}{\numberline {14.2}Translating the Example Scripts}{49}{subsection.14.2}%
-\contentsline {subsection}{\numberline {14.3}Visual-Parity Bug Discovery and Fixes}{50}{subsection.14.3}%
-\contentsline {subsection}{\numberline {14.4}Verification}{51}{subsection.14.4}%
-\contentsline {section}{\numberline {A}Phase 1: C Dependency Analysis}{51}{section.A}%
-\contentsline {subsection}{\numberline {A.1}Skill: \texttt {/analyze-c-folder-dependencies}}{51}{subsection.A.1}%
-\contentsline {subsection}{\numberline {A.2}Agent: \texttt {@analyze-c-file-dependencies}}{52}{subsection.A.2}%
-\contentsline {section}{\numberline {B}Phase 2: R External Item Extraction}{54}{section.B}%
-\contentsline {subsection}{\numberline {B.1}Skill: \texttt {/extract-c-folder-r-extern-items}}{54}{subsection.B.1}%
-\contentsline {subsection}{\numberline {B.2}Agent: \texttt {@extract-c-file-r-extern-items}}{55}{subsection.B.2}%
-\contentsline {section}{\numberline {C}Phase 3: Fake Header Implementation Guides}{56}{section.C}%
-\contentsline {subsection}{\numberline {C.1}Skill: \texttt {/generate-r-extern-fake-guides}}{56}{subsection.C.1}%
-\contentsline {subsection}{\numberline {C.2}Agent: \texttt {@generate-r-extern-fake-guide}}{58}{subsection.C.2}%
-\contentsline {section}{\numberline {D}Phase 4: Fake Header Generation}{64}{section.D}%
-\contentsline {subsection}{\numberline {D.1}Skill: \texttt {/generate-r-extern-fake-headers}}{64}{subsection.D.1}%
-\contentsline {subsection}{\numberline {D.2}Agent: \texttt {@generate-r-extern-fake-header}}{66}{subsection.D.2}%
-\contentsline {section}{\numberline {E}Phase 5A: Pure-C Entry-Point Generation}{70}{section.E}%
-\contentsline {subsection}{\numberline {E.1}Skill: \texttt {/generate-r-extern-raw-entry-points}}{70}{subsection.E.1}%
-\contentsline {subsection}{\numberline {E.2}Agent: \texttt {@generate-r-extern-raw-entry-point}}{72}{subsection.E.2}%
-\contentsline {section}{\numberline {F}Phase 5B: Fake-Header Migration}{79}{section.F}%
-\contentsline {subsection}{\numberline {F.1}Skill: \texttt {/modify-c-folder-with-fake-headers}}{79}{subsection.F.1}%
-\contentsline {subsection}{\numberline {F.2}Agent: \texttt {@modify-c-file-with-fake-headers}}{83}{subsection.F.2}%
-\contentsline {section}{\numberline {G}Phase 6: R Package Structural Dependency Analysis}{88}{section.G}%
-\contentsline {subsection}{\numberline {G.1}Skill: \texttt {/analyze-r-folder-dependencies}}{88}{subsection.G.1}%
-\contentsline {subsection}{\numberline {G.2}Agent: \texttt {@analyze-r-file-dependencies}}{89}{subsection.G.2}%
-\contentsline {section}{\numberline {H}Phase 8.1: Language Dependency Extraction}{91}{section.H}%
-\contentsline {subsection}{\numberline {H.1}Skill: \texttt {/extract-r-folder-language-dependencies}}{91}{subsection.H.1}%
-\contentsline {subsection}{\numberline {H.2}Agent: \texttt {@extract-r-file-language-dependencies}}{92}{subsection.H.2}%
-\contentsline {section}{\numberline {I}Phase 8.2: Conversion Guide Generation}{93}{section.I}%
-\contentsline {subsection}{\numberline {I.1}Skill: \texttt {/generate-language-dependency-conversion-guides}}{93}{subsection.I.1}%
-\contentsline {subsection}{\numberline {I.2}Agent: \texttt {@generate-language-dependency-conversion-guide}}{94}{subsection.I.2}%
-\contentsline {section}{\numberline {J}Phase 9.1: Batch R-to-Python Conversion}{96}{section.J}%
-\contentsline {subsection}{\numberline {J.1}Skill: \texttt {/convert-r-folder-to-python}}{96}{subsection.J.1}%
-\contentsline {subsection}{\numberline {J.2}Sub-skill: \texttt {/convert-r-file-to-python}}{99}{subsection.J.2}%
-\contentsline {subsection}{\numberline {J.3}Agent: \texttt {@convert-r-function-to-python}}{100}{subsection.J.3}%
-\contentsline {section}{\numberline {K}Phase 9.2: Package Assembly}{101}{section.K}%
-\contentsline {subsection}{\numberline {K.1}Skill: \texttt {/combine-python-functions-into-folder}}{101}{subsection.K.1}%
-\contentsline {subsection}{\numberline {K.2}Sub-skill: \texttt {/combine-python-functions-into-file}}{105}{subsection.K.2}%
-\contentsline {section}{\numberline {L}Phase 9.3: R Interpreter Item Bridge}{106}{section.L}%
-\contentsline {subsection}{\numberline {L.1}Skill: \texttt {/add-r-interpreter-items}}{106}{subsection.L.1}%
-\contentsline {subsection}{\numberline {L.2}Agent: \texttt {@add-r-interpreter-items}}{108}{subsection.L.2}%
-\contentsline {section}{\numberline {M}Phase 11: R Test-Suite Conversion}{115}{section.M}%
-\contentsline {subsection}{\numberline {M.1}Skill: \texttt {/convert-r-tests-to-python}}{115}{subsection.M.1}%
-\contentsline {subsection}{\numberline {M.2}Agent: \texttt {@convert-r-test-to-python}}{116}{subsection.M.2}%
-\contentsline {section}{\numberline {N}Phase 12.1: Public-Interface Test Generation}{117}{section.N}%
-\contentsline {subsection}{\numberline {N.1}Skill: \texttt {/generate-python-file-tests}}{117}{subsection.N.1}%
-\contentsline {subsection}{\numberline {N.2}Agent: \texttt {@generate-python-function-tests}}{118}{subsection.N.2}%
-\contentsline {section}{\numberline {O}Phase 12.2: Bug Resolution}{121}{section.O}%
-\contentsline {subsection}{\numberline {O.1}Skill: \texttt {/fix-bugs-found-in-tests}}{121}{subsection.O.1}%
-\contentsline {subsection}{\numberline {O.2}Agent: \texttt {@fix-bug-found-in-test}}{122}{subsection.O.2}%
+\contentsline {subsection}{\numberline {1.1}Motivation for a Standalone Python Port}{8}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Package Architecture}{8}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Repository Structure}{9}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Target Package Layout}{10}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}Automated Workflow Infrastructure}{12}{subsection.1.5}%
+\contentsline {section}{\numberline {2}Phase 1: C Source Dependency Analysis}{12}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Motivation}{12}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Methodology}{13}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Key Findings}{13}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Phase 2: R External Item Extraction from C Sources}{14}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Motivation}{14}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Methodology}{14}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Key Findings}{14}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Phase 3: Fake C++ Header Implementation Guides}{15}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Motivation}{15}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Methodology}{15}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Classification of External Items}{16}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Key Technical Decisions}{16}{subsection.4.4}%
+\contentsline {paragraph}{Memory model.}{16}{section*.3}%
+\contentsline {paragraph}{R version pinning.}{17}{section*.4}%
+\contentsline {paragraph}{\texttt {R\_getVar} is a macro, not a symbol.}{17}{section*.5}%
+\contentsline {paragraph}{Category E items.}{17}{section*.6}%
+\contentsline {paragraph}{\texttt {PROTECT}/\texttt {UNPROTECT}.}{17}{section*.7}%
+\contentsline {paragraph}{The header architecture.}{17}{section*.8}%
+\contentsline {section}{\numberline {5}Phase 4: Fake C++ Header Generation and Compilation Bug Audit}{17}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Motivation}{17}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Header Generation}{18}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Post-Generation Bug Audit}{18}{subsection.5.3}%
+\contentsline {paragraph}{A subtlety confirmed safe, not a bug.}{20}{section*.9}%
+\contentsline {section}{\numberline {6}Phase 5: Pure-C Entry-Point Generation and Fake-Header Migration}{20}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Motivation}{20}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Phase 5A: Entry-Point Generation}{21}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Phase 5B: Bulk Fake-Header Migration}{22}{subsection.6.3}%
+\contentsline {paragraph}{Anonymous struct fix.}{23}{section*.10}%
+\contentsline {section}{\numberline {7}Phase 6: R Package Structural Dependency Analysis}{23}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Motivation}{23}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Methodology}{24}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Key Findings}{24}{subsection.7.3}%
+\contentsline {section}{\numberline {8}Phase 7: Python Build Infrastructure}{25}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Motivation}{25}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Build System Bugs and Fixes}{26}{subsection.8.2}%
+\contentsline {paragraph}{Bug 1: C++17 math built-in undefined references.}{26}{section*.11}%
+\contentsline {paragraph}{Bug 2: Math library not linked.}{26}{section*.12}%
+\contentsline {paragraph}{Bug 3: \texttt {\_find\_lib()} searched the source tree.}{26}{section*.13}%
+\contentsline {paragraph}{Bug 4: \texttt {\_check\_error()} received a numpy array.}{26}{section*.14}%
+\contentsline {subsection}{\numberline {8.3}CI/CD Pipeline}{26}{subsection.8.3}%
+\contentsline {section}{\numberline {9}Phase 8: Language Dependency Analysis and Conversion Guide Generation}{27}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Phase 8.1: Language Dependency Extraction}{27}{subsection.9.1}%
+\contentsline {subsubsection}{\numberline {9.1.1}Motivation}{27}{subsubsection.9.1.1}%
+\contentsline {subsubsection}{\numberline {9.1.2}Methodology}{28}{subsubsection.9.1.2}%
+\contentsline {subsubsection}{\numberline {9.1.3}CSV Encoding Defect}{28}{subsubsection.9.1.3}%
+\contentsline {subsubsection}{\numberline {9.1.4}Key Findings}{28}{subsubsection.9.1.4}%
+\contentsline {subsection}{\numberline {9.2}Phase 8.2: Conversion Guide Generation}{29}{subsection.9.2}%
+\contentsline {subsubsection}{\numberline {9.2.1}Motivation}{29}{subsubsection.9.2.1}%
+\contentsline {subsubsection}{\numberline {9.2.2}Methodology}{29}{subsubsection.9.2.2}%
+\contentsline {subsubsection}{\numberline {9.2.3}Verification Edge Case}{30}{subsubsection.9.2.3}%
+\contentsline {subsubsection}{\numberline {9.2.4}Representative Guide Complexity}{30}{subsubsection.9.2.4}%
+\contentsline {section}{\numberline {10}Phase 9: R-to-Python Function Conversion and Package Assembly}{30}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Phase 9.1: Batch R-to-Python Function Conversion}{30}{subsection.10.1}%
+\contentsline {subsubsection}{\numberline {10.1.1}Motivation}{30}{subsubsection.10.1.1}%
+\contentsline {subsubsection}{\numberline {10.1.2}Methodology}{31}{subsubsection.10.1.2}%
+\contentsline {subsubsection}{\numberline {10.1.3}Cross-Cutting Translation Decisions}{31}{subsubsection.10.1.3}%
+\contentsline {subsubsection}{\numberline {10.1.4}Notable Per-File Decisions}{32}{subsubsection.10.1.4}%
+\contentsline {subsection}{\numberline {10.2}Phase 9.2: Package Assembly, API Restructuring, and Test Validation}{33}{subsection.10.2}%
+\contentsline {subsubsection}{\numberline {10.2.1}Motivation}{33}{subsubsection.10.2.1}%
+\contentsline {subsubsection}{\numberline {10.2.2}Package Assembly}{33}{subsubsection.10.2.2}%
+\contentsline {subsubsection}{\numberline {10.2.3}API Restructuring}{34}{subsubsection.10.2.3}%
+\contentsline {subsubsection}{\numberline {10.2.4}Runtime Bugs in rpart.py}{35}{subsubsection.10.2.4}%
+\contentsline {subsubsection}{\numberline {10.2.5}Build System Fix}{35}{subsubsection.10.2.5}%
+\contentsline {subsubsection}{\numberline {10.2.6}Test Results}{36}{subsubsection.10.2.6}%
+\contentsline {subsection}{\numberline {10.3}Phase 9.3: R Interpreter Item Bridge and \texttt {cffi} Migration}{36}{subsection.10.3}%
+\contentsline {subsubsection}{\numberline {10.3.1}Motivation}{36}{subsubsection.10.3.1}%
+\contentsline {subsubsection}{\numberline {10.3.2}Methodology}{36}{subsubsection.10.3.2}%
+\contentsline {subsubsection}{\numberline {10.3.3}C Helper File}{36}{subsubsection.10.3.3}%
+\contentsline {subsubsection}{\numberline {10.3.4}rpartcallback.py Rewrite}{37}{subsubsection.10.3.4}%
+\contentsline {subsubsection}{\numberline {10.3.5}Results}{37}{subsubsection.10.3.5}%
+\contentsline {section}{\numberline {11}Phase 10: Full Equivalence Audit and Callback Bridge Repair}{38}{section.11}%
+\contentsline {subsection}{\numberline {11.1}Motivation}{38}{subsection.11.1}%
+\contentsline {subsection}{\numberline {11.2}A Six-Way Parallel Audit}{38}{subsection.11.2}%
+\contentsline {subsection}{\numberline {11.3}Comprehensive Bug-Fix Pass}{39}{subsection.11.3}%
+\contentsline {subsection}{\numberline {11.4}The User-Defined Split Callback Bridge Repair}{42}{subsection.11.4}%
+\contentsline {section}{\numberline {12}Phase 11: R Test-Suite Conversion and a Latent Control-Parameter Bug}{43}{section.12}%
+\contentsline {subsection}{\numberline {12.1}Motivation}{43}{subsection.12.1}%
+\contentsline {subsection}{\numberline {12.2}Methodology}{44}{subsection.12.2}%
+\contentsline {subsection}{\numberline {12.3}Per-File Conversion Highlights}{44}{subsection.12.3}%
+\contentsline {subsection}{\numberline {12.4}Forensic Root-Cause Investigation of the Cross-Validation Discrepancy}{46}{subsection.12.4}%
+\contentsline {subsubsection}{\numberline {12.4.1}Hypotheses Eliminated}{47}{subsubsection.12.4.1}%
+\contentsline {subsubsection}{\numberline {12.4.2}Bit-Level Instrumentation}{47}{subsubsection.12.4.2}%
+\contentsline {subsubsection}{\numberline {12.4.3}Root Cause: A Sentinel-Clobbering Bug in the Control-Parameter Defaults}{47}{subsubsection.12.4.3}%
+\contentsline {subsubsection}{\numberline {12.4.4}Resolution and Retraction of a Secondary Hypothesis}{48}{subsubsection.12.4.4}%
+\contentsline {section}{\numberline {13}Phase 12: Public-Interface Test Generation and Systematic Bug Resolution}{49}{section.13}%
+\contentsline {subsection}{\numberline {13.1}Phase 12.1: R-Benchmarked Test Generation for the Public Interface}{49}{subsection.13.1}%
+\contentsline {subsubsection}{\numberline {13.1.1}Motivation}{49}{subsubsection.13.1.1}%
+\contentsline {subsubsection}{\numberline {13.1.2}Scope Determination}{49}{subsubsection.13.1.2}%
+\contentsline {subsubsection}{\numberline {13.1.3}Methodology}{50}{subsubsection.13.1.3}%
+\contentsline {subsubsection}{\numberline {13.1.4}Key Findings}{50}{subsubsection.13.1.4}%
+\contentsline {subsection}{\numberline {13.2}Phase 12.2: Resolution of All Documented Bugs}{51}{subsection.13.2}%
+\contentsline {subsubsection}{\numberline {13.2.1}Motivation}{51}{subsubsection.13.2.1}%
+\contentsline {subsubsection}{\numberline {13.2.2}Methodology}{51}{subsubsection.13.2.2}%
+\contentsline {subsubsection}{\numberline {13.2.3}Key Findings}{52}{subsubsection.13.2.3}%
+\contentsline {section}{\numberline {14}Phase 13: Example-Script Translation and Rendering-Parity Fixes}{53}{section.14}%
+\contentsline {subsection}{\numberline {14.1}Motivation}{53}{subsection.14.1}%
+\contentsline {subsection}{\numberline {14.2}Translating the Example Scripts}{53}{subsection.14.2}%
+\contentsline {subsection}{\numberline {14.3}Visual-Parity Bug Discovery and Fixes}{54}{subsection.14.3}%
+\contentsline {subsection}{\numberline {14.4}Verification}{55}{subsection.14.4}%
+\contentsline {section}{\numberline {15}Discussion}{55}{section.15}%
+\contentsline {section}{Declarations}{57}{section*.15}%
+\contentsline {section}{\numberline {A}Phase 1: C Dependency Analysis}{58}{section.A}%
+\contentsline {subsection}{\numberline {A.1}Skill: \texttt {/analyze-c-folder-dependencies}}{58}{subsection.A.1}%
+\contentsline {subsection}{\numberline {A.2}Agent: \texttt {@analyze-c-file-dependencies}}{58}{subsection.A.2}%
+\contentsline {section}{\numberline {B}Phase 2: R External Item Extraction}{60}{section.B}%
+\contentsline {subsection}{\numberline {B.1}Skill: \texttt {/extract-c-folder-r-extern-items}}{60}{subsection.B.1}%
+\contentsline {subsection}{\numberline {B.2}Agent: \texttt {@extract-c-file-r-extern-items}}{61}{subsection.B.2}%
+\contentsline {section}{\numberline {C}Phase 3: Fake Header Implementation Guides}{63}{section.C}%
+\contentsline {subsection}{\numberline {C.1}Skill: \texttt {/generate-r-extern-fake-guides}}{63}{subsection.C.1}%
+\contentsline {subsection}{\numberline {C.2}Agent: \texttt {@generate-r-extern-fake-guide}}{64}{subsection.C.2}%
+\contentsline {section}{\numberline {D}Phase 4: Fake Header Generation}{70}{section.D}%
+\contentsline {subsection}{\numberline {D.1}Skill: \texttt {/generate-r-extern-fake-headers}}{70}{subsection.D.1}%
+\contentsline {subsection}{\numberline {D.2}Agent: \texttt {@generate-r-extern-fake-header}}{73}{subsection.D.2}%
+\contentsline {section}{\numberline {E}Phase 5A: Pure-C Entry-Point Generation}{77}{section.E}%
+\contentsline {subsection}{\numberline {E.1}Skill: \texttt {/generate-r-extern-raw-entry-points}}{77}{subsection.E.1}%
+\contentsline {subsection}{\numberline {E.2}Agent: \texttt {@generate-r-extern-raw-entry-point}}{78}{subsection.E.2}%
+\contentsline {section}{\numberline {F}Phase 5B: Fake-Header Migration}{85}{section.F}%
+\contentsline {subsection}{\numberline {F.1}Skill: \texttt {/modify-c-folder-with-fake-headers}}{85}{subsection.F.1}%
+\contentsline {subsection}{\numberline {F.2}Agent: \texttt {@modify-c-file-with-fake-headers}}{90}{subsection.F.2}%
+\contentsline {section}{\numberline {G}Phase 6: R Package Structural Dependency Analysis}{95}{section.G}%
+\contentsline {subsection}{\numberline {G.1}Skill: \texttt {/analyze-r-folder-dependencies}}{95}{subsection.G.1}%
+\contentsline {subsection}{\numberline {G.2}Agent: \texttt {@analyze-r-file-dependencies}}{96}{subsection.G.2}%
+\contentsline {section}{\numberline {H}Phase 8.1: Language Dependency Extraction}{97}{section.H}%
+\contentsline {subsection}{\numberline {H.1}Skill: \texttt {/extract-r-folder-language-dependencies}}{97}{subsection.H.1}%
+\contentsline {subsection}{\numberline {H.2}Agent: \texttt {@extract-r-file-language-dependencies}}{98}{subsection.H.2}%
+\contentsline {section}{\numberline {I}Phase 8.2: Conversion Guide Generation}{99}{section.I}%
+\contentsline {subsection}{\numberline {I.1}Skill: \texttt {/generate-language-dependency-conversion-guides}}{99}{subsection.I.1}%
+\contentsline {subsection}{\numberline {I.2}Agent: \texttt {@generate-language-dependency-conversion-guide}}{101}{subsection.I.2}%
+\contentsline {section}{\numberline {J}Phase 9.1: Batch R-to-Python Conversion}{102}{section.J}%
+\contentsline {subsection}{\numberline {J.1}Skill: \texttt {/convert-r-folder-to-python}}{102}{subsection.J.1}%
+\contentsline {subsection}{\numberline {J.2}Sub-skill: \texttt {/convert-r-file-to-python}}{105}{subsection.J.2}%
+\contentsline {subsection}{\numberline {J.3}Agent: \texttt {@convert-r-function-to-python}}{106}{subsection.J.3}%
+\contentsline {section}{\numberline {K}Phase 9.2: Package Assembly}{108}{section.K}%
+\contentsline {subsection}{\numberline {K.1}Skill: \texttt {/combine-python-functions-into-folder}}{108}{subsection.K.1}%
+\contentsline {subsection}{\numberline {K.2}Sub-skill: \texttt {/combine-python-functions-into-file}}{111}{subsection.K.2}%
+\contentsline {section}{\numberline {L}Phase 9.3: R Interpreter Item Bridge}{113}{section.L}%
+\contentsline {subsection}{\numberline {L.1}Skill: \texttt {/add-r-interpreter-items}}{113}{subsection.L.1}%
+\contentsline {subsection}{\numberline {L.2}Agent: \texttt {@add-r-interpreter-items}}{115}{subsection.L.2}%
+\contentsline {section}{\numberline {M}Phase 11: R Test-Suite Conversion}{122}{section.M}%
+\contentsline {subsection}{\numberline {M.1}Skill: \texttt {/convert-r-tests-to-python}}{122}{subsection.M.1}%
+\contentsline {subsection}{\numberline {M.2}Agent: \texttt {@convert-r-test-to-python}}{123}{subsection.M.2}%
+\contentsline {section}{\numberline {N}Phase 12.1: Public-Interface Test Generation}{124}{section.N}%
+\contentsline {subsection}{\numberline {N.1}Skill: \texttt {/generate-python-file-tests}}{124}{subsection.N.1}%
+\contentsline {subsection}{\numberline {N.2}Agent: \texttt {@generate-python-function-tests}}{125}{subsection.N.2}%
+\contentsline {section}{\numberline {O}Phase 12.2: Bug Resolution}{127}{section.O}%
+\contentsline {subsection}{\numberline {O.1}Skill: \texttt {/fix-bugs-found-in-tests}}{127}{subsection.O.1}%
+\contentsline {subsection}{\numberline {O.2}Agent: \texttt {@fix-bug-found-in-test}}{128}{subsection.O.2}%
