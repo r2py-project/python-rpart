@@ -1,12 +1,44 @@
 [build-system]
 build-backend = "mesonpy"
-requires = ["meson-python", "meson", "ninja", "numpy", "cffi"]
+requires = ["meson-python>=0.16.0", "meson", "ninja", "numpy", "cffi"]
 
 [project]
 name = "r2py_rpart"
 version = "0.1.0"
+description = "Python port of R's rpart: recursive partitioning and regression trees, with a compiled C core callable from Python via cffi."
+readme = "README.md"
+license = "GPL-2.0-or-later"
+authors = [
+    {name = "Yufei Cai", email = "ycai9@nd.edu"},
+    {name = "Jun Li", email = "jun.li@nd.edu"},
+]
 requires-python = ">=3.10"
 dependencies = ["numpy", "cffi"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: C",
+    "Programming Language :: C++",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Natural Language :: English",
+]
+
+[project.urls]
+Homepage = "https://github.com/caiyufei8/r2py_rpart"
 
 [tool.cibuildwheel]
 build = "cp310-* cp311-* cp312-* cp313-* cp314-*"

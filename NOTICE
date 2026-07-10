@@ -1,0 +1,25 @@
+r2py_rpart
+Copyright (C) 2026 Yufei Cai and Jun Li, University of Notre Dame
+
+This package is a derivative work of the R package `rpart`
+("Recursive Partitioning and Regression Trees"):
+
+    https://github.com/bethatkinson/rpart
+    https://cran.r-project.org/package=rpart
+
+rpart is Copyright (C) the R Core Team and:
+    Terry M. Therneau      (author)
+    Beth Atkinson          (author, maintainer)
+    Brian D. Ripley         (translator, producer of the initial R port)
+
+r2py_rpart reimplements rpart's C routines (adapted to a plain C ABI,
+callable from Python via cffi) and translates rpart's R functions into
+Python, following the algorithms and structure of the original
+implementation as closely as practical. No code from R itself or from
+any other R package is included.
+
+rpart is distributed under the GNU General Public License, version 2
+or (at your option) any later version ("GPL-2.0-or-later"). In keeping
+with that license, r2py_rpart is likewise distributed under
+GPL-2.0-or-later; see the LICENSE file in this directory for the full
+license text.
