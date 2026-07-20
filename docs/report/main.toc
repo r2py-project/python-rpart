@@ -109,7 +109,7 @@
 \contentsline {section}{Declarations}{57}{section*.15}%
 \contentsline {section}{\numberline {A}Phase 1: C Dependency Analysis}{58}{section.A}%
 \contentsline {subsection}{\numberline {A.1}Skill: \texttt {/analyze-c-folder-dependencies}}{58}{subsection.A.1}%
-\contentsline {subsection}{\numberline {A.2}Agent: \texttt {@analyze-c-file-dependencies}}{58}{subsection.A.2}%
+\contentsline {subsection}{\numberline {A.2}Agent: \texttt {@analyze-c-file-dependencies}}{59}{subsection.A.2}%
 \contentsline {section}{\numberline {B}Phase 2: R External Item Extraction}{60}{section.B}%
 \contentsline {subsection}{\numberline {B.1}Skill: \texttt {/extract-c-folder-r-extern-items}}{60}{subsection.B.1}%
 \contentsline {subsection}{\numberline {B.2}Agent: \texttt {@extract-c-file-r-extern-items}}{61}{subsection.B.2}%
