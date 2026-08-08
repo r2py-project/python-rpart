@@ -13,7 +13,7 @@ authors = [
     {name = "Jun Li", email = "jun.li@nd.edu"},
 ]
 requires-python = ">=3.10"
-dependencies = ["numpy", "cffi"]
+dependencies = ["numpy", "cffi", "pandas", "matplotlib"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
@@ -42,7 +42,8 @@ Homepage = "https://github.com/r2py-project/r2py_rpart"
 
 [tool.cibuildwheel]
 build = "cp310-* cp311-* cp312-* cp313-* cp314-*"
-skip = ["*-manylinux_i686"]
+# 32-bit Windows is skipped: the MSYS2 MINGW64 toolchain is x86_64-only.
+skip = ["*-manylinux_i686", "*-win32"]
 build-frontend = "build"
 
 # Linux: GCC and G++ are pre-installed in all manylinux images.
@@ -52,10 +53,12 @@ build-frontend = "build"
 # selects -lc++ on Darwin, so no extra brew installs are required.
 
 [tool.cibuildwheel.windows]
-# MinGW GCC is added to PATH by the workflow step before cibuildwheel runs.
-# delvewheel bundles any MinGW runtime DLLs that the wheel depends on.
+# MinGW GCC is added to PATH by the workflow step before cibuildwheel runs, which
+# is the only place the MSYS2 install location is known.
+#
+# --analyze-existing is required: this package ships a plain _rpart_core.dll, not a
+# .pyd extension module, and delvewheel only follows the dependencies of .pyd files
+# unless told otherwise. Without it the MinGW runtime DLLs (libstdc++-6, libgcc_s_seh-1,
+# libwinpthread-1) are silently left unbundled and the wheel fails to import.
 before-build = "pip install delvewheel"
-repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel}"
-
-[tool.cibuildwheel.windows.environment]
-PATH = "C:\\msys64\\mingw64\\bin;{PATH}"
+repair-wheel-command = "delvewheel repair --analyze-existing -w {dest_dir} {wheel}"
