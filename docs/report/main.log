@@ -464,7 +464,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 
  [5] [6] [7] [8]
 Overfull \hbox (51.84813pt too wide) in paragraph at lines 113--114
-\T1/cmr/m/n/12 (-20) tion-ally man-aged as a git sub-tree linked to a sep-a-rate repos-i-tory at \T1/cmtt/m/n/12 github.com/caiyufei8/r2py_rpart\T1/cmr/m/n/12 (-20) ,
+\T1/cmr/m/n/12 (-20) tion-ally man-aged as a git sub-tree linked to a sep-a-rate repos-i-tory at \T1/cmtt/m/n/12 github.com/r2py-project/r2py_rpart\T1/cmr/m/n/12 (-20) ,
  []
 
 
@@ -474,7 +474,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 122--123
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 122--123
-\T1/cmtt/m/n/12 github.com/caiyufei8/r2py_rpart\T1/cmr/m/n/12 (+20) ; the in-stal-
+\T1/cmtt/m/n/12 github.com/r2py-project/r2py_rpart\T1/cmr/m/n/12 (+20) ; the in-stal-
  []
 
 

@@ -17,7 +17,7 @@ The resulting package's test suite comprises 846 tests spanning its full public 
 | Path | Contents |
 |---|---|
 | [`rpart/`](rpart/) | Unmodified R package source (`rpart` version 4.1.27), as obtained from CRAN; the canonical reference against which every phase of the conversion is checked. |
-| [`r2py_rpart/`](r2py_rpart/) | The installable Python package. Managed as a git subtree linked to [`github.com/caiyufei8/r2py_rpart`](https://github.com/caiyufei8/r2py_rpart), so it can be versioned and published to PyPI independently of this repository. |
+| [`r2py_rpart/`](r2py_rpart/) | The installable Python package. Managed as a git subtree linked to [`github.com/r2py-project/r2py_rpart`](https://github.com/r2py-project/r2py_rpart), so it can be versioned and published to PyPI independently of this repository. |
 | [`c_refactor_analysis/`](c_refactor_analysis/) | C dependency-graph analysis artifacts (Phase 1). |
 | [`r_extern_analysis/`](r_extern_analysis/) | R external item extraction CSVs, fake-header implementation guides, and fake-header conversion guides (Phases 2–4). |
 | [`structural_analysis/`](structural_analysis/) | R structural dependency analysis JSONs and dependency-graph artifacts (Phase 6). |

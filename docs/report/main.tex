@@ -110,7 +110,7 @@ A key structural observation motivating the conversion strategy is that the R-to
 \subsection{Repository Structure}
 \label{sec:intro:repo}
 
-The working directory \texttt{python-rpart/} is the working tree of the \texttt{python-rpart} repository hosted at \texttt{github.com/caiyufei8/python-rpart}. The \texttt{r2py\_rpart/} subdirectory is additionally managed as a git subtree linked to a separate repository at \texttt{github.com/caiyufei8/r2py\_rpart}, allowing the Python package to be versioned and published to PyPI independently of the broader project. The cluster scripts \texttt{git\_pull.sh} and \texttt{git\_push.sh} at the project root encapsulate the subtree synchronisation commands required to keep both remotes up to date from the HPC node.
+The working directory \texttt{python-rpart/} is the working tree of the \texttt{python-rpart} repository hosted at \texttt{github.com/r2py-project/python-rpart}. The \texttt{r2py\_rpart/} subdirectory is additionally managed as a git subtree linked to a separate repository at \texttt{github.com/r2py-project/r2py\_rpart}, allowing the Python package to be versioned and published to PyPI independently of the broader project. The cluster scripts \texttt{git\_pull.sh} and \texttt{git\_push.sh} at the project root encapsulate the subtree synchronisation commands required to keep both remotes up to date from the HPC node.
 
 \medskip
 \begin{center}
@@ -119,7 +119,7 @@ The working directory \texttt{python-rpart/} is the working tree of the \texttt{
 Path & Contents \\
 \midrule
 \texttt{rpart/} & Unmodified R package source (\texttt{rpart} version 4.1.27), as obtained from CRAN; the canonical reference against which every later phase is checked. \\
-\texttt{r2py\_rpart/} & Git subtree linked to \texttt{github.com/caiyufei8/r2py\_rpart}; the installable Python package. Internal structure detailed in Section~\ref{sec:intro:layout}. \\
+\texttt{r2py\_rpart/} & Git subtree linked to \texttt{github.com/r2py-project/r2py\_rpart}; the installable Python package. Internal structure detailed in Section~\ref{sec:intro:layout}. \\
 \texttt{c\_refactor\_analysis/} & C dependency-graph analysis artifacts from Phase~1 (\texttt{src/}, \texttt{lib/}). \\
 \texttt{r\_extern\_analysis/} & R external item extraction CSVs, fake-header implementation guides, and fake-header conversion guides from Phases~2--4 (\texttt{src/}, \texttt{fake\_guides/}, \texttt{conversion\_guides/}). \\
 \texttt{structural\_analysis/} & R structural dependency analysis JSONs and dependency-graph artifacts from Phase~6 (\texttt{R/}, \texttt{lib/}). \\
@@ -1138,7 +1138,7 @@ The work documented in this report demonstrates that the seven-phase, skill-and-
 
 \subsection*{Data and code availability}
 
-The Python package \texttt{r2py\_rpart} and all project artifacts (C and R dependency-graph analyses, fake-header implementation guides, language-dependency conversion guides, per-function conversion results, and the test suite) are available at \url{https://github.com/caiyufei8/python-rpart}. The Python package is additionally available as a standalone repository at \url{https://github.com/caiyufei8/r2py_rpart}. The original R \texttt{rpart} package (version~4.1.27) is available from CRAN under a GPL-2/GPL-3 license.
+The Python package \texttt{r2py\_rpart} and all project artifacts (C and R dependency-graph analyses, fake-header implementation guides, language-dependency conversion guides, per-function conversion results, and the test suite) are available at \url{https://github.com/r2py-project/python-rpart}. The Python package is additionally available as a standalone repository at \url{https://github.com/r2py-project/r2py_rpart}. The original R \texttt{rpart} package (version~4.1.27) is available from CRAN under a GPL-2/GPL-3 license.
 
 \subsection*{Author contributions}
 

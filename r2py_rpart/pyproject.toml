@@ -38,7 +38,7 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/caiyufei8/r2py_rpart"
+Homepage = "https://github.com/r2py-project/r2py_rpart"
 
 [tool.cibuildwheel]
 build = "cp310-* cp311-* cp312-* cp313-* cp314-*"
