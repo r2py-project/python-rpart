@@ -24,7 +24,6 @@ The resulting package's test suite comprises 846 tests spanning its full public 
 | [`language_dependency_analysis/`](language_dependency_analysis/) | Per-file language-dependency CSVs and 172 R-to-Python conversion guides (Phase 8). |
 | [`conversion_results/`](conversion_results/) | Per-function JSON translation artifacts (Phase 9.1). |
 | [`docs/`](docs/) | Architecture notes, planning documents, per-phase summaries (`daily_summaries/`), and the technical report (`report/`). |
-| [`rpart-test/`](rpart-test/) | A debug-instrumented working copy of `rpart`, used during the Phase 11 forensic investigation of a cross-validation discrepancy. |
 | [`.claude/agents/`](.claude/agents/), [`.claude/commands/`](.claude/commands/) | Sub-agent and skill (slash command) specifications for the AI-assisted development workflow used throughout this project. |
 | [`git_pull.sh`](git_pull.sh), [`git_push.sh`](git_push.sh) | Cluster batch scripts encapsulating the `git subtree` synchronization commands that keep the `python-rpart` and `r2py_rpart` remotes in sync. |
 | [`install_environments.sh`](install_environments.sh) | Cluster batch script provisioning the `r-to-python` conda environment used throughout every phase of the conversion. |
