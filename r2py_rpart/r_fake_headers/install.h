@@ -82,6 +82,7 @@
 #include <stddef.h>    // NULL, size_t
 #include <stdlib.h>    // std::malloc, std::free
 #include <string.h>    // strlen, strcpy
+#include <new>         // std::nothrow (lazy gSymbolCache allocation)
 #include <string>      // std::string (for gSymbolCache key type)
 #include <unordered_map> // std::unordered_map (for gSymbolCache)
 
@@ -150,7 +151,39 @@
 // multiple .Call invocations.
 //
 // Call clear_symbol_cache() from Python between independent test runs.
-inline thread_local std::unordered_map<std::string, SEXP> gSymbolCache;
+//
+// PORTABILITY (MinGW / PE-COFF): the cache is held as a constant-initialized
+// thread-local *pointer*, with the map itself created lazily by the
+// gSymbolCache() accessor below, rather than as
+//   inline thread_local std::unordered_map<std::string, SEXP> gSymbolCache;
+// A directly-declared map needs dynamic initialization, which makes GCC emit
+// a "TLS init function for gSymbolCache" in every translation unit including
+// this header.  On ELF/Mach-O that function gets vague linkage (WEAK, COMDAT
+// group) and the duplicates collapse at link time, but on PE/COFF GCC has no
+// way to express that, so it emits a strong global and the Windows build dies
+// with `multiple definition of TLS init function for gSymbolCache[abi:cxx11]`.
+// A pointer initialized to nullptr is constant-initialized: no init function,
+// no guard variable, no thread-exit destructor, and identical per-thread
+// semantics.  (This is also why the other inline thread_locals in these
+// headers — g_current_arena_frame, g_interrupt_requested — link fine.)
+//
+// The map is deliberately never deleted at thread exit: symbol nodes must
+// outlive individual .Call invocations, and clear_symbol_cache() is the
+// explicit reclamation path.
+inline thread_local std::unordered_map<std::string, SEXP> *gSymbolCachePtr = nullptr;
+
+// gSymbolCache — accessor for the calling thread's symbol cache.
+//
+// Allocates the map on first use in each thread.  Throws RError if the
+// allocation fails, matching Invariant 1 (never return a bad handle).
+inline std::unordered_map<std::string, SEXP> &gSymbolCache() {
+    if (!gSymbolCachePtr) {
+        gSymbolCachePtr = new (std::nothrow) std::unordered_map<std::string, SEXP>();
+        if (!gSymbolCachePtr)
+            throw RError("install: out of memory allocating symbol cache");
+    }
+    return *gSymbolCachePtr;
+}
 
 // create_symbol — allocates or retrieves a SYMSXP for the given name.
 //
@@ -169,8 +202,9 @@ inline thread_local std::unordered_map<std::string, SEXP> gSymbolCache;
 //   R_CHAR(charnode) returns static_cast<const char*>(charnode->data) -> "yback"
 inline SEXP create_symbol(const char *name) {
     std::string key(name);
-    auto it = gSymbolCache.find(key);
-    if (it != gSymbolCache.end())
+    auto &cache = gSymbolCache();
+    auto it = cache.find(key);
+    if (it != cache.end())
         return it->second;
 
     // Cache miss: build a new SYMSXP + CHARSXP pair.
@@ -189,7 +223,7 @@ inline SEXP create_symbol(const char *name) {
     sym->ncol   = 0;
     sym->data   = charnode;
 
-    gSymbolCache[key] = sym;
+    cache[key] = sym;
     return sym;
 }
 
@@ -200,7 +234,9 @@ inline SEXP create_symbol(const char *name) {
 // After calling this, any _frame_registry entries keyed on old symbol
 // pointers become dangling; rebuild _frame_registry after the call.
 inline void clear_symbol_cache() {
-    for (auto &kv : gSymbolCache) {
+    if (!gSymbolCachePtr)
+        return;  // nothing was ever interned on this thread
+    for (auto &kv : *gSymbolCachePtr) {
         SEXP sym = kv.second;
         if (sym) {
             SEXP charnode = static_cast<SEXP>(sym->data);
@@ -211,7 +247,7 @@ inline void clear_symbol_cache() {
             std::free(sym);
         }
     }
-    gSymbolCache.clear();
+    gSymbolCachePtr->clear();
 }
 
 // call_install — C-linkage wrapper that exposes create_symbol() to Python.
