@@ -1,0 +1,49 @@
+cff-version: 1.2.0
+title: "r2py_rpart: a Python port of the R package rpart"
+message: >-
+  If you use this software, please cite all three of: the original R package
+  rpart; the r2py conversion-method paper; and this port at the version you
+  ran. The numerical core of r2py_rpart is rpart's own C code, retained
+  unmodified. See the Citation section of the README for the full list.
+type: software
+authors:
+  - family-names: Cai
+    given-names: Yufei
+    affiliation: University of Notre Dame
+  - family-names: Li
+    given-names: Jun
+    affiliation: University of Notre Dame
+    orcid: "https://orcid.org/0000-0003-4353-5761"
+version: 0.2.0
+license:
+  - GPL-2.0-only
+  - GPL-3.0-only
+repository-code: "https://github.com/r2py-project/r2py_rpart"
+url: "https://pypi.org/project/r2py_rpart/"
+references:
+  - type: software
+    title: "rpart: Recursive Partitioning and Regression Trees"
+    version: 4.1.27
+    authors:
+      - family-names: Therneau
+        given-names: Terry
+      - family-names: Atkinson
+        given-names: Beth
+    url: "https://cran.r-project.org/package=rpart"
+    notes: >-
+      Original R package; r2py_rpart embeds its C sources unmodified and
+      translates its R layer to Python. Initial R port by Brian D. Ripley.
+  - type: book
+    title: "Classification and Regression Trees"
+    authors:
+      - family-names: Breiman
+        given-names: Leo
+      - family-names: Friedman
+        given-names: Jerome H.
+      - family-names: Olshen
+        given-names: Richard A.
+      - family-names: Stone
+        given-names: Charles J.
+    year: 1984
+    publisher:
+      name: "Wadsworth & Brooks/Cole"

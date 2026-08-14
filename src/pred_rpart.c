@@ -1,4 +1,15 @@
 /*
+ * Modified 2026 by Yufei Cai and Jun Li (University of Notre Dame) for
+ * r2py_rpart.  The only changes are to #include directives: R's API headers
+ * are replaced by the standalone headers in r_fake_headers/.  Each such
+ * change is marked inline with a [FAKE_R] comment.  No executable logic in
+ * this file has been altered.
+ *
+ * Original file from the R package rpart 4.1.27 by Terry M. Therneau and
+ * Beth Atkinson, R port by Brian D. Ripley.  Distributed under the GNU
+ * General Public License, version 2 or 3.
+ */
+/*
  *  Do rpart predictions given the matrix form of the tree.
  *
  *  Input

@@ -4,10 +4,11 @@ requires = ["meson-python>=0.16.0", "meson", "ninja", "numpy", "cffi"]
 
 [project]
 name = "r2py_rpart"
-version = "0.1.0"
+version = "0.2.0"
 description = "Python port of R's rpart: recursive partitioning and regression trees, with a compiled C core callable from Python via cffi."
 readme = "README.md"
-license = "GPL-2.0-or-later"
+license = "GPL-2.0-only OR GPL-3.0-only"
+license-files = ["LICENSE", "LICENSE-GPL3", "NOTICE"]
 authors = [
     {name = "Yufei Cai", email = "ycai9@nd.edu"},
     {name = "Jun Li", email = "jun.li@nd.edu"},
