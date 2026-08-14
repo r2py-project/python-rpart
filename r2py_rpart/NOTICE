@@ -12,14 +12,18 @@ rpart is Copyright (C) the R Core Team and:
     Beth Atkinson          (author, maintainer)
     Brian D. Ripley         (translator, producer of the initial R port)
 
-r2py_rpart reimplements rpart's C routines (adapted to a plain C ABI,
-callable from Python via cffi) and translates rpart's R functions into
-Python, following the algorithms and structure of the original
-implementation as closely as practical. No code from R itself or from
-any other R package is included.
+r2py_rpart retains rpart's original C sources essentially unmodified:
+of the 35 C source and header files, 30 are byte-identical to the
+originals and 5 differ only in their #include directives, which were
+redirected from R's headers to the standalone replacements in
+r_fake_headers/. Every such change is marked inline with a [FAKE_R]
+comment. rpart's R-level functions were translated into Python,
+following the algorithms and structure of the original as closely as
+practical. No code from the R interpreter itself, or from any R package
+other than rpart, is included.
 
 rpart is distributed under the GNU General Public License, version 2
-or (at your option) any later version ("GPL-2.0-or-later"). In keeping
-with that license, r2py_rpart is likewise distributed under
-GPL-2.0-or-later; see the LICENSE file in this directory for the full
-license text.
+or version 3, at the recipient's option ("GPL-2.0-only OR
+GPL-3.0-only"). In keeping with those terms, r2py_rpart is likewise
+distributed under GPL-2.0-only OR GPL-3.0-only. The full texts are in
+LICENSE (version 2) and LICENSE-GPL3 (version 3) in this directory.
