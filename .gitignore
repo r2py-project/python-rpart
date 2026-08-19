@@ -4,3 +4,8 @@
 **/__pycache__
 **/.pytest_cache
 **/.ssh
+# meson-python build artefacts
+/build/
+/dist/
+/wheelhouse/
+.mesonpy-*
